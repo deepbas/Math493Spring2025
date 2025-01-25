@@ -1,0 +1,422 @@
+---
+title: "Setting Up R and RStudio"
+author: "Bastola"
+date: "`r Sys.Date()`"
+output:
+  pdf_document:
+    toc: true
+  html_document:
+    toc: true
+    toc_float: true
+    fig_caption: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, 
+                      warning = FALSE,
+                      message = FALSE,
+                      error = TRUE)
+library(tidyverse)
+```
+
+# Introduction
+
+This lab tutorial will guide you through installing R and RStudio on your computer, managing packages, and loading data into R. This setup is essential for performing all kinds of data analysis tasks in R.
+
+# What are R and RStudio?
+
+R is a programming language designed for statistical computing and graphics, widely used in data analysis, statistical modeling, and research. RStudio is an integrated development environment (IDE) that facilitates the use of R by providing a user-friendly interface for scripting, debugging, and visualization.
+
+# Importance in Statistics Education
+
+R and RStudio are critical tools in statistics education for several reasons:
+
+1.  **Statistical Analysis:** They provide a robust environment for performing and learning a wide range of statistical analyses.
+
+2.  **Reproducible Research:** Tools like knitr and R Markdown in RStudio promote reproducibility, allowing for seamless integration of analysis and reporting.
+
+3.  **Interactive Learning:** The interactive nature of RStudio helps in visualizing data and statistical concepts more effectively.
+
+# Installing R and RStudio
+
+## On Windows
+
+1.  **Download R**:
+    -   Visit [CRAN](https://cran.r-project.org/) and download the latest version of R for Windows.
+    -   Run the downloaded `.exe` file and follow the installation instructions.
+    
+::: panel-tabset
+
+### CRAN mirror
+    
+```{r, echo=FALSE}
+knitr::include_graphics("images/cran1.png") # urls for CRAN mirror
+```
+
+### Download Latest R
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/cran2.png") # Latest R for Windows
+```
+
+### Executable File in Downloads Folder
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/download1.png") # Executable File in Downloads
+```
+
+:::
+    
+2.  **Download RStudio**:
+    -   Go to the [RStudio Download page](https://rstudio.com/products/rstudio/download/#download) and download the free version of RStudio Desktop for Windows.
+    -   Install it by running the downloaded `.exe` file.
+
+::: panel-tabset
+
+
+### Download Latest RStudio
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/rstudio.png") # Latest RStudio for Windows
+```
+
+### Executable File in Downloads Folder
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/download2.png") # Executable File in Downloads
+```
+
+:::
+
+
+## On Mac
+
+1.  **Download R**:
+    -   Navigate to [CRAN](https://cran.r-project.org/) and choose the version for macOS.
+    -   Open the downloaded `.pkg` file to start the installation.
+    
+::: panel-tabset
+
+### CRAN mirror
+    
+```{r, echo=FALSE}
+knitr::include_graphics("images/cran1.png") # urls for CRAN mirror
+```
+
+### Download Latest R
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/mac1.png") # Latest R for Windows
+```
+
+### Executable File in Downloads Folder
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/dlmac.png") # Executable File in Downloads
+```
+
+:::
+
+2.  **Download RStudio**:
+    -   Visit [RStudio Download page](https://rstudio.com/products/rstudio/download/#download) and select RStudio for macOS.
+    -   Open the downloaded `.dmg` file and drag RStudio to your Applications folder.
+
+
+::: panel-tabset
+
+
+### Download Latest RStudio
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/rstudio.png") # Latest RStudio for Windows
+```
+
+### Executable File in Downloads Folder
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/rstudiomac.png") # Executable File in Downloads
+```
+
+:::
+
+# RMarkdown
+
+RMarkdown is a powerful tool for combining narrative text and executable R code into a single document, which can then be rendered into various formats including HTML, PDF, and Word documents. It's especially valuable in academic, scientific, and data analysis settings for creating reproducible data analysis scripts and reports.
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/Rmarkdown.png") 
+```
+
+## RMarkdown Interface Components
+
+RStudio's interface for working with RMarkdown documents contains four key panes:
+
+1. **Source Editor (Left Pane)**  
+   Primary workspace for writing `.Rmd` files with integrated code chunks and narrative text. Features syntax highlighting, chunk controls (run individual code blocks), and document structure navigation.
+
+2. **Environment/History (Top-Right Pane)**  
+   - *Environment*: Lists active datasets, variables, and functions  
+   - *History*: Tracks all executed commands  
+   - *Connections*: Manages database links (when used)  
+   - *Git*: Version control integration (when configured)
+
+3. **Console/Terminal (Bottom-Left Pane)**  
+   - *Console*: Direct R code execution environment showing raw output  
+   - *Terminal*: System-level command line access  
+   - *Background Jobs*: Monitor long-running processes
+
+4. **Viewer/Help (Bottom-Right Pane)**  
+   - *Viewer*: Preview rendered documents (HTML/PDF/Word)  
+   - *Help*: Access function documentation  
+   - *Files*: Navigate project directory structure  
+   - *Plots*: Display graphical output  
+   - *Packages*: Manage installed R packages
+
+## Understanding R Markdown Documents
+
+R Markdown allows you to integrate code and text in the same document, facilitating reproducible research and interactive data analysis reports. Here’s a quick overview:
+
+## Managing .Rmd Files and Setting the Working Directory
+
+### Downloading and Organizing .Rmd Files
+
+To effectively manage your course materials in RStudio, follow these steps:
+
+1.  **Download .Rmd File**:
+    -   Navigate to MyClasses and locate the desired .Rmd file for your course.
+    -   Download the file to your local machine.
+2.  **Create a Course Folder**:
+    -   Create a new folder named `math216` in a suitable location on your computer or within your OneDrive account.
+3.  **Organize Files**:
+    -   Move the downloaded .Rmd file into the `math216` folder to keep your course materials organized.
+
+
+# Installing Packages
+
+R packages extend R's capabilities, offering tools for additional statistical techniques, data manipulation, and graphical outputs. Knowing how to install and manage these packages is essential for leveraging R's full potential in practical and academic applications.
+
+```{r}
+# To install a package
+# install.packages("tidyverse")  # uncomment to install
+
+# To load the package
+library(tidyverse)
+```
+
+::: panel-tabset
+
+### Install from Console
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/pkg1.png") # Executable File in Downloads
+```
+
+
+### Install from Interactive Panel
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/pkg2.png") # Executable File in Downloads
+```
+
+:::
+
+
+### Text Portions
+
+Text in R Markdown is written using standard markdown syntax. This allows you to add headers, lists, links, and other styling features to create dynamic reports.
+
+## Text Formatting in R Markdown
+
+Markdown is a lightweight markup language that allows you to add formatting elements using plain text. Here's how you can use different Markdown syntax to format text within your R Markdown documents.
+
+### Headers
+
+Create headers by prefixing the text with one or more hash symbols (`#`). The number of `#` symbols before the text determines the level of the header.
+
+``` markdown
+# Header 1
+## Header 2
+### Header 3
+```
+
+### Lists
+
+You can create bulleted or numbered lists:
+
+-   **Unordered Lists** (bullets):
+
+``` markdown
+- Item 1
+- Item 2
+  - Subitem 1
+  - Subitem 2
+```
+
+-   **Ordered Lists**:
+
+``` markdown
+1. First item
+2. Second item
+   1. Subitem 1
+   2. Subitem 2
+```
+
+### Links
+
+Include hyperlinks using the format `[link text](URL)`:
+
+``` markdown
+[Visit Canvas](https://salisbury.instructure.com/courses/71470)
+```
+
+### Emphasis
+
+Italicize or bold text using asterisks or underscores:
+
+-   *Italic*: `*Italic*` or `_Italic_`
+-   **Bold**: `**Bold**` or `__Bold__`
+
+### Images
+
+Embed images using the format `![Alt text](image_URL "Optional Title")`:
+
+``` markdown
+![Example Image](path_to_image.jpg "This is an image")
+```
+
+### Blockquotes
+
+Create blockquotes with `>`:
+
+``` markdown
+> This is a blockquote.
+```
+
+### Code
+
+Display inline code with backticks and code blocks with triple backticks:
+
+-   Inline code: `` `code` ``
+-   Code block:
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/rchunk1.png") # Latest RStudio for Windows
+```
+
+```{r, echo=FALSE}
+# Your actual executable code here
+a <- 2
+b <- 3
+(a+b)*(a-b)
+```
+
+
+
+### Horizontal Rules
+
+Insert a horizontal line with three or more hyphens:
+
+``` markdown
+---
+```
+
+### Combining Markdown with R Code
+
+Markdown can be interleaved with executable R code chunks:
+
+```{r sum_example, echo=TRUE}
+# Calculate the sum of numbers from 1 to 10
+sum(1:10)
+```
+
+## R Code Chunk Options
+
+Before diving into data loading, let's understand important R chunk options:
+
+-   **`eval`**: Use `eval=FALSE` to prevent code from running but still display it.
+-   **`echo`**: With `echo=FALSE`, the code is run but not displayed in the document.
+-   **`include`**: `include=FALSE` runs the code and hides both the code and output from the final output.
+
+Example to demonstrate:
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/rchunk2.png") # Latest RStudio for Windows
+```
+
+```{r example-chunk, echo=TRUE, eval=TRUE, include=TRUE}
+# This code will run, and both code and output will appear in the document.
+summary(cars)
+```
+
+
+### Setting the Working Directory
+
+It's crucial to set the working directory in R to the folder where your course files are stored. This can be done in several ways:
+
+1.  **Using RStudio**:
+
+    -   In RStudio, you can set the working directory through the menu by navigating to `Session > Set Working Directory > Choose Directory...` and selecting your `math216` folder.
+
+2.  **Using R Script**:
+
+    -   You can also set the working directory directly in an R script using the `setwd()` function. Place the following line of code at the beginning of your script:
+
+    ``` r
+    setwd("~/math216")
+    ```
+
+    Replace `"~/math216"` with the actual path to your course folder.
+
+3.  **Using R Console**:
+
+    -   You can manually set the working directory in the R console with the same command:
+
+    ``` r
+    setwd("~/math216")
+    ```
+
+# Loading Data
+
+Here's how you can load a CSV file into R:
+
+```{r, eval=FALSE}
+# Assuming the CSV file is in your working directory and is named 'data.csv'
+data <- read.csv("data.csv")
+
+# Viewing the first few rows of the dataset
+head(data)
+```
+
+
+# Disable Inline Output
+
+To prevent plots/results from appearing inline:
+
+1. In RStudio: **Tools** → **Global Options** → **R Markdown**
+2. Uncheck: **"Show output inline for all R Markdown documents"**
+
+This forces output to render in Viewer pane instead of inline.  
+(Changes require R session restart)
+
+::: panel-tabset
+
+### Tools -> Global Options
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/inline1.png") # Latest RStudio for Windows
+```
+
+
+### Uncheck the Show Output Inline Box and Apply
+
+```{r, echo=FALSE}
+knitr::include_graphics("images/inline2.png") # Latest RStudio for Windows
+```
+
+:::
+
+
+
+
+
+

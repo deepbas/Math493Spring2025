@@ -1,0 +1,24 @@
+---
+title: "About"
+---
+
+# Course overview
+
+Welcome to the captivating world of statistical thinking! This course will provide you with a solid foundation in statistical theory while taking you on a journey through the practical aspects of the subject. Along the way, you’ll gain experience with statistical software, learn to interpret and effectively communicate statistical findings, and explore a range of topics in descriptive and inferential data analysis and both parametric and non-parametric statistical inference. Some of the areas we’ll delve into include probability, normal distribution, sampling distributions, confidence intervals, hypothesis testing and simple linear regression. 
+
+At the heart of this course is the ability to interpret results and grasp underlying concepts, rather than merely obtaining numerical outcomes. By engaging with a diverse set of problems, you’ll become well-versed in statistical methodologies. However, it’s crucial to remember that a deep understanding of the concepts is the key to drawing meaningful conclusions.
+
+
+
+## Learning Objectives
+
+<blockquote>
+
+- Master the basic principles of data analysis, including the production and application of data in studies and experiments.
+- Apply principles of inference to construct confidence intervals and conduct hypothesis tests effectively.
+- Critically evaluate statistical arguments and methodologies in published research.
+- Compare and differentiate between parametric and non-parametric methods in statistical analysis.
+-  Utilize software R to conduct data analysis, create graphs, and perform basic statistical tests.
+
+
+</blockquote>

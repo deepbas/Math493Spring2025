@@ -1,0 +1,7 @@
+---
+title: "Math 216: Spring 2025"
+---
+
+Welcome to the world of statistics!
+
+<img src="images/statistics.jpg" alt="Credit: Freepik" style="width: 100%;"/>

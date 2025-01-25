@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "Welcome to the captivating world of statistical thinking! This course will provide you with a solid foundation in statistical theory while taking you on a journey through the practical aspects of the subject. Along the way, you’ll gain experience with statistical software, learn to interpret and effectively communicate statistical findings, and explore a range of topics in descriptive and inferential data analysis and both parametric and non-parametric statistical inference. Some of the areas we’ll delve into include probability, normal distribution, sampling distributions, confidence intervals, hypothesis testing and simple linear regression.\nAt the heart of this course is the ability to interpret results and grasp underlying concepts, rather than merely obtaining numerical outcomes. By engaging with a diverse set of problems, you’ll become well-versed in statistical methodologies. However, it’s crucial to remember that a deep understanding of the concepts is the key to drawing meaningful conclusions.\n\n\n\n\nMaster the basic principles of data analysis, including the production and application of data in studies and experiments.\nApply principles of inference to construct confidence intervals and conduct hypothesis tests effectively.\nCritically evaluate statistical arguments and methodologies in published research.\nCompare and differentiate between parametric and non-parametric methods in statistical analysis.\nUtilize software R to conduct data analysis, create graphs, and perform basic statistical tests."
+  },
+  {
+    "objectID": "about.html#learning-objectives",
+    "href": "about.html#learning-objectives",
+    "title": "About",
+    "section": "",
+    "text": "Master the basic principles of data analysis, including the production and application of data in studies and experiments.\nApply principles of inference to construct confidence intervals and conduct hypothesis tests effectively.\nCritically evaluate statistical arguments and methodologies in published research.\nCompare and differentiate between parametric and non-parametric methods in statistical analysis.\nUtilize software R to conduct data analysis, create graphs, and perform basic statistical tests."
+  },
+  {
+    "objectID": "Day1.html#about-me",
+    "href": "Day1.html#about-me",
+    "title": "Day 1",
+    "section": "About Me",
+    "text": "About Me\n\n\n\n\n\nFirst year at Salisbury\nResearch in Statistical Computation and Applied Statistics\nAvid learner and traveler"
+  },
+  {
+    "objectID": "Day1.html#active-participation",
+    "href": "Day1.html#active-participation",
+    "title": "Day 1",
+    "section": "Active Participation",
+    "text": "Active Participation\n\n\n\nEngage Actively\n\nTake lecture notes\nFollow class handouts\n\nAsk Questions\n\nEvery question is valuable; we’re learning together\n\nGain Conceptual Understanding\n\nTo be able to apply the knowledge; understanding the concepts is key"
+  },
+  {
+    "objectID": "Day1.html#tell-me-about-yourself",
+    "href": "Day1.html#tell-me-about-yourself",
+    "title": "Day 1",
+    "section": "Tell Me About Yourself!",
+    "text": "Tell Me About Yourself!\n\n\n\n\n\nYour name?\nGender Pronouns?\nFavorite Summer Memory?\n\n\n\n\n\n\n\nvia GIPHY"
+  },
+  {
+    "objectID": "Day1.html#class-pipelines",
+    "href": "Day1.html#class-pipelines",
+    "title": "Day 1",
+    "section": "Class Pipelines",
+    "text": "Class Pipelines\n\n\n\nMost of the course information and schedule will be posted in MyClasses\nHomework will be posted but not collected\nLabs most Tuesdays; lab reports due in MyClasses a week from the lab date\nQuizzes every Friday in-person; includes HW, lectures, labs"
+  },
+  {
+    "objectID": "Day1.html#what-will-a-typical-dayweek-look-like",
+    "href": "Day1.html#what-will-a-typical-dayweek-look-like",
+    "title": "Day 1",
+    "section": "What Will a Typical Day/Week Look Like?",
+    "text": "What Will a Typical Day/Week Look Like?\n\n\n\nBefore class:\n\nRead assigned topics from textbook\nWork on homework/lab reports, come with questions\n\nDuring class:\n\nMini lectures\nClass activities"
+  },
+  {
+    "objectID": "Day1.html#statistical-computation",
+    "href": "Day1.html#statistical-computation",
+    "title": "Day 1",
+    "section": "Statistical Computation",
+    "text": "Statistical Computation\n \n\n\nStatistical computing software called R\nRStudio/Posit provides a user-friendly interface to R\nR Markdown is a platform in Posit to write your codes and results\n\n\n\nRMarkdown Documentation"
+  },
+  {
+    "objectID": "Day1.html#data-units-and-variables",
+    "href": "Day1.html#data-units-and-variables",
+    "title": "Day 1",
+    "section": "Data: Units and Variables",
+    "text": "Data: Units and Variables\n\nExperimental (or Observational) Unit\nAn experimental (or observational) unit is an object (e.g., person, thing, transaction, or event) about which we collect data.\n\n\nData is stored and presented in a dataset that comprises variables measured on units.\n\nA variable is any characteristic that is recorded for each unit."
+  },
+  {
+    "objectID": "Day1.html#qualitative-versus-quantitative",
+    "href": "Day1.html#qualitative-versus-quantitative",
+    "title": "Day 1",
+    "section": "Qualitative Versus Quantitative",
+    "text": "Qualitative Versus Quantitative\n\nVariables are classified as either qualitative or quantitative:\n\n\n\nA qualitative variable divides the cases into groups (e.g., gender, country, state).\nA quantitative variable measures a numerical quantity for each case (e.g., age, height, sleep hours, blood pressure)."
+  },
+  {
+    "objectID": "Day1.html#kidney-cancer",
+    "href": "Day1.html#kidney-cancer",
+    "title": "Day 1",
+    "section": "Kidney Cancer",
+    "text": "Kidney Cancer\n\nCounties with the highest kidney cancer rates.\n\n\n Source: Gelman et. al. Bayesian Data Analysis, CRC Press, 2004"
+  },
+  {
+    "objectID": "Day1.html#kidney-cancer-1",
+    "href": "Day1.html#kidney-cancer-1",
+    "title": "Day 1",
+    "section": "Kidney Cancer",
+    "text": "Kidney Cancer\n\nIf the cases in the kidney cancer dataset are people, then the measured variable is qualitative.\n\n\nWe categorize each person as either having kidney cancer or not, which is qualitative."
+  },
+  {
+    "objectID": "Day1.html#kidney-cancer-2",
+    "href": "Day1.html#kidney-cancer-2",
+    "title": "Day 1",
+    "section": "Kidney Cancer",
+    "text": "Kidney Cancer\n\nIf the cases in the kidney cancer dataset are counties, then the measured variable is quantitative.\n\n\nData collected at the county level is aggregated across all people living in the county. We then get rates of cancer, which are numbers (quantitative)."
+  },
+  {
+    "objectID": "Day1.html#variable-manipulations",
+    "href": "Day1.html#variable-manipulations",
+    "title": "Day 1",
+    "section": "Variable Manipulations",
+    "text": "Variable Manipulations\n\nCan use numbers to code categories of qualitative variables.\n\ne.g., Gender (1 for male and 2 for female).\n\n\n\n\nCan convert quantitative variables into qualitative groups.\n\ne.g., Income (0-50000 as Low, 50000+ as High)."
+  },
+  {
+    "objectID": "Day1.html#group-activity-1",
+    "href": "Day1.html#group-activity-1",
+    "title": "Day 1",
+    "section": " Group Activity 1",
+    "text": "Group Activity 1\n\n\n\n\n\n\n\n\nInstall R and RStudio on your machine\nMake a course folder called ‘math216’ on your local computer\nYou will keep all of your class materials in this folder\n\n\n\n\n\n −+ 10:00"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Math 216: Spring 2025",
+    "section": "",
+    "text": "Welcome to the world of statistics!"
+  }
+]

@@ -1,0 +1,192 @@
+project:
+  type: website
+output-dir: docs
+
+website:
+  title: "Math 216: Statistical Thinking"
+  navbar:
+    title: "Math 216"
+    pinned: true
+    left:
+      - text: "Home"
+        href: index.html
+      - text: "About"
+        href: about.html
+      - text: "Lecture Slides"
+        # menu:
+        #   - text: "Lecture 1"
+        #     href: Day1.html 
+        #     target: "_blank"
+        #   - text: "Lecture 2"
+        #     href: Day2.html
+        #     target: "_blank"
+        #   - text: "Lecture 3"
+        #     href: Day3.html
+        #     target: "_blank"
+        #   - text: "Lecture 4"
+        #     href: Day4.html
+        #     target: "_blank"
+        #   - text: "Lecture 5"
+        #     href: Day5.html
+        #     target: "_blank"
+        #   - text: "Lecture 6"
+        #     href: Day6.html
+        #     target: "_blank"
+        #   - text: "Lecture 7"
+        #     href: Day7.html
+        #     target: "_blank"
+        #   - text: "Lecture 8"
+        #     href: Day8.html
+        #     target: "_blank"
+        #   - text: "Lecture 9"
+        #     href: Day9.html
+        #     target: "_blank"
+        #   - text: "Lecture 10"
+        #     href: Day10.html
+        #     target: "_blank"
+        #   - text: "Lecture 11"
+        #     href: Day11.html
+        #     target: "_blank"
+        #   - text: "Lecture 12"
+        #     href: Day12.html
+        #     target: "_blank"
+        #   - text: "Lecture 14"
+        #     href: Day14.html
+        #     target: "_blank"
+        #   - text: "Lecture 15"
+        #     href: Day15.html
+        #     target: "_blank"
+        #   - text: "Lecture 16"
+        #     href: Day16.html
+        #     target: "_blank"
+        #   - text: "Lecture 17"
+        #     href: Day17.html
+        #     target: "_blank"
+        #   - text: "Lecture 18"
+        #     href: Day18.html
+        #     target: "_blank"
+        #   - text: "Lecture 19"
+        #     href: Day19.html
+        #     target: "_blank"
+        #   - text: "Lecture 20"
+        #     href: Day20.html
+        #     target: "_blank"            
+        #   - text: "Lecture 21"
+        #     href: Day21.html
+        #     target: "_blank"            
+        #   - text: "Lecture 22"
+        #     href: Day22.html
+        #     target: "_blank"
+        #   - text: "Lecture 23"
+        #     href: Day23.html
+        #     target: "_blank"
+        #   - text: "Lecture 24"
+        #     href: Day24.html
+        #     target: "_blank"
+        #   - text: "Lecture 26"
+        #     href: Day26.html
+        #     target: "_blank"
+        #   - text: "Lecture 27"
+        #     href: Day27.html
+        #     target: "_blank"  
+        #   - text: "Lecture 28"
+        #     href: Day28.html
+        #     target: "_blank"            
+        #   - text: "Lecture 29"
+        #     href: Day29.html
+        #     target: "_blank"
+        #   - text: "Lecture 30"
+        #     href: Day30.html
+        #     target: "_blank"
+        #   - text: "Lecture 31"
+        #     href: Day31.html
+        #     target: "_blank"
+        #   - text: "Lecture 32"
+        #     href: Day32.html
+        #     target: "_blank"
+        #   - text: "Lecture 33"
+        #     href: Day33.html
+        #     target: "_blank"
+        #   - text: "Lecture 34"
+        #     href: Day34.html
+        #     target: "_blank"
+        #   - text: "Lecture 35"
+        #     href: Day35.html
+        #     target: "_blank"
+        #   - text: "Lecture 36"
+        #     href: Day36.html
+        #     target: "_blank"
+        #   - text: "Lecture 37"
+        #     href: Day37.html
+        #     target: "_blank"
+        #   - text: "Lecture 38"
+        #     href: Day38.html
+        #     target: "_blank"
+        #   - text: "Lecture 40"
+        #     href: Day40.html
+        #     target: "_blank"
+        #   - text: "Lecture 41"
+        #     href: Day41.html
+        #     target: "_blank"
+        #   - text: "Lecture 42"
+        #     href: Day42.html
+        #     target: "_blank"
+          # - text: "Lecture 35"
+          #   href: Day35.html
+          #   target: "_blank"
+
+
+
+      - text: "Tutorials"
+        menu:
+          - text: "R and RStudio"
+            href: RandRStudio.html
+      # - text: "ShinyApps"
+      #   menu:
+      #     - text: "Sampling Distributions"
+      #       href: SamplingApp.html
+      #     - text: "Confidence Intervals"
+      #       href: ConfIntervalsApp.html
+      #     - text: "Power of Hypothesis Tests"
+      #       href: PowerApp.html
+      #     - text: "Simple Linear Regression"
+      #       href: SimpleLinearRegression.html
+
+
+format:
+  html:
+    highlight-style: arrow
+    fontsize: 1.1em
+    code-overflow: wrap
+    theme:
+      light: [theme-light.scss]
+      dark: [darkly]
+    css: styles.css
+    toc: true
+    page-layout: full
+    code-link: true
+    anchor-sections: true
+    fig-cap-location: margin
+    reference-location: margin
+    footnotes-hover: true 
+filters:
+  - shinylive
+  - webr
+
+page-footer: 
+  left: |
+    <span class="faux-block">&#169; 2024 Deepak Bastola</span>
+  right: |
+    <span class="faux-block"><a href="https://github.com/deepbas/">View source on GitHub</a></span>
+
+execute:
+  new_session: true
+  before_chapter_script: common.R
+  freeze: true
+  eval: true
+  echo: true
+  warning: false
+
+language:
+  label:
+    chapter: "Chapter "

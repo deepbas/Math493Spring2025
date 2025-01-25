@@ -1,0 +1,271 @@
+---
+title: "Day 1"
+title-slide-attributes:
+  data-background-image: images/lake.jpg
+  data-background-size: contain
+  data-background-opacity: "0.5"
+subtitle: "MATH 216: Statistical Thinking"
+author: "Bastola"
+format:
+  revealjs:
+    html-math-method: mathjax
+    mathjax-url: "https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/MathJax.js"
+    theme: [default, scss/main.scss]
+    show-notes: separate-page
+    slide-number: true
+    preview-links: auto
+    history: true
+    chalkboard: 
+      src: chalkboard.json
+    transition: slide
+    background-transition: fade    
+    touch: false 
+    controls: true
+filters:
+  - shinylive
+  - webr
+---
+
+```{r setup, include=FALSE}
+# Load necessary packages
+library(tidyverse)
+library(countdown)
+library(mosaic)
+library(ggthemes)
+library(patchwork)
+library(knitr)
+
+# Set ggplot theme
+theme_set(theme_tufte(base_size = 10))
+
+yt <- 0
+```
+
+::: centered-content
+## About Me
+
+::: row
+::: left
+::: bq
+::: incremental
+- First year at Salisbury
+- Research in Statistical Computation and Applied Statistics
+- Avid learner and traveler
+:::
+:::
+:::
+
+::: right
+[![](images/website.png)](http://deepbas.io)
+:::
+:::
+:::
+
+::: centered-content
+## Active Participation
+
+::: bq
+::: incremental
+- **Engage Actively**
+  - Take lecture notes
+  - Follow class handouts
+- **Ask Questions**
+  - Every question is valuable; we're learning together
+- **Gain Conceptual Understanding**
+  - To be able to apply the knowledge; understanding the concepts is key
+:::
+:::
+:::
+
+::: centered-content
+## Tell Me About Yourself!
+
+::: row
+::: left
+<br>
+
+::: bqt
+- Your name?
+- Gender Pronouns?
+- Favorite Summer Memory?
+:::
+:::
+
+::: right
+<iframe src="https://giphy.com/embed/Tq8B3WOqXToBlrqClZ" width="3000" height="280" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
+<p><a href="https://giphy.com/gifs/new-post-creative-Tq8B3WOqXToBlrqClZ">via GIPHY</a></p>
+:::
+:::
+:::
+
+::: centered-content
+## Class Pipelines
+
+<br>
+
+::: bql
+- Most of the course information and schedule will be posted in [MyClasses](https://salisbury.instructure.com/courses/67043)
+- Homework will be posted but not collected
+- Labs most Tuesdays; lab reports due in [MyClasses](https://salisbury.instructure.com/courses/67043) a week from the lab date
+- Quizzes every Friday in-person; includes HW, lectures, labs
+:::
+:::
+
+::: centered-content
+## What Will a Typical Day/Week Look Like?
+
+::: eqt
+::: incremental
+- Before class:
+  - Read assigned topics from textbook
+  - Work on homework/lab reports, come with questions
+- During class:
+  - Mini lectures
+  - Class activities
+:::
+:::
+:::
+
+::: inverse
+# Statistics 
+
+Statistics is the study of data and the uncertainties surrounding them. We will take a more conceptual route to statistics in this course.
+:::
+
+::: centered-content
+### What and Why of Statistics?
+
+::: lqt
+Science of collecting, describing, analyzing, and making decisions based on data:
+- Sampling
+- Exploratory Data Analysis
+- Inference
+:::
+
+::: green-h
+Allows us to make informed decisions in the face of uncertainty and lets us take an unbiased, evidence-based viewpoint.
+:::
+:::
+
+## Statistical Computation
+
+<br>
+<br>
+
+::: bq
+- Statistical computing software called R
+- RStudio/Posit provides a user-friendly interface to R
+- R Markdown is a platform in Posit to write your codes and results
+:::
+
+::: footer
+[RMarkdown Documentation](https://rmarkdown.rstudio.com/)
+:::
+
+::: centered-content
+## Data: Units and Variables
+
+::: bqt
+**Experimental (or Observational) Unit**
+
+An experimental (or observational) unit is an object (e.g., person, thing, transaction, or event) about which we collect data.
+:::
+
+::: cle6
+Data is stored and presented in a dataset that comprises variables measured on units.
+
+- A **variable** is any characteristic that is recorded for each unit.
+:::
+:::
+
+::: centered-content
+### `Gpa_IQ` Dataset 
+
+::: scrollable
+```{r, echo=FALSE}
+library(openintro)
+knitr::kable(head(gpa_iq), format = "html")
+```
+:::
+
+Each row = unit & Each column = variable.
+:::
+
+::: centered-content
+## Qualitative Versus Quantitative
+
+> Variables are classified as either **qualitative** or **quantitative:**
+
+::: cle2
+- A **qualitative variable** divides the cases into groups (e.g., gender, country, state).
+- A **quantitative variable** measures a numerical quantity for each case (e.g., age, height, sleep hours, blood pressure).
+:::
+:::
+
+::: centered-content
+## Kidney Cancer
+
+> Counties with the highest kidney cancer rates.
+
+<center><img src="images/kidneycancermap.png" width="65%" height="65%"/><br> <a>Source: Gelman et. al. Bayesian Data Analysis, CRC Press, 2004</a></center>
+:::
+
+::: centered-content
+## Kidney Cancer
+
+> If the cases in the kidney cancer dataset are people, then the measured variable is qualitative.
+
+::: green-h
+We categorize each person as either having kidney cancer or not, which is qualitative.
+:::
+:::
+
+::: centered-content
+## Kidney Cancer
+
+> If the cases in the kidney cancer dataset are counties, then the measured variable is quantitative.
+
+::: green-h
+Data collected at the county level is aggregated across all people living in the county. We then get rates of cancer, which are numbers (quantitative).
+:::
+:::
+
+::: centered-content
+## Variable Manipulations
+
+::: bq
+Can use numbers to code categories of qualitative variables.
+
+- e.g., Gender (1 for male and 2 for female).
+:::
+
+<br>
+
+::: bq
+Can convert quantitative variables into qualitative groups.
+
+- e.g., Income (0-50000 as Low, 50000+ as High).
+:::
+:::
+
+## <i class="fa fa-pencil-square-o" style="font-size:48px;color:purple"> Group Activity `r (yt <- yt + 1)`</i> {background="#ffdf9e"}
+
+::: row
+::: left
+![](https://media.giphy.com/media/RKApDdwsQ6jkwd6RNn/giphy.gif)
+:::
+
+::: right
+
+::: lqt
+::: font80
+- Install R and RStudio on your machine
+- Make a course folder called 'math216' on your local computer
+- You will keep all of your class materials in this folder 
+:::
+:::
+:::
+:::
+
+`r countdown(minutes = 10, seconds = 00, top = 0 , right = 0, color_background = "inherit", padding = "3px 4px", font_size = "1em")`
+
