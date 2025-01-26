@@ -3,9 +3,9 @@ project:
 output-dir: docs
 
 website:
-  title: "Math 216: Statistical Thinking"
+  title: "Math 493: Advanced Topics in Statistics"
   navbar:
-    title: "Math 216"
+    title: "Math 493"
     pinned: true
     left:
       - text: "Home"

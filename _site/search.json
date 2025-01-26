@@ -14,6 +14,62 @@
     "text": "Master the basic principles of data analysis, including the production and application of data in studies and experiments.\nApply principles of inference to construct confidence intervals and conduct hypothesis tests effectively.\nCritically evaluate statistical arguments and methodologies in published research.\nCompare and differentiate between parametric and non-parametric methods in statistical analysis.\nUtilize software R to conduct data analysis, create graphs, and perform basic statistical tests."
   },
   {
+    "objectID": "RandRStudio.html",
+    "href": "RandRStudio.html",
+    "title": "Setting Up R and RStudio",
+    "section": "",
+    "text": "This lab tutorial will guide you through installing R and RStudio on your computer, managing packages, and loading data into R. This setup is essential for performing all kinds of data analysis tasks in R."
+  },
+  {
+    "objectID": "RandRStudio.html#on-windows",
+    "href": "RandRStudio.html#on-windows",
+    "title": "Setting Up R and RStudio",
+    "section": "On Windows",
+    "text": "On Windows\n\n\nDownload R:\n\nVisit CRAN and download the latest version of R for Windows.\nRun the downloaded .exe file and follow the installation instructions.\n\n\n\n\n\nCRAN mirror\nDownload Latest R\nExecutable File in Downloads Folder\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDownload RStudio:\n\nGo to the RStudio Download page and download the free version of RStudio Desktop for Windows.\nInstall it by running the downloaded .exe file.\n\n\n\n\n\nDownload Latest RStudio\nExecutable File in Downloads Folder"
+  },
+  {
+    "objectID": "RandRStudio.html#on-mac",
+    "href": "RandRStudio.html#on-mac",
+    "title": "Setting Up R and RStudio",
+    "section": "On Mac",
+    "text": "On Mac\n\n\nDownload R:\n\nNavigate to CRAN and choose the version for macOS.\nOpen the downloaded .pkg file to start the installation.\n\n\n\n\n\nCRAN mirror\nDownload Latest R\nExecutable File in Downloads Folder\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nDownload RStudio:\n\nVisit RStudio Download page and select RStudio for macOS.\nOpen the downloaded .dmg file and drag RStudio to your Applications folder.\n\n\n\n\n\nDownload Latest RStudio\nExecutable File in Downloads Folder"
+  },
+  {
+    "objectID": "RandRStudio.html#rmarkdown-interface-components",
+    "href": "RandRStudio.html#rmarkdown-interface-components",
+    "title": "Setting Up R and RStudio",
+    "section": "RMarkdown Interface Components",
+    "text": "RMarkdown Interface Components\nRStudio’s interface for working with RMarkdown documents contains four key panes:\n\nSource Editor (Left Pane)\nPrimary workspace for writing .Rmd files with integrated code chunks and narrative text. Features syntax highlighting, chunk controls (run individual code blocks), and document structure navigation.\n\nEnvironment/History (Top-Right Pane)\n\n\nEnvironment: Lists active datasets, variables, and functions\n\n\nHistory: Tracks all executed commands\n\n\nConnections: Manages database links (when used)\n\n\nGit: Version control integration (when configured)\n\n\n\nConsole/Terminal (Bottom-Left Pane)\n\n\nConsole: Direct R code execution environment showing raw output\n\n\nTerminal: System-level command line access\n\n\nBackground Jobs: Monitor long-running processes\n\n\n\nViewer/Help (Bottom-Right Pane)\n\n\nViewer: Preview rendered documents (HTML/PDF/Word)\n\n\nHelp: Access function documentation\n\n\nFiles: Navigate project directory structure\n\n\nPlots: Display graphical output\n\n\nPackages: Manage installed R packages"
+  },
+  {
+    "objectID": "RandRStudio.html#understanding-r-markdown-documents",
+    "href": "RandRStudio.html#understanding-r-markdown-documents",
+    "title": "Setting Up R and RStudio",
+    "section": "Understanding R Markdown Documents",
+    "text": "Understanding R Markdown Documents\nR Markdown allows you to integrate code and text in the same document, facilitating reproducible research and interactive data analysis reports. Here’s a quick overview:"
+  },
+  {
+    "objectID": "RandRStudio.html#managing-.rmd-files-and-setting-the-working-directory",
+    "href": "RandRStudio.html#managing-.rmd-files-and-setting-the-working-directory",
+    "title": "Setting Up R and RStudio",
+    "section": "Managing .Rmd Files and Setting the Working Directory",
+    "text": "Managing .Rmd Files and Setting the Working Directory\nDownloading and Organizing .Rmd Files\nTo effectively manage your course materials in RStudio, follow these steps:\n\n\nDownload .Rmd File:\n\nNavigate to MyClasses and locate the desired .Rmd file for your course.\nDownload the file to your local machine.\n\n\n\nCreate a Course Folder:\n\nCreate a new folder named math493 in a suitable location on your computer or within your OneDrive account.\n\n\n\nOrganize Files:\n\nMove the downloaded .Rmd file into the math493 folder to keep your course materials organized."
+  },
+  {
+    "objectID": "RandRStudio.html#text-formatting-in-r-markdown",
+    "href": "RandRStudio.html#text-formatting-in-r-markdown",
+    "title": "Setting Up R and RStudio",
+    "section": "Text Formatting in R Markdown",
+    "text": "Text Formatting in R Markdown\nMarkdown is a lightweight markup language that allows you to add formatting elements using plain text. Here’s how you can use different Markdown syntax to format text within your R Markdown documents.\nHeaders\nCreate headers by prefixing the text with one or more hash symbols (#). The number of # symbols before the text determines the level of the header.\n# Header 1\n## Header 2\n### Header 3\nLists\nYou can create bulleted or numbered lists:\n\n\nUnordered Lists (bullets):\n\n- Item 1\n- Item 2\n  - Subitem 1\n  - Subitem 2\n\n\nOrdered Lists:\n\n1. First item\n2. Second item\n   1. Subitem 1\n   2. Subitem 2\nLinks\nInclude hyperlinks using the format [link text](URL):\n[Visit Canvas](https://salisbury.instructure.com/courses/71470)\nEmphasis\nItalicize or bold text using asterisks or underscores:\n\n\nItalic: *Italic* or _Italic_\n\n\nBold: **Bold** or __Bold__\n\nImages\nEmbed images using the format ![Alt text](image_URL \"Optional Title\"):\n![Example Image](path_to_image.jpg \"This is an image\")\nBlockquotes\nCreate blockquotes with &gt;:\n&gt; This is a blockquote.\nCode\nDisplay inline code with backticks and code blocks with triple backticks:\n\nInline code: `code`\n\nCode block:\n\n\n\n\n\n\n\n\n\n\n\n[1] -5\n\n\nHorizontal Rules\nInsert a horizontal line with three or more hyphens:\n---\nCombining Markdown with R Code\nMarkdown can be interleaved with executable R code chunks:\n\n# Calculate the sum of numbers from 1 to 10\nsum(1:10)\n\n[1] 55"
+  },
+  {
+    "objectID": "RandRStudio.html#r-code-chunk-options",
+    "href": "RandRStudio.html#r-code-chunk-options",
+    "title": "Setting Up R and RStudio",
+    "section": "R Code Chunk Options",
+    "text": "R Code Chunk Options\nBefore diving into data loading, let’s understand important R chunk options:\n\n\neval: Use eval=FALSE to prevent code from running but still display it.\n\necho: With echo=FALSE, the code is run but not displayed in the document.\n\ninclude: include=FALSE runs the code and hides both the code and output from the final output.\n\nExample to demonstrate:\n\n\n\n\n\n\n\n\n\n# This code will run, and both code and output will appear in the document.\nsummary(cars)\n\n     speed           dist       \n Min.   : 4.0   Min.   :  2.00  \n 1st Qu.:12.0   1st Qu.: 26.00  \n Median :15.0   Median : 36.00  \n Mean   :15.4   Mean   : 42.98  \n 3rd Qu.:19.0   3rd Qu.: 56.00  \n Max.   :25.0   Max.   :120.00  \n\n\nSetting the Working Directory\nIt’s crucial to set the working directory in R to the folder where your course files are stored. This can be done in several ways:\n\n\nUsing RStudio:\n\nIn RStudio, you can set the working directory through the menu by navigating to Session &gt; Set Working Directory &gt; Choose Directory... and selecting your math493 folder.\n\n\n\nUsing R Script:\n\nYou can also set the working directory directly in an R script using the setwd() function. Place the following line of code at the beginning of your script:\n\nsetwd(\"~/math493\")\nReplace \"~/math493\" with the actual path to your course folder.\n\n\nUsing R Console:\n\nYou can manually set the working directory in the R console with the same command:\n\nsetwd(\"~/math493\")"
+  },
+  {
     "objectID": "Day1.html#about-me",
     "href": "Day1.html#about-me",
     "title": "Day 1",
@@ -107,8 +163,8 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Math 216: Spring 2025",
+    "title": "Math 493: Spring 2025",
     "section": "",
-    "text": "Welcome to the world of statistics!"
+    "text": "Welcome to the world of applied time series!"
   }
 ]

@@ -186,9 +186,9 @@ To effectively manage your course materials in RStudio, follow these steps:
     -   Navigate to MyClasses and locate the desired .Rmd file for your course.
     -   Download the file to your local machine.
 2.  **Create a Course Folder**:
-    -   Create a new folder named `math216` in a suitable location on your computer or within your OneDrive account.
+    -   Create a new folder named `math493` in a suitable location on your computer or within your OneDrive account.
 3.  **Organize Files**:
-    -   Move the downloaded .Rmd file into the `math216` folder to keep your course materials organized.
+    -   Move the downloaded .Rmd file into the `math493` folder to keep your course materials organized.
 
 
 # Installing Packages
@@ -355,24 +355,24 @@ It's crucial to set the working directory in R to the folder where your course f
 
 1.  **Using RStudio**:
 
-    -   In RStudio, you can set the working directory through the menu by navigating to `Session > Set Working Directory > Choose Directory...` and selecting your `math216` folder.
+    -   In RStudio, you can set the working directory through the menu by navigating to `Session > Set Working Directory > Choose Directory...` and selecting your `math493` folder.
 
 2.  **Using R Script**:
 
     -   You can also set the working directory directly in an R script using the `setwd()` function. Place the following line of code at the beginning of your script:
 
     ``` r
-    setwd("~/math216")
+    setwd("~/math493")
     ```
 
-    Replace `"~/math216"` with the actual path to your course folder.
+    Replace `"~/math493"` with the actual path to your course folder.
 
 3.  **Using R Console**:
 
     -   You can manually set the working directory in the R console with the same command:
 
     ``` r
-    setwd("~/math216")
+    setwd("~/math493")
     ```
 
 # Loading Data
