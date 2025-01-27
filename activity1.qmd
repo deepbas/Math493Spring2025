@@ -71,8 +71,8 @@ str(example1)                 # <4>
 #| label: fig-intro-googleclose
 #| fig-cap: "Daily closing stock prices of Google (in USD)"
 google <- read_csv("data/google.csv")        # <1>
-google |> 
-  as_tsibble() |>                                  # <2>
+google %>%  
+  as_tsibble() %>%                                   # <2>
   autoplot(Close) +                                 # <3>
   ylab("USD")                                       # <4>
 ```
@@ -86,8 +86,8 @@ google |>
 ```{r}
 #| label: fig-intro-googlevol
 #| fig-cap: "Daily trading volume of Google shares"
-google |> 
-  as_tsibble() |>                                  # <1>
+google %>%  
+  as_tsibble() %>%                                   # <1>
   autoplot(Volume)                                  # <2>
 ```
 
@@ -102,8 +102,8 @@ google |>
 #| warning: FALSE
 #| fig-cap: Global mean land–ocean temperature from 1850 to 2023, measured as deviations from the 1991-2020 average.
 
-astsa::gtemp_both |>                         # <1>
-  as_tsibble() |>                     # <2>
+astsa::gtemp_both %>%                          # <1>
+  as_tsibble() %>%                      # <2>
   autoplot() +                         # <3>
   labs(x = "Year", y = "Global Temperature Deviation (in Celsius)")  # <4>
 ```
