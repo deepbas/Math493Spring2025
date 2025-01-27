@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Math 493: Spring 2025 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity1 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -69,6 +103,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -91,7 +154,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
@@ -143,20 +206,34 @@ ul.task-list li input[type="checkbox"] {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-applied-time-series" id="toc-introduction-to-applied-time-series" class="nav-link active" data-scroll-target="#introduction-to-applied-time-series">Introduction to Applied Time Series</a></li>
+  <li><a href="#recap-multiple-linear-regression" id="toc-recap-multiple-linear-regression" class="nav-link" data-scroll-target="#recap-multiple-linear-regression">Recap: Multiple Linear Regression</a></li>
+  <li><a href="#using-tidyverts-in-the-tidyverse-ecosystem" id="toc-using-tidyverts-in-the-tidyverse-ecosystem" class="nav-link" data-scroll-target="#using-tidyverts-in-the-tidyverse-ecosystem">Using <code>Tidyverts</code> in the Tidyverse Ecosystem</a></li>
+  <li><a href="#understanding-time-series-data" id="toc-understanding-time-series-data" class="nav-link" data-scroll-target="#understanding-time-series-data">Understanding Time Series Data</a></li>
+  <li><a href="#working-with-real-datasets" id="toc-working-with-real-datasets" class="nav-link" data-scroll-target="#working-with-real-datasets">Working with Real Datasets</a>
+  <ul class="collapse">
+  <li><a href="#example-google-stock-data" id="toc-example-google-stock-data" class="nav-link" data-scroll-target="#example-google-stock-data">Example: Google Stock Data</a></li>
+  <li><a href="#example-global-temperature-data" id="toc-example-global-temperature-data" class="nav-link" data-scroll-target="#example-global-temperature-data">Example: Global Temperature Data</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content page-columns page-full column-page-left" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Math 493: Spring 2025</h1>
+<h1 class="title">Activity1</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -168,10 +245,193 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<p>Welcome to the world of applied time series!</p>
-<p><img src="images/tsplot.png" alt="Credit: Freepik" style="width: 100%;"></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time Series Essentials</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feasts)       <span class="co"># Feature extraction &amp; decomposition</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)        <span class="co"># Forecasting models (ARIMA, ETS, etc.)</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)         <span class="co"># Tidy time series dataseta</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(astsa)        <span class="co"># Applied statistical TS methods from textbook</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)      <span class="co"># Unit root tests &amp; TS diagnostics</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibbledata)  <span class="co"># Curated TS datasets</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantmod)     <span class="co"># Financial data retrieval</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)    <span class="co"># Financial analysis in tidyverse</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)        <span class="co"># Functional programming for TS pipelines</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="introduction-to-applied-time-series" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-applied-time-series">Introduction to Applied Time Series</h2>
+<p>Time series analysis involves studying data points collected or recorded over time. Its applications range from economics to biology, where understanding patterns, trends, and predicting future events is crucial.</p>
+<p>Mathematically, a time series <span class="math inline">\(\left\{X_t\right\}\)</span> is a sequence of random variables indexed by time <span class="math inline">\(t\)</span>. A central concept is stationarity. A time series is (weakly) stationary if its statistical properties do not change over time.</p>
+<p>Formally, <span class="math inline">\(\left\{X_t\right\}\)</span> is weakly stationary if: <span class="math inline">\(\mathbb{E}\left[X_t\right]=\mu, \quad \operatorname{Var}\left(X_t\right)=\sigma^2, \quad\)</span> and <span class="math inline">\(\quad \operatorname{Cov}\left(X_t, X_{t+k}\right)=\gamma_k\)</span> for all <span class="math inline">\(t\)</span>. Stationarity is crucial for reliable modeling and forecasting, as many models assume constant mean and variance over time.</p>
+</section>
+<section id="recap-multiple-linear-regression" class="level2">
+<h2 class="anchored" data-anchor-id="recap-multiple-linear-regression">Recap: Multiple Linear Regression</h2>
+<p>Multiple linear regression models a response variable <span class="math inline">\(Y\)</span> as a linear function of predictors <span class="math inline">\(X_1, X_2, \ldots, X_p:\)</span></p>
+<p><span class="math display">\[
+Y=\beta_0+\beta_1 X_1+\beta_2 X_2+\cdots+\beta_p X_p+\varepsilon
+\]</span></p>
+<p>where <span class="math inline">\(\varepsilon\)</span> is the error term. Regression analysis serves as a foundation for understanding relationships between variables, which extends into time series when considering trends and seasonality.</p>
+</section>
+<section id="using-tidyverts-in-the-tidyverse-ecosystem" class="level2">
+<h2 class="anchored" data-anchor-id="using-tidyverts-in-the-tidyverse-ecosystem">Using <code>Tidyverts</code> in the Tidyverse Ecosystem</h2>
+<p>The <code>Tidyverts</code> collection integrates time series analysis into the tidyverse framework, allowing seamless data manipulation and visualization with familiar syntax.</p>
+</section>
+<section id="understanding-time-series-data" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-time-series-data">Understanding Time Series Data</h2>
+<p>Time series data for a single entity over time can be represented as a <code>tsibble</code>, which is a tidy data structure that inherently understands time.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>example1 <span class="ot">&lt;-</span> <span class="fu">tsibble</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>   <span class="at">year =</span> <span class="dv">2015</span><span class="sc">:</span><span class="dv">2019</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>   <span class="at">y =</span> <span class="fu">c</span>(<span class="dv">123</span>, <span class="dv">39</span>, <span class="dv">78</span>, <span class="dv">52</span>, <span class="dv">110</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-2-4" class="code-annotation-target"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>   <span class="at">index =</span> year</span>
+<span id="annotated-cell-2-5"><a href="#annotated-cell-2-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-2-6"><a href="#annotated-cell-2-6" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-2-7" class="code-annotation-target"><a href="#annotated-cell-2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(example1)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="1">Define a time index from 2015 to 2019.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="2">Create corresponding observations for each year.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="4" data-code-annotation="3">Construct a <code>tsibble</code> with year as the index.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="7" data-code-annotation="4">Use <code>str()</code> to inspect the structure of the <code>tsibble.</code></span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tbl_ts [5 × 2] (S3: tbl_ts/tbl_df/tbl/data.frame)
+ $ year: int [1:5] 2015 2016 2017 2018 2019
+ $ y   : num [1:5] 123 39 78 52 110
+ - attr(*, "key")= tibble [1 × 1] (S3: tbl_df/tbl/data.frame)
+  ..$ .rows: list&lt;int&gt; [1:1] 
+  .. ..$ : int [1:5] 1 2 3 4 5
+  .. ..@ ptype: int(0) 
+ - attr(*, "index")= chr "year"
+  ..- attr(*, "ordered")= logi TRUE
+ - attr(*, "index2")= chr "year"
+ - attr(*, "interval")= interval [1:1] 1Y
+  ..@ .regular: logi TRUE</code></pre>
+</div>
+</div>
+</section>
+<section id="working-with-real-datasets" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="working-with-real-datasets">Working with Real Datasets</h2>
+<section id="example-google-stock-data" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="example-google-stock-data">Example: Google Stock Data</h3>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>google <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"data/google.csv"</span>)</span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>google <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>() <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(Close) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">"USD"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">Read Google’s stock data from a CSV file.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="2">Convert the data frame into a <code>tsibble.</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="3">Use <code>autoplot()</code> to plot the closing prices over time.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="4">Label the y-axis as “USD” for clarity.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-intro-googleclose" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-intro-googleclose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="activity1_files/figure-html/fig-intro-googleclose-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-intro-googleclose-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: Daily closing stock prices of Google (in USD)
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>google <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-4-2"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(Volume)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-intro-googlevol" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-intro-googlevol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="activity1_files/figure-html/fig-intro-googlevol-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-intro-googlevol-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Daily trading volume of Google shares
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Convert the Google dataset into a tsibble.</li>
+<li>Plot the trading volume over time using <code>autoplot()</code>.</li>
+</ul>
+</section>
+<section id="example-global-temperature-data" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="example-global-temperature-data">Example: Global Temperature Data</h3>
+<div class="cell page-columns page-full">
+<div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-1" class="code-annotation-target"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>gtemp_both <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>() <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Year"</span>, <span class="at">y =</span> <span class="st">"Global Temperature Deviation (in Celsius)"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="1" data-code-annotation="1">Use <code>gtemp_both</code> dataset containing historical temperature data.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="2">Convert it into a <code>tsibble</code> format.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="3">Create a time series plot with <code>autoplot()</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="4">Label the axes to contextualize the data.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display page-columns page-full">
+<div id="fig-intro-globtemp" class="quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-fig figure page-columns page-full">
+<div aria-describedby="fig-intro-globtemp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="activity1_files/figure-html/fig-intro-globtemp-1.png" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-margin quarto-float-caption quarto-float-fig margin-caption" id="fig-intro-globtemp-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Global mean land–ocean temperature from 1850 to 2023, measured as deviations from the 1991-2020 average.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

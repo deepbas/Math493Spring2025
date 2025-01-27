@@ -1,0 +1,116 @@
+---
+title: "Activity1"
+format: html
+warning: false
+---
+
+```{r}
+# Time Series Essentials
+library(feasts)       # Feature extraction & decomposition
+library(fable)        # Forecasting models (ARIMA, ETS, etc.)
+library(fpp3)         # Tidy time series dataseta
+library(astsa)        # Applied statistical TS methods from textbook
+library(tseries)      # Unit root tests & TS diagnostics
+library(tsibbledata)  # Curated TS datasets
+library(quantmod)     # Financial data retrieval
+library(tidyquant)    # Financial analysis in tidyverse
+library(purrr)        # Functional programming for TS pipelines
+library(readr)        # Efficient data import
+```
+
+
+## Introduction to Applied Time Series
+
+Time series analysis involves studying data points collected or recorded over time. Its applications range from economics to biology, where understanding patterns, trends, and predicting future events is crucial.
+
+Mathematically, a time series $\left\{X_t\right\}$ is a sequence of random variables indexed by time $t$. A central concept is stationarity. A time series is (weakly) stationary if its statistical properties do not change over time.
+
+Formally, $\left\{X_t\right\}$ is weakly stationary if:
+$\mathbb{E}\left[X_t\right]=\mu, \quad \operatorname{Var}\left(X_t\right)=\sigma^2, \quad$ and $\quad \operatorname{Cov}\left(X_t, X_{t+k}\right)=\gamma_k$ for all $t$.
+Stationarity is crucial for reliable modeling and forecasting, as many models assume constant mean and variance over time.
+
+## Recap: Multiple Linear Regression
+
+Multiple linear regression models a response variable $Y$ as a linear function of predictors $X_1, X_2, \ldots, X_p:$
+
+$$
+Y=\beta_0+\beta_1 X_1+\beta_2 X_2+\cdots+\beta_p X_p+\varepsilon
+$$
+
+where $\varepsilon$ is the error term.
+Regression analysis serves as a foundation for understanding relationships between variables, which extends into time series when considering trends and seasonality.
+
+## Using `Tidyverts` in the Tidyverse Ecosystem
+
+The `Tidyverts` collection integrates time series analysis into the tidyverse framework, allowing seamless data manipulation and visualization with familiar syntax.
+
+## Understanding Time Series Data
+
+Time series data for a single entity over time can be represented as a `tsibble`, which is a tidy data structure that inherently understands time.
+
+```{r}
+example1 <- tsibble(
+   year = 2015:2019,         # <1>
+   y = c(123, 39, 78, 52, 110),  # <2>
+   index = year              # <3>
+)
+
+str(example1)                 # <4>
+```
+
+1. Define a time index from 2015 to 2019.
+2. Create corresponding observations for each year.
+3. Construct a `tsibble` with year as the index.
+4. Use `str()` to inspect the structure of the `tsibble.`
+
+## Working with Real Datasets
+
+### Example: Google Stock Data
+
+```{r}
+#| label: fig-intro-googleclose
+#| fig-cap: "Daily closing stock prices of Google (in USD)"
+google <- read_csv("data/google.csv")        # <1>
+google |> 
+  as_tsibble() |>                                  # <2>
+  autoplot(Close) +                                 # <3>
+  ylab("USD")                                       # <4>
+```
+
+1. Read Google's stock data from a CSV file.
+2. Convert the data frame into a `tsibble.`
+3. Use `autoplot()` to plot the closing prices over time.
+4. Label the y-axis as "USD" for clarity.
+
+
+```{r}
+#| label: fig-intro-googlevol
+#| fig-cap: "Daily trading volume of Google shares"
+google |> 
+  as_tsibble() |>                                  # <1>
+  autoplot(Volume)                                  # <2>
+```
+
+- Convert the Google dataset into a tsibble.
+- Plot the trading volume over time using `autoplot()`.
+
+### Example: Global Temperature Data
+
+```{r}
+#| label: fig-intro-globtemp
+#| message: FALSE
+#| warning: FALSE
+#| fig-cap: Global mean land–ocean temperature from 1850 to 2023, measured as deviations from the 1991-2020 average.
+
+gtemp_both |>                         # <1>
+  as_tsibble() |>                     # <2>
+  autoplot() +                         # <3>
+  labs(x = "Year", y = "Global Temperature Deviation (in Celsius)")  # <4>
+```
+
+1. Use `gtemp_both` dataset containing historical temperature data.
+2. Convert it into a `tsibble` format.
+3. Create a time series plot with `autoplot()`.
+4. Label the axes to contextualize the data.
+
+

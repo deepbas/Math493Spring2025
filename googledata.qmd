@@ -1,0 +1,15 @@
+---
+title: "Dataset 1: Google Stock Data"
+format: html
+resources:
+  - data/google.csv
+---
+
+[Download raw data](data/google.csv){.download-link}
+
+
+```{r echo=FALSE}
+read.csv("data/google.csv") |>
+  knitr::kable()
+```
+

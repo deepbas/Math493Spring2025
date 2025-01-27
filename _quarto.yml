@@ -12,15 +12,18 @@ website:
         href: index.html
       - text: "About"
         href: about.html
-      - text: "Lecture Slides"
-        # menu:
-        #   - text: "Lecture 1"
-        #     href: Day1.html 
+      - text: "Activities"
+        menu:
+          - text: "Activity1"
+            href: activity1.html
         #     target: "_blank"
         #   - text: "Lecture 2"
         #     href: Day2.html
         #     target: "_blank"
-
+      - text: "Datasets"
+        menu:
+          - text: "Google"
+            href: googledata.html
       - text: "Tutorials"
         menu:
           - text: "R and RStudio"
