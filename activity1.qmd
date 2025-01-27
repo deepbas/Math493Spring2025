@@ -102,7 +102,7 @@ google |>
 #| warning: FALSE
 #| fig-cap: Global mean land–ocean temperature from 1850 to 2023, measured as deviations from the 1991-2020 average.
 
-gtemp_both |>                         # <1>
+astsa::gtemp_both |>                         # <1>
   as_tsibble() |>                     # <2>
   autoplot() +                         # <3>
   labs(x = "Year", y = "Global Temperature Deviation (in Celsius)")  # <4>
