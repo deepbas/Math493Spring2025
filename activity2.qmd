@@ -130,6 +130,6 @@ pcorr_Imp_Exp_GDP  # Display partial correlation result
 
 ## Lab Activity: Recreate the above analysis using the class activity template
 
-<a href="template/ActivityTemplateRMarkdown.Rmd" download>Download RMarkdown Template</a>
+[Download RMarkdown Template](template/ActivityTemplateRMarkdown.Rmd){.download-link}
+[Download Quarto Template](template/ActivityTemplateQuarto.qmd){.download-link}
 
-<a href="template/ActivityTemplateQuarto.qmd" download>Download QuartoMarkdown Template</a>
