@@ -172,7 +172,7 @@
     "href": "activity2.html",
     "title": "Activity2",
     "section": "",
-    "text": "# Time Series Essentials\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
+    "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
   },
   {
     "objectID": "activity2.html#correlation-covariance-and-partial-correlation-in-time-series",
@@ -193,7 +193,7 @@
     "href": "activity2.html#lab-activity-recreate-the-above-analysis-using-the-class-activity-template",
     "title": "Activity2",
     "section": "Lab Activity: Recreate the above analysis using the class activity template",
-    "text": "Lab Activity: Recreate the above analysis using the class activity template"
+    "text": "Lab Activity: Recreate the above analysis using the class activity template\nDownload RMarkdown Template\nDownload QuartoMarkdown Template"
   },
   {
     "objectID": "RandRStudio.html",
