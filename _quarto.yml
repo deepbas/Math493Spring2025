@@ -1,6 +1,7 @@
 project:
   type: website
-output-dir: docs
+output-dir: _site
+
 
 website:
   title: "Math 493: Advanced Topics in Statistics"

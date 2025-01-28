@@ -2,10 +2,11 @@
 title: "Activity2"
 format: html
 warning: false
+message: false
 ---
 
 ```{r}
-# Time Series Essentials
+# Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
 library(fpp3)         # Tidy time series dataseta
