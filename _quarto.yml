@@ -16,6 +16,20 @@ website:
         menu:
           - text: "Activity1"
             href: activity1.html
+          - text: "Activity2"
+            href: activity2.html
+          #- text: "Activity1"
+          #   href: activity1.html
+          # - text: "Activity1"
+          #   href: activity1.html
+          # - text: "Activity1"
+          #   href: activity1.html
+          # - text: "Activity1"
+          #   href: activity1.html
+          # - text: "Activity1"
+          #   href: activity1.html
+          # - text: "Activity1"
+          #   href: activity1.html
         #     target: "_blank"
         #   - text: "Lecture 2"
         #     href: Day2.html

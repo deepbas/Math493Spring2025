@@ -1,0 +1,128 @@
+---
+title: "Activity2"
+format: html
+warning: false
+---
+
+```{r}
+# Time Series Essentials
+library(feasts)       # Feature extraction & decomposition
+library(fable)        # Forecasting models (ARIMA, ETS, etc.)
+library(fpp3)         # Tidy time series dataseta
+library(astsa)        # Applied statistical TS methods from textbook
+library(tseries)      # Unit root tests & TS diagnostics
+library(tsibbledata)  # Curated TS datasets
+library(quantmod)     # Financial data retrieval
+library(tidyquant)    # Financial analysis in tidyverse
+library(purrr)        # Functional programming for TS pipelines
+library(readr)        # Efficient data import
+```
+
+
+## Correlation, Covariance, and Partial Correlation in Time Series
+
+In time series analysis, understanding relationships between different variables is crucial. Three fundamental statistical concepts that help capture these relationships are **covariance**, **correlation**, and **partial correlation**.
+
+### Covariance
+
+Covariance measures how two variables move together. For two time series $X_t$ and $Y_t$, the sample covariance over $n$ periods is given by:
+
+$$
+\text{Cov}(X, Y) = \frac{1}{n-1} \sum_{t=1}^{n} (X_t - \bar{X})(Y_t - \bar{Y})
+$$
+
+where $\bar{X}$ and $\bar{Y}$ are the sample means. A positive covariance indicates that when $X_t$ is above its mean, $Y_t$ tends to be above its mean as well, and vice versa.
+
+### Correlation
+
+Correlation standardizes covariance, providing a dimensionless measure between -1 and 1:
+
+$$
+\rho_{XY} = \frac{\text{Cov}(X, Y)}{\sigma_X \sigma_Y}
+$$
+
+where $\sigma_X$ and $\sigma_Y$ are the standard deviations of $X_t$ and $Y_t$. A correlation of 1 means perfect positive linear relationship, -1 means perfect negative linear relationship, and 0 suggests no linear relationship.
+
+### Partial Correlation
+
+Partial correlation measures the relationship between two variables while controlling for the effect of one or more additional variables. For three variables $X$, $Y$, and $Z$, the partial correlation between $X$ and $Y$ controlling for $Z$ is defined as:
+
+$$
+\rho_{XY \cdot Z} = \frac{\rho_{XY} - \rho_{XZ}\rho_{YZ}}{\sqrt{(1-\rho_{XZ}^2)(1-\rho_{YZ}^2)}}
+$$
+
+This formula removes the influence of $Z$ on both $X$ and $Y$, providing a clearer picture of their direct relationship.
+
+
+
+## Applied Example Using `fpp3` Data
+
+Consider the `global_economy` dataset from the `fpp3` package, which contains economic indicators for various countries over time. We can explore relationships such as:
+
+- Covariance and correlation between Growth and CPI for different countries.
+- Partial correlation to understand the relationship between Imports and Exports while controlling for GDP.
+
+```{r}
+# Filter data for Australia and select relevant variables
+aus_data <- global_economy %>%
+  filter(Country == "Australia") %>%    # <1>
+  select(Year, GDP, Growth, Population, CPI, Imports, Exports) # <2>
+```
+
+1. Filter the `global_economy` dataset to include only rows where the country is Australia.
+2. Select the variables of interest: Year, Growth, Population, and CPI
+
+
+
+```{r}
+# Calculate covariance between GDP and Population for Australia
+cov_gdp_pop <- cov(aus_data$Growth, aus_data$CPI, use = "complete.obs")  # <1>
+cov_gdp_pop  
+```
+
+1. Compute the covariance between Growth and CPI for the Australian subset, using complete observations.
+
+```{r}
+# Calculate correlation between GDP and Population for Australia
+cor_gdp_pop <- cor(aus_data$Growth, aus_data$CPI, use = "complete.obs")  # <1>
+cor_gdp_pop  
+```
+
+1. Compute the Pearson correlation coefficient between GDP and Population.
+
+```{r}
+# Compute correlation matrix for GDP, Population, and Life Expectancy
+cor_matrix <- aus_data %>%
+  select(GDP, Growth, Population, CPI, Imports, Exports) %>%  # <1>
+  cor(use = "complete.obs")             # <2>
+cor_matrix  # <11>
+```
+
+1. Select columns for GDP, Growth, Population, CPI, Imports, and Exports from the Australian data.
+2. Calculate the correlation matrix for these variables using complete observations.
+
+- Partial correlation to understand the relationship between Imports and Exports while controlling for GDP.
+
+```{r}
+# Partial correlation between Imports and Exports controlling for GDP manually
+# Extract relevant correlation coefficients from the matrix
+rho_Imports_Exports <- cor_matrix["Imports", "Exports"]         # <1>
+rho_Imports_GDP <- cor_matrix["Imports", "GDP"]          # <2>
+rho_Exports_GDP <- cor_matrix["Exports", "GDP"]  # <3>
+```
+
+1. Extracts the direct correlation between Imports and Exports.
+2. Extracts the correlation between Imports and GDP.
+3. Extracts the correlation between Exports and GDP.
+
+```{r}
+# Compute partial correlation between Imports and Exports controlling for GDP
+pcorr_Imp_Exp_GDP <- (rho_Imports_Exports - rho_Imports_GDP * rho_Exports_GDP) /
+  sqrt((1 - rho_Imports_GDP^2) * (1 - rho_Exports_GDP^2))   # <1> 
+pcorr_Imp_Exp_GDP  # Display partial correlation result
+```
+
+1. Apply the partial correlation formula to compute the relationship between GDP and Life Expectancy, controlling for Population.
+
+## Lab Activity: Recreate the above analysis using the class activity template
+
