@@ -129,7 +129,7 @@ pcorr_Imp_Exp_GDP <- (rho_Imports_Exports - rho_Imports_GDP * rho_Exports_GDP) /
 pcorr_Imp_Exp_GDP  # Display partial correlation result
 ```
 
-1. Apply the partial correlation formula to compute the relationship between GDP and Life Expectancy, controlling for Population.
 
-## Lab Activity: Recreate the above analysis using the class activity template.
+## Lab Activity: Recreate the above analysis using the class activity template and answer the following question:
 
+1. Apply the partial correlation formula to compute the relationship between GDP and Exports, controlling for Population.
