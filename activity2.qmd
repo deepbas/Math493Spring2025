@@ -63,6 +63,12 @@ Consider the `global_economy` dataset from the `fpp3` package, which contains ec
 - Covariance and correlation between Growth and CPI for different countries.
 - Partial correlation to understand the relationship between Imports and Exports while controlling for GDP.
 
+
+```{r echo=FALSE}
+global_economy %>% dplyr::sample_n(10) %>% knitr::kable()
+```
+
+
 ```{r}
 # Filter data for Australia and select relevant variables
 aus_data <- global_economy %>%

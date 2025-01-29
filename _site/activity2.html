@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-99.9.9">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -63,18 +63,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9e2db6d60132874137d35cd80df6d385.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c2299866e9c1ed9e4d64cbb04b200562.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -222,7 +221,7 @@ window.Quarto = {
   <li><a href="#partial-correlation" id="toc-partial-correlation" class="nav-link" data-scroll-target="#partial-correlation">Partial Correlation</a></li>
   </ul></li>
   <li><a href="#applied-example-using-fpp3-data" id="toc-applied-example-using-fpp3-data" class="nav-link" data-scroll-target="#applied-example-using-fpp3-data">Applied Example Using <code>fpp3</code> Data</a></li>
-  <li><a href="#lab-activity-recreate-the-above-analysis-using-the-class-activity-template" id="toc-lab-activity-recreate-the-above-analysis-using-the-class-activity-template" class="nav-link" data-scroll-target="#lab-activity-recreate-the-above-analysis-using-the-class-activity-template">Lab Activity: Recreate the above analysis using the class activity template</a></li>
+  <li><a href="#lab-activity-recreate-the-above-analysis-using-the-class-activity-template." id="toc-lab-activity-recreate-the-above-analysis-using-the-class-activity-template." class="nav-link" data-scroll-target="#lab-activity-recreate-the-above-analysis-using-the-class-activity-template.">Lab Activity: Recreate the above analysis using the class activity template.</a></li>
   </ul>
 </nav>
     </div>
@@ -296,6 +295,148 @@ window.Quarto = {
 <li>Covariance and correlation between Growth and CPI for different countries.</li>
 <li>Partial correlation to understand the relationship between Imports and Exports while controlling for GDP.</li>
 </ul>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Country</th>
+<th style="text-align: left;">Code</th>
+<th style="text-align: right;">Year</th>
+<th style="text-align: right;">GDP</th>
+<th style="text-align: right;">Growth</th>
+<th style="text-align: right;">CPI</th>
+<th style="text-align: right;">Imports</th>
+<th style="text-align: right;">Exports</th>
+<th style="text-align: right;">Population</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Low income</td>
+<td style="text-align: left;">LIC</td>
+<td style="text-align: right;">1961</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">170210778</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Malawi</td>
+<td style="text-align: left;">MWI</td>
+<td style="text-align: right;">1968</td>
+<td style="text-align: right;">2.451698e+08</td>
+<td style="text-align: right;">-1.9230792</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">39.15810</td>
+<td style="text-align: right;">23.837494</td>
+<td style="text-align: right;">4370650</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">St.&nbsp;Kitts and Nevis</td>
+<td style="text-align: left;">KNA</td>
+<td style="text-align: right;">2009</td>
+<td style="text-align: right;">7.670664e+08</td>
+<td style="text-align: right;">-3.3684794</td>
+<td style="text-align: right;">99.15630</td>
+<td style="text-align: right;">47.89495</td>
+<td style="text-align: right;">23.019602</td>
+<td style="text-align: right;">50886</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Guam</td>
+<td style="text-align: left;">GUM</td>
+<td style="text-align: right;">2003</td>
+<td style="text-align: right;">3.560000e+09</td>
+<td style="text-align: right;">0.9205984</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">46.46067</td>
+<td style="text-align: right;">17.724719</td>
+<td style="text-align: right;">157714</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">North America</td>
+<td style="text-align: left;">NAC</td>
+<td style="text-align: right;">2000</td>
+<td style="text-align: right;">1.103055e+13</td>
+<td style="text-align: right;">4.1970916</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">16.52401</td>
+<td style="text-align: right;">13.711497</td>
+<td style="text-align: right;">312993944</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Latvia</td>
+<td style="text-align: left;">LVA</td>
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">3.025468e+10</td>
+<td style="text-align: right;">2.4298512</td>
+<td style="text-align: right;">106.69577</td>
+<td style="text-align: right;">63.85393</td>
+<td style="text-align: right;">60.304180</td>
+<td style="text-align: right;">2012647</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Spain</td>
+<td style="text-align: left;">ESP</td>
+<td style="text-align: right;">1977</td>
+<td style="text-align: right;">1.320895e+11</td>
+<td style="text-align: right;">2.8385743</td>
+<td style="text-align: right;">13.30427</td>
+<td style="text-align: right;">15.87719</td>
+<td style="text-align: right;">13.315424</td>
+<td style="text-align: right;">36511638</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Rwanda</td>
+<td style="text-align: left;">RWA</td>
+<td style="text-align: right;">1989</td>
+<td style="text-align: right;">2.405022e+09</td>
+<td style="text-align: right;">-0.0365343</td>
+<td style="text-align: right;">11.81598</td>
+<td style="text-align: right;">17.28848</td>
+<td style="text-align: right;">6.139289</td>
+<td style="text-align: right;">7216028</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Chad</td>
+<td style="text-align: left;">TCD</td>
+<td style="text-align: right;">1982</td>
+<td style="text-align: right;">8.343699e+08</td>
+<td style="text-align: right;">5.3466090</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">13.49483</td>
+<td style="text-align: right;">6.561972</td>
+<td style="text-align: right;">4715197</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Belarus</td>
+<td style="text-align: left;">BLR</td>
+<td style="text-align: right;">1987</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">10111000</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-2-1"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter data for Australia and select relevant variables</span></span>
 <span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>aus_data <span class="ot">&lt;-</span> global_economy <span class="sc">%&gt;%</span></span>
@@ -427,9 +568,8 @@ Year        1.0000000</code></pre>
 </div>
 </div>
 </section>
-<section id="lab-activity-recreate-the-above-analysis-using-the-class-activity-template" class="level2">
-<h2 class="anchored" data-anchor-id="lab-activity-recreate-the-above-analysis-using-the-class-activity-template">Lab Activity: Recreate the above analysis using the class activity template</h2>
-<p><a href="./template/ActivityTemplateRMarkdown.html" class="download-link">Download RMarkdown Template</a> <a href="./template/ActivityTemplateQuarto.html" class="download-link">Download Quarto Template</a></p>
+<section id="lab-activity-recreate-the-above-analysis-using-the-class-activity-template." class="level2">
+<h2 class="anchored" data-anchor-id="lab-activity-recreate-the-above-analysis-using-the-class-activity-template.">Lab Activity: Recreate the above analysis using the class activity template.</h2>
 
 
 </section>
@@ -661,6 +801,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -771,6 +913,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
