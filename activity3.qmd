@@ -1,0 +1,161 @@
+---
+title: "Activity3"
+format: html
+warning: false
+message: false
+---
+
+```{r}
+# Time Series Essentials, install if needed!
+library(feasts)       # Feature extraction & decomposition
+library(fable)        # Forecasting models (ARIMA, ETS, etc.)
+library(fpp3)         # Tidy time series dataseta
+library(astsa)        # Applied statistical TS methods from textbook
+library(tseries)      # Unit root tests & TS diagnostics
+library(tsibbledata)  # Curated TS datasets
+library(quantmod)     # Financial data retrieval
+library(tidyquant)    # Financial analysis in tidyverse
+library(purrr)        # Functional programming for TS pipelines
+library(readr)        # Efficient data import
+```
+
+
+## Autocorrelation in Time Series
+
+Autocorrelation, also known as serial correlation, measures the correlation of a time series with its own past and future values. Mathematically, the autocorrelation function (ACF) at lag $k$ for a time series $\{X_t\}$ is defined as:
+
+$$
+\rho_k = \frac{\text{Cov}(X_t, X_{t-k})}{\sqrt{\text{Var}(X_t) \text{Var}(X_{t-k})}}
+$$
+
+where $\rho_k$ measures the linear relationship between values $k$ time periods apart.
+
+- **Positive autocorrelation** at lag $k$: high values tend to follow high values and low values tend to follow low values after $k$ periods.
+- **Negative autocorrelation** at lag $k$: high values tend to follow low values and vice versa.
+- **No autocorrelation**: the series values $k$ periods apart are uncorrelated, suggesting randomness at that lag.
+
+## Partial Autocorrelation in Time Series
+
+Partial autocorrelation measures the correlation between a time series and its lagged values, after removing the influence of intermediate lags. In other words, it quantifies the direct relationship between $X_t$ and $X_{t-k}$, controlling for the effects of $X_{t-1}, X_{t-2}, \dots, X_{t-k+1}$. Mathematically, the partial autocorrelation function (PACF) at lag $k$ for a time series $\{X_t\}$ is defined as:
+
+$$
+\phi_{kk} = \text{Corr}(X_t, X_{t-k} \mid X_{t-1}, X_{t-2}, \dots, X_{t-k+1})
+$$
+
+where $\phi_{kk}$ represents the partial autocorrelation at lag $k$.
+
+- **Interpretation of PACF**:
+
+  - A significant partial autocorrelation at lag $k$ suggests a direct relationship between $X_t$ and $X_{t-k}$, independent of the intermediate lags.
+  - A non-significant partial autocorrelation indicates that the relationship between $X_t$ and $X_{t-k}$ is fully explained by the intermediate lags.
+
+
+- **Comparison with ACF**:
+
+  - While the ACF measures the total correlation between $X_t$ and $X_{t-k}$, the PACF isolates the direct correlation, making it a more precise tool for model identification.
+
+
+### Practical Illustration with Real Data
+
+We will use real datasets from the `fpp3` package to compute and visualize autocorrelation. The following code snippets demonstrate how to plot the ACF and PACF for a time series, providing insights into its internal structure.
+
+```{r}
+library(fpp3)
+
+aus_airpassengers %>%
+  ACF(Passengers) %>%             # Calculate autocorrelations for the Passengers series
+  autoplot() +                    # Plot the ACF
+  labs(title = "ACF of Australian Air Passengers", y = "ACF", x = "Lag")
+
+# Example 2: Partial Autocorrelation of Australian Air Passengers
+aus_airpassengers %>%
+  PACF(Passengers) %>%            # Calculate partial autocorrelations for the Passengers series
+  autoplot() +                    # Plot the PACF
+  labs(title = "PACF of Australian Air Passengers", y = "PACF", x = "Lag")
+
+```
+
+
+## White Noise
+
+
+1. **White Noise**  
+
+   - **No autocorrelation**: $\mathbb{E}[X_t X_{t-k}] = 0, \quad \forall k \neq 0$  
+   - **Constant variance**: $\operatorname{Var}(X_t) = \sigma^2$  
+
+   The white noise process is defined as:  
+   $$
+   X_t = \varepsilon_t, \quad \varepsilon_t \stackrel{iid}{\sim} \mathcal{N}(0, \sigma^2)
+   $$
+
+```{r}
+# White Noise Simulation
+wn <- tsibble(time = 1:500, y = rnorm(500), index = time)
+
+# Visualize and test for autocorrelation
+wn %>% autoplot(y) + ggtitle("White Noise Process")
+wn %>% ACF(y) %>% autoplot()
+wn %>% features(y, ljung_box, lag = 10)  # Should retain H₀ (no autocorrelation)
+```
+
+2. **Portmanteau (Ljung-Box) Test**  
+
+   - **Null hypothesis ($H_0$)**: No autocorrelation up to lag $h$  
+   - **Test statistic**:  
+     $$
+     Q = n(n+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{n-k} \sim \chi^2_h
+     $$
+
+```{r}
+wn %>% features(y, ljung_box, lag = 10)  # p > 0.05 ⇒ retain H₀ (white noise)
+```
+
+3. **Practical Verification**  
+   - Simulate contaminated white noise to test robustness: 
+   
+```{r}
+contaminated_wn <- wn %>% 
+ mutate(y = y + 0.3*lag(y, 5) %>% replace_na(0))
+```
+
+   - Visualize and test the contaminated series:  
+   
+```{r}
+contaminated_wn %>% 
+ ACF(y) %>% 
+ autoplot() + 
+ ggtitle("ACF of Contaminated Series")
+
+contaminated_wn %>% 
+ features(y, ljung_box, lag = 10)  # p < 0.05 ⇒ reject H₀
+```
+
+
+### Problem: White Noise Series, ACF, and Portmanteau Test
+
+1. **Simulate a White Noise Series**  
+   Generate a white noise series of length \( n = 500 \) using the equation:
+   $$
+   X_t = \varepsilon_t, \quad \varepsilon_t \stackrel{iid}{\sim} \mathcal{N}(0, 1)
+   $$
+   Plot the series.
+
+2. **Plot the ACF**  
+   Compute and plot the autocorrelation function (ACF) of the white noise series. Interpret the results.
+
+3. **Contaminate the Series**  
+   Introduce contamination into the white noise series by adding a lagged component:
+   $$
+   Y_t = X_t + 0.4 \cdot X_{t-3}
+   $$
+   Replace missing values with 0. Plot the contaminated series.
+
+4. **Plot the ACF of the Contaminated Series**  
+   Compute and plot the ACF of the contaminated series. Compare it with the ACF of the original white noise series.
+
+5. **Perform the Portmanteau (Ljung-Box) Test**  
+   - Apply the Ljung-Box test to the original white noise series. Interpret the results.
+   - Apply the Ljung-Box test to the contaminated series. Interpret the results.
+   
+
