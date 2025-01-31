@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-99.9.9">
+<meta name="generator" content="quarto-1.5.56">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Activity4 – Math 493: Advanced Topics in Statistics</title>
 <style>
@@ -59,18 +59,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9e2db6d60132874137d35cd80df6d385.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c2299866e9c1ed9e4d64cbb04b200562.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -328,13 +327,7 @@ where <span class="math inline">\(\varepsilon_t\)</span> is white noise with var
 <section id="key-characteristics" class="level4"><h4 class="anchored" data-anchor-id="key-characteristics">Key Characteristics:</h4>
 <ul>
 <li>
-<strong>Non-Stationarity</strong>: Variance grows with time, <span class="math inline">\(\operatorname{Var}(X_t) = t \sigma^2\)</span>.<br>
-</li>
-<li>
-<strong>Unit Root</strong>: The process has a unit root, <span class="math inline">\((1-B)X_t = \delta + \varepsilon_t\)</span>.<br>
-</li>
-<li>
-<strong>Differencing</strong>: The differenced series <span class="math inline">\((1-B)X_t\)</span> becomes stationary.</li>
+<strong>Non-Stationarity</strong>: Variance grows with time, <span class="math inline">\(\operatorname{Var}(X_t) = t \sigma^2\)</span>.</li>
 </ul></section></section><section id="simulation-in-r-2" class="level3"><h3 class="anchored" data-anchor-id="simulation-in-r-2">Simulation in R:</h3>
 <div class="cell">
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibble.tidyverts.org">tsibble</a></span><span class="op">)</span></span>
@@ -362,6 +355,8 @@ where <span class="math inline">\(\varepsilon_t\)</span> is white noise with var
 <p><strong>Solution:</strong></p>
 <!--
 
+
+
 ::: {.cell}
 
 ```{.r .cell-code}
@@ -385,11 +380,15 @@ ma_ts <- tsibble(
 ```
 :::
 
+
+
 -->
 </section><section id="q2-ar1-process" class="level2"><h2 class="anchored" data-anchor-id="q2-ar1-process">Q2: AR(1) Process</h2>
 <p><strong>Prompt:</strong> Simulate and visualize an MA(1) process with parameter θ = 0.96 using <code>tsibble</code> and <code>autoplot</code>.</p>
 <p><strong>Solution:</strong></p>
 <!--
+
+
 
 ::: {.cell}
 
@@ -409,11 +408,15 @@ ar_ts <- tsibble(
 ```
 :::
 
+
+
 -->
 </section><section id="q3-random-walk-comparison" class="level2"><h2 class="anchored" data-anchor-id="q3-random-walk-comparison">Q3: Random Walk &amp; Comparison</h2>
 <p><strong>Prompt:</strong> Create a random walk with drift <span class="math inline">\((\delta = 0.2)\)</span>, then visualize all three processes together.</p>
 <p><strong>Solution:</strong></p>
 <!--
+
+
 
 ::: {.cell}
 
@@ -426,7 +429,6 @@ rw_ts <- tsibble(
 )
 ```
 :::
-
 
 ::: {.cell}
 
@@ -441,7 +443,6 @@ combined_ts <- bind_rows(
 ```
 :::
 
-
 ::: {.cell}
 
 ```{.r .cell-code}
@@ -455,6 +456,8 @@ autoplot(combined_ts) +
 ![](activity4_files/figure-html/unnamed-chunk-9-1.png){width=672}
 :::
 :::
+
+
 
 -->
 
@@ -685,6 +688,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -795,6 +800,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

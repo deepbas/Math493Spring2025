@@ -106,8 +106,6 @@ where $\varepsilon_t$ is white noise with variance $\sigma^2$, and $\delta$ is t
 #### Key Characteristics:  
 
 - **Non-Stationarity**: Variance grows with time, $\operatorname{Var}(X_t) = t \sigma^2$.  
-- **Unit Root**: The process has a unit root, $(1-B)X_t = \delta + \varepsilon_t$.  
-- **Differencing**: The differenced series $(1-B)X_t$ becomes stationary.  
 
 ### Simulation in R:  
 
