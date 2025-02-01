@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Activity4 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity8 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,32 +96,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script><link rel="stylesheet" href="styles.css">
+}</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -204,27 +179,17 @@ window.Quarto = {
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
-   
-  <ul>
-<li><a href="#ma1-process" id="toc-ma1-process" class="nav-link active" data-scroll-target="#ma1-process">1. MA(1) Process</a></li>
-  <li><a href="#ar1-process" id="toc-ar1-process" class="nav-link" data-scroll-target="#ar1-process">2. AR(1) Process</a></li>
-  <li><a href="#random-walk-with-drift" id="toc-random-walk-with-drift" class="nav-link" data-scroll-target="#random-walk-with-drift">3. Random Walk with Drift</a></li>
-  <li><a href="#simulation-in-r-2" id="toc-simulation-in-r-2" class="nav-link" data-scroll-target="#simulation-in-r-2">Simulation in R:</a></li>
-  <li><a href="#q1-ma1-process" id="toc-q1-ma1-process" class="nav-link" data-scroll-target="#q1-ma1-process">Q1: MA(1) Process</a></li>
-  <li><a href="#q2-ar1-process" id="toc-q2-ar1-process" class="nav-link" data-scroll-target="#q2-ar1-process">Q2: AR(1) Process</a></li>
-  <li><a href="#q3-random-walk-comparison" id="toc-q3-random-walk-comparison" class="nav-link" data-scroll-target="#q3-random-walk-comparison">Q3: Random Walk &amp; Comparison</a></li>
-  </ul></nav>
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+        
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Activity4</h1>
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Activity8</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta column-page">
 
     
   
@@ -246,232 +211,10 @@ window.Quarto = {
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="ma1-process" class="level3"><h3 class="anchored" data-anchor-id="ma1-process">1. MA(1) Process</h3>
-<p>The <strong>Moving Average of Order 1 (MA(1))</strong> process is defined as:</p>
-<p><span class="math display">\[
-X_t = \varepsilon_t + \theta \varepsilon_{t-1}
-\]</span><br>
-where <span class="math inline">\(\varepsilon_t\)</span> is white noise with variance <span class="math inline">\(\sigma^2\)</span>.</p>
-<section id="key-properties" class="level4"><h4 class="anchored" data-anchor-id="key-properties">Key Properties:</h4>
-<ul>
-<li>
-<strong>Short Memory</strong>: The autocorrelation function (ACF) cuts off after lag 1.<br>
-</li>
-<li>
-<strong>Variance</strong>: <span class="math inline">\(\gamma(0) = \sigma^2(1 + \theta^2)\)</span>.<br>
-</li>
-<li>
-<strong>Covariance</strong>: <span class="math inline">\(\gamma(1) = \theta \sigma^2\)</span>.</li>
-</ul></section><section id="simulation-in-r" class="level4"><h4 class="anchored" data-anchor-id="simulation-in-r">Simulation in R:</h4>
-<div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># MA(1) simulation</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
-<span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fl">0.8</span></span>
-<span><span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># ε_0 to ε_n</span></span>
-<span><span class="va">ma_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="kw">for</span><span class="op">(</span><span class="va">t</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">ma_values</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">eps</span><span class="op">[</span><span class="va">t</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">theta</span><span class="op">*</span><span class="va">eps</span><span class="op">[</span><span class="va">t</span><span class="op">]</span>  <span class="co"># X_t = ε_t + θε_{t-1}</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="va">ma1</span> <span class="op">&lt;-</span> <span class="fu">tsibble</span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, y <span class="op">=</span> <span class="va">ma_values</span>, index <span class="op">=</span> <span class="va">time</span><span class="op">)</span></span>
-<span><span class="co"># Plot</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">ma1</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"MA(1) Process"</span>, x <span class="op">=</span> <span class="st">"Time"</span>, y <span class="op">=</span> <span class="st">"X_t"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="activity4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<hr></section></section><section id="ar1-process" class="level3"><h3 class="anchored" data-anchor-id="ar1-process">2. AR(1) Process</h3>
-<p>The <strong>Autoregressive of Order 1 (AR(1))</strong> process is defined as:</p>
-<p><span class="math display">\[
-X_t = \phi X_{t-1} + \varepsilon_t
-\]</span><br>
-where <span class="math inline">\(\varepsilon_t\)</span> is white noise with variance <span class="math inline">\(\sigma^2\)</span>.</p>
-<section id="key-properties-1" class="level4"><h4 class="anchored" data-anchor-id="key-properties-1">Key Properties:</h4>
-<ul>
-<li>
-<strong>Stationarity</strong>: Requires <span class="math inline">\(|\phi| &lt; 1\)</span>.<br>
-</li>
-<li>
-<strong>ACF</strong>: Decays exponentially as <span class="math inline">\(\rho(k) = \phi^k\)</span>.<br>
-</li>
-<li>
-<strong>PACF</strong>: Cuts off after lag 1.</li>
-</ul></section><section id="simulation-in-r-1" class="level4"><h4 class="anchored" data-anchor-id="simulation-in-r-1">Simulation in R:</h4>
-<div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># AR(1) simulation</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
-<span><span class="va">phi</span> <span class="op">&lt;-</span> <span class="fl">0.8</span></span>
-<span><span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">ar_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">ar_values</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">eps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>  <span class="co"># X_1 = ε_1</span></span>
-<span><span class="kw">for</span><span class="op">(</span><span class="va">t</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">ar_values</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">phi</span><span class="op">*</span><span class="va">ar_values</span><span class="op">[</span><span class="va">t</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">eps</span><span class="op">[</span><span class="va">t</span><span class="op">]</span></span>
-<span><span class="op">}</span></span>
-<span></span>
-<span><span class="va">ar1</span> <span class="op">&lt;-</span> <span class="fu">tsibble</span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, y <span class="op">=</span> <span class="va">ar_values</span>, index <span class="op">=</span> <span class="va">time</span><span class="op">)</span></span>
-<span><span class="co"># Plot</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">ar1</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"AR(1) Process"</span>, x <span class="op">=</span> <span class="st">"Time"</span>, y <span class="op">=</span> <span class="st">"X_t"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="activity4_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<hr></section></section><section id="random-walk-with-drift" class="level3"><h3 class="anchored" data-anchor-id="random-walk-with-drift">3. Random Walk with Drift</h3>
-<p>The <strong>Random Walk with Drift</strong> is defined as:</p>
-<p><span class="math display">\[
-X_t = \delta + X_{t-1} + \varepsilon_t
-\]</span><br>
-where <span class="math inline">\(\varepsilon_t\)</span> is white noise with variance <span class="math inline">\(\sigma^2\)</span>, and <span class="math inline">\(\delta\)</span> is the drift term.</p>
-<section id="key-characteristics" class="level4"><h4 class="anchored" data-anchor-id="key-characteristics">Key Characteristics:</h4>
-<ul>
-<li>
-<strong>Non-Stationarity</strong>: Variance grows with time, <span class="math inline">\(\operatorname{Var}(X_t) = t \sigma^2\)</span>.</li>
-</ul></section></section><section id="simulation-in-r-2" class="level3"><h3 class="anchored" data-anchor-id="simulation-in-r-2">Simulation in R:</h3>
-<div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibble.tidyverts.org">tsibble</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/">feasts</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Random Walk with Drift simulation</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
-<span><span class="va">delta</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></span>
-<span><span class="va">rw_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">delta</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Cumulative sum of (δ + ε_t)</span></span>
-<span></span>
-<span><span class="va">rw_drift</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/tsibble.html">tsibble</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, y <span class="op">=</span> <span class="va">rw_values</span>, index <span class="op">=</span> <span class="va">time</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">rw_drift</span>, <span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Random Walk with Drift"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure"><p><img src="activity4_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<hr>
-<section id="more-simulations-and-comparisons" class="level4"><h4 class="anchored" data-anchor-id="more-simulations-and-comparisons">More Simulations and Comparisons:</h4>
-</section></section><section id="q1-ma1-process" class="level2"><h2 class="anchored" data-anchor-id="q1-ma1-process">Q1: MA(1) Process</h2>
-<p><strong>Prompt:</strong> Simulate and visualize an MA(1) process with parameter θ = 0.9 using <code>tsibble</code> and <code>autoplot</code>.</p>
-<p><strong>Solution:</strong></p>
-<!--
 
 
 
-::: {.cell}
-
-```{.r .cell-code}
-library(tsibble)
-library(feasts)
-library(patchwork)  # For plot arrangement
-
-set.seed(123)
-n <- 200
-
-# Create tsibble objects with explicit time indices
-ma_ts <- tsibble(
-  time = 1:n,
-  value = {
-    eps <- rnorm(n + 1)
-    eps[-1] + 0.9 * eps[-(n + 1)]
-  },
-  index = time,
-  model = "MA(1)"
-)
-```
-:::
-
-
-
--->
-</section><section id="q2-ar1-process" class="level2"><h2 class="anchored" data-anchor-id="q2-ar1-process">Q2: AR(1) Process</h2>
-<p><strong>Prompt:</strong> Simulate and visualize an MA(1) process with parameter θ = 0.96 using <code>tsibble</code> and <code>autoplot</code>.</p>
-<p><strong>Solution:</strong></p>
-<!--
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-ar_ts <- tsibble(
-  time = 1:n,
-  value = {
-    eps <- rnorm(n)
-    ar <- numeric(n)
-    ar[1] <- eps[1]
-    for(t in 2:n) ar[t] <- 0.96 * ar[t-1] + eps[t]
-    ar
-  },
-  index = time,
-  model = "AR(1)"
-)
-```
-:::
-
-
-
--->
-</section><section id="q3-random-walk-comparison" class="level2"><h2 class="anchored" data-anchor-id="q3-random-walk-comparison">Q3: Random Walk &amp; Comparison</h2>
-<p><strong>Prompt:</strong> Create a random walk with drift <span class="math inline">\((\delta = 0.2)\)</span>, then visualize all three processes together.</p>
-<p><strong>Solution:</strong></p>
-<!--
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-rw_ts <- tsibble(
-  time = 1:n,
-  value = cumsum(0.2 + rnorm(n)),
-  index = time,
-  model = "Random Walk with Drift"
-)
-```
-:::
-
-::: {.cell}
-
-```{.r .cell-code}
-combined_ts <- bind_rows(
-  as_tibble(ma_ts) %>% mutate(model = "MA(1)"),
-  as_tibble(ar_ts) %>% mutate(model = "AR(1)"),
-  as_tibble(rw_ts)
-) %>% 
-  as_tsibble(index = time, key = model) %>% 
-  mutate(model = factor(model, levels = c("MA(1)", "AR(1)", "Random Walk with Drift")))
-```
-:::
-
-::: {.cell}
-
-```{.r .cell-code}
-autoplot(combined_ts) +
-  facet_grid(model ~ ., scales = "free_y") +
-  labs(title = "Time Series Comparison", y = "Value") +
-  theme_minimal()
-```
-
-::: {.cell-output-display}
-![](activity4_files/figure-html/unnamed-chunk-9-1.png){width=672}
-:::
-:::
-
-
-
--->
-
-
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

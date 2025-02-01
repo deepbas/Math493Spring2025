@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Activity4 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity5 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -208,18 +208,31 @@ window.Quarto = {
         <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#ma1-process" id="toc-ma1-process" class="nav-link active" data-scroll-target="#ma1-process">1. MA(1) Process</a></li>
-  <li><a href="#ar1-process" id="toc-ar1-process" class="nav-link" data-scroll-target="#ar1-process">2. AR(1) Process</a></li>
-  <li><a href="#random-walk-with-drift" id="toc-random-walk-with-drift" class="nav-link" data-scroll-target="#random-walk-with-drift">3. Random Walk with Drift</a></li>
-  <li><a href="#simulation-in-r-2" id="toc-simulation-in-r-2" class="nav-link" data-scroll-target="#simulation-in-r-2">Simulation in R:</a></li>
-  <li><a href="#q1-ma1-process" id="toc-q1-ma1-process" class="nav-link" data-scroll-target="#q1-ma1-process">Q1: MA(1) Process</a></li>
-  <li><a href="#q2-ar1-process" id="toc-q2-ar1-process" class="nav-link" data-scroll-target="#q2-ar1-process">Q2: AR(1) Process</a></li>
-  <li><a href="#q3-random-walk-comparison" id="toc-q3-random-walk-comparison" class="nav-link" data-scroll-target="#q3-random-walk-comparison">Q3: Random Walk &amp; Comparison</a></li>
+<li>
+<a href="#differencing-transformations-and-stationarity" id="toc-differencing-transformations-and-stationarity" class="nav-link active" data-scroll-target="#differencing-transformations-and-stationarity">Differencing, Transformations, and Stationarity</a>
+  <ul class="collapse">
+<li><a href="#what-is-stationarity" id="toc-what-is-stationarity" class="nav-link" data-scroll-target="#what-is-stationarity">What is Stationarity?</a></li>
+  <li><a href="#transformations-to-achieve-stationarity" id="toc-transformations-to-achieve-stationarity" class="nav-link" data-scroll-target="#transformations-to-achieve-stationarity">Transformations to Achieve Stationarity</a></li>
+  <li><a href="#step-1-visualize-non-stationary-data" id="toc-step-1-visualize-non-stationary-data" class="nav-link" data-scroll-target="#step-1-visualize-non-stationary-data">Step 1: Visualize Non-Stationary Data</a></li>
+  <li><a href="#step-2-statistical-tests-for-stationarity" id="toc-step-2-statistical-tests-for-stationarity" class="nav-link" data-scroll-target="#step-2-statistical-tests-for-stationarity">Step 2: Statistical Tests for Stationarity</a></li>
+  <li><a href="#step-3-apply-differencing" id="toc-step-3-apply-differencing" class="nav-link" data-scroll-target="#step-3-apply-differencing">Step 3: Apply Differencing</a></li>
+  <li><a href="#step-4-apply-log-transformation" id="toc-step-4-apply-log-transformation" class="nav-link" data-scroll-target="#step-4-apply-log-transformation">Step 4: Apply Log Transformation</a></li>
+  <li><a href="#step-5-apply-box-cox-transformation" id="toc-step-5-apply-box-cox-transformation" class="nav-link" data-scroll-target="#step-5-apply-box-cox-transformation">Step 5: Apply Box-Cox Transformation</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#lab-activity" id="toc-lab-activity" class="nav-link" data-scroll-target="#lab-activity">Lab Activity</a>
+  <ul class="collapse">
+<li><a href="#prompt-1-load-and-visualize-data" id="toc-prompt-1-load-and-visualize-data" class="nav-link" data-scroll-target="#prompt-1-load-and-visualize-data">Prompt 1: Load and Visualize Data</a></li>
+  <li><a href="#prompt-2-test-for-stationarity" id="toc-prompt-2-test-for-stationarity" class="nav-link" data-scroll-target="#prompt-2-test-for-stationarity">Prompt 2: Test for Stationarity</a></li>
+  <li><a href="#prompt-3-apply-transformations" id="toc-prompt-3-apply-transformations" class="nav-link" data-scroll-target="#prompt-3-apply-transformations">Prompt 3: Apply Transformations</a></li>
+  </ul>
+</li>
   </ul></nav>
     </div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Activity4</h1>
+<h1 class="title">Activity5</h1>
 </div>
 
 
@@ -246,232 +259,271 @@ window.Quarto = {
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<section id="ma1-process" class="level3"><h3 class="anchored" data-anchor-id="ma1-process">1. MA(1) Process</h3>
-<p>The <strong>Moving Average of Order 1 (MA(1))</strong> process is defined as:</p>
-<p><span class="math display">\[
-X_t = \varepsilon_t + \theta \varepsilon_{t-1}
-\]</span><br>
-where <span class="math inline">\(\varepsilon_t\)</span> is white noise with variance <span class="math inline">\(\sigma^2\)</span>.</p>
-<section id="key-properties" class="level4"><h4 class="anchored" data-anchor-id="key-properties">Key Properties:</h4>
+<section id="differencing-transformations-and-stationarity" class="level2"><h2 class="anchored" data-anchor-id="differencing-transformations-and-stationarity">Differencing, Transformations, and Stationarity</h2>
+<section id="what-is-stationarity" class="level3"><h3 class="anchored" data-anchor-id="what-is-stationarity">What is Stationarity?</h3>
+<p>A time series is <strong>stationary</strong> if its statistical properties (mean, variance, autocorrelation) do not change over time. Stationarity is a key assumption for many time series models (e.g., ARIMA). Non-stationary series often exhibit:</p>
 <ul>
 <li>
-<strong>Short Memory</strong>: The autocorrelation function (ACF) cuts off after lag 1.<br>
+<strong>Trends</strong>: A long-term increase or decrease in the data.</li>
+<li>
+<strong>Seasonality</strong>: Periodic fluctuations.</li>
+<li>
+<strong>Changing Variance</strong>: Variability that increases or decreases over time.</li>
+</ul></section><section id="transformations-to-achieve-stationarity" class="level3"><h3 class="anchored" data-anchor-id="transformations-to-achieve-stationarity">Transformations to Achieve Stationarity</h3>
+<ol type="1">
+<li>
+<strong>Differencing</strong>: Removes trends by computing the difference between consecutive observations.
+<ul>
+<li>Formula: <span class="math inline">\(\nabla X_t = X_t - X_{t-1}\)</span>
+</li>
+</ul>
 </li>
 <li>
-<strong>Variance</strong>: <span class="math inline">\(\gamma(0) = \sigma^2(1 + \theta^2)\)</span>.<br>
+<strong>Log Transformation</strong>: Stabilizes multiplicative variance by applying the natural logarithm.
+<ul>
+<li>Formula: <span class="math inline">\(Y_t = \log(X_t)\)</span>
+</li>
+</ul>
 </li>
 <li>
-<strong>Covariance</strong>: <span class="math inline">\(\gamma(1) = \theta \sigma^2\)</span>.</li>
-</ul></section><section id="simulation-in-r" class="level4"><h4 class="anchored" data-anchor-id="simulation-in-r">Simulation in R:</h4>
+<strong>Box-Cox Transformation</strong>: A generalized power transformation that stabilizes variance and can handle non-linear trends.
+<ul>
+<li>Formula: <span class="math inline">\(Y_t = \frac{X_t^\lambda - 1}{\lambda}\)</span>
+</li>
+</ul>
+</li>
+</ol></section><section id="step-1-visualize-non-stationary-data" class="level3"><h3 class="anchored" data-anchor-id="step-1-visualize-non-stationary-data">Step 1: Visualize Non-Stationary Data</h3>
+<p>We start by loading and visualizing a non-stationary time series (Google stock prices).</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># MA(1) simulation</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
-<span><span class="va">theta</span> <span class="op">&lt;-</span> <span class="fl">0.8</span></span>
-<span><span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span> <span class="op">+</span> <span class="fl">1</span><span class="op">)</span>  <span class="co"># ε_0 to ε_n</span></span>
-<span><span class="va">ma_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="kw">for</span><span class="op">(</span><span class="va">t</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">ma_values</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">eps</span><span class="op">[</span><span class="va">t</span><span class="op">+</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">theta</span><span class="op">*</span><span class="va">eps</span><span class="op">[</span><span class="va">t</span><span class="op">]</span>  <span class="co"># X_t = ε_t + θε_{t-1}</span></span>
-<span><span class="op">}</span></span>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load data</span></span>
+<span><span class="va">google</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"~/Desktop/Math493Spring25ClassMaterials/data/google.csv"</span><span class="op">)</span></span>
+<span><span class="va">google_stock</span> <span class="op">&lt;-</span> <span class="va">google</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>LogClose <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Close</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Log-transform for later use</span></span>
 <span></span>
-<span><span class="va">ma1</span> <span class="op">&lt;-</span> <span class="fu">tsibble</span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, y <span class="op">=</span> <span class="va">ma_values</span>, index <span class="op">=</span> <span class="va">time</span><span class="op">)</span></span>
-<span><span class="co"># Plot</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">ma1</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"MA(1) Process"</span>, x <span class="op">=</span> <span class="st">"Time"</span>, y <span class="op">=</span> <span class="st">"X_t"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># Plot original series</span></span>
+<span><span class="va">google_stock</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">Close</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Google Stock Price (Non-Stationary)"</span>, y <span class="op">=</span> <span class="st">"USD"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity4_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="activity5_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<hr></section></section><section id="ar1-process" class="level3"><h3 class="anchored" data-anchor-id="ar1-process">2. AR(1) Process</h3>
-<p>The <strong>Autoregressive of Order 1 (AR(1))</strong> process is defined as:</p>
-<p><span class="math display">\[
-X_t = \phi X_{t-1} + \varepsilon_t
-\]</span><br>
-where <span class="math inline">\(\varepsilon_t\)</span> is white noise with variance <span class="math inline">\(\sigma^2\)</span>.</p>
-<section id="key-properties-1" class="level4"><h4 class="anchored" data-anchor-id="key-properties-1">Key Properties:</h4>
-<ul>
-<li>
-<strong>Stationarity</strong>: Requires <span class="math inline">\(|\phi| &lt; 1\)</span>.<br>
-</li>
-<li>
-<strong>ACF</strong>: Decays exponentially as <span class="math inline">\(\rho(k) = \phi^k\)</span>.<br>
-</li>
-<li>
-<strong>PACF</strong>: Cuts off after lag 1.</li>
-</ul></section><section id="simulation-in-r-1" class="level4"><h4 class="anchored" data-anchor-id="simulation-in-r-1">Simulation in R:</h4>
+<p><strong>Observation</strong>: The upward trend indicates non-stationarity.</p>
+</section><section id="step-2-statistical-tests-for-stationarity" class="level3"><h3 class="anchored" data-anchor-id="step-2-statistical-tests-for-stationarity">Step 2: Statistical Tests for Stationarity</h3>
+<p>Use the <strong>KPSS test</strong> (null hypothesis: stationarity) and <strong>ADF test</strong> (null hypothesis: unit root) to confirm non-stationarity.</p>
 <div class="cell">
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># AR(1) simulation</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
-<span><span class="va">phi</span> <span class="op">&lt;-</span> <span class="fl">0.8</span></span>
-<span><span class="va">eps</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">ar_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="va">ar_values</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">eps</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>  <span class="co"># X_1 = ε_1</span></span>
-<span><span class="kw">for</span><span class="op">(</span><span class="va">t</span> <span class="kw">in</span> <span class="fl">2</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">ar_values</span><span class="op">[</span><span class="va">t</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">phi</span><span class="op">*</span><span class="va">ar_values</span><span class="op">[</span><span class="va">t</span><span class="op">-</span><span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="va">eps</span><span class="op">[</span><span class="va">t</span><span class="op">]</span></span>
-<span><span class="op">}</span></span>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># KPSS test</span></span>
+<span><span class="va">google_stock</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">Close</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  kpss_stat kpss_pvalue
+      &lt;dbl&gt;       &lt;dbl&gt;
+1      10.6        0.01</code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Suggested differencing order</span></span>
+<span><span class="va">google_stock</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">Close</span>, <span class="va">unitroot_ndiffs</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 1
+  ndiffs
+   &lt;int&gt;
+1      1</code></pre>
+</div>
+</div>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li><p>KPSS p-value &lt; 0.05 ⇒ Reject stationarity.</p></li>
+<li><p><code>unitroot_ndiffs</code> suggests the number of differences required (e.g., 1).</p></li>
+</ul>
+<hr></section><section id="step-3-apply-differencing" class="level3"><h3 class="anchored" data-anchor-id="step-3-apply-differencing">Step 3: Apply Differencing</h3>
+<p>Differencing removes trends by computing the difference between consecutive observations.</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># First difference</span></span>
+<span><span class="va">google_stationary</span> <span class="op">&lt;-</span> <span class="va">google_stock</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>DiffClose <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">Close</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">ar1</span> <span class="op">&lt;-</span> <span class="fu">tsibble</span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, y <span class="op">=</span> <span class="va">ar_values</span>, index <span class="op">=</span> <span class="va">time</span><span class="op">)</span></span>
-<span><span class="co"># Plot</span></span>
-<span><span class="fu">ggplot</span><span class="op">(</span><span class="va">ar1</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">time</span>, y <span class="op">=</span> <span class="va">y</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"AR(1) Process"</span>, x <span class="op">=</span> <span class="st">"Time"</span>, y <span class="op">=</span> <span class="st">"X_t"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="co"># Plot differenced series</span></span>
+<span><span class="va">google_stationary</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">DiffClose</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Differenced Google Stock Price"</span>, y <span class="op">=</span> <span class="st">"ΔUSD"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity4_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="activity5_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<hr></section></section><section id="random-walk-with-drift" class="level3"><h3 class="anchored" data-anchor-id="random-walk-with-drift">3. Random Walk with Drift</h3>
-<p>The <strong>Random Walk with Drift</strong> is defined as:</p>
-<p><span class="math display">\[
-X_t = \delta + X_{t-1} + \varepsilon_t
-\]</span><br>
-where <span class="math inline">\(\varepsilon_t\)</span> is white noise with variance <span class="math inline">\(\sigma^2\)</span>, and <span class="math inline">\(\delta\)</span> is the drift term.</p>
-<section id="key-characteristics" class="level4"><h4 class="anchored" data-anchor-id="key-characteristics">Key Characteristics:</h4>
-<ul>
-<li>
-<strong>Non-Stationarity</strong>: Variance grows with time, <span class="math inline">\(\operatorname{Var}(X_t) = t \sigma^2\)</span>.</li>
-</ul></section></section><section id="simulation-in-r-2" class="level3"><h3 class="anchored" data-anchor-id="simulation-in-r-2">Simulation in R:</h3>
+<p><strong>Observation</strong>: The differenced series has a stabilized mean.</p>
+</section><section id="step-4-apply-log-transformation" class="level3"><h3 class="anchored" data-anchor-id="step-4-apply-log-transformation">Step 4: Apply Log Transformation</h3>
+<p>Log transformations stabilize multiplicative variance.</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibble.tidyverts.org">tsibble</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/">feasts</a></span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Random Walk with Drift simulation</span></span>
-<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
-<span><span class="va">delta</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></span>
-<span><span class="va">rw_values</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="va">delta</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Cumulative sum of (δ + ε_t)</span></span>
-<span></span>
-<span><span class="va">rw_drift</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/tsibble.html">tsibble</a></span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, y <span class="op">=</span> <span class="va">rw_values</span>, index <span class="op">=</span> <span class="va">time</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">rw_drift</span>, <span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Random Walk with Drift"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot original vs log-transformed series</span></span>
+<span><span class="va">google_stock</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pivot_longer</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">Close</span>, <span class="va">LogClose</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">value</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_grid</span><span class="op">(</span><span class="va">name</span> <span class="op">~</span> <span class="va">.</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Log Transformation Stabilizes Variance"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity4_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure"><p><img src="activity5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<hr>
-<section id="more-simulations-and-comparisons" class="level4"><h4 class="anchored" data-anchor-id="more-simulations-and-comparisons">More Simulations and Comparisons:</h4>
-</section></section><section id="q1-ma1-process" class="level2"><h2 class="anchored" data-anchor-id="q1-ma1-process">Q1: MA(1) Process</h2>
-<p><strong>Prompt:</strong> Simulate and visualize an MA(1) process with parameter θ = 0.9 using <code>tsibble</code> and <code>autoplot</code>.</p>
-<p><strong>Solution:</strong></p>
+<p><strong>Observation</strong>: The log-transformed series shows reduced variance amplification.</p>
+<hr></section><section id="step-5-apply-box-cox-transformation" class="level3"><h3 class="anchored" data-anchor-id="step-5-apply-box-cox-transformation">Step 5: Apply Box-Cox Transformation</h3>
+<p>The Box-Cox transformation generalizes log and power transformations.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Estimate optimal lambda</span></span>
+<span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="va">google_stock</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">Close</span>, features <span class="op">=</span> <span class="va">guerrero</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">lambda_guerrero</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Apply Box-Cox transformation</span></span>
+<span><span class="va">google_stock</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>BoxCoxClose <span class="op">=</span> <span class="fu"><a href="https://fabletools.tidyverts.org/reference/box_cox.html">box_cox</a></span><span class="op">(</span><span class="va">Close</span>, <span class="va">lambda</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">BoxCoxClose</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Box-Cox Transformed Series"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Observation</strong>: The Box-Cox transformation stabilizes both mean and variance.</p>
+<hr></section></section><section id="lab-activity" class="level2"><h2 class="anchored" data-anchor-id="lab-activity">Lab Activity</h2>
+<section id="prompt-1-load-and-visualize-data" class="level3"><h3 class="anchored" data-anchor-id="prompt-1-load-and-visualize-data">Prompt 1: Load and Visualize Data</h3>
+<ol type="1">
+<li><p>Load the <code>global_economy</code> dataset from the <code>tsibble</code> package.</p></li>
+<li><p>Plot GDP for a specific country (e.g., “United States”). Assess stationarity visually.</p></li>
+</ol>
 <!--
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
-library(tsibble)
-library(feasts)
-library(patchwork)  # For plot arrangement
-
-set.seed(123)
-n <- 200
-
-# Create tsibble objects with explicit time indices
-ma_ts <- tsibble(
-  time = 1:n,
-  value = {
-    eps <- rnorm(n + 1)
-    eps[-1] + 0.9 * eps[-(n + 1)]
-  },
-  index = time,
-  model = "MA(1)"
-)
-```
-:::
-
-
-
--->
-</section><section id="q2-ar1-process" class="level2"><h2 class="anchored" data-anchor-id="q2-ar1-process">Q2: AR(1) Process</h2>
-<p><strong>Prompt:</strong> Simulate and visualize an MA(1) process with parameter θ = 0.96 using <code>tsibble</code> and <code>autoplot</code>.</p>
-<p><strong>Solution:</strong></p>
-<!--
-
-
+**Solution**:
 
 ::: {.cell}
 
 ```{.r .cell-code}
-ar_ts <- tsibble(
-  time = 1:n,
-  value = {
-    eps <- rnorm(n)
-    ar <- numeric(n)
-    ar[1] <- eps[1]
-    for(t in 2:n) ar[t] <- 0.96 * ar[t-1] + eps[t]
-    ar
-  },
-  index = time,
-  model = "AR(1)"
-)
-```
-:::
+library(tsibbledata)
+data("global_economy")
 
-
-
--->
-</section><section id="q3-random-walk-comparison" class="level2"><h2 class="anchored" data-anchor-id="q3-random-walk-comparison">Q3: Random Walk &amp; Comparison</h2>
-<p><strong>Prompt:</strong> Create a random walk with drift <span class="math inline">\((\delta = 0.2)\)</span>, then visualize all three processes together.</p>
-<p><strong>Solution:</strong></p>
-<!--
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-rw_ts <- tsibble(
-  time = 1:n,
-  value = cumsum(0.2 + rnorm(n)),
-  index = time,
-  model = "Random Walk with Drift"
-)
-```
-:::
-
-::: {.cell}
-
-```{.r .cell-code}
-combined_ts <- bind_rows(
-  as_tibble(ma_ts) %>% mutate(model = "MA(1)"),
-  as_tibble(ar_ts) %>% mutate(model = "AR(1)"),
-  as_tibble(rw_ts)
-) %>% 
-  as_tsibble(index = time, key = model) %>% 
-  mutate(model = factor(model, levels = c("MA(1)", "AR(1)", "Random Walk with Drift")))
-```
-:::
-
-::: {.cell}
-
-```{.r .cell-code}
-autoplot(combined_ts) +
-  facet_grid(model ~ ., scales = "free_y") +
-  labs(title = "Time Series Comparison", y = "Value") +
-  theme_minimal()
+# Plot GDP for the United States
+global_economy |>
+  filter(Country == "United States") |>
+  autoplot(GDP) +
+  labs(title = "US GDP (Non-Stationary)", y = "GDP")
 ```
 
 ::: {.cell-output-display}
-![](activity4_files/figure-html/unnamed-chunk-9-1.png){width=672}
+![](activity5_files/figure-html/unnamed-chunk-7-1.png){width=672}
 :::
 :::
 
+--></section><section id="prompt-2-test-for-stationarity" class="level3"><h3 class="anchored" data-anchor-id="prompt-2-test-for-stationarity">Prompt 2: Test for Stationarity</h3>
+<ol type="1">
+<li>Use the KPSS test to check for stationarity.</li>
+<li>Determine the required differencing order using <code>unitroot_ndiffs</code>.</li>
+</ol>
+<!--
 
+**Solution**:
+
+::: {.cell}
+
+```{.r .cell-code}
+# KPSS test
+global_economy |>
+  filter(Country == "United States") |>
+  features(GDP, unitroot_kpss)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 3
+  Country       kpss_stat kpss_pvalue
+  <fct>             <dbl>       <dbl>
+1 United States      1.49        0.01
+```
+
+
+:::
+
+```{.r .cell-code}
+# Differencing order
+global_economy |>
+  filter(Country == "United States") |>
+  features(GDP, unitroot_ndiffs)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 2
+  Country       ndiffs
+  <fct>          <int>
+1 United States      2
+```
+
+
+:::
+:::
+
+--></section><section id="prompt-3-apply-transformations" class="level3"><h3 class="anchored" data-anchor-id="prompt-3-apply-transformations">Prompt 3: Apply Transformations</h3>
+<ol type="1">
+<li><p>Apply first differencing to the GDP series.</p></li>
+<li><p>Apply a Box-Cox transformation using Guerrero’s method to estimate λ.</p></li>
+<li><p>Re-test stationarity using the KPSS test.</p></li>
+</ol>
+<!--
+
+**Solution**:
+
+::: {.cell}
+
+```{.r .cell-code}
+# First difference
+us_gdp_diff <- global_economy |>
+  filter(Country == "United States") |>
+  mutate(DiffGDP = difference(GDP))
+
+# Box-Cox transformation
+lambda <- global_economy |>
+  filter(Country == "United States") |>
+  features(GDP, features = guerrero) |>
+  pull(lambda_guerrero)
+
+us_gdp_boxcox <- global_economy |>
+  filter(Country == "United States") |>
+  mutate(BoxCoxGDP = box_cox(GDP, lambda))
+
+# Re-test stationarity
+us_gdp_boxcox |>
+  features(BoxCoxGDP, unitroot_kpss)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 3
+  Country       kpss_stat kpss_pvalue
+  <fct>             <dbl>       <dbl>
+1 United States      1.55        0.01
+```
+
+
+:::
+:::
 
 -->
 
-
-</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
