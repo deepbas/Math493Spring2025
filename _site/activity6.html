@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -146,6 +171,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./activity5.html">
  <span class="dropdown-text">Activity5</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity6.html">
+ <span class="dropdown-text">Activity6</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -179,17 +208,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#stationarity-and-unit-root-tests" id="toc-stationarity-and-unit-root-tests" class="nav-link active" data-scroll-target="#stationarity-and-unit-root-tests">Stationarity and Unit Root Tests</a></li>
+  <li><a href="#what-is-a-unit-root" id="toc-what-is-a-unit-root" class="nav-link" data-scroll-target="#what-is-a-unit-root"><strong>What is a Unit Root?</strong></a></li>
+  <li><a href="#augmented-dickey-fuller-adf-test" id="toc-augmented-dickey-fuller-adf-test" class="nav-link" data-scroll-target="#augmented-dickey-fuller-adf-test"><strong>Augmented Dickey-Fuller (ADF) Test</strong></a></li>
+  <li><a href="#kpss-test" id="toc-kpss-test" class="nav-link" data-scroll-target="#kpss-test"><strong>KPSS Test</strong></a></li>
+  <li><a href="#key-differences-between-adf-and-kpss-tests" id="toc-key-differences-between-adf-and-kpss-tests" class="nav-link" data-scroll-target="#key-differences-between-adf-and-kpss-tests"><strong>Key Differences Between ADF and KPSS Tests</strong></a></li>
+  <li>
+<a href="#lab-activity" id="toc-lab-activity" class="nav-link" data-scroll-target="#lab-activity">Lab Activity</a>
+  <ul class="collapse">
+<li><a href="#prompt-1" id="toc-prompt-1" class="nav-link" data-scroll-target="#prompt-1">Prompt 1:</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Activity6</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -211,10 +254,316 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="stationarity-and-unit-root-tests" class="level3"><h3 class="anchored" data-anchor-id="stationarity-and-unit-root-tests">Stationarity and Unit Root Tests</h3>
+</section><section id="what-is-a-unit-root" class="level3"><h3 class="anchored" data-anchor-id="what-is-a-unit-root"><strong>What is a Unit Root?</strong></h3>
+<p>A unit root is a characteristic of a time series that makes it non-stationary. If a series has a unit root, it means that shocks to the system have a permanent effect, and the series does not revert to a long-term mean. Examples include random walks and random walks with drift.</p>
+</section><section id="augmented-dickey-fuller-adf-test" class="level3"><h3 class="anchored" data-anchor-id="augmented-dickey-fuller-adf-test"><strong>Augmented Dickey-Fuller (ADF) Test</strong></h3>
+<p>The ADF test is used to test for the presence of a unit root in a time series. The null hypothesis (<span class="math inline">\(H_0\)</span>) is that the series has a unit root (i.e., it is non-stationary). The alternative hypothesis (<span class="math inline">\(H_1\)</span>) is that the series is stationary. If the p-value from the ADF test is less than a significance level (e.g., 0.05), we reject the null hypothesis and conclude that the series is stationary.</p>
+</section><section id="kpss-test" class="level3"><h3 class="anchored" data-anchor-id="kpss-test"><strong>KPSS Test</strong></h3>
+<p>The KPSS test is another test for stationarity, but it has a different null hypothesis. The null hypothesis (<span class="math inline">\(H_0\)</span>) for the KPSS test is that the series is stationary (around a deterministic trend). The alternative hypothesis (<span class="math inline">\(H_1\)</span>) is that the series has a unit root (i.e., it is non-stationary). If the p-value is less than the significance level, we reject the null hypothesis and conclude that the series is non-stationary.</p>
+</section><section id="key-differences-between-adf-and-kpss-tests" class="level3"><h3 class="anchored" data-anchor-id="key-differences-between-adf-and-kpss-tests"><strong>Key Differences Between ADF and KPSS Tests</strong></h3>
+<ol type="1">
+<li>
+<p><strong>Null Hypothesis</strong>:</p>
+<ul>
+<li>ADF: <span class="math inline">\(H_0\)</span> = Series has a unit root (non-stationary).</li>
+<li>KPSS: <span class="math inline">\(H_0\)</span> = Series is stationary (around a deterministic trend).</li>
+</ul>
+</li>
+<li>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li>ADF: Rejecting <span class="math inline">\(H_0\)</span> implies stationarity.</li>
+<li>KPSS: Rejecting <span class="math inline">\(H_0\)</span> implies non-stationarity.</li>
+</ul>
+</li>
+<li>
+<p><strong>Use Case</strong>:</p>
+<ul>
+<li>ADF is more commonly used to test for unit roots.</li>
+<li>KPSS is often used as a complementary test to confirm stationarity.</li>
+</ul>
+</li>
+</ol>
+<section id="step-1-simulate-an-ar1-process" class="level4"><h4 class="anchored" data-anchor-id="step-1-simulate-an-ar1-process">Step 1: Simulate an AR(1) Process</h4>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load required libraries</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibble.tidyverts.org">tsibble</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/">feasts</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org">ggplot2</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Simulate AR(1) process</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">1000</span></span>
+<span><span class="va">phi</span> <span class="op">&lt;-</span> <span class="fl">0.9</span></span>
+<span><span class="va">ar1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/tsibble.html">tsibble</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.sim.html">arima.sim</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>ar <span class="op">=</span> <span class="va">phi</span><span class="op">)</span>, n <span class="op">=</span> <span class="va">n</span><span class="op">)</span>, index <span class="op">=</span> <span class="va">t</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the AR(1) process</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ar1</span>, <span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Simulated AR(1) Process"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity6_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Perform ADF test</span></span>
+<span><span class="va">adf_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">ar1</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">adf_test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Augmented Dickey-Fuller Test
+
+data:  ar1$y
+Dickey-Fuller = -5.8012, Lag order = 9, p-value = 0.01
+alternative hypothesis: stationary</code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Perform KPSS test</span></span>
+<span><span class="va">kpss_test</span> <span class="op">&lt;-</span> <span class="va">ar1</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span>
+<span><span class="va">kpss_test</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  kpss_stat kpss_pvalue
+      &lt;dbl&gt;       &lt;dbl&gt;
+1     0.195         0.1</code></pre>
+</div>
+</div>
+</section><section id="step-2-simulate-a-random-walk-with-drift" class="level4"><h4 class="anchored" data-anchor-id="step-2-simulate-a-random-walk-with-drift">Step 2: Simulate a Random Walk with Drift</h4>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Simulate Random Walk with Drift</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">100</span></span>
+<span><span class="va">drift</span> <span class="op">&lt;-</span> <span class="fl">0.1</span></span>
+<span><span class="va">rw_drift</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/tsibble.html">tsibble</a></span><span class="op">(</span>t <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, mean <span class="op">=</span> <span class="va">drift</span><span class="op">)</span><span class="op">)</span>, index <span class="op">=</span> <span class="va">t</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the Random Walk with Drift</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">rw_drift</span>, <span class="va">y</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Simulated Random Walk with Drift"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity6_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Perform ADF test</span></span>
+<span><span class="va">adf_test_rw</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">rw_drift</span><span class="op">$</span><span class="va">y</span><span class="op">)</span></span>
+<span><span class="va">adf_test_rw</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Augmented Dickey-Fuller Test
+
+data:  rw_drift$y
+Dickey-Fuller = -1.8871, Lag order = 4, p-value = 0.6234
+alternative hypothesis: stationary</code></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Perform KPSS test</span></span>
+<span><span class="va">kpss_test_rw</span> <span class="op">&lt;-</span> <span class="va">rw_drift</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span>
+<span><span class="va">kpss_test_rw</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  kpss_stat kpss_pvalue
+      &lt;dbl&gt;       &lt;dbl&gt;
+1      1.86        0.01</code></pre>
+</div>
+</div>
+</section><section id="step-3-interpret-the-results" class="level4"><h4 class="anchored" data-anchor-id="step-3-interpret-the-results">Step 3: Interpret the Results</h4>
+<ul>
+<li>
+<strong>AR(1) Process</strong>: The ADF test indicates stationarity (reject <span class="math inline">\(H_0\)</span>), and the KPSS test indicates stationarity (fail to reject <span class="math inline">\(H_0\)</span>) as well.</li>
+<li>
+<strong>Random Walk with Drift</strong>: The ADF test indicates non-stationarity (fail to reject <span class="math inline">\(H_0\)</span>), and the KPSS test indicates non-stationarity (reject <span class="math inline">\(H_0\)</span>) as well.</li>
+</ul></section><section id="step-4-apply-to-real-world-data-sp-500-prices" class="level4"><h4 class="anchored" data-anchor-id="step-4-apply-to-real-world-data-sp-500-prices">Step 4: Apply to Real-World Data (S&amp;P 500 Prices)</h4>
+<div class="cell">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Get S&amp;P 500 data in tidy format</span></span>
+<span><span class="va">sp500</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"^GSPC"</span>, </span>
+<span>                from <span class="op">=</span> <span class="st">"2010-01-01"</span>, </span>
+<span>                to <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
+<span>                get <span class="op">=</span> <span class="st">"stock.prices"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="co"># Use adjusted closing prices</span></span>
+<span>  <span class="fu">rename</span><span class="op">(</span>price <span class="op">=</span> <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span>  <span class="co"># Convert to tsibble with date index</span></span>
+<span></span>
+<span><span class="co"># Plot the S&amp;P 500 series</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">sp500</span>, <span class="va">price</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"S&amp;P 500 Price Series"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity6_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Perform ADF test on the original series</span></span>
+<span><span class="va">adf_test_sp500</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">sp500</span><span class="op">$</span><span class="va">price</span><span class="op">)</span></span>
+<span><span class="va">adf_test_sp500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Augmented Dickey-Fuller Test
+
+data:  sp500$price
+Dickey-Fuller = -2.8302, Lag order = 14, p-value = 0.2268
+alternative hypothesis: stationary</code></pre>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Perform KPSS test on the original series</span></span>
+<span><span class="va">kpss_test_sp500</span> <span class="op">&lt;-</span> <span class="va">sp500</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">price</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span>
+<span><span class="va">kpss_test_sp500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  kpss_stat kpss_pvalue
+      &lt;dbl&gt;       &lt;dbl&gt;
+1      30.1        0.01</code></pre>
+</div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Difference the series and perform ADF test</span></span>
+<span><span class="va">diff_sp500</span> <span class="op">&lt;-</span> <span class="va">sp500</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>price <span class="op">=</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/difference.html">difference</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">adf_test_diff_sp500</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">diff_sp500</span><span class="op">$</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">adf_test_diff_sp500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Augmented Dickey-Fuller Test
+
+data:  na.omit(diff_sp500$price)
+Dickey-Fuller = -15.29, Lag order = 14, p-value = 0.01
+alternative hypothesis: stationary</code></pre>
+</div>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Perform KPSS test on the differenced series</span></span>
+<span><span class="va">kpss_test_diff_sp500</span> <span class="op">&lt;-</span> <span class="va">diff_sp500</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">price</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span>
+<span><span class="va">kpss_test_diff_sp500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  kpss_stat kpss_pvalue
+      &lt;dbl&gt;       &lt;dbl&gt;
+1    0.0471         0.1</code></pre>
+</div>
+</div>
+</section></section><section id="lab-activity" class="level2"><h2 class="anchored" data-anchor-id="lab-activity">Lab Activity</h2>
+<section id="prompt-1" class="level3"><h3 class="anchored" data-anchor-id="prompt-1">Prompt 1:</h3>
+<p>Repeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results.</p>
+<!--
+
+**Solution:**
+
+::: {.cell}
+
+```{.r .cell-code}
+# Step 1: Get NVIDIA (NVDA) stock data
+nvda <- tq_get("NVDA", 
+               from = "2010-01-01", 
+               to = "2023-01-01",
+               get = "stock.prices") %>%
+  select(date, adjusted) %>%  # Use adjusted closing prices
+  rename(price = adjusted) %>% 
+  as_tsibble(index = date)  # Convert to tsibble with date index
+
+# Step 2: Plot the NVIDIA stock price series
+autoplot(nvda, price) + 
+  labs(title = "NVIDIA (NVDA) Stock Price Series", 
+       x = "Date", 
+       y = "Adjusted Closing Price")
+```
+
+::: {.cell-output-display}
+![](activity6_files/figure-html/unnamed-chunk-5-1.png){width=672}
+:::
+
+```{.r .cell-code}
+# Step 3: Perform ADF test on the original series
+adf_test_nvda <- adf.test(nvda$price)
+adf_test_nvda
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+    Augmented Dickey-Fuller Test
+
+data:  nvda$price
+Dickey-Fuller = -2.3584, Lag order = 14, p-value = 0.4266
+alternative hypothesis: stationary
+```
 
 
+:::
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+```{.r .cell-code}
+# Step 4: Perform KPSS test on the original series
+kpss_test_nvda <- nvda %>%
+  features(price, unitroot_kpss)
+kpss_test_nvda
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 2
+  kpss_stat kpss_pvalue
+      <dbl>       <dbl>
+1      22.2        0.01
+```
+
+
+:::
+
+```{.r .cell-code}
+# Step 5: Difference the series to achieve stationarity
+diff_nvda <- nvda %>% mutate(price = difference(price))
+
+# Step 6: Plot the differenced series
+autoplot(diff_nvda, price) + 
+  labs(title = "Differenced NVIDIA (NVDA) Stock Price Series", 
+       x = "Date", 
+       y = "Differenced Price")
+```
+
+::: {.cell-output-display}
+![](activity6_files/figure-html/unnamed-chunk-5-2.png){width=672}
+:::
+
+```{.r .cell-code}
+# Step 7: Perform ADF test on the differenced series
+adf_test_diff_nvda <- adf.test(na.omit(diff_nvda$price))
+adf_test_diff_nvda
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+
+    Augmented Dickey-Fuller Test
+
+data:  na.omit(diff_nvda$price)
+Dickey-Fuller = -14.601, Lag order = 14, p-value = 0.01
+alternative hypothesis: stationary
+```
+
+
+:::
+
+```{.r .cell-code}
+# Step 8: Perform KPSS test on the differenced series
+kpss_test_diff_nvda <- diff_nvda %>%
+  features(price, unitroot_kpss)
+kpss_test_diff_nvda
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 2
+  kpss_stat kpss_pvalue
+      <dbl>       <dbl>
+1    0.0934         0.1
+```
+
+
+:::
+:::
+
+
+-->
+
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
