@@ -207,7 +207,7 @@
     "href": "activity6.html#lab-activity",
     "title": "Activity6",
     "section": "Lab Activity",
-    "text": "Lab Activity\nPrompt 1:\nRepeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results."
+    "text": "Lab Activity\nRepeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results."
   },
   {
     "objectID": "activity3.html",

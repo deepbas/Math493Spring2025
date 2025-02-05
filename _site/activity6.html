@@ -217,12 +217,7 @@ window.Quarto = {
   <li><a href="#augmented-dickey-fuller-adf-test" id="toc-augmented-dickey-fuller-adf-test" class="nav-link" data-scroll-target="#augmented-dickey-fuller-adf-test"><strong>Augmented Dickey-Fuller (ADF) Test</strong></a></li>
   <li><a href="#kpss-test" id="toc-kpss-test" class="nav-link" data-scroll-target="#kpss-test"><strong>KPSS Test</strong></a></li>
   <li><a href="#key-differences-between-adf-and-kpss-tests" id="toc-key-differences-between-adf-and-kpss-tests" class="nav-link" data-scroll-target="#key-differences-between-adf-and-kpss-tests"><strong>Key Differences Between ADF and KPSS Tests</strong></a></li>
-  <li>
-<a href="#lab-activity" id="toc-lab-activity" class="nav-link" data-scroll-target="#lab-activity">Lab Activity</a>
-  <ul class="collapse">
-<li><a href="#prompt-1" id="toc-prompt-1" class="nav-link" data-scroll-target="#prompt-1">Prompt 1:</a></li>
-  </ul>
-</li>
+  <li><a href="#lab-activity" id="toc-lab-activity" class="nav-link" data-scroll-target="#lab-activity">Lab Activity</a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -413,14 +408,14 @@ alternative hypothesis: stationary</code></pre>
 1      30.1        0.01</code></pre>
 </div>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Difference the series and perform ADF test</span></span>
-<span><span class="va">diff_sp500</span> <span class="op">&lt;-</span> <span class="va">sp500</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>price <span class="op">=</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/difference.html">difference</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">adf_test_diff_sp500</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">diff_sp500</span><span class="op">$</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">diff_sp500</span> <span class="op">&lt;-</span> <span class="va">sp500</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>price <span class="op">=</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/difference.html">difference</a></span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="va">adf_test_diff_sp500</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">diff_sp500</span><span class="op">$</span><span class="va">price</span><span class="op">)</span></span>
 <span><span class="va">adf_test_diff_sp500</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Augmented Dickey-Fuller Test
 
-data:  na.omit(diff_sp500$price)
+data:  diff_sp500$price
 Dickey-Fuller = -15.29, Lag order = 14, p-value = 0.01
 alternative hypothesis: stationary</code></pre>
 </div>
@@ -436,7 +431,6 @@ alternative hypothesis: stationary</code></pre>
 </div>
 </div>
 </section></section><section id="lab-activity" class="level2"><h2 class="anchored" data-anchor-id="lab-activity">Lab Activity</h2>
-<section id="prompt-1" class="level3"><h3 class="anchored" data-anchor-id="prompt-1">Prompt 1:</h3>
 <p>Repeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results.</p>
 <!--
 
@@ -563,7 +557,7 @@ kpss_test_diff_nvda
 -->
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
