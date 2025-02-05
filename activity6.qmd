@@ -59,11 +59,6 @@ The KPSS test is another test for stationarity, but it has a different null hypo
 #### Step 1: Simulate an AR(1) Process
 
 ```{r}
-# Load required libraries
-library(tsibble)
-library(feasts)
-library(ggplot2)
-
 # Simulate AR(1) process
 set.seed(123)
 n <- 1000
