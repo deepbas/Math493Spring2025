@@ -132,10 +132,10 @@ contaminated_wn %>%
 ```
 
 
-### Problem: White Noise Series, ACF, and Portmanteau Test
+### Lab Activity: White Noise Series, ACF, and Portmanteau Test
 
 1. **Simulate a White Noise Series**  
-   Generate a white noise series of length \( n = 500 \) using the equation:
+   Generate a white noise series of length $n = 500$ using the equation:
    $$
    X_t = \varepsilon_t, \quad \varepsilon_t \stackrel{iid}{\sim} \mathcal{N}(0, 1)
    $$

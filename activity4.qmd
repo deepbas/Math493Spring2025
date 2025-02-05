@@ -126,7 +126,7 @@ autoplot(rw_drift, y) + labs(title = "Random Walk with Drift") +
 ---
 
 
-#### More Simulations and Comparisons:  
+### Lab Actiity: More Simulations and Comparisons
 
 
 ## Q1: MA(1) Process  
@@ -161,7 +161,7 @@ ma_ts <- tsibble(
 
 ## Q2: AR(1) Process  
 
-**Prompt:** Simulate and visualize an MA(1) process with parameter θ = 0.96 using `tsibble` and `autoplot`.
+**Prompt:** Simulate and visualize an AR(1) process with parameter  $\phi=0.96$ using `tsibble` and `autoplot`.
 
 **Solution:**
 
