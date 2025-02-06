@@ -77,8 +77,6 @@ Smoothing helps to highlight the trend by reducing short-term fluctuations.
 2. **Exponential Smoothing**:
 
    - Applies decreasing weights to older observations, making it responsive to recent changes.
-   - Extensions like Holt-Winters methods adapt to trends and seasonality, making it useful for forecasting.
-
 
 ### Applied Example with Tidyverts Ecosystem
 
@@ -109,13 +107,22 @@ autoplot(decomp) +
 stock_ts <- stock_ts %>%
   mutate(Moving_Avg = slider::slide_dbl(Adjusted_Close, mean, .before = 29, .after = 0))
 
-# Plot the original series, moving average
+# Fit Holt's method using fable
+fit_holt <- stock_ts %>%
+  model(Holt = ETS(Adjusted_Close ~ error("A") + trend("A") + season("N")))
 
+# Extract fitted values
+holt_fc <- fit_holt %>% 
+  augment() %>% 
+  select(date, .fitted)
+
+# Plot the original series, moving average
 stock_ts %>%
   autoplot(Adjusted_Close, color = "black") +
   autolayer(stock_ts, Moving_Avg, color = "blue") +
+  autolayer(holt_fc, .fitted, color = "red") +
   labs(title = "Smoothing Techniques Applied to Apple Inc. Adjusted Closing Price",
-       subtitle = "Original Series (Black), Moving Average (Blue)",
+       subtitle = "Original Series (Black), 30-day MA (Blue), Holt's ES (Red)",
        y = "Adjusted Close Price (USD)")
 ```
 
@@ -157,13 +164,22 @@ autoplot(decomp) +
 msft_ts <- msft_ts %>%
   mutate(Moving_Avg = slider::slide_dbl(Adjusted_Close, mean, .before = 29, .after = 0))
 
+# Fit Holt's method using fable
+fit_holt <- msft_ts %>%
+  model(Holt = ETS(Adjusted_Close ~ error("A") + trend("A") + season("N")))
 
-# Plot the original series, moving average
+# Extract fitted values
+holt_fc <- fit_holt %>% 
+  augment() %>% 
+  select(date, .fitted)
+
+# Plot with Holt smoothing
 msft_ts %>%
   autoplot(Adjusted_Close, color = "black") +
   autolayer(msft_ts, Moving_Avg, color = "blue") +
+  autolayer(holt_fc, .fitted, color = "red") +
   labs(title = "Smoothing Techniques Applied to Microsoft Corporation Adjusted Closing Price",
-       subtitle = "Original Series (Black), Moving Average (Blue)",
+       subtitle = "Original Series (Black), 30-day MA (Blue), Holt's ES (Red)",
        y = "Adjusted Close Price (USD)")
 ```
 

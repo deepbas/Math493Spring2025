@@ -317,7 +317,6 @@ y_t = T_t \times S_t \times R_t
 <p><strong>Exponential Smoothing</strong>:</p>
 <ul>
 <li>Applies decreasing weights to older observations, making it responsive to recent changes.</li>
-<li>Extensions like Holt-Winters methods adapt to trends and seasonality, making it useful for forecasting.</li>
 </ul>
 </li>
 </ol></section><section id="applied-example-with-tidyverts-ecosystem" class="level3"><h3 class="anchored" data-anchor-id="applied-example-with-tidyverts-ecosystem">Applied Example with Tidyverts Ecosystem</h3>
@@ -353,13 +352,22 @@ y_t = T_t \times S_t \times R_t
 <span><span class="va">stock_ts</span> <span class="op">&lt;-</span> <span class="va">stock_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu">mutate</span><span class="op">(</span>Moving_Avg <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, <span class="va">mean</span>, .before <span class="op">=</span> <span class="fl">29</span>, .after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
-<span><span class="co"># Plot the original series, moving average</span></span>
+<span><span class="co"># Fit Holt's method using fable</span></span>
+<span><span class="va">fit_holt</span> <span class="op">&lt;-</span> <span class="va">stock_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>Holt <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html">ETS</a></span><span class="op">(</span><span class="va">Adjusted_Close</span> <span class="op">~</span> <span class="fu">error</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">season</span><span class="op">(</span><span class="st">"N"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># Extract fitted values</span></span>
+<span><span class="va">holt_fc</span> <span class="op">&lt;-</span> <span class="va">fit_holt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">.fitted</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the original series, moving average</span></span>
 <span><span class="va">stock_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">stock_ts</span>, <span class="va">Moving_Avg</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">holt_fc</span>, <span class="va">.fitted</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Smoothing Techniques Applied to Apple Inc. Adjusted Closing Price"</span>,</span>
-<span>       subtitle <span class="op">=</span> <span class="st">"Original Series (Black), Moving Average (Blue)"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Original Series (Black), 30-day MA (Blue), Holt's ES (Red)"</span>,</span>
 <span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -416,13 +424,22 @@ autoplot(decomp) +
 msft_ts <- msft_ts %>%
   mutate(Moving_Avg = slider::slide_dbl(Adjusted_Close, mean, .before = 29, .after = 0))
 
+# Fit Holt's method using fable
+fit_holt <- msft_ts %>%
+  model(Holt = ETS(Adjusted_Close ~ error("A") + trend("A") + season("N")))
 
-# Plot the original series, moving average
+# Extract fitted values
+holt_fc <- fit_holt %>% 
+  augment() %>% 
+  select(date, .fitted)
+
+# Plot with Holt smoothing
 msft_ts %>%
   autoplot(Adjusted_Close, color = "black") +
   autolayer(msft_ts, Moving_Avg, color = "blue") +
+  autolayer(holt_fc, .fitted, color = "red") +
   labs(title = "Smoothing Techniques Applied to Microsoft Corporation Adjusted Closing Price",
-       subtitle = "Original Series (Black), Moving Average (Blue)",
+       subtitle = "Original Series (Black), 30-day MA (Blue), Holt's ES (Red)",
        y = "Adjusted Close Price (USD)")
 ```
 
