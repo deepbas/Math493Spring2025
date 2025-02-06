@@ -120,10 +120,11 @@ holt_fc <- fit_holt %>%
 stock_ts %>%
   autoplot(Adjusted_Close, color = "black") +
   autolayer(stock_ts, Moving_Avg, color = "blue") +
-  autolayer(holt_fc, .fitted, color = "red") +
+  autolayer(holt_fc, .fitted, color = "red", linetype = "dashed") +
   labs(title = "Smoothing Techniques Applied to Apple Inc. Adjusted Closing Price",
        subtitle = "Original Series (Black), 30-day MA (Blue), Holt's ES (Red)",
-       y = "Adjusted Close Price (USD)")
+       y = "Adjusted Close Price (USD)") +
+  theme_tq()
 ```
 
 
