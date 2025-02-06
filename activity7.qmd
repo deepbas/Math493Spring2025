@@ -115,7 +115,7 @@ stock_ts %>%
   autoplot(Adjusted_Close, color = "black") +
   autolayer(stock_ts, Moving_Avg, color = "blue") +
   labs(title = "Smoothing Techniques Applied to Apple Inc. Adjusted Closing Price",
-       subtitle = "Original Series (Black), Moving Average (Blue), Holt-Winters (Red)",
+       subtitle = "Original Series (Black), Moving Average (Blue)",
        y = "Adjusted Close Price (USD)")
 ```
 
@@ -163,7 +163,7 @@ msft_ts %>%
   autoplot(Adjusted_Close, color = "black") +
   autolayer(msft_ts, Moving_Avg, color = "blue") +
   labs(title = "Smoothing Techniques Applied to Microsoft Corporation Adjusted Closing Price",
-       subtitle = "Original Series (Black), Moving Average (Blue), Holt-Winters (Red)",
+       subtitle = "Original Series (Black), Moving Average (Blue)",
        y = "Adjusted Close Price (USD)")
 ```
 

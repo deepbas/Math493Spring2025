@@ -359,7 +359,7 @@ y_t = T_t \times S_t \times R_t
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">stock_ts</span>, <span class="va">Moving_Avg</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Smoothing Techniques Applied to Apple Inc. Adjusted Closing Price"</span>,</span>
-<span>       subtitle <span class="op">=</span> <span class="st">"Original Series (Black), Moving Average (Blue), Holt-Winters (Red)"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Original Series (Black), Moving Average (Blue)"</span>,</span>
 <span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -422,7 +422,7 @@ msft_ts %>%
   autoplot(Adjusted_Close, color = "black") +
   autolayer(msft_ts, Moving_Avg, color = "blue") +
   labs(title = "Smoothing Techniques Applied to Microsoft Corporation Adjusted Closing Price",
-       subtitle = "Original Series (Black), Moving Average (Blue), Holt-Winters (Red)",
+       subtitle = "Original Series (Black), Moving Average (Blue)",
        y = "Adjusted Close Price (USD)")
 ```
 
