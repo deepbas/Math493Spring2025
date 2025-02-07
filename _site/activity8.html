@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Activity8 – Math 493: Advanced Topics in Statistics</title>
 <style>
@@ -59,17 +59,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-9e2db6d60132874137d35cd80df6d385.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-c2299866e9c1ed9e4d64cbb04b200562.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -95,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -153,6 +179,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./activity7.html">
  <span class="dropdown-text">Activity7</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity8.html">
+ <span class="dropdown-text">Activity8</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -186,17 +216,31 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#seasonal-differencing-rolling-mean-and-rolling-variance" id="toc-seasonal-differencing-rolling-mean-and-rolling-variance" class="nav-link active" data-scroll-target="#seasonal-differencing-rolling-mean-and-rolling-variance">Seasonal Differencing, Rolling Mean, and Rolling Variance</a>
+  <ul class="collapse">
+<li><a href="#seasonal-differencing" id="toc-seasonal-differencing" class="nav-link" data-scroll-target="#seasonal-differencing">Seasonal Differencing</a></li>
+  <li><a href="#rolling-mean" id="toc-rolling-mean" class="nav-link" data-scroll-target="#rolling-mean">Rolling Mean</a></li>
+  <li><a href="#rolling-variance" id="toc-rolling-variance" class="nav-link" data-scroll-target="#rolling-variance">Rolling Variance</a></li>
+  <li><a href="#rolling-statistics" id="toc-rolling-statistics" class="nav-link" data-scroll-target="#rolling-statistics"><strong>Rolling Statistics</strong></a></li>
+  </ul>
+</li>
+  <li><a href="#lab-activity-1-stationarity-analysis-nile-dataset" id="toc-lab-activity-1-stationarity-analysis-nile-dataset" class="nav-link" data-scroll-target="#lab-activity-1-stationarity-analysis-nile-dataset">Lab Activity 1: Stationarity Analysis (Nile Dataset)</a></li>
+  <li><a href="#lab-activity-2-stationarity-analysis-lynx-dataset" id="toc-lab-activity-2-stationarity-analysis-lynx-dataset" class="nav-link" data-scroll-target="#lab-activity-2-stationarity-analysis-lynx-dataset">Lab Activity 2: Stationarity Analysis (Lynx Dataset)</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Activity8</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -218,10 +262,296 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="seasonal-differencing-rolling-mean-and-rolling-variance" class="level2"><h2 class="anchored" data-anchor-id="seasonal-differencing-rolling-mean-and-rolling-variance">Seasonal Differencing, Rolling Mean, and Rolling Variance</h2>
+<section id="seasonal-differencing" class="level3"><h3 class="anchored" data-anchor-id="seasonal-differencing">Seasonal Differencing</h3>
+<p>When a time series exhibits regular, recurring patterns over fixed periods (e.g., 12-month cycles in yearly data), <strong>seasonal differencing</strong> can help isolate these cyclical components. By subtracting a value from the same season in the previous cycle, you remove much of the repeated seasonal effect:</p>
+<p><span class="math display">\[
+\text{SeasonalDiff}_t = Y_t - Y_{t-s},
+\]</span></p>
+<p>where (s) is the seasonal period (for instance, (s = 12) for monthly data with yearly cycles). This technique is particularly useful for series that show strong periodic fluctuations without requiring other transformations.</p>
+</section><section id="rolling-mean" class="level3"><h3 class="anchored" data-anchor-id="rolling-mean">Rolling Mean</h3>
+<p>A <strong>rolling mean</strong> (or moving average) smooths out short-term fluctuations by averaging consecutive observations within a specified window. For a window size (w), the rolling mean at time (t) is:</p>
+<p><span class="math display">\[
+\text{RollingMean}_t = \frac{1}{w} \sum_{i = t-w+1}^{t} Y_i.
+\]</span></p>
+<p>This technique helps reveal longer-term trends and cyclical behavior in a time series, since each point is now an average of the most recent (w) observations.</p>
+</section><section id="rolling-variance" class="level3"><h3 class="anchored" data-anchor-id="rolling-variance">Rolling Variance</h3>
+<p>A <strong>rolling variance</strong> measures how dispersed recent values are around their rolling mean within the same window (w). It is calculated as:</p>
+<p><span class="math display">\[
+\text{RollingVar}_t = \frac{1}{w} \sum_{i = t-w+1}^{t} \bigl(Y_i - \text{RollingMean}_t\bigr)^2.
+\]</span></p>
+<p>Observing the rolling variance over time can highlight periods of increased or decreased fluctuation and help detect heteroscedasticity (changing variance). A more stable rolling variance often indicates that seasonal or cyclic behavior has been accounted for, especially after an appropriate seasonal differencing step.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convert AirPassengers to a tsibble</span></span>
+<span><span class="va">airpass</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">AirPassengers</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">rename</span><span class="op">(</span>Passengers <span class="op">=</span> <span class="va">value</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the original series</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">airpass</span>, <span class="va">Passengers</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Monthly Air Passengers"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Strong Trend and Seasonality"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Number of Passengers"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compute and plot ACF</span></span>
+<span><span class="va">acf_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/ACF.html">ACF</a></span><span class="op">(</span><span class="va">airpass</span>, <span class="va">Passengers</span>, lag_max <span class="op">=</span> <span class="fl">36</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">acf_data</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"ACF of Air Passengers"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Slow Decay Indicates Non-Stationarity"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Autocorrelation"</span>, x <span class="op">=</span> <span class="st">"Lag"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="rolling-statistics" class="level3"><h3 class="anchored" data-anchor-id="rolling-statistics"><strong>Rolling Statistics</strong></h3>
+<p>Rolling statistics (mean and variance) help visualize changes in the series over time. For a stationary series, these should remain roughly constant.</p>
+<p><strong>Observations</strong>:</p>
+<ul>
+<li>The <strong>rolling mean</strong> increases over time, confirming a <strong>trend</strong>.</li>
+<li>The <strong>rolling variance</strong> also increases, indicating <strong>heteroscedasticity</strong>.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compute rolling mean and variance</span></span>
+<span><span class="va">airpass_roll</span> <span class="op">&lt;-</span> <span class="va">airpass</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>RollingMean <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">Passengers</span>, <span class="va">mean</span>, .before <span class="op">=</span> <span class="fl">11</span>, .complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>         RollingVar <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">Passengers</span>, <span class="va">var</span>, .before <span class="op">=</span> <span class="fl">11</span>, .complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot rolling statistics</span></span>
+<span><span class="va">p_roll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">airpass_roll</span>, <span class="va">RollingMean</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Rolling Mean"</span>, y <span class="op">=</span> <span class="st">"Mean"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">airpass_roll</span>, <span class="va">RollingVar</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Rolling Variance"</span>, y <span class="op">=</span> <span class="st">"Variance"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span><span class="va">p_roll</span>, <span class="va">p_var</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="seasonal-differencing-1" class="level4"><h4 class="anchored" data-anchor-id="seasonal-differencing-1"><strong>Seasonal Differencing</strong></h4>
+<p>Seasonal differencing (lag = 12 for monthly data) removes seasonality.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Apply log transformation</span></span>
+<span><span class="va">airpass_log</span> <span class="op">&lt;-</span> <span class="va">airpass</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>LogPassengers <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Passengers</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot log-transformed series</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">airpass_log</span>, <span class="va">LogPassengers</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Log-Transformed Air Passengers"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Stabilizes Variance"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Log(Passengers)"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Apply seasonal differencing (lag = 12 for monthly data)</span></span>
+<span><span class="va">airpass_log_diff</span> <span class="op">&lt;-</span> <span class="va">airpass_log</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>SeasonalDiff <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">LogPassengers</span>, lag <span class="op">=</span> <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot seasonally differenced series</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">airpass_log_diff</span>, <span class="va">SeasonalDiff</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Seasonally Differenced Log-Transformed Air Passengers"</span>, </span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Removes Seasonality"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Differenced Log(Passengers)"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section></section><section id="lab-activity-1-stationarity-analysis-nile-dataset" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-1-stationarity-analysis-nile-dataset">Lab Activity 1: Stationarity Analysis (Nile Dataset)</h2>
+<ol type="1">
+<li><p><strong>Plot the Original Series</strong><br>
+Visualize the Nile dataset to detect any potential seasonality or cyclical components. Even if the Nile data do not exhibit strong seasonal patterns, this initial inspection confirms whether or not seasonal differencing might be warranted.</p></li>
+<li>
+<p><strong>Compute Rolling Statistics</strong></p>
+<ul>
+<li>
+<strong>Rolling Mean</strong>: Examine how the mean evolves over a chosen window (e.g., 10 or 12 observations). A stationary series should have a stable rolling mean over time.<br>
+</li>
+<li>
+<strong>Rolling Variance</strong>: Similarly, assess how the variance changes (or remains constant) across the same rolling window. Stationarity requires a relatively constant variance.</li>
+</ul>
+</li>
+<li><p><strong>Seasonal Differencing</strong><br>
+If a seasonal pattern is present (e.g., annual cycles in monthly data), remove it by differencing observations separated by one full season. This step is relevant if the data exhibit cyclical or repeating patterns at fixed intervals.</p></li>
+<li>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li>Evaluate how rolling mean and variance behave post-seasonal differencing (if performed).<br>
+</li>
+<li>Verify if stationarity indicators (constant mean, constant variance) are satisfied.</li>
+</ul>
+</li>
+</ol>
+<!--
+
+::: {.cell}
+
+```{.r .cell-code}
+# Load the Nile dataset
+data(Nile)
+nile_ts <- tsibble(y = Nile, year = 1871:1970, index = year)
+
+# Plot the original series
+autoplot(nile_ts) +
+  labs(title = "Annual Flow of the Nile River", 
+       y = "Flow", x = "Year") +
+  theme_minimal()
+```
+
+::: {.cell-output-display}
+![](activity8_files/figure-html/unnamed-chunk-7-1.png){width=672}
+:::
+:::
+
+--><p><strong>Reflection Questions</strong>:</p>
+<ul>
+<li>Does the Nile dataset exhibit any trends or seasonality?</li>
+<li>How do the rolling statistics (mean and variance) behave over time?</li>
+<li>What transformations, if any, are necessary to achieve stationarity?</li>
+</ul></section><section id="lab-activity-2-stationarity-analysis-lynx-dataset" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-2-stationarity-analysis-lynx-dataset">Lab Activity 2: Stationarity Analysis (Lynx Dataset)</h2>
+<ol type="1">
+<li><p><strong>Plot the Original Series</strong><br>
+Investigate any repeating or cyclical behavior in the annual Lynx data that might hint at seasonal or quasi-seasonal effects.</p></li>
+<li>
+<p><strong>Compute Rolling Statistics</strong></p>
+<ul>
+<li>
+<strong>Rolling Mean</strong>: Check if the mean stays relatively stable over a certain window, which supports stationarity.<br>
+</li>
+<li>
+<strong>Rolling Variance</strong>: Verify whether variance remains relatively constant over time.</li>
+</ul>
+</li>
+<li><p><strong>Seasonal Differencing</strong><br>
+If the Lynx data show cyclical behavior at fixed intervals (e.g., periodic surges), seasonal differencing with an appropriate lag can reduce these cycles to produce a more stationary series.</p></li>
+<li>
+<p><strong>Interpretation</strong></p>
+<ul>
+<li>Compare rolling mean and variance before and after seasonal differencing to confirm stationarity improvements.<br>
+</li>
+<li>Discuss whether the cyclical patterns are effectively removed or diminished.</li>
+</ul>
+</li>
+</ol>
+<!--
+
+::: {.cell}
+
+```{.r .cell-code}
+data("Lynx")
+lynx_ts <- tsibble(y = Lynx, year = 1845:1935, index = year)
+
+# Plot the original series
+autoplot(lynx_ts) +
+  labs(title = "Annual Lynx Purchase by Hudson Bay Company", 
+       y = "Lynx Pelts", x = "Year") +
+  theme_minimal()
+```
+
+::: {.cell-output-display}
+![](activity8_files/figure-html/unnamed-chunk-8-1.png){width=672}
+:::
+
+```{.r .cell-code}
+acf_data <- ACF(lynx_ts, y, lag_max = 36)
+autoplot(acf_data)
+```
+
+::: {.cell-output-display}
+![](activity8_files/figure-html/unnamed-chunk-8-2.png){width=672}
+:::
+
+```{.r .cell-code}
+lynx_diff10 <- lynx_ts %>%
+  mutate(SeasonalDiff = difference(y, lag = 12))
+
+autoplot(lynx_diff10, SeasonalDiff) 
+```
+
+::: {.cell-output-display}
+![](activity8_files/figure-html/unnamed-chunk-8-3.png){width=672}
+:::
+
+```{.r .cell-code}
+# before
+lynx_roll <- lynx_ts %>%
+  mutate(RollingMean = slider::slide_dbl(y, mean, .before = 12, .complete = TRUE),
+         RollingVar = slider::slide_dbl(y, var, .before = 12, .complete = TRUE))
+
+# Plot rolling statistics
+p_roll <- autoplot(lynx_roll, RollingMean) +
+  labs(title = "Rolling Mean", y = "Mean", x = "Year") +
+  theme_minimal()
+
+p_var <- autoplot(lynx_roll, RollingVar) +
+  labs(title = "Rolling Variance", y = "Variance", x = "Year") +
+  theme_minimal()
+
+gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
+```
+
+::: {.cell-output-display}
+![](activity8_files/figure-html/unnamed-chunk-8-4.png){width=672}
+:::
+
+```{.r .cell-code}
+# after
+lynx_roll_diff <- lynx_diff10 %>%
+  mutate(RollingMean = slider::slide_dbl(SeasonalDiff, mean, .before = 11, .complete = TRUE),
+         RollingVar = slider::slide_dbl(SeasonalDiff, var, .before = 11, .complete = TRUE))
+
+# Plot rolling statistics
+p_roll <- autoplot(lynx_roll_diff, RollingMean) +
+  labs(title = "Rolling Mean", y = "Mean", x = "Year") +
+  theme_minimal()
+
+p_var <- autoplot(lynx_roll_diff, RollingVar) +
+  labs(title = "Rolling Variance", y = "Variance", x = "Year") +
+  theme_minimal()
+
+gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
+```
+
+::: {.cell-output-display}
+![](activity8_files/figure-html/unnamed-chunk-8-5.png){width=672}
+:::
+:::
 
 
+--><p><strong>Reflection Questions</strong></p>
+<ul>
+<li>Does the Lynx dataset exhibit any notable trends or cyclic patterns?</li>
+<li>How do the rolling mean and variance behave over time?</li>
+<li>Are transformations necessary to ensure stationarity?</li>
+</ul>
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -447,8 +777,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -559,7 +887,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -29,8 +29,8 @@ website:
             href: activity6.html
           - text: "Activity7"
             href: activity7.html
-          # - text: "Activity1"
-          #   href: activity1.html
+          - text: "Activity8"
+            href: activity8.html
         #     target: "_blank"
         #   - text: "Lecture 2"
         #     href: Day2.html

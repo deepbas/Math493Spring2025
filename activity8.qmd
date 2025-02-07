@@ -19,3 +19,238 @@ library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 ```
 
+
+
+## Seasonal Differencing, Rolling Mean, and Rolling Variance
+
+### Seasonal Differencing
+
+When a time series exhibits regular, recurring patterns over fixed periods (e.g., 12-month cycles in yearly data), **seasonal differencing** can help isolate these cyclical components. By subtracting a value from the same season in the previous cycle, you remove much of the repeated seasonal effect:
+
+$$
+\text{SeasonalDiff}_t = Y_t - Y_{t-s},
+$$
+
+where \(s\) is the seasonal period (for instance, \(s = 12\) for monthly data with yearly cycles). This technique is particularly useful for series that show strong periodic fluctuations without requiring other transformations.
+
+### Rolling Mean
+
+A **rolling mean** (or moving average) smooths out short-term fluctuations by averaging consecutive observations within a specified window. For a window size \(w\), the rolling mean at time \(t\) is:
+
+$$
+\text{RollingMean}_t = \frac{1}{w} \sum_{i = t-w+1}^{t} Y_i.
+$$
+
+This technique helps reveal longer-term trends and cyclical behavior in a time series, since each point is now an average of the most recent \(w\) observations.
+
+### Rolling Variance
+
+A **rolling variance** measures how dispersed recent values are around their rolling mean within the same window \(w\). It is calculated as:
+
+$$
+\text{RollingVar}_t = \frac{1}{w} \sum_{i = t-w+1}^{t} \bigl(Y_i - \text{RollingMean}_t\bigr)^2.
+$$
+
+Observing the rolling variance over time can highlight periods of increased or decreased fluctuation and help detect heteroscedasticity (changing variance). A more stable rolling variance often indicates that seasonal or cyclic behavior has been accounted for, especially after an appropriate seasonal differencing step.
+
+
+
+```{r}
+# Convert AirPassengers to a tsibble
+airpass <- as_tsibble(AirPassengers) %>%
+  rename(Passengers = value)
+
+# Plot the original series
+autoplot(airpass, Passengers) +
+  labs(title = "Monthly Air Passengers", 
+       subtitle = "Strong Trend and Seasonality",
+       y = "Number of Passengers", x = "Year") +
+  theme_minimal()
+```
+
+```{r}
+# Compute and plot ACF
+acf_data <- ACF(airpass, Passengers, lag_max = 36)
+autoplot(acf_data) +
+  labs(title = "ACF of Air Passengers", 
+       subtitle = "Slow Decay Indicates Non-Stationarity",
+       y = "Autocorrelation", x = "Lag") +
+  theme_minimal()
+```
+
+### **Rolling Statistics**
+
+Rolling statistics (mean and variance) help visualize changes in the series over time. For a stationary series, these should remain roughly constant.
+
+**Observations**:
+
+- The **rolling mean** increases over time, confirming a **trend**.
+- The **rolling variance** also increases, indicating **heteroscedasticity**.
+
+```{r}
+# Compute rolling mean and variance
+airpass_roll <- airpass %>%
+  mutate(RollingMean = slider::slide_dbl(Passengers, mean, .before = 11, .complete = TRUE),
+         RollingVar = slider::slide_dbl(Passengers, var, .before = 11, .complete = TRUE))
+
+# Plot rolling statistics
+p_roll <- autoplot(airpass_roll, RollingMean) +
+  labs(title = "Rolling Mean", y = "Mean", x = "Year") +
+  theme_minimal()
+
+p_var <- autoplot(airpass_roll, RollingVar) +
+  labs(title = "Rolling Variance", y = "Variance", x = "Year") +
+  theme_minimal()
+
+gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
+```
+
+#### **Seasonal Differencing**
+
+Seasonal differencing (lag = 12 for monthly data) removes seasonality.
+
+```{r}
+# Apply log transformation
+airpass_log <- airpass %>% 
+  mutate(LogPassengers = log(Passengers))
+
+# Plot log-transformed series
+autoplot(airpass_log, LogPassengers) +
+  labs(title = "Log-Transformed Air Passengers", 
+       subtitle = "Stabilizes Variance",
+       y = "Log(Passengers)", x = "Year") +
+  theme_minimal()
+```
+
+```{r}
+# Apply seasonal differencing (lag = 12 for monthly data)
+airpass_log_diff <- airpass_log %>%
+  mutate(SeasonalDiff = difference(LogPassengers, lag = 12))
+
+# Plot seasonally differenced series
+autoplot(airpass_log_diff, SeasonalDiff) +
+  labs(title = "Seasonally Differenced Log-Transformed Air Passengers", 
+       subtitle = "Removes Seasonality",
+       y = "Differenced Log(Passengers)", x = "Year") +
+  theme_minimal()
+```
+
+
+## Lab Activity 1: Stationarity Analysis (Nile Dataset)
+
+1. **Plot the Original Series**  
+   Visualize the Nile dataset to detect any potential seasonality or cyclical components. Even if the Nile data do not exhibit strong seasonal patterns, this initial inspection confirms whether or not seasonal differencing might be warranted.
+
+2. **Compute Rolling Statistics**  
+   - **Rolling Mean**: Examine how the mean evolves over a chosen window (e.g., 10 or 12 observations). A stationary series should have a stable rolling mean over time.  
+   - **Rolling Variance**: Similarly, assess how the variance changes (or remains constant) across the same rolling window. Stationarity requires a relatively constant variance.
+
+3. **Seasonal Differencing**  
+   If a seasonal pattern is present (e.g., annual cycles in monthly data), remove it by differencing observations separated by one full season. This step is relevant if the data exhibit cyclical or repeating patterns at fixed intervals.  
+
+4. **Interpretation**  
+   - Evaluate how rolling mean and variance behave post-seasonal differencing (if performed).  
+   - Verify if stationarity indicators (constant mean, constant variance) are satisfied.
+
+
+<!--
+
+```{r}
+# Load the Nile dataset
+data(Nile)
+nile_ts <- tsibble(y = Nile, year = 1871:1970, index = year)
+
+# Plot the original series
+autoplot(nile_ts) +
+  labs(title = "Annual Flow of the Nile River", 
+       y = "Flow", x = "Year") +
+  theme_minimal()
+```
+
+-->
+
+**Reflection Questions**:
+
+- Does the Nile dataset exhibit any trends or seasonality?
+- How do the rolling statistics (mean and variance) behave over time?
+- What transformations, if any, are necessary to achieve stationarity?
+
+
+## Lab Activity 2: Stationarity Analysis (Lynx Dataset)
+
+1. **Plot the Original Series**  
+   Investigate any repeating or cyclical behavior in the annual Lynx data that might hint at seasonal or quasi-seasonal effects.
+
+2. **Compute Rolling Statistics**  
+   - **Rolling Mean**: Check if the mean stays relatively stable over a certain window, which supports stationarity.  
+   - **Rolling Variance**: Verify whether variance remains relatively constant over time.
+
+3. **Seasonal Differencing**  
+   If the Lynx data show cyclical behavior at fixed intervals (e.g., periodic surges), seasonal differencing with an appropriate lag can reduce these cycles to produce a more stationary series.
+
+4. **Interpretation**  
+   - Compare rolling mean and variance before and after seasonal differencing to confirm stationarity improvements.  
+   - Discuss whether the cyclical patterns are effectively removed or diminished.
+
+<!--
+
+```{r}
+data("Lynx")
+lynx_ts <- tsibble(y = Lynx, year = 1845:1935, index = year)
+
+# Plot the original series
+autoplot(lynx_ts) +
+  labs(title = "Annual Lynx Purchase by Hudson Bay Company", 
+       y = "Lynx Pelts", x = "Year") +
+  theme_minimal()
+
+acf_data <- ACF(lynx_ts, y, lag_max = 36)
+autoplot(acf_data)
+
+
+lynx_diff10 <- lynx_ts %>%
+  mutate(SeasonalDiff = difference(y, lag = 12))
+
+autoplot(lynx_diff10, SeasonalDiff) 
+
+# before
+lynx_roll <- lynx_ts %>%
+  mutate(RollingMean = slider::slide_dbl(y, mean, .before = 12, .complete = TRUE),
+         RollingVar = slider::slide_dbl(y, var, .before = 12, .complete = TRUE))
+
+# Plot rolling statistics
+p_roll <- autoplot(lynx_roll, RollingMean) +
+  labs(title = "Rolling Mean", y = "Mean", x = "Year") +
+  theme_minimal()
+
+p_var <- autoplot(lynx_roll, RollingVar) +
+  labs(title = "Rolling Variance", y = "Variance", x = "Year") +
+  theme_minimal()
+
+gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
+
+# after
+lynx_roll_diff <- lynx_diff10 %>%
+  mutate(RollingMean = slider::slide_dbl(SeasonalDiff, mean, .before = 11, .complete = TRUE),
+         RollingVar = slider::slide_dbl(SeasonalDiff, var, .before = 11, .complete = TRUE))
+
+# Plot rolling statistics
+p_roll <- autoplot(lynx_roll_diff, RollingMean) +
+  labs(title = "Rolling Mean", y = "Mean", x = "Year") +
+  theme_minimal()
+
+p_var <- autoplot(lynx_roll_diff, RollingVar) +
+  labs(title = "Rolling Variance", y = "Variance", x = "Year") +
+  theme_minimal()
+
+gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
+```
+
+
+-->
+
+**Reflection Questions**
+
+- Does the Lynx dataset exhibit any notable trends or cyclic patterns?
+- How do the rolling mean and variance behave over time?
+- Are transformations necessary to ensure stationarity?
