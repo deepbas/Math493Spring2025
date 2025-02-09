@@ -154,6 +154,27 @@
     "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
   },
   {
+    "objectID": "activity9.html#finance-example-amazon-vs.-sp-500",
+    "href": "activity9.html#finance-example-amazon-vs.-sp-500",
+    "title": "Activity9",
+    "section": "1.1 Finance Example (Amazon vs. S&P 500)",
+    "text": "1.1 Finance Example (Amazon vs. S&P 500)\nDataset: gafa_stock (Amazon vs Market Index)\n\n# 1) Get S&P 500 data (adjust as needed for start dates):\nsp500 &lt;- tq_get(\"^GSPC\", from = \"2018-01-01\", to = \"2019-12-31\") %&gt;%\n  # Rename for consistency\n  select(date, sp500_close = adjusted)\n\n# 2) Use Amazon data from gafa_stock in fpp3:\namzn &lt;- gafa_stock %&gt;%\n filter(Symbol == \"AMZN\", Date &gt;= \"2018-01-01\", Date &lt;= \"2018-12-31\") %&gt;%\n select(Date, amzn_close = Adj_Close)\n\n# 3) Join by date\namzn_sp &lt;- amzn %&gt;%\n  inner_join(sp500, by = c(\"Date\" = \"date\")) \n\n# Regression coefficients\namzn_sp %&gt;% \n  model(TSLM(amzn_close ~ sp500_close)) %&gt;% \n  tidy() %&gt;% \n  knitr::kable(caption = \"Coefficients table\")\n\n\nCoefficients table\n\n\n\n\n\n\n\n\n\n.model\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\nTSLM(amzn_close ~ sp500_close)\n(Intercept)\n-1940.961149\n255.8360580\n-7.586738\n0\n\n\nTSLM(amzn_close ~ sp500_close)\nsp500_close\n1.304591\n0.0930976\n14.013160\n0\n\n\n\n\n# 4) Quick visualization\n amzn_sp %&gt;%\n  ggplot(aes(x = sp500_close, y = amzn_close)) +\n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"blue\") +\n  labs(\n    title = \"Amazon Stock vs S&P 500\",\n    x = \"S&P 500 Adjusted Close\",\n    y = \"Amazon Adjusted Close\"\n  )\n\n\n\n\n\n\n\nCOVID Example (Mobility):\nDataset: oxcgrt (Oxford COVID Policy Tracker)\n\nurl &lt;- \"https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv\"\n\n# Download to current working directory\ndownload.file(url, destfile = \"data/OxCGRT_compact_national_v1.csv\", mode = \"wb\")\noxcgrt &lt;- read_csv(\"data/OxCGRT_compact_national_v1.csv\")\n\n\nModel: \\(\\log(\\text{ConfirmedCases}_t) = \\beta_0 + \\beta_1\\text{ConfirmedDeaths}_t + \\varepsilon_t\\)\n\nActivity: Test \\(H_0: \\beta_1=0\\) using \\(t = \\frac{\\hat{\\beta}_1}{SE(\\hat{\\beta}_1)}\\)\n\n\n\noxcgrt %&gt;% \n  filter(CountryName == \"United States\") %&gt;% \n  mutate(Date = lubridate::ymd(Date)) %&gt;% \n  as_tsibble(index = Date) %&gt;% \n  tidyr::drop_na(ConfirmedCases,ConfirmedDeaths ) %&gt;% \n  model(TSLM(ConfirmedCases ~ ConfirmedDeaths)) %&gt;% \n  tidy()  %&gt;% \n  knitr::kable(caption = \"Coefficients table\")\n\n\nCoefficients table\n\n\n\n\n\n\n\n\n\n.model\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\nTSLM(ConfirmedCases ~ ConfirmedDeaths)\n(Intercept)\n-1.054628e+07\n4.288403e+05\n-24.59255\n0\n\n\nTSLM(ConfirmedCases ~ ConfirmedDeaths)\nConfirmedDeaths\n9.148213e+01\n6.202599e-01\n147.48998\n0\n\n\n\n\n\n\noxdata &lt;- oxcgrt %&gt;% \n  filter(CountryName == \"United States\") %&gt;% \n  mutate(Date = lubridate::ymd(Date)) %&gt;% \n  as_tsibble(index = Date) \n  \n\noxdata %&gt;% \n  ggplot(aes(x = ConfirmedCases, y = ConfirmedDeaths)) +\n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"lm\", se = FALSE, color = \"blue\") +\n  labs(\n    title = \"Confirmed Cases vs Confirmed Deaths\",\n    x = \"Confirmed Cases\",\n    y = \"Confirmed Deaths\"\n  )"
+  },
+  {
+    "objectID": "activity9.html#lab-activity-1",
+    "href": "activity9.html#lab-activity-1",
+    "title": "Activity9",
+    "section": "Lab Activity 1",
+    "text": "Lab Activity 1\n\nFilter the data to one country (e.g., ‘United States’).\nCreate a new variable, log_cases, defined as \\(\\\\(\\log(1 + \\text{ConfirmedCases})\\\\)\\). (Adding 1 helps avoid \\(\\\\(\\log(0)\\\\).)\\)\n\nFit a TSLM model relating log_cases to C6M_Stay at home requirements.\nInterpret the slope coefficient."
+  },
+  {
+    "objectID": "activity9.html#lab-activity-2",
+    "href": "activity9.html#lab-activity-2",
+    "title": "Activity9",
+    "section": "Lab Activity 2",
+    "text": "Lab Activity 2\n\nFilter to the same (or another) country.\nDefine a new variable, log_deaths = \\(\\\\(\\log(1 + \\text{ConfirmedDeaths})\\\\)\\).\nRegress log_deaths on StringencyIndex_Average using TSLM.\nCheck if increased stringency is correlated with reduced deaths (i.e., a negative slope)."
+  },
+  {
     "objectID": "activity3.html",
     "href": "activity3.html",
     "title": "Activity3",

@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -195,17 +220,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#foundations-of-time-series-regression" id="toc-foundations-of-time-series-regression" class="nav-link active" data-scroll-target="#foundations-of-time-series-regression">1. Foundations of Time Series Regression</a>
+  <ul class="collapse">
+<li><a href="#finance-example-amazon-vs.-sp-500" id="toc-finance-example-amazon-vs.-sp-500" class="nav-link" data-scroll-target="#finance-example-amazon-vs.-sp-500">1.1 Finance Example (Amazon vs.&nbsp;S&amp;P 500)</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#using-oxdata-for-further-covid-anaysis" id="toc-using-oxdata-for-further-covid-anaysis" class="nav-link" data-scroll-target="#using-oxdata-for-further-covid-anaysis">Using <code>oxdata</code> for further COVID anaysis</a>
+  <ul class="collapse">
+<li><a href="#lab-activity-1" id="toc-lab-activity-1" class="nav-link" data-scroll-target="#lab-activity-1">Lab Activity 1</a></li>
+  <li><a href="#lab-activity-2" id="toc-lab-activity-2" class="nav-link" data-scroll-target="#lab-activity-2">Lab Activity 2</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Activity9</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -227,10 +268,314 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="foundations-of-time-series-regression" class="level1"><h1>1. Foundations of Time Series Regression</h1>
+<p>We often model a response <span class="math inline">\(Y_t\)</span> as a linear function of a predictor <span class="math inline">\(X_t\)</span>:</p>
+<p><span class="math display">\[
+\begin{align}
+Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \
+\hat{\beta}_1 &amp;= \frac{\sum (Y_t - \bar{Y})(X_t - \bar{X})}{\sum (X_t - \bar{X})^2}.
+\end{align}
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li>
+<span class="math inline">\(Y_t\)</span> is the response at time <span class="math inline">\(t\)</span>.</li>
+<li>
+<span class="math inline">\(X_t\)</span> is the predictor at time <span class="math inline">\(t\)</span>.</li>
+<li>
+<span class="math inline">\(\beta_0\)</span> is the intercept.</li>
+<li>
+<span class="math inline">\(\beta_1\)</span> is the slope.</li>
+<li>
+<span class="math inline">\(\varepsilon_t\)</span> is the error term.</li>
+</ul>
+<section id="finance-example-amazon-vs.-sp-500" class="level2"><h2 class="anchored" data-anchor-id="finance-example-amazon-vs.-sp-500">1.1 Finance Example (Amazon vs.&nbsp;S&amp;P 500)</h2>
+<p><em>Dataset:</em> <code>gafa_stock</code> (Amazon vs Market Index)</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 1) Get S&amp;P 500 data (adjust as needed for start dates):</span></span>
+<span><span class="va">sp500</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"^GSPC"</span>, from <span class="op">=</span> <span class="st">"2018-01-01"</span>, to <span class="op">=</span> <span class="st">"2019-12-31"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="co"># Rename for consistency</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, sp500_close <span class="op">=</span> <span class="va">adjusted</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 2) Use Amazon data from gafa_stock in fpp3:</span></span>
+<span><span class="va">amzn</span> <span class="op">&lt;-</span> <span class="va">gafa_stock</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Symbol</span> <span class="op">==</span> <span class="st">"AMZN"</span>, <span class="va">Date</span> <span class="op">&gt;=</span> <span class="st">"2018-01-01"</span>, <span class="va">Date</span> <span class="op">&lt;=</span> <span class="st">"2018-12-31"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span> <span class="fu">select</span><span class="op">(</span><span class="va">Date</span>, amzn_close <span class="op">=</span> <span class="va">Adj_Close</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 3) Join by date</span></span>
+<span><span class="va">amzn_sp</span> <span class="op">&lt;-</span> <span class="va">amzn</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">inner_join</span><span class="op">(</span><span class="va">sp500</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Date"</span> <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Regression coefficients</span></span>
+<span><span class="va">amzn_sp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">amzn_close</span> <span class="op">~</span> <span class="va">sp500_close</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Coefficients table"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Coefficients table</caption>
+<colgroup>
+<col style="width: 36%">
+<col style="width: 13%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 9%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TSLM(amzn_close ~ sp500_close)</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-1940.961149</td>
+<td style="text-align: right;">255.8360580</td>
+<td style="text-align: right;">-7.586738</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TSLM(amzn_close ~ sp500_close)</td>
+<td style="text-align: left;">sp500_close</td>
+<td style="text-align: right;">1.304591</td>
+<td style="text-align: right;">0.0930976</td>
+<td style="text-align: right;">14.013160</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 4) Quick visualization</span></span>
+<span> <span class="va">amzn_sp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">sp500_close</span>, y <span class="op">=</span> <span class="va">amzn_close</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Amazon Stock vs S&amp;P 500"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"S&amp;P 500 Adjusted Close"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Amazon Adjusted Close"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity9_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>COVID Example (Mobility):</strong></p>
+<p><em>Dataset:</em> <code>oxcgrt</code> (Oxford COVID Policy Tracker)</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv"</span></span>
+<span></span>
+<span><span class="co"># Download to current working directory</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span><span class="va">url</span>, destfile <span class="op">=</span> <span class="st">"data/OxCGRT_compact_national_v1.csv"</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span>
+<span><span class="va">oxcgrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">"data/OxCGRT_compact_national_v1.csv"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Model: <span class="math inline">\(\log(\text{ConfirmedCases}_t) = \beta_0 + \beta_1\text{ConfirmedDeaths}_t + \varepsilon_t\)</span><br>
+</li>
+<li>Activity: Test <span class="math inline">\(H_0: \beta_1=0\)</span> using <span class="math inline">\(t = \frac{\hat{\beta}_1}{SE(\hat{\beta}_1)}\)</span>
+</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">ConfirmedCases</span>,<span class="va">ConfirmedDeaths</span> <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">ConfirmedCases</span> <span class="op">~</span> <span class="va">ConfirmedDeaths</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Coefficients table"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Coefficients table</caption>
+<colgroup>
+<col style="width: 39%">
+<col style="width: 16%">
+<col style="width: 14%">
+<col style="width: 13%">
+<col style="width: 10%">
+<col style="width: 8%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TSLM(ConfirmedCases ~ ConfirmedDeaths)</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-1.054628e+07</td>
+<td style="text-align: right;">4.288403e+05</td>
+<td style="text-align: right;">-24.59255</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TSLM(ConfirmedCases ~ ConfirmedDeaths)</td>
+<td style="text-align: left;">ConfirmedDeaths</td>
+<td style="text-align: right;">9.148213e+01</td>
+<td style="text-align: right;">6.202599e-01</td>
+<td style="text-align: right;">147.48998</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">oxdata</span> <span class="op">&lt;-</span> <span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> </span>
+<span>  </span>
+<span></span>
+<span><span class="va">oxdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ConfirmedCases</span>, y <span class="op">=</span> <span class="va">ConfirmedDeaths</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span></span>
+<span>    title <span class="op">=</span> <span class="st">"Confirmed Cases vs Confirmed Deaths"</span>,</span>
+<span>    x <span class="op">=</span> <span class="st">"Confirmed Cases"</span>,</span>
+<span>    y <span class="op">=</span> <span class="st">"Confirmed Deaths"</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity9_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="using-oxdata-for-further-covid-anaysis" class="level1"><h1>Using <code>oxdata</code> for further COVID anaysis</h1>
+<section id="lab-activity-1" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-1">Lab Activity 1</h2>
+<ol type="1">
+<li>Filter the data to one country (e.g., ‘United States’).</li>
+<li>Create a new variable, <code>log_cases</code>, defined as <span class="math inline">\(\\(\log(1 + \text{ConfirmedCases})\\)\)</span>. (Adding 1 helps avoid <span class="math inline">\(\\(\log(0)\\).)\)</span>
+</li>
+<li>Fit a TSLM model relating <code>log_cases</code> to <code>C6M_Stay at home requirements</code>.</li>
+<li>Interpret the slope coefficient.</li>
+</ol>
+<!--
+
+### Solution
+
+::: {.cell}
+
+```{.r .cell-code}
+# Filter & transform
+exercise1_data <- oxcgrt %>%
+  filter(CountryName == 'United States') %>%
+  mutate(
+    Date = ymd(Date),
+    log_cases = log(1 + ConfirmedCases)
+  ) %>%
+  as_tsibble(index = Date) %>%
+  drop_na(log_cases, `C6M_Stay at home requirements`)
+
+# Fit TSLM
+ex1_model <- exercise1_data %>%
+  model(tslm_ex1 = TSLM(log_cases ~ `C6M_Stay at home requirements`))
+
+# Summaries
+ex1_model %>% tidy(tslm_ex1) %>% knitr::kable()
+```
+
+::: {.cell-output-display}
 
 
+|.model   |term                            |  estimate| std.error| statistic| p.value|
+|:--------|:-------------------------------|---------:|---------:|---------:|-------:|
+|tslm_ex1 |(Intercept)                     | 14.976905| 0.2302570| 65.044305|   0e+00|
+|tslm_ex1 |`C6M_Stay at home requirements` |  0.917216| 0.1722268|  5.325628|   1e-07|
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+
+:::
+
+```{.r .cell-code}
+ex1_model %>% glance(tslm_ex1) %>% knitr::kable()
+```
+
+::: {.cell-output-display}
+
+
+|.model   | r_squared| adj_r_squared|   sigma2| statistic| p_value| df|   log_lik|      AIC|     AICc|      BIC|       CV| deviance| df.residual| rank|
+|:--------|---------:|-------------:|--------:|---------:|-------:|--:|---------:|--------:|--------:|--------:|--------:|--------:|-----------:|----:|
+|tslm_ex1 | 0.0252702|     0.0243792| 15.75292|  28.36231|   1e-07|  2| -3065.006| 3025.699| 3025.721| 3040.697| 15.81785|  17233.7|        1094|    2|
+
+
+:::
+:::
+
+--></section><section id="lab-activity-2" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-2">Lab Activity 2</h2>
+<ol type="1">
+<li>Filter to the same (or another) country.</li>
+<li>Define a new variable, <code>log_deaths</code> = <span class="math inline">\(\\(\log(1 + \text{ConfirmedDeaths})\\)\)</span>.</li>
+<li>Regress <code>log_deaths</code> on <code>StringencyIndex_Average</code> using TSLM.</li>
+<li>Check if increased stringency is correlated with reduced deaths (i.e., a negative slope).</li>
+</ol>
+<!--
+
+### Solution
+
+::: {.cell}
+
+```{.r .cell-code}
+# Filter & transform
+exercise2_data <- oxcgrt %>%
+  filter(CountryName == 'United States') %>%
+  mutate(
+    Date = ymd(Date),
+    log_deaths = log(1 + ConfirmedDeaths)
+  ) %>%
+  as_tsibble(index = Date) %>%
+  drop_na(log_deaths, StringencyIndex_Average)
+
+# Fit TSLM
+ex2_model <- exercise2_data %>%
+  model(tslm_ex2 = TSLM(log_deaths ~ StringencyIndex_Average))
+
+# Summaries
+ex2_model %>% tidy(tslm_ex2)  %>% knitr::kable()
+```
+
+::: {.cell-output-display}
+
+
+|.model   |term                    |  estimate| std.error| statistic| p.value|
+|:--------|:-----------------------|---------:|---------:|---------:|-------:|
+|tslm_ex2 |(Intercept)             | 9.3193169| 0.2484414|  37.51112|       0|
+|tslm_ex2 |StringencyIndex_Average | 0.0585671| 0.0047442|  12.34504|       0|
+
+
+:::
+
+```{.r .cell-code}
+ex2_model %>% glance(tslm_ex2)  %>% knitr::kable()
+```
+
+::: {.cell-output-display}
+
+
+|.model   | r_squared| adj_r_squared|   sigma2| statistic| p_value| df|   log_lik|      AIC|   AICc|      BIC|       CV| deviance| df.residual| rank|
+|:--------|---------:|-------------:|--------:|---------:|-------:|--:|---------:|--------:|------:|--------:|--------:|--------:|-----------:|----:|
+|tslm_ex2 | 0.1222721|     0.1214698| 9.854598|  152.3999|       0|  2| -2807.946| 2511.578| 2511.6| 2526.577| 9.911232| 10780.93|        1094|    2|
+
+
+:::
+:::
+
+
+-->
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
