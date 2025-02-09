@@ -31,7 +31,55 @@ website:
             href: activity7.html
           - text: "Activity8"
             href: activity8.html
-        #     target: "_blank"
+          - text: "Activity9"
+            href: activity9.html
+          # - text: "Activity2"
+          #   href: activity2.html
+          # - text: "Activity3"
+          #   href: activity3.html
+          # - text: "Activity4"
+          #   href: activity4.html
+          # - text: "Activity5"
+          #   href: activity5.html
+          # - text: "Activity6"
+          #   href: activity6.html
+          # - text: "Activity7"
+          #   href: activity7.html
+          # - text: "Activity8"
+          #   href: activity8.html
+          # - text: "Activity1"
+          #   href: activity1.html
+          # - text: "Activity2"
+          #   href: activity2.html
+          # - text: "Activity3"
+          #   href: activity3.html
+          # - text: "Activity4"
+          #   href: activity4.html
+          # - text: "Activity5"
+          #   href: activity5.html
+          # - text: "Activity6"
+          #   href: activity6.html
+          # - text: "Activity7"
+          #   href: activity7.html
+          # - text: "Activity8"
+          #   href: activity8.html
+          # - text: "Activity1"
+          #   href: activity1.html
+          # - text: "Activity2"
+          #   href: activity2.html
+          # - text: "Activity3"
+          #   href: activity3.html
+          # - text: "Activity4"
+          #   href: activity4.html
+          # - text: "Activity5"
+          #   href: activity5.html
+          # - text: "Activity6"
+          #   href: activity6.html
+          # - text: "Activity7"
+          #   href: activity7.html
+          # - text: "Activity8"
+          #   href: activity8.html
+           #     target: "_blank"
         #   - text: "Lecture 2"
         #     href: Day2.html
         #     target: "_blank"

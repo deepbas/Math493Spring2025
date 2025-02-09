@@ -147,7 +147,6 @@ kpss_test_diff_sp500
 
 Repeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results. 
 
-<!--
 
 **Solution:**
 
@@ -195,6 +194,4 @@ kpss_test_diff_nvda <- diff_nvda %>%
 kpss_test_diff_nvda
 ```
 
-
--->
 

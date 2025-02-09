@@ -183,6 +183,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./activity8.html">
  <span class="dropdown-text">Activity8</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity9.html">
+ <span class="dropdown-text">Activity9</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -407,28 +411,24 @@ If a seasonal pattern is present (e.g., annual cycles in monthly data), remove i
 </ul>
 </li>
 </ol>
-<!--
-
-::: {.cell}
-
-```{.r .cell-code}
-# Load the Nile dataset
-data(Nile)
-nile_ts <- tsibble(y = Nile, year = 1871:1970, index = year)
-
-# Plot the original series
-autoplot(nile_ts) +
-  labs(title = "Annual Flow of the Nile River", 
-       y = "Flow", x = "Year") +
-  theme_minimal()
-```
-
-::: {.cell-output-display}
-![](activity8_files/figure-html/unnamed-chunk-7-1.png){width=672}
-:::
-:::
-
---><p><strong>Reflection Questions</strong>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Load the Nile dataset</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">Nile</span><span class="op">)</span></span>
+<span><span class="va">nile_ts</span> <span class="op">&lt;-</span> <span class="fu">tsibble</span><span class="op">(</span>y <span class="op">=</span> <span class="va">Nile</span>, year <span class="op">=</span> <span class="fl">1871</span><span class="op">:</span><span class="fl">1970</span>, index <span class="op">=</span> <span class="va">year</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the original series</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">nile_ts</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Annual Flow of the Nile River"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"Flow"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reflection Questions</strong>:</p>
 <ul>
 <li>Does the Nile dataset exhibit any trends or seasonality?</li>
 <li>How do the rolling statistics (mean and variance) behave over time?</li>
@@ -458,92 +458,83 @@ If the Lynx data show cyclical behavior at fixed intervals (e.g., periodic surge
 </ul>
 </li>
 </ol>
-<!--
-
-::: {.cell}
-
-```{.r .cell-code}
-data("Lynx")
-lynx_ts <- tsibble(y = Lynx, year = 1845:1935, index = year)
-
-# Plot the original series
-autoplot(lynx_ts) +
-  labs(title = "Annual Lynx Purchase by Hudson Bay Company", 
-       y = "Lynx Pelts", x = "Year") +
-  theme_minimal()
-```
-
-::: {.cell-output-display}
-![](activity8_files/figure-html/unnamed-chunk-8-1.png){width=672}
-:::
-
-```{.r .cell-code}
-acf_data <- ACF(lynx_ts, y, lag_max = 36)
-autoplot(acf_data)
-```
-
-::: {.cell-output-display}
-![](activity8_files/figure-html/unnamed-chunk-8-2.png){width=672}
-:::
-
-```{.r .cell-code}
-lynx_diff10 <- lynx_ts %>%
-  mutate(SeasonalDiff = difference(y, lag = 12))
-
-autoplot(lynx_diff10, SeasonalDiff) 
-```
-
-::: {.cell-output-display}
-![](activity8_files/figure-html/unnamed-chunk-8-3.png){width=672}
-:::
-
-```{.r .cell-code}
-# before
-lynx_roll <- lynx_ts %>%
-  mutate(RollingMean = slider::slide_dbl(y, mean, .before = 12, .complete = TRUE),
-         RollingVar = slider::slide_dbl(y, var, .before = 12, .complete = TRUE))
-
-# Plot rolling statistics
-p_roll <- autoplot(lynx_roll, RollingMean) +
-  labs(title = "Rolling Mean", y = "Mean", x = "Year") +
-  theme_minimal()
-
-p_var <- autoplot(lynx_roll, RollingVar) +
-  labs(title = "Rolling Variance", y = "Variance", x = "Year") +
-  theme_minimal()
-
-gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
-```
-
-::: {.cell-output-display}
-![](activity8_files/figure-html/unnamed-chunk-8-4.png){width=672}
-:::
-
-```{.r .cell-code}
-# after
-lynx_roll_diff <- lynx_diff10 %>%
-  mutate(RollingMean = slider::slide_dbl(SeasonalDiff, mean, .before = 11, .complete = TRUE),
-         RollingVar = slider::slide_dbl(SeasonalDiff, var, .before = 11, .complete = TRUE))
-
-# Plot rolling statistics
-p_roll <- autoplot(lynx_roll_diff, RollingMean) +
-  labs(title = "Rolling Mean", y = "Mean", x = "Year") +
-  theme_minimal()
-
-p_var <- autoplot(lynx_roll_diff, RollingVar) +
-  labs(title = "Rolling Variance", y = "Variance", x = "Year") +
-  theme_minimal()
-
-gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
-```
-
-::: {.cell-output-display}
-![](activity8_files/figure-html/unnamed-chunk-8-5.png){width=672}
-:::
-:::
-
-
---><p><strong>Reflection Questions</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"Lynx"</span><span class="op">)</span></span>
+<span><span class="va">lynx_ts</span> <span class="op">&lt;-</span> <span class="fu">tsibble</span><span class="op">(</span>y <span class="op">=</span> <span class="va">Lynx</span>, year <span class="op">=</span> <span class="fl">1845</span><span class="op">:</span><span class="fl">1935</span>, index <span class="op">=</span> <span class="va">year</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the original series</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">lynx_ts</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Annual Lynx Purchase by Hudson Bay Company"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"Lynx Pelts"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">acf_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/ACF.html">ACF</a></span><span class="op">(</span><span class="va">lynx_ts</span>, <span class="va">y</span>, lag_max <span class="op">=</span> <span class="fl">36</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">acf_data</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">lynx_diff10</span> <span class="op">&lt;-</span> <span class="va">lynx_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>SeasonalDiff <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">y</span>, lag <span class="op">=</span> <span class="fl">12</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">lynx_diff10</span>, <span class="va">SeasonalDiff</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># before</span></span>
+<span><span class="va">lynx_roll</span> <span class="op">&lt;-</span> <span class="va">lynx_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>RollingMean <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">mean</span>, .before <span class="op">=</span> <span class="fl">12</span>, .complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>         RollingVar <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">y</span>, <span class="va">var</span>, .before <span class="op">=</span> <span class="fl">12</span>, .complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot rolling statistics</span></span>
+<span><span class="va">p_roll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">lynx_roll</span>, <span class="va">RollingMean</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Rolling Mean"</span>, y <span class="op">=</span> <span class="st">"Mean"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">lynx_roll</span>, <span class="va">RollingVar</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Rolling Variance"</span>, y <span class="op">=</span> <span class="st">"Variance"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span><span class="va">p_roll</span>, <span class="va">p_var</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># after</span></span>
+<span><span class="va">lynx_roll_diff</span> <span class="op">&lt;-</span> <span class="va">lynx_diff10</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>RollingMean <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">SeasonalDiff</span>, <span class="va">mean</span>, .before <span class="op">=</span> <span class="fl">11</span>, .complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>         RollingVar <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">SeasonalDiff</span>, <span class="va">var</span>, .before <span class="op">=</span> <span class="fl">11</span>, .complete <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot rolling statistics</span></span>
+<span><span class="va">p_roll</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">lynx_roll_diff</span>, <span class="va">RollingMean</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Rolling Mean"</span>, y <span class="op">=</span> <span class="st">"Mean"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">p_var</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">lynx_roll_diff</span>, <span class="va">RollingVar</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Rolling Variance"</span>, y <span class="op">=</span> <span class="st">"Variance"</span>, x <span class="op">=</span> <span class="st">"Year"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span><span class="va">p_roll</span>, <span class="va">p_var</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity8_files/figure-html/unnamed-chunk-8-5.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Reflection Questions</strong></p>
 <ul>
 <li>Does the Lynx dataset exhibit any notable trends or cyclic patterns?</li>
 <li>How do the rolling mean and variance behave over time?</li>

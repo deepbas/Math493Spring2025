@@ -159,3 +159,31 @@ contaminated_wn %>%
    - Apply the Ljung-Box test to the contaminated series. Interpret the results.
    
 
+
+
+```{r}
+library(fpp3)
+
+# 1. Simulate White Noise
+wn <- tsibble(time = 1:500, y = rnorm(500), index = time)
+wn %>% autoplot(y) + ggtitle("White Noise Process")
+
+# 2. Plot ACF of White Noise
+wn %>% ACF(y) %>% autoplot() + ggtitle("ACF of White Noise")
+
+# 3. Contaminate the Series
+contaminated_wn <- wn %>% 
+  mutate(y = y + 0.3 * lag(y, 5) %>% replace_na(0))
+contaminated_wn %>% autoplot(y) + ggtitle("Contaminated White Noise Process")
+
+# 4. Plot ACF of Contaminated Series
+contaminated_wn %>% 
+  ACF(y) %>% 
+  autoplot() + 
+  ggtitle("ACF of Contaminated Series")
+
+# 5. Perform Ljung-Box Test
+wn %>% features(y, ljung_box, lag = 10)  # Test for original white noise
+contaminated_wn %>% features(y, ljung_box, lag = 10)  # Test for contaminated series
+```
+

@@ -153,7 +153,6 @@ autoplot(airpass_log_diff, SeasonalDiff) +
    - Verify if stationarity indicators (constant mean, constant variance) are satisfied.
 
 
-<!--
 
 ```{r}
 # Load the Nile dataset
@@ -167,7 +166,6 @@ autoplot(nile_ts) +
   theme_minimal()
 ```
 
--->
 
 **Reflection Questions**:
 
@@ -192,7 +190,7 @@ autoplot(nile_ts) +
    - Compare rolling mean and variance before and after seasonal differencing to confirm stationarity improvements.  
    - Discuss whether the cyclical patterns are effectively removed or diminished.
 
-<!--
+
 
 ```{r}
 data("Lynx")
@@ -247,7 +245,6 @@ gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
 ```
 
 
--->
 
 **Reflection Questions**
 

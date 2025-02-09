@@ -183,6 +183,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./activity8.html">
  <span class="dropdown-text">Activity8</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity9.html">
+ <span class="dropdown-text">Activity9</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -224,6 +228,7 @@ window.Quarto = {
   <li><a href="#ar1-process" id="toc-ar1-process" class="nav-link" data-scroll-target="#ar1-process">2. AR(1) Process</a></li>
   <li><a href="#random-walk-with-drift" id="toc-random-walk-with-drift" class="nav-link" data-scroll-target="#random-walk-with-drift">3. Random Walk with Drift</a></li>
   <li><a href="#simulation-in-r-2" id="toc-simulation-in-r-2" class="nav-link" data-scroll-target="#simulation-in-r-2">Simulation in R:</a></li>
+  <li><a href="#lab-actiity-more-simulations-and-comparisons" id="toc-lab-actiity-more-simulations-and-comparisons" class="nav-link" data-scroll-target="#lab-actiity-more-simulations-and-comparisons">Lab Actiity: More Simulations and Comparisons</a></li>
   <li><a href="#q1-ma1-process" id="toc-q1-ma1-process" class="nav-link" data-scroll-target="#q1-ma1-process">Q1: MA(1) Process</a></li>
   <li><a href="#q2-ar1-process" id="toc-q2-ar1-process" class="nav-link" data-scroll-target="#q2-ar1-process">Q2: AR(1) Process</a></li>
   <li><a href="#q3-random-walk-comparison" id="toc-q3-random-walk-comparison" class="nav-link" data-scroll-target="#q3-random-walk-comparison">Q3: Random Walk &amp; Comparison</a></li>
@@ -369,14 +374,11 @@ where <span class="math inline">\(\varepsilon_t\)</span> is white noise with var
 </div>
 </div>
 </div>
-<hr>
-<section id="more-simulations-and-comparisons" class="level4"><h4 class="anchored" data-anchor-id="more-simulations-and-comparisons">More Simulations and Comparisons:</h4>
-</section></section><section id="q1-ma1-process" class="level2"><h2 class="anchored" data-anchor-id="q1-ma1-process">Q1: MA(1) Process</h2>
+<hr></section><section id="lab-actiity-more-simulations-and-comparisons" class="level3"><h3 class="anchored" data-anchor-id="lab-actiity-more-simulations-and-comparisons">Lab Actiity: More Simulations and Comparisons</h3>
+</section><section id="q1-ma1-process" class="level2"><h2 class="anchored" data-anchor-id="q1-ma1-process">Q1: MA(1) Process</h2>
 <p><strong>Prompt:</strong> Simulate and visualize an MA(1) process with parameter θ = 0.9 using <code>tsibble</code> and <code>autoplot</code>.</p>
 <p><strong>Solution:</strong></p>
 <!--
-
-
 
 ::: {.cell}
 
@@ -401,15 +403,11 @@ ma_ts <- tsibble(
 ```
 :::
 
-
-
 -->
 </section><section id="q2-ar1-process" class="level2"><h2 class="anchored" data-anchor-id="q2-ar1-process">Q2: AR(1) Process</h2>
-<p><strong>Prompt:</strong> Simulate and visualize an MA(1) process with parameter θ = 0.96 using <code>tsibble</code> and <code>autoplot</code>.</p>
+<p><strong>Prompt:</strong> Simulate and visualize an AR(1) process with parameter <span class="math inline">\(\phi=0.96\)</span> using <code>tsibble</code> and <code>autoplot</code>.</p>
 <p><strong>Solution:</strong></p>
 <!--
-
-
 
 ::: {.cell}
 
@@ -429,58 +427,39 @@ ar_ts <- tsibble(
 ```
 :::
 
-
-
 -->
 </section><section id="q3-random-walk-comparison" class="level2"><h2 class="anchored" data-anchor-id="q3-random-walk-comparison">Q3: Random Walk &amp; Comparison</h2>
 <p><strong>Prompt:</strong> Create a random walk with drift <span class="math inline">\((\delta = 0.2)\)</span>, then visualize all three processes together.</p>
 <p><strong>Solution:</strong></p>
-<!--
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-rw_ts <- tsibble(
-  time = 1:n,
-  value = cumsum(0.2 + rnorm(n)),
-  index = time,
-  model = "Random Walk with Drift"
-)
-```
-:::
-
-::: {.cell}
-
-```{.r .cell-code}
-combined_ts <- bind_rows(
-  as_tibble(ma_ts) %>% mutate(model = "MA(1)"),
-  as_tibble(ar_ts) %>% mutate(model = "AR(1)"),
-  as_tibble(rw_ts)
-) %>% 
-  as_tsibble(index = time, key = model) %>% 
-  mutate(model = factor(model, levels = c("MA(1)", "AR(1)", "Random Walk with Drift")))
-```
-:::
-
-::: {.cell}
-
-```{.r .cell-code}
-autoplot(combined_ts) +
-  facet_grid(model ~ ., scales = "free_y") +
-  labs(title = "Time Series Comparison", y = "Value") +
-  theme_minimal()
-```
-
-::: {.cell-output-display}
-![](activity4_files/figure-html/unnamed-chunk-9-1.png){width=672}
-:::
-:::
-
-
-
--->
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">rw_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/tsibble.html">tsibble</a></span><span class="op">(</span></span>
+<span>  time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span>,</span>
+<span>  value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/cumsum.html">cumsum</a></span><span class="op">(</span><span class="fl">0.2</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  index <span class="op">=</span> <span class="va">time</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"Random Walk with Drift"</span></span>
+<span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">combined_ts</span> <span class="op">&lt;-</span> <span class="fu">bind_rows</span><span class="op">(</span></span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">ma_ts</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"MA(1)"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">ar_ts</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>model <span class="op">=</span> <span class="st">"AR(1)"</span><span class="op">)</span>,</span>
+<span>  <span class="fu"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span><span class="op">(</span><span class="va">rw_ts</span><span class="op">)</span></span>
+<span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">time</span>, key <span class="op">=</span> <span class="va">model</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">model</span>, levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"MA(1)"</span>, <span class="st">"AR(1)"</span>, <span class="st">"Random Walk with Drift"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">combined_ts</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">facet_grid</span><span class="op">(</span><span class="va">model</span> <span class="op">~</span> <span class="va">.</span>, scales <span class="op">=</span> <span class="st">"free_y"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Time Series Comparison"</span>, y <span class="op">=</span> <span class="st">"Value"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme_minimal</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity4_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

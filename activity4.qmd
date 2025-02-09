@@ -123,8 +123,6 @@ autoplot(rw_drift, y) + labs(title = "Random Walk with Drift") +
   theme_minimal()
 ```
 
----
-
 
 ### Lab Actiity: More Simulations and Comparisons
 
@@ -135,7 +133,7 @@ autoplot(rw_drift, y) + labs(title = "Random Walk with Drift") +
 
 **Solution:**
 
-<!--
+
 
 ```{r}
 library(tsibble)
@@ -157,7 +155,7 @@ ma_ts <- tsibble(
 )
 ```
 
--->
+
 
 ## Q2: AR(1) Process  
 
@@ -165,7 +163,7 @@ ma_ts <- tsibble(
 
 **Solution:**
 
-<!--
+
 
 ```{r}
 ar_ts <- tsibble(
@@ -182,7 +180,6 @@ ar_ts <- tsibble(
 )
 ```
 
--->
 
 ## Q3: Random Walk & Comparison
 
@@ -191,7 +188,6 @@ ar_ts <- tsibble(
 
 **Solution:**
 
-<!--
 
 ```{r}
 rw_ts <- tsibble(
@@ -222,5 +218,5 @@ autoplot(combined_ts) +
   theme_minimal()
 ```
 
--->
+
 

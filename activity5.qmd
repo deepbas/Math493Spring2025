@@ -148,7 +148,6 @@ google_stock |>
 
 2. Plot GDP for a specific country (e.g., "United States"). Assess stationarity visually.
 
-<!--
 
 **Solution**:
 
@@ -163,14 +162,14 @@ global_economy |>
   labs(title = "US GDP (Non-Stationary)", y = "GDP")
 ```
 
--->
+
 
 ### Prompt 2: Test for Stationarity
 
 1. Use the KPSS test to check for stationarity.
 2. Determine the required differencing order using `unitroot_ndiffs`.
 
-<!--
+
 
 **Solution**:
 
@@ -196,7 +195,7 @@ global_economy |>
 
 3. Re-test stationarity using the KPSS test.
 
-<!--
+
 
 **Solution**:
 
@@ -221,4 +220,4 @@ us_gdp_boxcox |>
   features(BoxCoxGDP, unitroot_kpss)
 ```
 
--->
+

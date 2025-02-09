@@ -137,7 +137,7 @@ Apply the concepts of time series decomposition and smoothing using the Tidyvert
 2. **Apply smoothing techniques** (e.g., moving average or exponential smoothing) to the same series and compare the results.
 3. Interpret the components and smoothed series to identify trends, seasonality, and noise.
 
-<!--
+
 
 ```{r}
 # Step 1: Retrieve Microsoft stock data using tq_get()
@@ -185,7 +185,6 @@ msft_ts %>%
        y = "Adjusted Close Price (USD)")
 ```
 
--->
 
 
 
