@@ -419,125 +419,86 @@ window.Quarto = {
 <li><p>Load the <code>global_economy</code> dataset from the <code>tsibble</code> package.</p></li>
 <li><p>Plot GDP for a specific country (e.g., “United States”). Assess stationarity visually.</p></li>
 </ol>
-<!--
-
-**Solution**:
-
-::: {.cell}
-
-```{.r .cell-code}
-library(tsibbledata)
-data("global_economy")
-
-# Plot GDP for the United States
-global_economy |>
-  filter(Country == "United States") |>
-  autoplot(GDP) +
-  labs(title = "US GDP (Non-Stationary)", y = "GDP")
-```
-
-::: {.cell-output-display}
-![](activity5_files/figure-html/unnamed-chunk-7-1.png){width=672}
-:::
-:::
-
---></section><section id="prompt-2-test-for-stationarity" class="level3"><h3 class="anchored" data-anchor-id="prompt-2-test-for-stationarity">Prompt 2: Test for Stationarity</h3>
+<p><strong>Solution</strong>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibbledata.tidyverts.org/">tsibbledata</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"global_economy"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot GDP for the United States</span></span>
+<span><span class="va">global_economy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Country</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">GDP</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"US GDP (Non-Stationary)"</span>, y <span class="op">=</span> <span class="st">"GDP"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="prompt-2-test-for-stationarity" class="level3"><h3 class="anchored" data-anchor-id="prompt-2-test-for-stationarity">Prompt 2: Test for Stationarity</h3>
 <ol type="1">
 <li>Use the KPSS test to check for stationarity.</li>
 <li>Determine the required differencing order using <code>unitroot_ndiffs</code>.</li>
 </ol>
-<!--
-
-**Solution**:
-
-::: {.cell}
-
-```{.r .cell-code}
-# KPSS test
-global_economy |>
-  filter(Country == "United States") |>
-  features(GDP, unitroot_kpss)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 3
+<p><strong>Solution</strong>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># KPSS test</span></span>
+<span><span class="va">global_economy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Country</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">GDP</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
   Country       kpss_stat kpss_pvalue
-  <fct>             <dbl>       <dbl>
-1 United States      1.49        0.01
-```
-
-
-:::
-
-```{.r .cell-code}
-# Differencing order
-global_economy |>
-  filter(Country == "United States") |>
-  features(GDP, unitroot_ndiffs)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 2
+  &lt;fct&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 United States      1.49        0.01</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Differencing order</span></span>
+<span><span class="va">global_economy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Country</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">GDP</span>, <span class="va">unitroot_ndiffs</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
   Country       ndiffs
-  <fct>          <int>
-1 United States      2
-```
-
-
-:::
-:::
-
---></section><section id="prompt-3-apply-transformations" class="level3"><h3 class="anchored" data-anchor-id="prompt-3-apply-transformations">Prompt 3: Apply Transformations</h3>
+  &lt;fct&gt;          &lt;int&gt;
+1 United States      2</code></pre>
+</div>
+</div>
+<p>–&gt;</p>
+</section><section id="prompt-3-apply-transformations" class="level3"><h3 class="anchored" data-anchor-id="prompt-3-apply-transformations">Prompt 3: Apply Transformations</h3>
 <ol type="1">
 <li><p>Apply first differencing to the GDP series.</p></li>
 <li><p>Apply a Box-Cox transformation using Guerrero’s method to estimate λ.</p></li>
 <li><p>Re-test stationarity using the KPSS test.</p></li>
 </ol>
-<!--
-
-**Solution**:
-
-::: {.cell}
-
-```{.r .cell-code}
-# First difference
-us_gdp_diff <- global_economy |>
-  filter(Country == "United States") |>
-  mutate(DiffGDP = difference(GDP))
-
-# Box-Cox transformation
-lambda <- global_economy |>
-  filter(Country == "United States") |>
-  features(GDP, features = guerrero) |>
-  pull(lambda_guerrero)
-
-us_gdp_boxcox <- global_economy |>
-  filter(Country == "United States") |>
-  mutate(BoxCoxGDP = box_cox(GDP, lambda))
-
-# Re-test stationarity
-us_gdp_boxcox |>
-  features(BoxCoxGDP, unitroot_kpss)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 3
+<p><strong>Solution</strong>:</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># First difference</span></span>
+<span><span class="va">us_gdp_diff</span> <span class="op">&lt;-</span> <span class="va">global_economy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Country</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>DiffGDP <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">GDP</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Box-Cox transformation</span></span>
+<span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="va">global_economy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Country</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">GDP</span>, features <span class="op">=</span> <span class="va">guerrero</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">lambda_guerrero</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">us_gdp_boxcox</span> <span class="op">&lt;-</span> <span class="va">global_economy</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Country</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>BoxCoxGDP <span class="op">=</span> <span class="fu"><a href="https://fabletools.tidyverts.org/reference/box_cox.html">box_cox</a></span><span class="op">(</span><span class="va">GDP</span>, <span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Re-test stationarity</span></span>
+<span><span class="va">us_gdp_boxcox</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">BoxCoxGDP</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
   Country       kpss_stat kpss_pvalue
-  <fct>             <dbl>       <dbl>
-1 United States      1.55        0.01
-```
+  &lt;fct&gt;             &lt;dbl&gt;       &lt;dbl&gt;
+1 United States      1.55        0.01</code></pre>
+</div>
+</div>
 
-
-:::
-:::
-
--->
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

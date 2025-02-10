@@ -292,7 +292,8 @@ y_t = T_t + S_t + R_t
 <p><strong>Multiplicative Model</strong>:</p>
 <p><span class="math display">\[
 y_t = T_t \times S_t \times R_t
-\]</span> This form is useful when seasonal fluctuations change proportionally to the series level.</p>
+\]</span></p>
+<p>This form is useful when seasonal fluctuations change proportionally to the series level.</p>
 </li>
 </ul>
 <section id="decomposition-and-visualization" class="level4"><h4 class="anchored" data-anchor-id="decomposition-and-visualization"><strong>Decomposition and Visualization</strong></h4>
@@ -377,7 +378,8 @@ y_t = T_t \times S_t \times R_t
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">holt_fc</span>, <span class="va">.fitted</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Smoothing Techniques Applied to Apple Inc. Adjusted Closing Price"</span>,</span>
 <span>       subtitle <span class="op">=</span> <span class="st">"Original Series (Black), 30-day MA (Blue), Holt's ES (Red)"</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/theme_tq.html">theme_tq</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure"><p><img src="activity7_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
@@ -394,72 +396,63 @@ y_t = T_t \times S_t \times R_t
 <strong>Apply smoothing techniques</strong> (e.g., moving average or exponential smoothing) to the same series and compare the results.</li>
 <li>Interpret the components and smoothed series to identify trends, seasonality, and noise.</li>
 </ol>
-<!--
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 1: Retrieve Microsoft stock data using tq_get()</span></span>
+<span><span class="va">msft_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"MSFT"</span>, get <span class="op">=</span> <span class="st">"stock.prices"</span>, from <span class="op">=</span> <span class="st">"2018-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">rename</span><span class="op">(</span>Adjusted_Close <span class="op">=</span> <span class="va">adjusted</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convert to a tsibble object</span></span>
+<span><span class="va">msft_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">msft_data</span>, index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">fill_gaps</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Adjusted_Close <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/na.approx.html">na.approx</a></span><span class="op">(</span><span class="va">Adjusted_Close</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Step 2: STL Decomposition</span></span>
+<span><span class="va">decomp</span> <span class="op">&lt;-</span> <span class="va">msft_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://feasts.tidyverts.org/reference/STL.html">STL</a></span><span class="op">(</span><span class="va">Adjusted_Close</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span>window <span class="op">=</span> <span class="fl">365</span><span class="op">)</span> <span class="op">+</span> <span class="fu">season</span><span class="op">(</span>window <span class="op">=</span> <span class="st">"periodic"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/components.html">components</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot the decomposed components</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">decomp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"STL Decomposition of Microsoft Corporation Adjusted Closing Price"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Trend, Seasonal, and Remainder Components"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity7_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 3: Smoothing Techniques</span></span>
+<span><span class="co"># Moving Average Smoothing (30-day window)</span></span>
+<span><span class="va">msft_ts</span> <span class="op">&lt;-</span> <span class="va">msft_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Moving_Avg <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, <span class="va">mean</span>, .before <span class="op">=</span> <span class="fl">29</span>, .after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit Holt's method using fable</span></span>
+<span><span class="va">fit_holt</span> <span class="op">&lt;-</span> <span class="va">msft_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>Holt <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html">ETS</a></span><span class="op">(</span><span class="va">Adjusted_Close</span> <span class="op">~</span> <span class="fu">error</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">season</span><span class="op">(</span><span class="st">"N"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Extract fitted values</span></span>
+<span><span class="va">holt_fc</span> <span class="op">&lt;-</span> <span class="va">fit_holt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">.fitted</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot with Holt smoothing</span></span>
+<span><span class="va">msft_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">msft_ts</span>, <span class="va">Moving_Avg</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">holt_fc</span>, <span class="va">.fitted</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Smoothing Techniques Applied to Microsoft Corporation Adjusted Closing Price"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"Original Series (Black), 30-day MA (Blue), Holt's ES (Red)"</span>,</span>
+<span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity7_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
-
-
-::: {.cell}
-
-```{.r .cell-code}
-# Step 1: Retrieve Microsoft stock data using tq_get()
-msft_data <- tq_get("MSFT", get = "stock.prices", from = "2018-01-01", to = "2023-01-01") %>%
-  select(date, adjusted) %>%
-  rename(Adjusted_Close = adjusted)
-
-# Convert to a tsibble object
-msft_ts <- as_tsibble(msft_data, index = date) %>% 
-  fill_gaps() %>% 
-  mutate(Adjusted_Close = na.approx(Adjusted_Close))
-
-# Step 2: STL Decomposition
-decomp <- msft_ts %>%
-  model(STL(Adjusted_Close ~ trend(window = 365) + season(window = "periodic"))) %>%
-  components()
-
-# Plot the decomposed components
-autoplot(decomp) +
-  labs(title = "STL Decomposition of Microsoft Corporation Adjusted Closing Price",
-       subtitle = "Trend, Seasonal, and Remainder Components",
-       y = "Adjusted Close Price (USD)")
-```
-
-::: {.cell-output-display}
-![](activity7_files/figure-html/unnamed-chunk-3-1.png){width=672}
-:::
-
-```{.r .cell-code}
-# Step 3: Smoothing Techniques
-# Moving Average Smoothing (30-day window)
-msft_ts <- msft_ts %>%
-  mutate(Moving_Avg = slider::slide_dbl(Adjusted_Close, mean, .before = 29, .after = 0))
-
-# Fit Holt's method using fable
-fit_holt <- msft_ts %>%
-  model(Holt = ETS(Adjusted_Close ~ error("A") + trend("A") + season("N")))
-
-# Extract fitted values
-holt_fc <- fit_holt %>% 
-  augment() %>% 
-  select(date, .fitted)
-
-# Plot with Holt smoothing
-msft_ts %>%
-  autoplot(Adjusted_Close, color = "black") +
-  autolayer(msft_ts, Moving_Avg, color = "blue") +
-  autolayer(holt_fc, .fitted, color = "red") +
-  labs(title = "Smoothing Techniques Applied to Microsoft Corporation Adjusted Closing Price",
-       subtitle = "Original Series (Black), 30-day MA (Blue), Holt's ES (Red)",
-       y = "Adjusted Close Price (USD)")
-```
-
-::: {.cell-output-display}
-![](activity7_files/figure-html/unnamed-chunk-3-2.png){width=672}
-:::
-:::
-
-
-
--->
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

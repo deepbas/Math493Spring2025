@@ -439,137 +439,85 @@ alternative hypothesis: stationary</code></pre>
 </div>
 </section></section><section id="lab-activity" class="level2"><h2 class="anchored" data-anchor-id="lab-activity">Lab Activity</h2>
 <p>Repeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results.</p>
-<!--
-
-**Solution:**
-
-
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-# Step 1: Get NVIDIA (NVDA) stock data
-nvda <- tq_get("NVDA", 
-               from = "2010-01-01", 
-               to = "2023-01-01",
-               get = "stock.prices") %>%
-  select(date, adjusted) %>%  # Use adjusted closing prices
-  rename(price = adjusted) %>% 
-  as_tsibble(index = date)  # Convert to tsibble with date index
-
-# Step 2: Plot the NVIDIA stock price series
-autoplot(nvda, price) + 
-  labs(title = "NVIDIA (NVDA) Stock Price Series", 
-       x = "Date", 
-       y = "Adjusted Closing Price")
-```
-
-::: {.cell-output-display}
-![](activity6_files/figure-html/unnamed-chunk-5-1.png){width=672}
-:::
-
-```{.r .cell-code}
-# Step 3: Perform ADF test on the original series
-adf_test_nvda <- adf.test(nvda$price)
-adf_test_nvda
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-
+<p><strong>Solution:</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 1: Get NVIDIA (NVDA) stock data</span></span>
+<span><span class="va">nvda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"NVDA"</span>, </span>
+<span>               from <span class="op">=</span> <span class="st">"2010-01-01"</span>, </span>
+<span>               to <span class="op">=</span> <span class="st">"2023-01-01"</span>,</span>
+<span>               get <span class="op">=</span> <span class="st">"stock.prices"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="co"># Use adjusted closing prices</span></span>
+<span>  <span class="fu">rename</span><span class="op">(</span>price <span class="op">=</span> <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span>  <span class="co"># Convert to tsibble with date index</span></span>
+<span></span>
+<span><span class="co"># Step 2: Plot the NVIDIA stock price series</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">nvda</span>, <span class="va">price</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"NVIDIA (NVDA) Stock Price Series"</span>, </span>
+<span>       x <span class="op">=</span> <span class="st">"Date"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"Adjusted Closing Price"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity6_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 3: Perform ADF test on the original series</span></span>
+<span><span class="va">adf_test_nvda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="va">nvda</span><span class="op">$</span><span class="va">price</span><span class="op">)</span></span>
+<span><span class="va">adf_test_nvda</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
     Augmented Dickey-Fuller Test
 
 data:  nvda$price
-Dickey-Fuller = -2.3583, Lag order = 14, p-value = 0.4266
-alternative hypothesis: stationary
-```
-
-
-:::
-
-```{.r .cell-code}
-# Step 4: Perform KPSS test on the original series
-kpss_test_nvda <- nvda %>%
-  features(price, unitroot_kpss)
-kpss_test_nvda
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 2
+Dickey-Fuller = -2.3584, Lag order = 14, p-value = 0.4266
+alternative hypothesis: stationary</code></pre>
+</div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 4: Perform KPSS test on the original series</span></span>
+<span><span class="va">kpss_test_nvda</span> <span class="op">&lt;-</span> <span class="va">nvda</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">price</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span>
+<span><span class="va">kpss_test_nvda</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
   kpss_stat kpss_pvalue
-      <dbl>       <dbl>
-1      22.2        0.01
-```
-
-
-:::
-
-```{.r .cell-code}
-# Step 5: Difference the series to achieve stationarity
-diff_nvda <- nvda %>% mutate(price = difference(price))
-
-# Step 6: Plot the differenced series
-autoplot(diff_nvda, price) + 
-  labs(title = "Differenced NVIDIA (NVDA) Stock Price Series", 
-       x = "Date", 
-       y = "Differenced Price")
-```
-
-::: {.cell-output-display}
-![](activity6_files/figure-html/unnamed-chunk-5-2.png){width=672}
-:::
-
-```{.r .cell-code}
-# Step 7: Perform ADF test on the differenced series
-adf_test_diff_nvda <- adf.test(na.omit(diff_nvda$price))
-adf_test_diff_nvda
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-
+      &lt;dbl&gt;       &lt;dbl&gt;
+1      22.2        0.01</code></pre>
+</div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 5: Difference the series to achieve stationarity</span></span>
+<span><span class="va">diff_nvda</span> <span class="op">&lt;-</span> <span class="va">nvda</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">mutate</span><span class="op">(</span>price <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Step 6: Plot the differenced series</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">diff_nvda</span>, <span class="va">price</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Differenced NVIDIA (NVDA) Stock Price Series"</span>, </span>
+<span>       x <span class="op">=</span> <span class="st">"Date"</span>, </span>
+<span>       y <span class="op">=</span> <span class="st">"Differenced Price"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity6_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 7: Perform ADF test on the differenced series</span></span>
+<span><span class="va">adf_test_diff_nvda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/tseries/man/adf.test.html">adf.test</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/na.fail.html">na.omit</a></span><span class="op">(</span><span class="va">diff_nvda</span><span class="op">$</span><span class="va">price</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">adf_test_diff_nvda</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
     Augmented Dickey-Fuller Test
 
 data:  na.omit(diff_nvda$price)
 Dickey-Fuller = -14.601, Lag order = 14, p-value = 0.01
-alternative hypothesis: stationary
-```
-
-
-:::
-
-```{.r .cell-code}
-# Step 8: Perform KPSS test on the differenced series
-kpss_test_diff_nvda <- diff_nvda %>%
-  features(price, unitroot_kpss)
-kpss_test_diff_nvda
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 2
+alternative hypothesis: stationary</code></pre>
+</div>
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 8: Perform KPSS test on the differenced series</span></span>
+<span><span class="va">kpss_test_diff_nvda</span> <span class="op">&lt;-</span> <span class="va">diff_nvda</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">price</span>, <span class="va">unitroot_kpss</span><span class="op">)</span></span>
+<span><span class="va">kpss_test_diff_nvda</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
   kpss_stat kpss_pvalue
-      <dbl>       <dbl>
-1    0.0934         0.1
-```
-
-
-:::
-:::
-
-
-
-
-
-
--->
+      &lt;dbl&gt;       &lt;dbl&gt;
+1    0.0934         0.1</code></pre>
+</div>
+</div>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
