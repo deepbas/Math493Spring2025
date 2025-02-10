@@ -84,11 +84,9 @@ amzn_sp %>%
 *Dataset:* `oxcgrt` (Oxford COVID Policy Tracker)  
 
 ```{r}
+library(readr)
 url <- "https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv"
-
-# Download to current working directory
-download.file(url, destfile = "data/OxCGRT_compact_national_v1.csv", mode = "wb")
-oxcgrt <- read_csv("data/OxCGRT_compact_national_v1.csv")
+oxcgrt <- read_csv(url)
 ```
 
 
