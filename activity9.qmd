@@ -76,7 +76,6 @@ amzn_sp %>%
     x = "S&P 500 Adjusted Close",
     y = "Amazon Adjusted Close"
   )
-
 ```
 
 **COVID Example (Mobility):**  
