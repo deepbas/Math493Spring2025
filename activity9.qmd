@@ -27,7 +27,7 @@ We often model a response $Y_t$ as a linear function of a predictor $X_t$:
 
 $$
 \begin{align}
-Y_t &= \beta_0 + \beta_1 X_t + \varepsilon_t, \
+Y_t &= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 \hat{\beta}_1 &= \frac{\sum (Y_t - \bar{Y})(X_t - \bar{X})}{\sum (X_t - \bar{X})^2}.
 \end{align}
 $$
