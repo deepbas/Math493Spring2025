@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -199,17 +224,34 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#multiple-regression-collinearity" id="toc-multiple-regression-collinearity" class="nav-link active" data-scroll-target="#multiple-regression-collinearity">Multiple Regression &amp; Collinearity</a>
+  <ul class="collapse">
+<li>
+<a href="#real-world-examples" id="toc-real-world-examples" class="nav-link" data-scroll-target="#real-world-examples">Real-World Examples</a>
+  <ul class="collapse">
+<li><a href="#economy-example-us-macro-data" id="toc-economy-example-us-macro-data" class="nav-link" data-scroll-target="#economy-example-us-macro-data">1. Economy Example (US Macro Data)</a></li>
+  <li><a href="#covid-example-mobility" id="toc-covid-example-mobility" class="nav-link" data-scroll-target="#covid-example-mobility">2. COVID Example (Mobility)</a></li>
+  <li><a href="#lab-activity-1-assessing-multicollinearity-in-us-macro-data" id="toc-lab-activity-1-assessing-multicollinearity-in-us-macro-data" class="nav-link" data-scroll-target="#lab-activity-1-assessing-multicollinearity-in-us-macro-data">Lab Activity 1: Assessing Multicollinearity in US Macro Data</a></li>
+  <li><a href="#lab-activity-2-exploring-covid-policy-measures-and-their-effects" id="toc-lab-activity-2-exploring-covid-policy-measures-and-their-effects" class="nav-link" data-scroll-target="#lab-activity-2-exploring-covid-policy-measures-and-their-effects">Lab Activity 2: Exploring COVID Policy Measures and Their Effects</a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Activity9</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -231,10 +273,256 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="multiple-regression-collinearity" class="level1"><h1>Multiple Regression &amp; Collinearity</h1>
+<p>Multiple regression models the relationship between a dependent variable and multiple independent variables. In many real‐world scenarios, predictors can be correlated—this is known as <strong>multicollinearity</strong>. High multicollinearity inflates the variance of the coefficient estimates, making them unstable and difficult to interpret. A common diagnostic measure is the <strong>Variance Inflation Factor (VIF)</strong>. For a regression model:</p>
+<p><span class="math display">\[
+\begin{align}
+Y_t &amp;= \beta_0 + \beta_1 X_{1,t} + \beta_2 X_{2,t} + \varepsilon_t,
+\end{align}
+\]</span></p>
+<p>the VIF for predictor <span class="math inline">\(\\(X_i\\)\)</span> is computed as:</p>
+<p><span class="math display">\[
+\text{VIF}(X_i) = \frac{1}{1 - R_i^2},
+\]</span></p>
+<p>where <span class="math inline">\(\\(R_i^2\\)\)</span> is the coefficient of determination when <span class="math inline">\(\\(X_i\\)\)</span> is regressed on the other predictors. VIF values greater than 5 (or 10, depending on context) indicate potentially problematic collinearity.</p>
+<section id="real-world-examples" class="level2"><h2 class="anchored" data-anchor-id="real-world-examples">Real-World Examples</h2>
+<section id="economy-example-us-macro-data" class="level3"><h3 class="anchored" data-anchor-id="economy-example-us-macro-data">1. Economy Example (US Macro Data)</h3>
+<p><em>Dataset:</em> <strong>us_change</strong> (available in the <code>fpp3</code> package)<br><em>Model:</em></p>
+<p><span class="math display">\[
+\text{Consumption}_t = \beta_0 + \beta_1 \text{Income}_t + \beta_2 \text{Production}_t + \varepsilon_t
+\]</span></p>
+<p>In this example, we explore how Income and Production drive Consumption. We then use VIF to diagnose multicollinearity.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://r-forge.r-project.org/projects/car/">car</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit the TSLM model on us_change data</span></span>
+<span><span class="va">model_macro</span> <span class="op">&lt;-</span> <span class="va">us_change</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>tslm_macro <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">Consumption</span> <span class="op">~</span> <span class="va">Income</span> <span class="op">+</span> <span class="va">Production</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display model coefficients</span></span>
+<span><span class="va">model_macro</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">tslm_macro</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">'US Macro Model Coefficients'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>US Macro Model Coefficients</caption>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">tslm_macro</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.5106790</td>
+<td style="text-align: right;">0.0477604</td>
+<td style="text-align: right;">10.692528</td>
+<td style="text-align: right;">0.00e+00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tslm_macro</td>
+<td style="text-align: left;">Income</td>
+<td style="text-align: right;">0.1842811</td>
+<td style="text-align: right;">0.0427041</td>
+<td style="text-align: right;">4.315301</td>
+<td style="text-align: right;">2.53e-05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tslm_macro</td>
+<td style="text-align: left;">Production</td>
+<td style="text-align: right;">0.1925038</td>
+<td style="text-align: right;">0.0252739</td>
+<td style="text-align: right;">7.616697</td>
+<td style="text-align: right;">0.00e+00</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compute VIF values using a standard lm object</span></span>
+<span><span class="va">macro_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">Consumption</span> <span class="op">~</span> <span class="va">Income</span> <span class="op">+</span> <span class="va">Production</span>, data <span class="op">=</span> <span class="va">us_change</span><span class="op">)</span></span>
+<span><span class="va">vif_macro</span> <span class="op">&lt;-</span> <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/vif.html">vif</a></span><span class="op">(</span><span class="va">macro_lm</span><span class="op">)</span></span>
+<span><span class="va">vif_macro</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>    Income Production 
+  1.078113   1.078113 </code></pre>
+</div>
+</div>
+</section><section id="covid-example-mobility" class="level3"><h3 class="anchored" data-anchor-id="covid-example-mobility">2. COVID Example (Mobility)</h3>
+<p><em>Dataset:</em> <strong>oxcgrt</strong> (Oxford COVID Policy Tracker)</p>
+<p><em>Model:</em></p>
+<p><span class="math display">\[
+\log(\text{ConfirmedCases}_t) = \beta_0 + \beta_1 \text{ConfirmedDeaths}_t + \beta_2 \text{StringencyIndexAverage}_t + \varepsilon_t
+\]</span></p>
+<p>Here, we investigate the effect of COVID-19 deaths and policy stringency on the growth of confirmed cases, using a log-transformation to account for exponential growth. VIF is computed to check for multicollinearity between the predictors.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Download and read the OxCGRT data</span></span>
+<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">'https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv'</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/download.file.html">download.file</a></span><span class="op">(</span><span class="va">url</span>, destfile <span class="op">=</span> <span class="st">'OxCGRT_compact_national_v1.csv'</span>, mode <span class="op">=</span> <span class="st">'wb'</span><span class="op">)</span></span>
+<span><span class="va">oxcgrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="st">'OxCGRT_compact_national_v1.csv'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Filter for the United States and create a log-transformed ConfirmedCases variable</span></span>
+<span><span class="va">oxcgrt_us</span> <span class="op">&lt;-</span> <span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">'United States'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,</span>
+<span>         log_ConfirmedCases <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ConfirmedCases</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">log_ConfirmedCases</span>, <span class="va">ConfirmedDeaths</span>, <span class="va">StringencyIndex_Average</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit the TSLM model</span></span>
+<span><span class="va">model_covid</span> <span class="op">&lt;-</span> <span class="va">oxcgrt_us</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>tslm_covid <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">log_ConfirmedCases</span> <span class="op">~</span> <span class="va">ConfirmedDeaths</span> <span class="op">+</span> <span class="va">StringencyIndex_Average</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display model coefficients</span></span>
+<span><span class="va">model_covid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">tslm_covid</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">'COVID Model Coefficients'</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>COVID Model Coefficients</caption>
+<colgroup>
+<col style="width: 15%">
+<col style="width: 32%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 10%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">tslm_covid</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">1.7724524</td>
+<td style="text-align: right;">0.0956172</td>
+<td style="text-align: right;">18.53696</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tslm_covid</td>
+<td style="text-align: left;">ConfirmedDeaths</td>
+<td style="text-align: right;">0.0000113</td>
+<td style="text-align: right;">0.0000001</td>
+<td style="text-align: right;">156.84617</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">tslm_covid</td>
+<td style="text-align: left;">StringencyIndex_Average</td>
+<td style="text-align: right;">0.1578871</td>
+<td style="text-align: right;">0.0013481</td>
+<td style="text-align: right;">117.12148</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compute VIF values using a standard lm object (car::vif works with lm)</span></span>
+<span><span class="va">covid_lm</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">log_ConfirmedCases</span> <span class="op">~</span> <span class="va">ConfirmedDeaths</span> <span class="op">+</span> <span class="va">StringencyIndex_Average</span>, data <span class="op">=</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="va">oxcgrt_us</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">vif_covid</span> <span class="op">&lt;-</span> <span class="fu">car</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/car/man/vif.html">vif</a></span><span class="op">(</span><span class="va">covid_lm</span><span class="op">)</span></span>
+<span><span class="va">vif_covid</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>        ConfirmedDeaths StringencyIndex_Average 
+               1.270702                1.270702 </code></pre>
+</div>
+</div>
+</section><section id="lab-activity-1-assessing-multicollinearity-in-us-macro-data" class="level3"><h3 class="anchored" data-anchor-id="lab-activity-1-assessing-multicollinearity-in-us-macro-data">Lab Activity 1: Assessing Multicollinearity in US Macro Data</h3>
+<p><strong>Prompt:</strong></p>
+<ol type="1">
+<li>Using the <strong>us_change</strong> dataset, fit a TSLM model with Consumption as the response and all of the remaining variables as predictors.<br>
+</li>
+<li>Compute the VIF for each predictor using the <code><a href="https://rdrr.io/pkg/car/man/vif.html">car::vif()</a></code> function.<br>
+</li>
+<li>Interpret the VIF values and discuss whether there is evidence of multicollinearity.</li>
+</ol>
+<!--
+
+**Solution:**
+
+::: {.cell}
+
+```{.r .cell-code}
+# Fit the TSLM model on us_change data
+model_macro_lab <- us_change %>%
+  model(tslm_macro_lab = TSLM(Consumption ~ .))
+
+# Convert to an lm object for VIF computation
+macro_lm_lab <- lm(Consumption ~ ., data = us_change)
+vif_macro_lab <- car::vif(macro_lm_lab)
+vif_macro_lab
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+     Quarter       Income   Production      Savings Unemployment 
+    1.118319     2.713012     2.709416     2.533910     2.784650 
+```
 
 
+:::
+:::
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+--></section><section id="lab-activity-2-exploring-covid-policy-measures-and-their-effects" class="level3"><h3 class="anchored" data-anchor-id="lab-activity-2-exploring-covid-policy-measures-and-their-effects">Lab Activity 2: Exploring COVID Policy Measures and Their Effects</h3>
+<p><strong>Prompt:</strong></p>
+<ol type="1">
+<li>Using the <strong>oxcgrt</strong> dataset for the United States, create a new variable <code>log_ConfirmedDeaths</code> as <span class="math inline">\(\\(\\log(1 + \\text{ConfirmedDeaths})\\)\)</span>.<br>
+</li>
+<li>Fit a TSLM model with <code>ConfirmedCases</code>, <code>StringencyIndex_Average</code>, <code>C6M_Stay at home requirements</code> as predictors for <code>log_ConfirmedDeaths</code>.<br>
+</li>
+<li>Compute the VIF for the predictors and interpret the results in terms of potential collinearity.</li>
+</ol>
+<!--
+
+**Solution:**
+
+::: {.cell}
+
+```{.r .cell-code}
+# Filter and transform the data
+oxcgrt_lab <- oxcgrt %>% 
+  filter(CountryName == 'United States') %>% 
+  mutate(Date = ymd(Date),
+         log_ConfirmedDeaths = log(1 + ConfirmedDeaths)) %>% 
+  as_tsibble(index = Date) %>% 
+  drop_na(ConfirmedCases, log_ConfirmedDeaths, StringencyIndex_Average)
+
+# Fit the TSLM model
+model_covid_lab <- oxcgrt_lab %>%
+  model(tslm_covid_lab = TSLM(log_ConfirmedDeaths ~ ConfirmedCases + StringencyIndex_Average + `C6M_Stay at home requirements`))
+
+# Convert to an lm object for VIF computation
+covid_lm_lab <- lm(log_ConfirmedDeaths ~ ConfirmedCases + StringencyIndex_Average + `C6M_Stay at home requirements`, data = as_tibble(oxcgrt_lab))
+vif_covid_lab <- car::vif(covid_lm_lab)
+vif_covid_lab
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+                 ConfirmedCases         StringencyIndex_Average 
+                       1.466983                        4.000390 
+`C6M_Stay at home requirements` 
+                       3.786874 
+```
+
+
+:::
+:::
+
+-->
+
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
