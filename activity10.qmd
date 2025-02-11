@@ -20,3 +20,154 @@ library(readr)        # Efficient data import
 ```
 
 
+# Multiple Regression & Collinearity
+
+Multiple regression models the relationship between a dependent variable and multiple independent variables. In many real‐world scenarios, predictors can be correlated—this is known as **multicollinearity**. High multicollinearity inflates the variance of the coefficient estimates, making them unstable and difficult to interpret. A common diagnostic measure is the **Variance Inflation Factor (VIF)**. For a regression model:
+
+$$
+\begin{align}
+Y_t &= \beta_0 + \beta_1 X_{1,t} + \beta_2 X_{2,t} + \varepsilon_t,
+\end{align}
+$$
+
+the VIF for predictor $\\(X_i\\)$ is computed as:
+
+$$
+\text{VIF}(X_i) = \frac{1}{1 - R_i^2},
+$$
+
+where $\\(R_i^2\\)$ is the coefficient of determination when $\\(X_i\\)$ is regressed on the other predictors. VIF values greater than 5 (or 10, depending on context) indicate potentially problematic collinearity.
+
+
+## Real-World Examples
+
+### 1. Economy Example (US Macro Data)
+
+*Dataset:* **us_change** (available in the `fpp3` package)  
+*Model:*  
+
+$$
+\text{Consumption}_t = \beta_0 + \beta_1 \text{Income}_t + \beta_2 \text{Production}_t + \varepsilon_t
+$$
+
+In this example, we explore how Income and Production drive Consumption. We then use VIF to diagnose multicollinearity.
+
+```{r economy_example, message=FALSE, warning=FALSE}
+library(car)
+
+# Fit the TSLM model on us_change data
+model_macro <- us_change %>%
+  model(tslm_macro = TSLM(Consumption ~ Income + Production))
+
+# Display model coefficients
+model_macro %>%
+  tidy(tslm_macro) %>%
+  knitr::kable(caption = 'US Macro Model Coefficients')
+
+# Compute VIF values using a standard lm object
+macro_lm <- lm(Consumption ~ Income + Production, data = us_change)
+vif_macro <- car::vif(macro_lm)
+vif_macro
+```
+
+### 2. COVID Example (Mobility)
+
+*Dataset:* **oxcgrt** (Oxford COVID Policy Tracker)  
+
+*Model:*  
+
+$$
+\log(\text{ConfirmedCases}_t) = \beta_0 + \beta_1 \text{ConfirmedDeaths}_t + \beta_2 \text{StringencyIndexAverage}_t + \varepsilon_t
+$$
+
+Here, we investigate the effect of COVID-19 deaths and policy stringency on the growth of confirmed cases, using a log-transformation to account for exponential growth. VIF is computed to check for multicollinearity between the predictors.
+
+```{r covid_example, message=FALSE, warning=FALSE}
+# Download and read the OxCGRT data
+url <- 'https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv'
+download.file(url, destfile = 'OxCGRT_compact_national_v1.csv', mode = 'wb')
+oxcgrt <- read_csv('OxCGRT_compact_national_v1.csv')
+
+# Filter for the United States and create a log-transformed ConfirmedCases variable
+oxcgrt_us <- oxcgrt %>% 
+  filter(CountryName == 'United States') %>% 
+  mutate(Date = ymd(Date),
+         log_ConfirmedCases = log(1 + ConfirmedCases)) %>% 
+  as_tsibble(index = Date) %>% 
+  drop_na(log_ConfirmedCases, ConfirmedDeaths, StringencyIndex_Average)
+
+# Fit the TSLM model
+model_covid <- oxcgrt_us %>%
+  model(tslm_covid = TSLM(log_ConfirmedCases ~ ConfirmedDeaths + StringencyIndex_Average))
+
+# Display model coefficients
+model_covid %>% 
+  tidy(tslm_covid) %>%
+  knitr::kable(caption = 'COVID Model Coefficients')
+
+# Compute VIF values using a standard lm object (car::vif works with lm)
+covid_lm <- lm(log_ConfirmedCases ~ ConfirmedDeaths + StringencyIndex_Average, data = as_tibble(oxcgrt_us))
+vif_covid <- car::vif(covid_lm)
+vif_covid
+```
+
+
+### Lab Activity 1: Assessing Multicollinearity in US Macro Data
+
+**Prompt:**  
+
+1. Using the **us_change** dataset, fit a TSLM model with Consumption as the response and all of the remaining variables as predictors.  
+2. Compute the VIF for each predictor using the `car::vif()` function.  
+3. Interpret the VIF values and discuss whether there is evidence of multicollinearity.
+
+<!--
+
+**Solution:**
+
+```{r lab_activity1, message=FALSE, warning=FALSE}
+# Fit the TSLM model on us_change data
+model_macro_lab <- us_change %>%
+  model(tslm_macro_lab = TSLM(Consumption ~ .))
+
+# Convert to an lm object for VIF computation
+macro_lm_lab <- lm(Consumption ~ ., data = us_change)
+vif_macro_lab <- car::vif(macro_lm_lab)
+vif_macro_lab
+```
+
+-->
+
+### Lab Activity 2: Exploring COVID Policy Measures and Their Effects
+
+**Prompt:**  
+
+1. Using the **oxcgrt** dataset for the United States, create a new variable `log_ConfirmedDeaths` as $\\(\\log(1 + \\text{ConfirmedDeaths})\\)$.  
+2. Fit a TSLM model with `ConfirmedCases`, `StringencyIndex_Average`, `C6M_Stay at home requirements` as predictors for `log_ConfirmedDeaths`.  
+3. Compute the VIF for the predictors and interpret the results in terms of potential collinearity.
+
+
+<!--
+
+**Solution:**
+
+```{r lab_activity2, message=FALSE, warning=FALSE}
+# Filter and transform the data
+oxcgrt_lab <- oxcgrt %>% 
+  filter(CountryName == 'United States') %>% 
+  mutate(Date = ymd(Date),
+         log_ConfirmedDeaths = log(1 + ConfirmedDeaths)) %>% 
+  as_tsibble(index = Date) %>% 
+  drop_na(ConfirmedCases, log_ConfirmedDeaths, StringencyIndex_Average)
+
+# Fit the TSLM model
+model_covid_lab <- oxcgrt_lab %>%
+  model(tslm_covid_lab = TSLM(log_ConfirmedDeaths ~ ConfirmedCases + StringencyIndex_Average + `C6M_Stay at home requirements`))
+
+# Convert to an lm object for VIF computation
+covid_lm_lab <- lm(log_ConfirmedDeaths ~ ConfirmedCases + StringencyIndex_Average + `C6M_Stay at home requirements`, data = as_tibble(oxcgrt_lab))
+vif_covid_lab <- car::vif(covid_lm_lab)
+vif_covid_lab
+```
+
+-->
+
