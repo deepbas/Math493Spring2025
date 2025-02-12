@@ -141,7 +141,7 @@ vif_macro_lab
 
 **Prompt:**  
 
-1. Using the **oxcgrt** dataset for the United States, create a new variable `log_ConfirmedDeaths` as $\\(\\log(1 + \\text{ConfirmedDeaths})\\)$.  
+1. Using the **oxcgrt** dataset for the United States, create a new variable `log_ConfirmedDeaths` as $\\(\\log(1 + \text{ConfirmedDeaths})\\)$.  
 2. Fit a TSLM model with `ConfirmedCases`, `StringencyIndex_Average`, `C6M_Stay at home requirements` as predictors for `log_ConfirmedDeaths`.  
 3. Compute the VIF for the predictors and interpret the results in terms of potential collinearity.
 
