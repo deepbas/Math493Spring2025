@@ -122,7 +122,6 @@ oxdata %>%
   )
 ```
 
-
 #  Using `oxdata` for further COVID anaysis
 
 ## Lab Activity 1
@@ -132,8 +131,6 @@ oxdata %>%
    (Adding 1 helps avoid $\\(\log(0)\\).)$
 3. Fit a TSLM model relating `log_cases` to `C6M_Stay at home requirements`.
 4. Interpret the slope coefficient.
-
-<!--
 
 ### Solution
 
@@ -157,8 +154,6 @@ ex1_model %>% tidy(tslm_ex1) %>% knitr::kable()
 ex1_model %>% glance(tslm_ex1) %>% knitr::kable()
 ```
 
--->
-
 
 ## Lab Activity 2
 
@@ -167,7 +162,6 @@ ex1_model %>% glance(tslm_ex1) %>% knitr::kable()
 3. Regress `log_deaths` on `StringencyIndex_Average` using TSLM.
 4. Check if increased stringency is correlated with reduced deaths (i.e., a negative slope).
 
-<!--
 
 ### Solution
 
@@ -192,5 +186,4 @@ ex2_model %>% glance(tslm_ex2)  %>% knitr::kable()
 ```
 
 
--->
 

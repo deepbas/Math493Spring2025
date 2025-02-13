@@ -251,3 +251,4 @@ gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
 - Does the Lynx dataset exhibit any notable trends or cyclic patterns?
 - How do the rolling mean and variance behave over time?
 - Are transformations necessary to ensure stationarity?
+

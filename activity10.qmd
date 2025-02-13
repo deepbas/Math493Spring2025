@@ -119,7 +119,6 @@ vif_covid
 2. Compute the VIF for each predictor using the `car::vif()` function.  
 3. Interpret the VIF values and discuss whether there is evidence of multicollinearity.
 
-<!--
 
 **Solution:**
 
@@ -134,7 +133,7 @@ vif_macro_lab <- car::vif(macro_lm_lab)
 vif_macro_lab
 ```
 
--->
+
 
 ### Lab Activity 2: Exploring COVID Policy Measures and Their Effects
 
@@ -145,7 +144,6 @@ vif_macro_lab
 3. Compute the VIF for the predictors and interpret the results in terms of potential collinearity.
 
 
-<!--
 
 **Solution:**
 
@@ -168,5 +166,5 @@ vif_covid_lab <- car::vif(covid_lm_lab)
 vif_covid_lab
 ```
 
--->
+
 
