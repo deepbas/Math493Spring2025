@@ -240,8 +240,18 @@ window.Quarto = {
   <li>
 <a href="#using-oxdata-for-further-covid-anaysis" id="toc-using-oxdata-for-further-covid-anaysis" class="nav-link" data-scroll-target="#using-oxdata-for-further-covid-anaysis">Using <code>oxdata</code> for further COVID anaysis</a>
   <ul class="collapse">
-<li><a href="#lab-activity-1" id="toc-lab-activity-1" class="nav-link" data-scroll-target="#lab-activity-1">Lab Activity 1</a></li>
-  <li><a href="#lab-activity-2" id="toc-lab-activity-2" class="nav-link" data-scroll-target="#lab-activity-2">Lab Activity 2</a></li>
+<li>
+<a href="#lab-activity-1" id="toc-lab-activity-1" class="nav-link" data-scroll-target="#lab-activity-1">Lab Activity 1</a>
+  <ul class="collapse">
+<li><a href="#solution" id="toc-solution" class="nav-link" data-scroll-target="#solution">Solution</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#lab-activity-2" id="toc-lab-activity-2" class="nav-link" data-scroll-target="#lab-activity-2">Lab Activity 2</a>
+  <ul class="collapse">
+<li><a href="#solution-1" id="toc-solution-1" class="nav-link" data-scroll-target="#solution-1">Solution</a></li>
+  </ul>
+</li>
   </ul>
 </li>
   </ul></nav>
@@ -468,119 +478,242 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <li>Fit a TSLM model relating <code>log_cases</code> to <code>C6M_Stay at home requirements</code>.</li>
 <li>Interpret the slope coefficient.</li>
 </ol>
-<!--
-
-### Solution
-
-::: {.cell}
-
-```{.r .cell-code}
-# Filter & transform
-exercise1_data <- oxcgrt %>%
-  filter(CountryName == 'United States') %>%
-  mutate(
-    Date = ymd(Date),
-    log_cases = log(1 + ConfirmedCases)
-  ) %>%
-  as_tsibble(index = Date) %>%
-  drop_na(log_cases, `C6M_Stay at home requirements`)
-
-# Fit TSLM
-ex1_model <- exercise1_data %>%
-  model(tslm_ex1 = TSLM(log_cases ~ `C6M_Stay at home requirements`))
-
-# Summaries
-ex1_model %>% tidy(tslm_ex1) %>% knitr::kable()
-```
-
-::: {.cell-output-display}
-
-
-|.model   |term                            |  estimate| std.error| statistic| p.value|
-|:--------|:-------------------------------|---------:|---------:|---------:|-------:|
-|tslm_ex1 |(Intercept)                     | 14.976905| 0.2302570| 65.044305|   0e+00|
-|tslm_ex1 |`C6M_Stay at home requirements` |  0.917216| 0.1722268|  5.325628|   1e-07|
-
-
-:::
-
-```{.r .cell-code}
-ex1_model %>% glance(tslm_ex1) %>% knitr::kable()
-```
-
-::: {.cell-output-display}
-
-
-|.model   | r_squared| adj_r_squared|   sigma2| statistic| p_value| df|   log_lik|      AIC|     AICc|      BIC|       CV| deviance| df.residual| rank|
-|:--------|---------:|-------------:|--------:|---------:|-------:|--:|---------:|--------:|--------:|--------:|--------:|--------:|-----------:|----:|
-|tslm_ex1 | 0.0252702|     0.0243792| 15.75292|  28.36231|   1e-07|  2| -3065.006| 3025.699| 3025.721| 3040.697| 15.81785|  17233.7|        1094|    2|
-
-
-:::
-:::
-
---></section><section id="lab-activity-2" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-2">Lab Activity 2</h2>
+<section id="solution" class="level3"><h3 class="anchored" data-anchor-id="solution">Solution</h3>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Filter &amp; transform</span></span>
+<span><span class="va">exercise1_data</span> <span class="op">&lt;-</span> <span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">'United States'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    Date <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,</span>
+<span>    log_cases <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ConfirmedCases</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">log_cases</span>, <span class="va">`C6M_Stay at home requirements`</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit TSLM</span></span>
+<span><span class="va">ex1_model</span> <span class="op">&lt;-</span> <span class="va">exercise1_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>tslm_ex1 <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">log_cases</span> <span class="op">~</span> <span class="va">`C6M_Stay at home requirements`</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Summaries</span></span>
+<span><span class="va">ex1_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">tslm_ex1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 40%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 10%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">tslm_ex1</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">14.976905</td>
+<td style="text-align: right;">0.2302570</td>
+<td style="text-align: right;">65.044305</td>
+<td style="text-align: right;">0e+00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tslm_ex1</td>
+<td style="text-align: left;"><code>C6M_Stay at home requirements</code></td>
+<td style="text-align: right;">0.917216</td>
+<td style="text-align: right;">0.1722268</td>
+<td style="text-align: right;">5.325628</td>
+<td style="text-align: right;">1e-07</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ex1_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">tslm_ex1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 3%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: right;">r_squared</th>
+<th style="text-align: right;">adj_r_squared</th>
+<th style="text-align: right;">sigma2</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p_value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">log_lik</th>
+<th style="text-align: right;">AIC</th>
+<th style="text-align: right;">AICc</th>
+<th style="text-align: right;">BIC</th>
+<th style="text-align: right;">CV</th>
+<th style="text-align: right;">deviance</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rank</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">tslm_ex1</td>
+<td style="text-align: right;">0.0252702</td>
+<td style="text-align: right;">0.0243792</td>
+<td style="text-align: right;">15.75292</td>
+<td style="text-align: right;">28.36231</td>
+<td style="text-align: right;">1e-07</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-3065.006</td>
+<td style="text-align: right;">3025.699</td>
+<td style="text-align: right;">3025.721</td>
+<td style="text-align: right;">3040.697</td>
+<td style="text-align: right;">15.81785</td>
+<td style="text-align: right;">17233.7</td>
+<td style="text-align: right;">1094</td>
+<td style="text-align: right;">2</td>
+</tr></tbody>
+</table>
+</div>
+</div>
+</section></section><section id="lab-activity-2" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-2">Lab Activity 2</h2>
 <ol type="1">
 <li>Filter to the same (or another) country.</li>
 <li>Define a new variable, <code>log_deaths</code> = <span class="math inline">\(\\(\log(1 + \text{ConfirmedDeaths})\\)\)</span>.</li>
 <li>Regress <code>log_deaths</code> on <code>StringencyIndex_Average</code> using TSLM.</li>
 <li>Check if increased stringency is correlated with reduced deaths (i.e., a negative slope).</li>
 </ol>
-<!--
+<section id="solution-1" class="level3"><h3 class="anchored" data-anchor-id="solution-1">Solution</h3>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Filter &amp; transform</span></span>
+<span><span class="va">exercise2_data</span> <span class="op">&lt;-</span> <span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">'United States'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    Date <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,</span>
+<span>    log_deaths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ConfirmedDeaths</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">log_deaths</span>, <span class="va">StringencyIndex_Average</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit TSLM</span></span>
+<span><span class="va">ex2_model</span> <span class="op">&lt;-</span> <span class="va">exercise2_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>tslm_ex2 <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">log_deaths</span> <span class="op">~</span> <span class="va">StringencyIndex_Average</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Summaries</span></span>
+<span><span class="va">ex2_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">tslm_ex2</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 12%">
+<col style="width: 33%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 14%">
+<col style="width: 11%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">tslm_ex2</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">9.3193169</td>
+<td style="text-align: right;">0.2484414</td>
+<td style="text-align: right;">37.51112</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">tslm_ex2</td>
+<td style="text-align: left;">StringencyIndex_Average</td>
+<td style="text-align: right;">0.0585671</td>
+<td style="text-align: right;">0.0047442</td>
+<td style="text-align: right;">12.34504</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ex2_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">tslm_ex2</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 2%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 3%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: right;">r_squared</th>
+<th style="text-align: right;">adj_r_squared</th>
+<th style="text-align: right;">sigma2</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p_value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">log_lik</th>
+<th style="text-align: right;">AIC</th>
+<th style="text-align: right;">AICc</th>
+<th style="text-align: right;">BIC</th>
+<th style="text-align: right;">CV</th>
+<th style="text-align: right;">deviance</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rank</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">tslm_ex2</td>
+<td style="text-align: right;">0.1222721</td>
+<td style="text-align: right;">0.1214698</td>
+<td style="text-align: right;">9.854598</td>
+<td style="text-align: right;">152.3999</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-2807.946</td>
+<td style="text-align: right;">2511.578</td>
+<td style="text-align: right;">2511.6</td>
+<td style="text-align: right;">2526.577</td>
+<td style="text-align: right;">9.911232</td>
+<td style="text-align: right;">10780.93</td>
+<td style="text-align: right;">1094</td>
+<td style="text-align: right;">2</td>
+</tr></tbody>
+</table>
+</div>
+</div>
 
-### Solution
 
-::: {.cell}
-
-```{.r .cell-code}
-# Filter & transform
-exercise2_data <- oxcgrt %>%
-  filter(CountryName == 'United States') %>%
-  mutate(
-    Date = ymd(Date),
-    log_deaths = log(1 + ConfirmedDeaths)
-  ) %>%
-  as_tsibble(index = Date) %>%
-  drop_na(log_deaths, StringencyIndex_Average)
-
-# Fit TSLM
-ex2_model <- exercise2_data %>%
-  model(tslm_ex2 = TSLM(log_deaths ~ StringencyIndex_Average))
-
-# Summaries
-ex2_model %>% tidy(tslm_ex2)  %>% knitr::kable()
-```
-
-::: {.cell-output-display}
-
-
-|.model   |term                    |  estimate| std.error| statistic| p.value|
-|:--------|:-----------------------|---------:|---------:|---------:|-------:|
-|tslm_ex2 |(Intercept)             | 9.3193169| 0.2484414|  37.51112|       0|
-|tslm_ex2 |StringencyIndex_Average | 0.0585671| 0.0047442|  12.34504|       0|
-
-
-:::
-
-```{.r .cell-code}
-ex2_model %>% glance(tslm_ex2)  %>% knitr::kable()
-```
-
-::: {.cell-output-display}
-
-
-|.model   | r_squared| adj_r_squared|   sigma2| statistic| p_value| df|   log_lik|      AIC|   AICc|      BIC|       CV| deviance| df.residual| rank|
-|:--------|---------:|-------------:|--------:|---------:|-------:|--:|---------:|--------:|------:|--------:|--------:|--------:|-----------:|----:|
-|tslm_ex2 | 0.1222721|     0.1214698| 9.854598|  152.3999|       0|  2| -2807.946| 2511.578| 2511.6| 2526.577| 9.911232| 10780.93|        1094|    2|
-
-
-:::
-:::
-
-
--->
-
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
