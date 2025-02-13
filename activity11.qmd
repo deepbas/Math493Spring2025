@@ -1,5 +1,5 @@
 ---
-title: "Activity9"
+title: "Activity11"
 format: html
 warning: false
 message: false
@@ -20,3 +20,222 @@ library(readr)        # Efficient data import
 ```
 
 
+## Residual Analysis in Time Series Modeling  
+
+**Core Concept**  
+
+Residual analysis is crucial for verifying model adequacy in time series. Residuals $e_t = y_t - \hat{y}_t$ reveal violations of model assumptions (independence, homoscedasticity, normality). We demonstrate this through three domains, using the `glance()` function for model diagnostics, and discuss error modeling strategies when residuals aren’t white noise.
+
+Residuals are defined as the differences between the observed values and the corresponding fitted values:
+
+$$
+\begin{align}
+e_t &= y_t - \hat{y}_t,
+\end{align}
+$$
+
+where $y_t$ is the observed value and $\hat{y}_t$ is the predicted value at time $t$. Examining residuals helps assess model assumptions including independence, homoscedasticity, and normality.
+
+
+# Practical Implementations
+
+## 1. Finance Example: European Stock Markets
+
+We utilize the built-in `EuStockMarkets` dataset to illustrate a Box-Cox transformation and residual analysis on financial data.
+
+```{r}
+# Convert the EuStockMarkets dataset to a tsibble
+stock_tsibble <- as_tsibble(EuStockMarkets)
+
+# Use the DAX index for analysis and determine the optimal Box-Cox lambda
+stock_DAX <- stock_tsibble %>% 
+  filter(key == "DAX") 
+  
+
+lambda <- stock_DAX |>
+  features(value, features = guerrero) |>
+  pull(lambda_guerrero)
+
+stock_DAX_BC <- stock_DAX |>
+  mutate(BoxCoxValue = box_cox(value, lambda))
+
+
+# Fit a simple model with trend
+fit_finance <- stock_DAX_BC %>% 
+  model(lm = TSLM(BoxCoxValue ~ trend()))
+
+fit_finance %>% tidy() %>% knitr::kable()
+
+fit_finance %>% glance() %>% knitr::kable()
+
+# Residual analysis: Plot fitted vs residuals
+fit_finance %>% augment() %>%
+  ggplot(aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "loess", col = "blue", se = FALSE) +
+  labs(title = "Residuals of DAX after Box-Cox Transformation")
+```
+
+ 
+**Insight**: If residuals show unexplained structure, consider adding seasonal components or switching to ARIMA.
+
+## 2. Health Example: Electricity Demand in Victoria
+
+Using the `vic_elec` dataset from the `Tidyverts` ecosystem, we fit a log-linear model to study the effect of temperature on electricity demand.
+
+```{r}
+# Fit a log-linear model: log(Demand) as a function of Temperature
+fit_demand <- vic_elec %>% model(TSLM(log(Demand) ~ Temperature))
+
+fit_demand %>%  gg_tsresiduals() +
+  labs(title = "Model Residuals")
+
+fit_demand %>% tidy() %>% knitr::kable()
+
+fit_demand %>% glance() %>% knitr::kable()
+
+# Plot residuals against fitted values
+fit_demand %>% augment() %>%
+  ggplot(aes(x = .fitted, y = .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "loess", col = "blue", se = FALSE) +
+  labs(title = "Residuals of Log-Linear Model for Electricity Demand")
+```
+
+
+```{r}
+# Fit a refined log-linear model with a quadratic term
+fit_demand_quad <- vic_elec %>% 
+  model(TSLM(log(Demand) ~ Temperature + I(Temperature^2)))
+
+fit_demand_quad %>% gg_tsresiduals() +
+  labs(title = "Model Residuals")
+
+fit_demand_quad %>% tidy() %>% knitr::kable()
+
+fit_demand_quad %>% glance() %>% knitr::kable()
+
+# Residual analysis: Plot fitted vs residuals
+fit_demand_quad %>% augment() %>%
+  ggplot(aes(.fitted, .resid)) +
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "loess", col = "blue", se = FALSE) +
+  labs(title = "Residuals of Log-Linear Model for Electricity Demand",
+       x = "Fitted Values", y = "Residuals")
+```
+
+
+**Insight**: Even with better metrics, residual autocorrelation persists – this signals the need for SARIMA models.
+
+
+## 3. Environment Example: Air Quality Analysis
+
+The built-in `airquality` dataset is used to analyze the relationship between temperature and ozone levels, followed by residual diagnostics.
+
+```{r}
+# Prepare the 'airquality' data with a proper date variable
+library(stringr)
+airquality <- as_tibble(airquality) %>% 
+  mutate(Date = lubridate::ymd(stringr::str_c(1973, Month, Day, sep = "-"))) %>%
+  arrange(Date) %>% 
+  as_tsibble(index = Date)
+
+# Fit a linear model: Ozone as a function of Temperature
+fit_env <- airquality %>%  model(TSLM(Ozone ~ Temp))
+
+fit_env %>% tidy() %>% knitr::kable()
+
+fit_env %>% glance() %>% knitr::kable()
+
+# Compute fitted values and residuals
+fit_env %>% augment() %>% 
+  ggplot(aes(x = .fitted, y = .resid)) + 
+  geom_point(alpha = 0.5) +
+  geom_smooth(method = "loess", col = "blue", se = FALSE) +
+  labs(title = "Residuals of Ozone vs Temperature Model")
+
+fit_env %>%   gg_tsresiduals() +
+  labs(title = "Model Residuals")
+```
+
+
+# Lab Activities
+
+## Activity 1: Retail Sales Seasonality Analysis  
+
+**Prompt**  
+
+Using the `aus_retail` dataset (Tidyverts), analyze the **"Takeaway food services"** sector in Victoria. 
+
+1. Fit a model incorporating both **trend** and **monthly seasonality**  
+2. Perform residual analysis to assess model adequacy  
+3. Discuss whether seasonality improves the model  
+
+<!--
+
+**Solution**  
+
+```{r}  
+# Subset data and fit seasonal model  
+retail_model <- aus_retail %>%  
+  filter(Industry == "Takeaway food services", State == "Victoria") %>%  
+  model(TSLM(Turnover ~ trend() + season()))  
+
+# Residual diagnostics  
+retail_model %>%  
+  augment() %>%  
+  ggplot(aes(x = .fitted, y = .resid)) +  
+  geom_point(alpha = 0.5) +  
+  geom_hline(yintercept = 0, col = "red") +  
+  labs(title = "Residuals vs Fitted: Takeaway Food Services Model")  
+
+retail_model %>% gg_tsresiduals()  
+```  
+
+**Key Insight**  
+
+The `season()` term automatically creates **11 monthly dummy variables**. Compare residuals before/after adding seasonality using `glance()` metrics like AIC.  
+
+-->
+
+
+## Activity 2: Gasoline Production Transformation Study  
+
+**Prompt**  
+
+Using the `gas` dataset (astsa):  
+
+1. Apply Box-Cox transformation with Guerrero's optimal $\lambda$  
+2. Compare residuals against a **square root transformation** ($\lambda=0.5$)  
+3. Identify which transformation better satisfies homoscedasticity  
+
+<!--
+**Solution**  
+
+```{r}  
+# Convert to tsibble and model  
+gas_ts <- as_tsibble(gas) %>% rename(Week = index, Production = value)  
+
+lambda_opt <- gas_ts %>% features(Production, guerrero) %>% pull(lambda_guerrero)  
+
+fit_opt <- gas_ts %>%  
+  mutate(Transformed = box_cox(Production, lambda_opt)) %>%  
+  model(TSLM(Transformed ~ trend()))  
+
+fit_sqrt <- gas_ts %>%  
+  mutate(Sqrt = sqrt(Production)) %>%  
+  model(TSLM(Sqrt ~ trend()))  
+
+# Residual comparison  
+gridExtra::grid.arrange(  
+  autoplot(fit_opt %>% augment(), .resid) + labs(title = "Optimal Box-Cox"),  
+  autoplot(fit_sqrt %>% augment(), .resid) + labs(title = "Square Root"),  
+  ncol = 1  
+)  
+```  
+
+**Critical Check**  
+
+Use `glance(fit_opt)` vs `glance(fit_sqrt)` to compare **sigma** (residual SD) - lower values indicate better variance stabilization.  
+
+-->

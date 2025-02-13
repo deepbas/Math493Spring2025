@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Activity9 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity11 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -166,6 +191,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./activity10.html">
  <span class="dropdown-text">Activity10</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity11.html">
+ <span class="dropdown-text">Activity11</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -199,17 +228,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#residual-analysis-in-time-series-modeling" id="toc-residual-analysis-in-time-series-modeling" class="nav-link active" data-scroll-target="#residual-analysis-in-time-series-modeling">Residual Analysis in Time Series Modeling</a></li>
+  <li>
+<a href="#practical-implementations" id="toc-practical-implementations" class="nav-link" data-scroll-target="#practical-implementations">Practical Implementations</a>
+  <ul class="collapse">
+<li><a href="#finance-example-european-stock-markets" id="toc-finance-example-european-stock-markets" class="nav-link" data-scroll-target="#finance-example-european-stock-markets">1. Finance Example: European Stock Markets</a></li>
+  <li><a href="#health-example-electricity-demand-in-victoria" id="toc-health-example-electricity-demand-in-victoria" class="nav-link" data-scroll-target="#health-example-electricity-demand-in-victoria">2. Health Example: Electricity Demand in Victoria</a></li>
+  <li><a href="#environment-example-air-quality-analysis" id="toc-environment-example-air-quality-analysis" class="nav-link" data-scroll-target="#environment-example-air-quality-analysis">3. Environment Example: Air Quality Analysis</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#lab-activities-advanced-residual-analysis" id="toc-lab-activities-advanced-residual-analysis" class="nav-link" data-scroll-target="#lab-activities-advanced-residual-analysis">Lab Activities: Advanced Residual Analysis</a>
+  <ul class="collapse">
+<li><a href="#activity-1-retail-sales-seasonality-analysis" id="toc-activity-1-retail-sales-seasonality-analysis" class="nav-link" data-scroll-target="#activity-1-retail-sales-seasonality-analysis">Activity 1: Retail Sales Seasonality Analysis</a></li>
+  <li><a href="#activity-2-gasoline-production-transformation-study" id="toc-activity-2-gasoline-production-transformation-study" class="nav-link" data-scroll-target="#activity-2-gasoline-production-transformation-study">Activity 2: Gasoline Production Transformation Study</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Activity9</h1>
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Activity11</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -231,10 +279,627 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="residual-analysis-in-time-series-modeling" class="level2"><h2 class="anchored" data-anchor-id="residual-analysis-in-time-series-modeling">Residual Analysis in Time Series Modeling</h2>
+<p><strong>Core Concept</strong></p>
+<p>Residual analysis is crucial for verifying model adequacy in time series. Residuals <span class="math inline">\(e_t = y_t - \hat{y}_t\)</span> reveal violations of model assumptions (independence, homoscedasticity, normality). We demonstrate this through three domains, using the <code><a href="https://generics.r-lib.org/reference/glance.html">glance()</a></code> function for model diagnostics, and discuss error modeling strategies when residuals aren’t white noise.</p>
+<p>Residuals are defined as the differences between the observed values and the corresponding fitted values:</p>
+<p><span class="math display">\[
+\begin{align}
+e_t &amp;= y_t - \hat{y}_t,
+\end{align}
+\]</span></p>
+<p>where <span class="math inline">\(y_t\)</span> is the observed value and <span class="math inline">\(\hat{y}_t\)</span> is the predicted value at time <span class="math inline">\(t\)</span>. Examining residuals helps assess model assumptions including independence, homoscedasticity, and normality.</p>
+</section><section id="practical-implementations" class="level1"><h1>Practical Implementations</h1>
+<section id="finance-example-european-stock-markets" class="level2"><h2 class="anchored" data-anchor-id="finance-example-european-stock-markets">1. Finance Example: European Stock Markets</h2>
+<p>We utilize the built-in <code>EuStockMarkets</code> dataset to illustrate a Box-Cox transformation and residual analysis on financial data.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convert the EuStockMarkets dataset to a tsibble</span></span>
+<span><span class="va">stock_tsibble</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">EuStockMarkets</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Use the DAX index for analysis and determine the optimal Box-Cox lambda</span></span>
+<span><span class="va">stock_DAX</span> <span class="op">&lt;-</span> <span class="va">stock_tsibble</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">key</span> <span class="op">==</span> <span class="st">"DAX"</span><span class="op">)</span> </span>
+<span>  </span>
+<span></span>
+<span><span class="va">lambda</span> <span class="op">&lt;-</span> <span class="va">stock_DAX</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">value</span>, features <span class="op">=</span> <span class="va">guerrero</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">lambda_guerrero</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">stock_DAX_BC</span> <span class="op">&lt;-</span> <span class="va">stock_DAX</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>BoxCoxValue <span class="op">=</span> <span class="fu"><a href="https://fabletools.tidyverts.org/reference/box_cox.html">box_cox</a></span><span class="op">(</span><span class="va">value</span>, <span class="va">lambda</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Fit a simple model with trend</span></span>
+<span><span class="va">fit_finance</span> <span class="op">&lt;-</span> <span class="va">stock_DAX_BC</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>lm <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">BoxCoxValue</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_finance</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">key</th>
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">DAX</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">2.677081</td>
+<td style="text-align: right;">0.0003964</td>
+<td style="text-align: right;">6753.6546</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">DAX</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: left;">trend()</td>
+<td style="text-align: right;">0.000000</td>
+<td style="text-align: right;">0.0000000</td>
+<td style="text-align: right;">114.5636</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_finance</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 2%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 10%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 8%">
+<col style="width: 3%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">key</th>
+<th style="text-align: left;">.model</th>
+<th style="text-align: right;">r_squared</th>
+<th style="text-align: right;">adj_r_squared</th>
+<th style="text-align: right;">sigma2</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p_value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">log_lik</th>
+<th style="text-align: right;">AIC</th>
+<th style="text-align: right;">AICc</th>
+<th style="text-align: right;">BIC</th>
+<th style="text-align: right;">CV</th>
+<th style="text-align: right;">deviance</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rank</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">DAX</td>
+<td style="text-align: left;">lm</td>
+<td style="text-align: right;">0.8759912</td>
+<td style="text-align: right;">0.8759245</td>
+<td style="text-align: right;">7.31e-05</td>
+<td style="text-align: right;">13124.81</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">6218.707</td>
+<td style="text-align: right;">-17709.87</td>
+<td style="text-align: right;">-17709.85</td>
+<td style="text-align: right;">-17693.28</td>
+<td style="text-align: right;">7.32e-05</td>
+<td style="text-align: right;">0.1358332</td>
+<td style="text-align: right;">1858</td>
+<td style="text-align: right;">2</td>
+</tr></tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Residual analysis: Plot fitted vs residuals</span></span>
+<span><span class="va">fit_finance</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">.fitted</span>, y <span class="op">=</span> <span class="va">.resid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span>, col <span class="op">=</span> <span class="st">"blue"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Residuals of DAX after Box-Cox Transformation"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Insight</strong>: If residuals show unexplained structure, consider adding seasonal components or switching to ARIMA.</p>
+</section><section id="health-example-electricity-demand-in-victoria" class="level2"><h2 class="anchored" data-anchor-id="health-example-electricity-demand-in-victoria">2. Health Example: Electricity Demand in Victoria</h2>
+<p>Using the <code>vic_elec</code> dataset from the <code>Tidyverts</code> ecosystem, we fit a log-linear model to study the effect of temperature on electricity demand.</p>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit a log-linear model: log(Demand) as a function of Temperature</span></span>
+<span><span class="va">fit_demand</span> <span class="op">&lt;-</span> <span class="va">vic_elec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Demand</span><span class="op">)</span> <span class="op">~</span> <span class="va">Temperature</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_demand</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsresiduals.html">gg_tsresiduals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Model Residuals"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_demand</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 14%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 9%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TSLM(log(Demand) ~ Temperature)</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">8.3034435</td>
+<td style="text-align: right;">0.0023852</td>
+<td style="text-align: right;">3481.30664</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TSLM(log(Demand) ~ Temperature)</td>
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: right;">0.0078263</td>
+<td style="text-align: right;">0.0001385</td>
+<td style="text-align: right;">56.50756</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_demand</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 4%">
+<col style="width: 1%">
+<col style="width: 5%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 3%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: right;">r_squared</th>
+<th style="text-align: right;">adj_r_squared</th>
+<th style="text-align: right;">sigma2</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p_value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">log_lik</th>
+<th style="text-align: right;">AIC</th>
+<th style="text-align: right;">AICc</th>
+<th style="text-align: right;">BIC</th>
+<th style="text-align: right;">CV</th>
+<th style="text-align: right;">deviance</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rank</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">TSLM(log(Demand) ~ Temperature)</td>
+<td style="text-align: right;">0.057225</td>
+<td style="text-align: right;">0.0572071</td>
+<td style="text-align: right;">0.0323145</td>
+<td style="text-align: right;">3193.104</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">15635.07</td>
+<td style="text-align: right;">-180559.2</td>
+<td style="text-align: right;">-180559.2</td>
+<td style="text-align: right;">-180532.6</td>
+<td style="text-align: right;">0.0323162</td>
+<td style="text-align: right;">1699.938</td>
+<td style="text-align: right;">52606</td>
+<td style="text-align: right;">2</td>
+</tr></tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot residuals against fitted values</span></span>
+<span><span class="va">fit_demand</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">.fitted</span>, y <span class="op">=</span> <span class="va">.resid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span>, col <span class="op">=</span> <span class="st">"blue"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Residuals of Log-Linear Model for Electricity Demand"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit a refined log-linear model with a quadratic term</span></span>
+<span><span class="va">fit_demand_quad</span> <span class="op">&lt;-</span> <span class="va">vic_elec</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">Demand</span><span class="op">)</span> <span class="op">~</span> <span class="va">Temperature</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/r/base/AsIs.html">I</a></span><span class="op">(</span><span class="va">Temperature</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_demand_quad</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsresiduals.html">gg_tsresiduals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Model Residuals"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_demand_quad</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 47%">
+<col style="width: 15%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 10%">
+<col style="width: 7%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TSLM(log(Demand) ~ Temperature + I(Temperature^2))</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">8.6290530</td>
+<td style="text-align: right;">0.0052048</td>
+<td style="text-align: right;">1657.91105</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TSLM(log(Demand) ~ Temperature + I(Temperature^2))</td>
+<td style="text-align: left;">Temperature</td>
+<td style="text-align: right;">-0.0312701</td>
+<td style="text-align: right;">0.0005771</td>
+<td style="text-align: right;">-54.18703</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">TSLM(log(Demand) ~ Temperature + I(Temperature^2))</td>
+<td style="text-align: left;">I(Temperature^2)</td>
+<td style="text-align: right;">0.0010463</td>
+<td style="text-align: right;">0.0000150</td>
+<td style="text-align: right;">69.60956</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_demand_quad</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 28%">
+<col style="width: 5%">
+<col style="width: 7%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 1%">
+<col style="width: 4%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 2%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: right;">r_squared</th>
+<th style="text-align: right;">adj_r_squared</th>
+<th style="text-align: right;">sigma2</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p_value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">log_lik</th>
+<th style="text-align: right;">AIC</th>
+<th style="text-align: right;">AICc</th>
+<th style="text-align: right;">BIC</th>
+<th style="text-align: right;">CV</th>
+<th style="text-align: right;">deviance</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rank</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">TSLM(log(Demand) ~ Temperature + I(Temperature^2))</td>
+<td style="text-align: right;">0.1367406</td>
+<td style="text-align: right;">0.1367077</td>
+<td style="text-align: right;">0.0295896</td>
+<td style="text-align: right;">4166.324</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">17952.78</td>
+<td style="text-align: right;">-185192.6</td>
+<td style="text-align: right;">-185192.6</td>
+<td style="text-align: right;">-185157.1</td>
+<td style="text-align: right;">0.0295909</td>
+<td style="text-align: right;">1556.562</td>
+<td style="text-align: right;">52605</td>
+<td style="text-align: right;">3</td>
+</tr></tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Residual analysis: Plot fitted vs residuals</span></span>
+<span><span class="va">fit_demand_quad</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span><span class="va">.fitted</span>, <span class="va">.resid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span>, col <span class="op">=</span> <span class="st">"blue"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Residuals of Log-Linear Model for Electricity Demand"</span>,</span>
+<span>       x <span class="op">=</span> <span class="st">"Fitted Values"</span>, y <span class="op">=</span> <span class="st">"Residuals"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Insight</strong>: Even with better metrics, residual autocorrelation persists – this signals the need for SARIMA models.</p>
+</section><section id="environment-example-air-quality-analysis" class="level2"><h2 class="anchored" data-anchor-id="environment-example-air-quality-analysis">3. Environment Example: Air Quality Analysis</h2>
+<p>The built-in <code>airquality</code> dataset is used to analyze the relationship between temperature and ozone levels, followed by residual diagnostics.</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Prepare the 'airquality' data with a proper date variable</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://stringr.tidyverse.org">stringr</a></span><span class="op">)</span></span>
+<span><span class="va">airquality</span> <span class="op">&lt;-</span> <span class="fu">as_tibble</span><span class="op">(</span><span class="va">airquality</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_c.html">str_c</a></span><span class="op">(</span><span class="fl">1973</span>, <span class="va">Month</span>, <span class="va">Day</span>, sep <span class="op">=</span> <span class="st">"-"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">Date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit a linear model: Ozone as a function of Temperature</span></span>
+<span><span class="va">fit_env</span> <span class="op">&lt;-</span> <span class="va">airquality</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">Ozone</span> <span class="op">~</span> <span class="va">Temp</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_env</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 16%">
+<col style="width: 16%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 11%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: left;">term</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">TSLM(Ozone ~ Temp)</td>
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">-146.995491</td>
+<td style="text-align: right;">18.2871736</td>
+<td style="text-align: right;">-8.038174</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">TSLM(Ozone ~ Temp)</td>
+<td style="text-align: left;">Temp</td>
+<td style="text-align: right;">2.428703</td>
+<td style="text-align: right;">0.2331318</td>
+<td style="text-align: right;">10.417724</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_env</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 5%">
+<col style="width: 2%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 3%">
+</colgroup>
+<thead><tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: right;">r_squared</th>
+<th style="text-align: right;">adj_r_squared</th>
+<th style="text-align: right;">sigma2</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p_value</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">log_lik</th>
+<th style="text-align: right;">AIC</th>
+<th style="text-align: right;">AICc</th>
+<th style="text-align: right;">BIC</th>
+<th style="text-align: right;">CV</th>
+<th style="text-align: right;">deviance</th>
+<th style="text-align: right;">df.residual</th>
+<th style="text-align: right;">rank</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td style="text-align: left;">TSLM(Ozone ~ Temp)</td>
+<td style="text-align: right;">0.4877072</td>
+<td style="text-align: right;">0.4832134</td>
+<td style="text-align: right;">562.3675</td>
+<td style="text-align: right;">108.529</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">-530.8532</td>
+<td style="text-align: right;">738.5126</td>
+<td style="text-align: right;">738.7269</td>
+<td style="text-align: right;">746.7734</td>
+<td style="text-align: right;">568.4843</td>
+<td style="text-align: right;">64109.89</td>
+<td style="text-align: right;">114</td>
+<td style="text-align: right;">2</td>
+</tr></tbody>
+</table>
+</div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compute fitted values and residuals</span></span>
+<span><span class="va">fit_env</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">.fitted</span>, y <span class="op">=</span> <span class="va">.resid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"loess"</span>, col <span class="op">=</span> <span class="st">"blue"</span>, se <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Residuals of Ozone vs Temperature Model"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_env</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>   <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsresiduals.html">gg_tsresiduals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Model Residuals"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="lab-activities-advanced-residual-analysis" class="level1"><h1>Lab Activities: Advanced Residual Analysis</h1>
+<section id="activity-1-retail-sales-seasonality-analysis" class="level2"><h2 class="anchored" data-anchor-id="activity-1-retail-sales-seasonality-analysis">Activity 1: Retail Sales Seasonality Analysis</h2>
+<p><strong>Prompt</strong></p>
+<p>Using the <code>aus_retail</code> dataset (Tidyverts), analyze the <strong>“Takeaway food services”</strong> sector in Victoria.</p>
+<ol type="1">
+<li>Fit a model incorporating both <strong>trend</strong> and <strong>monthly seasonality</strong><br>
+</li>
+<li>Perform residual analysis to assess model adequacy<br>
+</li>
+<li>Discuss whether seasonality improves the model</li>
+</ol>
+<!--
 
+**Solution**  
 
+::: {.cell}
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+```{.r .cell-code}
+# Subset data and fit seasonal model  
+retail_model <- aus_retail %>%  
+  filter(Industry == "Takeaway food services", State == "Victoria") %>%  
+  model(TSLM(Turnover ~ trend() + season()))  
+
+# Residual diagnostics  
+retail_model %>%  
+  augment() %>%  
+  ggplot(aes(x = .fitted, y = .resid)) +  
+  geom_point(alpha = 0.5) +  
+  geom_hline(yintercept = 0, col = "red") +  
+  labs(title = "Residuals vs Fitted: Takeaway Food Services Model")  
+```
+
+::: {.cell-output-display}
+![](activity11_files/figure-html/unnamed-chunk-6-1.png){width=672}
+:::
+
+```{.r .cell-code}
+retail_model %>% gg_tsresiduals()  
+```
+
+::: {.cell-output-display}
+![](activity11_files/figure-html/unnamed-chunk-6-2.png){width=672}
+:::
+:::
+
+**Key Insight**  
+
+The `season()` term automatically creates **11 monthly dummy variables**. Compare residuals before/after adding seasonality using `glance()` metrics like AIC.  
+
+--></section><section id="activity-2-gasoline-production-transformation-study" class="level2"><h2 class="anchored" data-anchor-id="activity-2-gasoline-production-transformation-study">Activity 2: Gasoline Production Transformation Study</h2>
+<p><strong>Prompt</strong></p>
+<p>Using the <code>gas</code> dataset (astsa):</p>
+<ol type="1">
+<li>Apply Box-Cox transformation with Guerrero’s optimal <span class="math inline">\(\lambda\)</span><br>
+</li>
+<li>Compare residuals against a <strong>square root transformation</strong> (<span class="math inline">\(\lambda=0.5\)</span>)<br>
+</li>
+<li>Identify which transformation better satisfies homoscedasticity</li>
+</ol>
+<!--
+**Solution**  
+
+::: {.cell}
+
+```{.r .cell-code}
+# Convert to tsibble and model  
+gas_ts <- as_tsibble(gas) %>% rename(Week = index, Production = value)  
+
+lambda_opt <- gas_ts %>% features(Production, guerrero) %>% pull(lambda_guerrero)  
+
+fit_opt <- gas_ts %>%  
+  mutate(Transformed = box_cox(Production, lambda_opt)) %>%  
+  model(TSLM(Transformed ~ trend()))  
+
+fit_sqrt <- gas_ts %>%  
+  mutate(Sqrt = sqrt(Production)) %>%  
+  model(TSLM(Sqrt ~ trend()))  
+
+# Residual comparison  
+gridExtra::grid.arrange(  
+  autoplot(fit_opt %>% augment(), .resid) + labs(title = "Optimal Box-Cox"),  
+  autoplot(fit_sqrt %>% augment(), .resid) + labs(title = "Square Root"),  
+  ncol = 1  
+)  
+```
+
+::: {.cell-output-display}
+![](activity11_files/figure-html/unnamed-chunk-7-1.png){width=672}
+:::
+:::
+
+**Critical Check**  
+
+Use `glance(fit_opt)` vs `glance(fit_sqrt)` to compare **sigma** (residual SD) - lower values indicate better variance stabilization.  
+
+-->
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

@@ -9,9 +9,51 @@
   {
     "objectID": "activity11.html",
     "href": "activity11.html",
-    "title": "Activity9",
+    "title": "Activity11",
     "section": "",
     "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
+  },
+  {
+    "objectID": "activity11.html#residual-analysis-in-time-series-modeling",
+    "href": "activity11.html#residual-analysis-in-time-series-modeling",
+    "title": "Activity11",
+    "section": "Residual Analysis in Time Series Modeling",
+    "text": "Residual Analysis in Time Series Modeling\nCore Concept\nResidual analysis is crucial for verifying model adequacy in time series. Residuals \\(e_t = y_t - \\hat{y}_t\\) reveal violations of model assumptions (independence, homoscedasticity, normality). We demonstrate this through three domains, using the glance() function for model diagnostics, and discuss error modeling strategies when residuals aren’t white noise.\nResiduals are defined as the differences between the observed values and the corresponding fitted values:\n\\[\n\\begin{align}\ne_t &= y_t - \\hat{y}_t,\n\\end{align}\n\\]\nwhere \\(y_t\\) is the observed value and \\(\\hat{y}_t\\) is the predicted value at time \\(t\\). Examining residuals helps assess model assumptions including independence, homoscedasticity, and normality."
+  },
+  {
+    "objectID": "activity11.html#finance-example-european-stock-markets",
+    "href": "activity11.html#finance-example-european-stock-markets",
+    "title": "Activity11",
+    "section": "1. Finance Example: European Stock Markets",
+    "text": "1. Finance Example: European Stock Markets\nWe utilize the built-in EuStockMarkets dataset to illustrate a Box-Cox transformation and residual analysis on financial data.\n\n# Convert the EuStockMarkets dataset to a tsibble\nstock_tsibble &lt;- as_tsibble(EuStockMarkets)\n\n# Use the DAX index for analysis and determine the optimal Box-Cox lambda\nstock_DAX &lt;- stock_tsibble %&gt;% \n  filter(key == \"DAX\") \n  \n\nlambda &lt;- stock_DAX |&gt;\n  features(value, features = guerrero) |&gt;\n  pull(lambda_guerrero)\n\nstock_DAX_BC &lt;- stock_DAX |&gt;\n  mutate(BoxCoxValue = box_cox(value, lambda))\n\n\n# Fit a simple model with trend\nfit_finance &lt;- stock_DAX_BC %&gt;% \n  model(lm = TSLM(BoxCoxValue ~ trend()))\n\nfit_finance %&gt;% tidy() %&gt;% knitr::kable()\n\n\n\nkey\n.model\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\nDAX\nlm\n(Intercept)\n2.677081\n0.0003964\n6753.6546\n0\n\n\nDAX\nlm\ntrend()\n0.000000\n0.0000000\n114.5636\n0\n\n\n\n\nfit_finance %&gt;% glance() %&gt;% knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nkey\n.model\nr_squared\nadj_r_squared\nsigma2\nstatistic\np_value\ndf\nlog_lik\nAIC\nAICc\nBIC\nCV\ndeviance\ndf.residual\nrank\n\n\nDAX\nlm\n0.8759912\n0.8759245\n7.31e-05\n13124.81\n0\n2\n6218.707\n-17709.87\n-17709.85\n-17693.28\n7.32e-05\n0.1358332\n1858\n2\n\n\n\n# Residual analysis: Plot fitted vs residuals\nfit_finance %&gt;% augment() %&gt;%\n  ggplot(aes(x = .fitted, y = .resid)) +\n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"loess\", col = \"blue\", se = FALSE) +\n  labs(title = \"Residuals of DAX after Box-Cox Transformation\")\n\n\n\n\n\n\n\nInsight: If residuals show unexplained structure, consider adding seasonal components or switching to ARIMA."
+  },
+  {
+    "objectID": "activity11.html#health-example-electricity-demand-in-victoria",
+    "href": "activity11.html#health-example-electricity-demand-in-victoria",
+    "title": "Activity11",
+    "section": "2. Health Example: Electricity Demand in Victoria",
+    "text": "2. Health Example: Electricity Demand in Victoria\nUsing the vic_elec dataset from the Tidyverts ecosystem, we fit a log-linear model to study the effect of temperature on electricity demand.\n\n# Fit a log-linear model: log(Demand) as a function of Temperature\nfit_demand &lt;- vic_elec %&gt;% model(TSLM(log(Demand) ~ Temperature))\n\nfit_demand %&gt;%  gg_tsresiduals() +\n  labs(title = \"Model Residuals\")\n\n\n\n\n\n\nfit_demand %&gt;% tidy() %&gt;% knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n.model\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\nTSLM(log(Demand) ~ Temperature)\n(Intercept)\n8.3034435\n0.0023852\n3481.30664\n0\n\n\nTSLM(log(Demand) ~ Temperature)\nTemperature\n0.0078263\n0.0001385\n56.50756\n0\n\n\n\n\nfit_demand %&gt;% glance() %&gt;% knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.model\nr_squared\nadj_r_squared\nsigma2\nstatistic\np_value\ndf\nlog_lik\nAIC\nAICc\nBIC\nCV\ndeviance\ndf.residual\nrank\n\n\nTSLM(log(Demand) ~ Temperature)\n0.057225\n0.0572071\n0.0323145\n3193.104\n0\n2\n15635.07\n-180559.2\n-180559.2\n-180532.6\n0.0323162\n1699.938\n52606\n2\n\n\n\n# Plot residuals against fitted values\nfit_demand %&gt;% augment() %&gt;%\n  ggplot(aes(x = .fitted, y = .resid)) +\n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"loess\", col = \"blue\", se = FALSE) +\n  labs(title = \"Residuals of Log-Linear Model for Electricity Demand\")\n\n\n\n\n\n\n\n\n# Fit a refined log-linear model with a quadratic term\nfit_demand_quad &lt;- vic_elec %&gt;% \n  model(TSLM(log(Demand) ~ Temperature + I(Temperature^2)))\n\nfit_demand_quad %&gt;% gg_tsresiduals() +\n  labs(title = \"Model Residuals\")\n\n\n\n\n\n\nfit_demand_quad %&gt;% tidy() %&gt;% knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n.model\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\nTSLM(log(Demand) ~ Temperature + I(Temperature^2))\n(Intercept)\n8.6290530\n0.0052048\n1657.91105\n0\n\n\nTSLM(log(Demand) ~ Temperature + I(Temperature^2))\nTemperature\n-0.0312701\n0.0005771\n-54.18703\n0\n\n\nTSLM(log(Demand) ~ Temperature + I(Temperature^2))\nI(Temperature^2)\n0.0010463\n0.0000150\n69.60956\n0\n\n\n\n\nfit_demand_quad %&gt;% glance() %&gt;% knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.model\nr_squared\nadj_r_squared\nsigma2\nstatistic\np_value\ndf\nlog_lik\nAIC\nAICc\nBIC\nCV\ndeviance\ndf.residual\nrank\n\n\nTSLM(log(Demand) ~ Temperature + I(Temperature^2))\n0.1367406\n0.1367077\n0.0295896\n4166.324\n0\n3\n17952.78\n-185192.6\n-185192.6\n-185157.1\n0.0295909\n1556.562\n52605\n3\n\n\n\n# Residual analysis: Plot fitted vs residuals\nfit_demand_quad %&gt;% augment() %&gt;%\n  ggplot(aes(.fitted, .resid)) +\n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"loess\", col = \"blue\", se = FALSE) +\n  labs(title = \"Residuals of Log-Linear Model for Electricity Demand\",\n       x = \"Fitted Values\", y = \"Residuals\")\n\n\n\n\n\n\n\nInsight: Even with better metrics, residual autocorrelation persists – this signals the need for SARIMA models."
+  },
+  {
+    "objectID": "activity11.html#environment-example-air-quality-analysis",
+    "href": "activity11.html#environment-example-air-quality-analysis",
+    "title": "Activity11",
+    "section": "3. Environment Example: Air Quality Analysis",
+    "text": "3. Environment Example: Air Quality Analysis\nThe built-in airquality dataset is used to analyze the relationship between temperature and ozone levels, followed by residual diagnostics.\n\n# Prepare the 'airquality' data with a proper date variable\nlibrary(stringr)\nairquality &lt;- as_tibble(airquality) %&gt;% \n  mutate(Date = lubridate::ymd(stringr::str_c(1973, Month, Day, sep = \"-\"))) %&gt;%\n  arrange(Date) %&gt;% \n  as_tsibble(index = Date)\n\n# Fit a linear model: Ozone as a function of Temperature\nfit_env &lt;- airquality %&gt;%  model(TSLM(Ozone ~ Temp))\n\nfit_env %&gt;% tidy() %&gt;% knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n.model\nterm\nestimate\nstd.error\nstatistic\np.value\n\n\n\nTSLM(Ozone ~ Temp)\n(Intercept)\n-146.995491\n18.2871736\n-8.038174\n0\n\n\nTSLM(Ozone ~ Temp)\nTemp\n2.428703\n0.2331318\n10.417724\n0\n\n\n\n\nfit_env %&gt;% glance() %&gt;% knitr::kable()\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n.model\nr_squared\nadj_r_squared\nsigma2\nstatistic\np_value\ndf\nlog_lik\nAIC\nAICc\nBIC\nCV\ndeviance\ndf.residual\nrank\n\n\nTSLM(Ozone ~ Temp)\n0.4877072\n0.4832134\n562.3675\n108.529\n0\n2\n-530.8532\n738.5126\n738.7269\n746.7734\n568.4843\n64109.89\n114\n2\n\n\n\n# Compute fitted values and residuals\nfit_env %&gt;% augment() %&gt;% \n  ggplot(aes(x = .fitted, y = .resid)) + \n  geom_point(alpha = 0.5) +\n  geom_smooth(method = \"loess\", col = \"blue\", se = FALSE) +\n  labs(title = \"Residuals of Ozone vs Temperature Model\")\n\n\n\n\n\n\nfit_env %&gt;%   gg_tsresiduals() +\n  labs(title = \"Model Residuals\")"
+  },
+  {
+    "objectID": "activity11.html#activity-1-retail-sales-seasonality-analysis",
+    "href": "activity11.html#activity-1-retail-sales-seasonality-analysis",
+    "title": "Activity11",
+    "section": "Activity 1: Retail Sales Seasonality Analysis",
+    "text": "Activity 1: Retail Sales Seasonality Analysis\nPrompt\nUsing the aus_retail dataset (Tidyverts), analyze the “Takeaway food services” sector in Victoria.\n\nFit a model incorporating both trend and monthly seasonality\n\nPerform residual analysis to assess model adequacy\n\nDiscuss whether seasonality improves the model"
+  },
+  {
+    "objectID": "activity11.html#activity-2-gasoline-production-transformation-study",
+    "href": "activity11.html#activity-2-gasoline-production-transformation-study",
+    "title": "Activity11",
+    "section": "Activity 2: Gasoline Production Transformation Study",
+    "text": "Activity 2: Gasoline Production Transformation Study\nPrompt\nUsing the gas dataset (astsa):\n\nApply Box-Cox transformation with Guerrero’s optimal \\(\\lambda\\)\n\nCompare residuals against a square root transformation (\\(\\lambda=0.5\\))\n\nIdentify which transformation better satisfies homoscedasticity"
   },
   {
     "objectID": "index.html",

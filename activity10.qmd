@@ -83,12 +83,11 @@ $$
 Here, we investigate the effect of COVID-19 deaths and policy stringency on the growth of confirmed cases, using a log-transformation to account for exponential growth. VIF is computed to check for multicollinearity between the predictors.
 
 ```{r covid_example, message=FALSE, warning=FALSE}
-# Download and read the OxCGRT data
-url <- 'https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv'
-download.file(url, destfile = 'OxCGRT_compact_national_v1.csv', mode = 'wb')
-oxcgrt <- read_csv('OxCGRT_compact_national_v1.csv')
+library(readr)
+url <- "https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv"
+oxcgrt <- read_csv(url)
 
-# Filter for the United States and create a log-transformed ConfirmedCases variable
+# Filter for the United States and create a log-transformed 'ConfirmedCases' variable
 oxcgrt_us <- oxcgrt %>% 
   filter(CountryName == 'United States') %>% 
   mutate(Date = ymd(Date),
