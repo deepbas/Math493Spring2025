@@ -20,3 +20,180 @@ library(readr)        # Efficient data import
 ```
 
 
+
+## Model Selection & Diagnostic Criteria
+
+Today, we will walk through a complete model selection exercise using VIX data. Our goals are to:
+
+- Perform Exploratory Data Analysis (EDA) with visual diagnostics.
+- Fit built-in models (ARIMA and ETS) using the `Tidyverts` framework.
+- Evaluate models based on five metrics: AIC, AICc, BIC, Mean Squared Error (MSE), and Root Mean Squared Error (RMSE).
+- Conclude on the optimal model by comparing these metrics along with residual diagnostics and forecast performance.
+
+For a model with $n$ observations and $k$ parameters (including the intercept), the evaluation criteria are defined as:
+
+$$
+\begin{align}
+\text{AIC} &= n\ln\left(\frac{\text{RSS}}{n}\right) + 2k,\\[1mm]
+\text{BIC} &= n\ln\left(\frac{\text{RSS}}{n}\right) + k\ln(n),\\[1mm]
+\text{AICc} &= \text{AIC} + \frac{2k(k+1)}{n-k-1},
+\end{align}
+$$
+
+and the error metrics:
+
+$$
+\begin{align}
+\text{MSE} &= \frac{\text{RSS}}{n},\\[1mm]
+\text{RMSE} &= \sqrt{\text{MSE}}.
+\end{align}
+$$
+
+
+# Data Preparation
+
+We retrieve the VIX data and format as a `tsibble`, handling missing values while preserving the original adjusted price series.
+
+```{r}
+# Retrieve VIX data from 2000-01-01 to current date and convert to a tsibble
+vix_data <- tq_get("^VIX", from = "2000-01-01", 
+                   to = Sys.Date(), 
+                   get = "stock.prices") %>% 
+  as_tsibble(index = date)
+
+# Clean and interpolate missing values
+vix_data <- vix_data %>% 
+  tsibble::fill_gaps() %>% 
+  mutate(adjusted = na.approx(adjusted)) %>% 
+  select(date, adjusted) %>% 
+  tidyr::drop_na()
+```
+
+# Exploratory Data Analysis (EDA)
+
+## Time Series Plot
+
+```{r}
+vix_data %>% 
+  autoplot(adjusted) +
+  labs(title = "VIX Adjusted Prices", y = "Adjusted", x = "Date")
+```
+
+## ACF and PACF Analysis
+
+```{r}
+vix_data %>% 
+  ACF(adjusted) %>% 
+  autoplot() +
+  labs(title = "ACF of VIX Data")
+
+vix_data %>% 
+  PACF(adjusted) %>% 
+  autoplot() +
+  labs(title = "PACF of VIX Data")
+```
+
+> **Observation:**  
+> The persistence in ACF suggests potential need for differencing, but we'll let ARIMA automatically handle any required transformations through its $d$ parameter.
+
+# Model Fitting Using Tidyverts
+
+## 1. ARIMA Model (Original Series)
+
+```{r}
+# Fit an ARIMA model on original series
+model_arima <- vix_data %>% 
+  model(ARIMA(adjusted))
+
+# Display summary report
+report(model_arima)
+
+# Display accuracy metrics
+model_arima %>% accuracy()
+```
+
+## 2. ETS Model
+
+```{r}
+# Fit ETS model on original series
+model_ets <- vix_data %>% 
+  model(ETS(adjusted))
+
+# Display summary report
+report(model_ets)
+
+# Display accuracy metrics
+model_ets %>% accuracy()
+```
+
+# Forecasting with the Optimal Model
+
+```{r}
+# Forecast 12 months ahead using ARIMA
+forecast_arima <- model_arima %>% 
+  forecast(h = "12 months")
+
+# Plot forecast in original units
+forecast_arima %>% 
+  autoplot(vix_data) +
+  labs(title = "12-Month VIX Forecast", y = "Adjusted VIX", x = "Date")
+```
+
+
+## **Lab Activity: Modeling Stock Returns with ARIMA**
+
+Model daily SPY returns using ARIMA, analyze residuals, and compare with ETS. 
+
+**Tasks**  
+
+1. Retrieve SPY data (2015-01-01 to present) and compute **daily log returns**  
+2. Perform EDA (time series plot, ACF/PACF)  
+3. Fit ARIMA(2,0,1) and ETS models to returns  
+4. Compare models using AIC and RMSE  
+5. Forecast 1-month ahead returns
+
+<!--
+
+**Solution**
+
+```{r}
+# Task 1: Data Preparation
+spy_data <- tq_get("SPY", from = "2015-01-01") %>% 
+  as_tsibble(index = date) %>% 
+  tsibble::fill_gaps() %>% 
+  mutate(adjusted = na.approx(adjusted),
+         log_return = difference(log(adjusted))) %>% 
+  select(date, adjusted, log_return) %>% 
+  tidyr::drop_na()
+
+
+# Task 2: EDA
+spy_data %>% autoplot(log_return) +
+  labs(title = "SPY Daily Log Returns", y = "Return")
+
+spy_data %>% ACF(log_return) %>% autoplot()
+spy_data %>% PACF(log_return) %>% autoplot()
+
+# Task 3: Model Fitting
+fit_arima <- spy_data %>% 
+  model(ARIMA(log_return ~ pdq(2,0,1)))
+
+fit_ets <- spy_data %>% 
+  model(ETS(log_return))
+
+# Task 4: Model Comparison
+glance(fit_arima) %>% select(AIC, AICc, BIC)
+glance(fit_ets) %>% select(AIC, AICc, BIC)
+
+accuracy(fit_arima)
+accuracy(fit_ets)
+
+# Task 5: Forecasting
+fit_arima %>% 
+  forecast(h = 30) %>% 
+  autoplot(spy_data) +
+  labs(title = "30-Day SPY Return Forecast", y = "Log Return")
+```
+
+-->
+
