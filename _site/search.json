@@ -380,7 +380,7 @@
   {
     "objectID": "activity12.html",
     "href": "activity12.html",
-    "title": "Activity9",
+    "title": "Activity12",
     "section": "",
     "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
   },
@@ -467,5 +467,47 @@
     "title": "Activity9",
     "section": "",
     "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
+  },
+  {
+    "objectID": "activity12.html#model-selection-diagnostic-criteria",
+    "href": "activity12.html#model-selection-diagnostic-criteria",
+    "title": "Activity12",
+    "section": "Model Selection & Diagnostic Criteria",
+    "text": "Model Selection & Diagnostic Criteria\nToday, we will walk through a complete model selection exercise using VIX data. Our goals are to:\n\nPerform Exploratory Data Analysis (EDA) with visual diagnostics.\nFit built-in models (ARIMA and ETS) using the Tidyverts framework.\nEvaluate models based on five metrics: AIC, AICc, BIC, Mean Squared Error (MSE), and Root Mean Squared Error (RMSE).\nConclude on the optimal model by comparing these metrics along with residual diagnostics and forecast performance.\n\nFor a model with \\(n\\) observations and \\(k\\) parameters (including the intercept), the evaluation criteria are defined as:\n\\[\n\\begin{align}\n\\text{AIC} &= n\\ln\\left(\\frac{\\text{RSS}}{n}\\right) + 2k,\\\\[1mm]\n\\text{BIC} &= n\\ln\\left(\\frac{\\text{RSS}}{n}\\right) + k\\ln(n),\\\\[1mm]\n\\text{AICc} &= \\text{AIC} + \\frac{2k(k+1)}{n-k-1},\n\\end{align}\n\\]\nand the error metrics:\n\\[\n\\begin{align}\n\\text{MSE} &= \\frac{\\text{RSS}}{n},\\\\[1mm]\n\\text{RMSE} &= \\sqrt{\\text{MSE}}.\n\\end{align}\n\\]"
+  },
+  {
+    "objectID": "activity12.html#time-series-plot",
+    "href": "activity12.html#time-series-plot",
+    "title": "Activity12",
+    "section": "Time Series Plot",
+    "text": "Time Series Plot\n\nvix_data %&gt;% \n  autoplot(adjusted) +\n  labs(title = \"VIX Adjusted Prices\", y = \"Adjusted\", x = \"Date\")"
+  },
+  {
+    "objectID": "activity12.html#acf-and-pacf-analysis",
+    "href": "activity12.html#acf-and-pacf-analysis",
+    "title": "Activity12",
+    "section": "ACF and PACF Analysis",
+    "text": "ACF and PACF Analysis\n\nvix_data %&gt;% \n  ACF(adjusted) %&gt;% \n  autoplot() +\n  labs(title = \"ACF of VIX Data\")\n\n\n\n\n\n\nvix_data %&gt;% \n  PACF(adjusted) %&gt;% \n  autoplot() +\n  labs(title = \"PACF of VIX Data\")\n\n\n\n\n\n\n\n\nObservation:\nThe persistence in ACF suggests potential need for differencing, but we’ll let ARIMA automatically handle any required transformations through its \\(d\\) parameter."
+  },
+  {
+    "objectID": "activity12.html#arima-model-original-series",
+    "href": "activity12.html#arima-model-original-series",
+    "title": "Activity12",
+    "section": "1. ARIMA Model (Original Series)",
+    "text": "1. ARIMA Model (Original Series)\n\n# Fit an ARIMA model on original series\nmodel_arima &lt;- vix_data %&gt;% \n  model(ARIMA(adjusted))\n\n# Display summary report\nreport(model_arima)\n\nSeries: adjusted \nModel: ARIMA(3,1,1)(0,0,2)[7] \n\nCoefficients:\n         ar1     ar2      ar3      ma1    sma1    sma2\n      0.9606  0.0082  -0.0184  -0.9802  0.0289  0.0554\ns.e.  0.0176  0.0145   0.0123   0.0144  0.0116  0.0106\n\nsigma^2 estimated as 1.723:  log likelihood=-15507.3\nAIC=31028.6   AICc=31028.61   BIC=31078.47\n\n# Display accuracy metrics\nmodel_arima %&gt;% accuracy()\n\n# A tibble: 1 × 10\n  .model          .type         ME  RMSE   MAE    MPE  MAPE  MASE RMSSE     ACF1\n  &lt;chr&gt;           &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;\n1 ARIMA(adjusted) Traini… -0.00201  1.31 0.731 -0.220  3.43 0.356 0.403 -2.27e-4"
+  },
+  {
+    "objectID": "activity12.html#ets-model",
+    "href": "activity12.html#ets-model",
+    "title": "Activity12",
+    "section": "2. ETS Model",
+    "text": "2. ETS Model\n\n# Fit ETS model on original series\nmodel_ets &lt;- vix_data %&gt;% \n  model(ETS(adjusted))\n\n# Display summary report\nreport(model_ets)\n\nSeries: adjusted \nModel: ETS(M,N,M) \n  Smoothing parameters:\n    alpha = 0.9923805 \n    gamma = 0.0001001026 \n\n  Initial states:\n     l[0]     s[0]     s[-1]     s[-2]    s[-3]     s[-4]    s[-5]    s[-6]\n 22.53512 1.002111 0.9985352 0.9944005 1.000657 0.9992066 1.000716 1.004373\n\n  sigma^2:  0.003\n\n     AIC     AICc      BIC \n83982.39 83982.41 84053.63 \n\n# Display accuracy metrics\nmodel_ets %&gt;% accuracy()\n\n# A tibble: 1 × 10\n  .model        .type           ME  RMSE   MAE    MPE  MAPE  MASE RMSSE     ACF1\n  &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;\n1 ETS(adjusted) Training -0.000716  1.31 0.728 -0.143  3.41 0.354 0.403 -0.00325"
+  },
+  {
+    "objectID": "activity12.html#lab-activity-modeling-stock-returns-with-arima",
+    "href": "activity12.html#lab-activity-modeling-stock-returns-with-arima",
+    "title": "Activity12",
+    "section": "Lab Activity: Modeling Stock Returns with ARIMA",
+    "text": "Lab Activity: Modeling Stock Returns with ARIMA\nModel daily SPY returns using ARIMA, analyze residuals, and compare with ETS.\nTasks\n\nRetrieve SPY data (2015-01-01 to present) and compute daily log returns\n\nPerform EDA (time series plot, ACF/PACF)\n\nFit ARIMA(2,0,1) and ETS models to returns\n\nCompare models using AIC and RMSE\n\nForecast 1-month ahead returns"
   }
 ]
