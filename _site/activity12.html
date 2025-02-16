@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Activity9 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity12 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -207,17 +232,42 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#model-selection-diagnostic-criteria" id="toc-model-selection-diagnostic-criteria" class="nav-link active" data-scroll-target="#model-selection-diagnostic-criteria">Model Selection &amp; Diagnostic Criteria</a></li>
+  <li><a href="#data-preparation" id="toc-data-preparation" class="nav-link" data-scroll-target="#data-preparation">Data Preparation</a></li>
+  <li>
+<a href="#exploratory-data-analysis-eda" id="toc-exploratory-data-analysis-eda" class="nav-link" data-scroll-target="#exploratory-data-analysis-eda">Exploratory Data Analysis (EDA)</a>
+  <ul class="collapse">
+<li><a href="#time-series-plot" id="toc-time-series-plot" class="nav-link" data-scroll-target="#time-series-plot">Time Series Plot</a></li>
+  <li><a href="#acf-and-pacf-analysis" id="toc-acf-and-pacf-analysis" class="nav-link" data-scroll-target="#acf-and-pacf-analysis">ACF and PACF Analysis</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#model-fitting-using-tidyverts" id="toc-model-fitting-using-tidyverts" class="nav-link" data-scroll-target="#model-fitting-using-tidyverts">Model Fitting Using Tidyverts</a>
+  <ul class="collapse">
+<li><a href="#arima-model-original-series" id="toc-arima-model-original-series" class="nav-link" data-scroll-target="#arima-model-original-series">1. ARIMA Model (Original Series)</a></li>
+  <li><a href="#ets-model" id="toc-ets-model" class="nav-link" data-scroll-target="#ets-model">2. ETS Model</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#forecasting-with-the-optimal-model" id="toc-forecasting-with-the-optimal-model" class="nav-link" data-scroll-target="#forecasting-with-the-optimal-model">Forecasting with the Optimal Model</a>
+  <ul class="collapse">
+<li><a href="#lab-activity-modeling-stock-returns-with-arima" id="toc-lab-activity-modeling-stock-returns-with-arima" class="nav-link" data-scroll-target="#lab-activity-modeling-stock-returns-with-arima"><strong>Lab Activity: Modeling Stock Returns with ARIMA</strong></a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Activity9</h1>
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Activity12</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -239,10 +289,313 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="model-selection-diagnostic-criteria" class="level2"><h2 class="anchored" data-anchor-id="model-selection-diagnostic-criteria">Model Selection &amp; Diagnostic Criteria</h2>
+<p>Today, we will walk through a complete model selection exercise using VIX data. Our goals are to:</p>
+<ul>
+<li>Perform Exploratory Data Analysis (EDA) with visual diagnostics.</li>
+<li>Fit built-in models (ARIMA and ETS) using the <code>Tidyverts</code> framework.</li>
+<li>Evaluate models based on five metrics: AIC, AICc, BIC, Mean Squared Error (MSE), and Root Mean Squared Error (RMSE).</li>
+<li>Conclude on the optimal model by comparing these metrics along with residual diagnostics and forecast performance.</li>
+</ul>
+<p>For a model with <span class="math inline">\(n\)</span> observations and <span class="math inline">\(k\)</span> parameters (including the intercept), the evaluation criteria are defined as:</p>
+<p><span class="math display">\[
+\begin{align}
+\text{AIC} &amp;= n\ln\left(\frac{\text{RSS}}{n}\right) + 2k,\\[1mm]
+\text{BIC} &amp;= n\ln\left(\frac{\text{RSS}}{n}\right) + k\ln(n),\\[1mm]
+\text{AICc} &amp;= \text{AIC} + \frac{2k(k+1)}{n-k-1},
+\end{align}
+\]</span></p>
+<p>and the error metrics:</p>
+<p><span class="math display">\[
+\begin{align}
+\text{MSE} &amp;= \frac{\text{RSS}}{n},\\[1mm]
+\text{RMSE} &amp;= \sqrt{\text{MSE}}.
+\end{align}
+\]</span></p>
+</section><section id="data-preparation" class="level1"><h1>Data Preparation</h1>
+<p>We retrieve the VIX data and format as a <code>tsibble</code>, handling missing values while preserving the original adjusted price series.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Retrieve VIX data from 2000-01-01 to current date and convert to a tsibble</span></span>
+<span><span class="va">vix_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"^VIX"</span>, from <span class="op">=</span> <span class="st">"2000-01-01"</span>, </span>
+<span>                   to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>                   get <span class="op">=</span> <span class="st">"stock.prices"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Clean and interpolate missing values</span></span>
+<span><span class="va">vix_data</span> <span class="op">&lt;-</span> <span class="va">vix_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tsibble</span><span class="fu">::</span><span class="fu"><a href="https://tsibble.tidyverts.org/reference/fill_gaps.html">fill_gaps</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>adjusted <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/na.approx.html">na.approx</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="exploratory-data-analysis-eda" class="level1"><h1>Exploratory Data Analysis (EDA)</h1>
+<section id="time-series-plot" class="level2"><h2 class="anchored" data-anchor-id="time-series-plot">Time Series Plot</h2>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vix_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"VIX Adjusted Prices"</span>, y <span class="op">=</span> <span class="st">"Adjusted"</span>, x <span class="op">=</span> <span class="st">"Date"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity12_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="acf-and-pacf-analysis" class="level2"><h2 class="anchored" data-anchor-id="acf-and-pacf-analysis">ACF and PACF Analysis</h2>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vix_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/ACF.html">ACF</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"ACF of VIX Data"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity12_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">vix_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/ACF.html">PACF</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"PACF of VIX Data"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity12_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<blockquote class="blockquote">
+<p><strong>Observation:</strong><br>
+The persistence in ACF suggests potential need for differencing, but we’ll let ARIMA automatically handle any required transformations through its <span class="math inline">\(d\)</span> parameter.</p>
+</blockquote>
+</section></section><section id="model-fitting-using-tidyverts" class="level1"><h1>Model Fitting Using Tidyverts</h1>
+<section id="arima-model-original-series" class="level2"><h2 class="anchored" data-anchor-id="arima-model-original-series">1. ARIMA Model (Original Series)</h2>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit an ARIMA model on original series</span></span>
+<span><span class="va">model_arima</span> <span class="op">&lt;-</span> <span class="va">vix_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display summary report</span></span>
+<span><span class="fu"><a href="https://fabletools.tidyverts.org/reference/report.html">report</a></span><span class="op">(</span><span class="va">model_arima</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: adjusted 
+Model: ARIMA(3,1,1)(0,0,2)[7] 
+
+Coefficients:
+         ar1     ar2      ar3      ma1    sma1    sma2
+      0.9606  0.0082  -0.0184  -0.9802  0.0289  0.0554
+s.e.  0.0176  0.0145   0.0123   0.0144  0.0116  0.0106
+
+sigma^2 estimated as 1.723:  log likelihood=-15507.3
+AIC=31028.6   AICc=31028.61   BIC=31078.47</code></pre>
+</div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Display accuracy metrics</span></span>
+<span><span class="va">model_arima</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 10
+  .model          .type         ME  RMSE   MAE    MPE  MAPE  MASE RMSSE     ACF1
+  &lt;chr&gt;           &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1 ARIMA(adjusted) Traini… -0.00201  1.31 0.731 -0.220  3.43 0.356 0.403 -2.27e-4</code></pre>
+</div>
+</div>
+</section><section id="ets-model" class="level2"><h2 class="anchored" data-anchor-id="ets-model">2. ETS Model</h2>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit ETS model on original series</span></span>
+<span><span class="va">model_ets</span> <span class="op">&lt;-</span> <span class="va">vix_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html">ETS</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Display summary report</span></span>
+<span><span class="fu"><a href="https://fabletools.tidyverts.org/reference/report.html">report</a></span><span class="op">(</span><span class="va">model_ets</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: adjusted 
+Model: ETS(M,N,M) 
+  Smoothing parameters:
+    alpha = 0.9923805 
+    gamma = 0.0001001026 
+
+  Initial states:
+     l[0]     s[0]     s[-1]     s[-2]    s[-3]     s[-4]    s[-5]    s[-6]
+ 22.53512 1.002111 0.9985352 0.9944005 1.000657 0.9992066 1.000716 1.004373
+
+  sigma^2:  0.003
+
+     AIC     AICc      BIC 
+83982.39 83982.41 84053.63 </code></pre>
+</div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Display accuracy metrics</span></span>
+<span><span class="va">model_ets</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 10
+  .model        .type           ME  RMSE   MAE    MPE  MAPE  MASE RMSSE     ACF1
+  &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1 ETS(adjusted) Training -0.000716  1.31 0.728 -0.143  3.41 0.354 0.403 -0.00325</code></pre>
+</div>
+</div>
+</section></section><section id="forecasting-with-the-optimal-model" class="level1"><h1>Forecasting with the Optimal Model</h1>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Forecast 12 months ahead using ARIMA</span></span>
+<span><span class="va">forecast_arima</span> <span class="op">&lt;-</span> <span class="va">model_arima</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span>h <span class="op">=</span> <span class="st">"12 months"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot forecast in original units</span></span>
+<span><span class="va">forecast_arima</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">vix_data</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"12-Month VIX Forecast"</span>, y <span class="op">=</span> <span class="st">"Adjusted VIX"</span>, x <span class="op">=</span> <span class="st">"Date"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity12_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="lab-activity-modeling-stock-returns-with-arima" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-modeling-stock-returns-with-arima"><strong>Lab Activity: Modeling Stock Returns with ARIMA</strong></h2>
+<p>Model daily SPY returns using ARIMA, analyze residuals, and compare with ETS.</p>
+<p><strong>Tasks</strong></p>
+<ol type="1">
+<li>Retrieve SPY data (2015-01-01 to present) and compute <strong>daily log returns</strong><br>
+</li>
+<li>Perform EDA (time series plot, ACF/PACF)<br>
+</li>
+<li>Fit ARIMA(2,0,1) and ETS models to returns<br>
+</li>
+<li>Compare models using AIC and RMSE<br>
+</li>
+<li>Forecast 1-month ahead returns</li>
+</ol>
+<!--
+
+**Solution**
 
 
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+::: {.cell}
+
+```{.r .cell-code}
+# Task 1: Data Preparation
+spy_data <- tq_get("SPY", from = "2015-01-01") %>% 
+  as_tsibble(index = date) %>% 
+  tsibble::fill_gaps() %>% 
+  mutate(adjusted = na.approx(adjusted),
+         log_return = difference(log(adjusted))) %>% 
+  select(date, adjusted, log_return) %>% 
+  tidyr::drop_na()
+
+
+# Task 2: EDA
+spy_data %>% autoplot(log_return) +
+  labs(title = "SPY Daily Log Returns", y = "Return")
+```
+
+::: {.cell-output-display}
+![](activity12_files/figure-html/unnamed-chunk-8-1.png){width=672}
+:::
+
+```{.r .cell-code}
+spy_data %>% ACF(log_return) %>% autoplot()
+```
+
+::: {.cell-output-display}
+![](activity12_files/figure-html/unnamed-chunk-8-2.png){width=672}
+:::
+
+```{.r .cell-code}
+spy_data %>% PACF(log_return) %>% autoplot()
+```
+
+::: {.cell-output-display}
+![](activity12_files/figure-html/unnamed-chunk-8-3.png){width=672}
+:::
+
+```{.r .cell-code}
+# Task 3: Model Fitting
+fit_arima <- spy_data %>% 
+  model(ARIMA(log_return ~ pdq(2,0,1)))
+
+fit_ets <- spy_data %>% 
+  model(ETS(log_return))
+
+# Task 4: Model Comparison
+glance(fit_arima) %>% select(AIC, AICc, BIC)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 3
+      AIC    AICc     BIC
+    <dbl>   <dbl>   <dbl>
+1 -24844. -24844. -24794.
+```
+
+
+:::
+
+```{.r .cell-code}
+glance(fit_ets) %>% select(AIC, AICc, BIC)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 3
+     AIC   AICc    BIC
+   <dbl>  <dbl>  <dbl>
+1 -4944. -4944. -4926.
+```
+
+
+:::
+
+```{.r .cell-code}
+accuracy(fit_arima)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 10
+  .model         .type       ME    RMSE     MAE   MPE  MAPE  MASE RMSSE     ACF1
+  <chr>          <chr>    <dbl>   <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl>    <dbl>
+1 ARIMA(log_ret… Trai… -3.63e-6 0.00837 0.00502   NaN   Inf 0.691 0.709 -3.81e-4
+```
+
+
+:::
+
+```{.r .cell-code}
+accuracy(fit_ets)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 1 × 10
+  .model          .type       ME    RMSE     MAE   MPE  MAPE  MASE RMSSE    ACF1
+  <chr>           <chr>    <dbl>   <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>
+1 ETS(log_return) Train… 8.00e-6 0.00842 0.00501  -Inf   Inf 0.689 0.713 -0.0153
+```
+
+
+:::
+
+```{.r .cell-code}
+# Task 5: Forecasting
+fit_arima %>% 
+  forecast(h = 30) %>% 
+  autoplot(spy_data) +
+  labs(title = "30-Day SPY Return Forecast", y = "Log Return")
+```
+
+::: {.cell-output-display}
+![](activity12_files/figure-html/unnamed-chunk-8-4.png){width=672}
+:::
+:::
+
+
+
+-->
+
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
