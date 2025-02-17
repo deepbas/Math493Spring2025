@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Activity9 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity13 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -174,6 +199,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./activity12.html">
  <span class="dropdown-text">Activity12</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity13.html">
+ <span class="dropdown-text">Activity13</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -207,17 +236,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#seasonal-modeling" id="toc-seasonal-modeling" class="nav-link active" data-scroll-target="#seasonal-modeling">Seasonal Modeling</a></li>
+  <li>
+<a href="#fourier-spectral-analysis" id="toc-fourier-spectral-analysis" class="nav-link" data-scroll-target="#fourier-spectral-analysis">1. <strong>Fourier Spectral Analysis</strong></a>
+  <ul class="collapse">
+<li><a href="#datasets-models" id="toc-datasets-models" class="nav-link" data-scroll-target="#datasets-models">Datasets &amp; Models</a></li>
+  </ul>
+</li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Activity9</h1>
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Activity13</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -239,10 +279,203 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="seasonal-modeling" class="level2"><h2 class="anchored" data-anchor-id="seasonal-modeling">Seasonal Modeling</h2>
+<p><strong>Seasonality</strong> = Repeating patterns with <em>fixed known periods</em> (e.g., daily, weekly, yearly cycles). Differentiated from cycles by strict periodicity.</p>
+</section><section id="fourier-spectral-analysis" class="level2"><h2 class="anchored" data-anchor-id="fourier-spectral-analysis">1. <strong>Fourier Spectral Analysis</strong>
+</h2>
+<p><strong>Frequency domain decomposition</strong> using basis functions:</p>
+<p><span class="math display">\[S(t) = \sum_{k=1}^K [a_k\cos(2\pi f_k t) + b_k\sin(2\pi f_k t)]\]</span></p>
+<p><strong>Critical parameters</strong>:</p>
+<ul>
+<li>
+<em>Nyquist frequency</em>: Max detectable frequency = <span class="math inline">\(f_{\text{max}} = \frac{1}{2\Delta t}\)</span>
+</li>
+<li>
+<em>Frequency resolution</em>: <span class="math inline">\(\Delta f = \frac{1}{N\Delta t}\)</span>
+</li>
+<li>
+<em>Number of harmonics (K)</em>: Balances complexity vs.&nbsp;overfitting</li>
+</ul>
+<p><strong>Harmonics</strong> represent pairs of sine/cosine waves that collectively approximate complex seasonal patterns. Think of them as “building blocks” for seasonal shapes. We can capture periodic patterns in time series data using Fourier terms and periodic regressions. Fourier terms in regression models:</p>
+<p><span class="math display">\[y_t = \beta_0 + \sum_{k=1}^K \beta_k\cos(2\pi kt/m) + \gamma_k\sin(2\pi kt/m) + \epsilon_t\]</span> where <span class="math inline">\(m\)</span> = seasonal period</p>
+<p><strong>Hybrid Approach</strong>: Combines Fourier terms (deterministic seasonality) with ARIMA (stochastic patterns):</p>
+<p><span class="math display">\[y_t = \underbrace{\sum_{k=1}^K [\alpha_k\sin(2\pi kt/m) + \beta_k\cos(2\pi kt/m)]}_{\text{Fourier terms}} + \underbrace{\text{ARIMA}(p,d,q)(P,D,Q)_m}_{\text{Seasonal ARIMA}} + \epsilon_t\]</span></p>
+<section id="datasets-models" class="level3"><h3 class="anchored" data-anchor-id="datasets-models">Datasets &amp; Models</h3>
+<ol type="1">
+<li>
+<p><strong>Finance Example (Intraday)</strong></p>
+<ul>
+<li>
+<strong>Dataset:</strong> <code>nyse</code> (Stock Volume)</li>
+<li>
+<strong>Model:</strong> <span class="math display">\[
+y_t = \beta_0 + \sum_{k=1}^2\Big[\alpha_k\sin\Big(\frac{2\pi kt}{78}\Big) + \beta_k\cos\Big(\frac{2\pi kt}{78}\Big)\Big]
+\]</span>
+</li>
+<li>
+<strong>Activity:</strong> Optimize Fourier terms via cross-validation.</li>
+</ul>
+</li>
+</ol>
+<p>We retrieve real NYSE Composite index data (ticker <code>^NYA</code>), extract the adjusted price, and apply Fourier regression to capture seasonal patterns.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 1. Get NYSE Composite index data (volume) from tidyquant and convert to tsibble</span></span>
+<span><span class="va">nyse</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"^NYA"</span>, from <span class="op">=</span> <span class="st">"2018-01-01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">fill_gaps</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>adjusted <span class="op">=</span> <span class="fu">imputeTS</span><span class="fu">::</span><span class="fu"><a href="https://SteffenMoritz.github.io/imputeTS/reference/na_ma.html">na_ma</a></span><span class="op">(</span><span class="va">adjusted</span>, k <span class="op">=</span> <span class="fl">21</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot adjusted series</span></span>
+<span><span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"NYSE Composite Index Volume"</span>, y <span class="op">=</span> <span class="st">"Volume"</span>, x <span class="op">=</span> <span class="st">"Date"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity13_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Fit seasonal models using Fourier terms (using 1 and 2 harmonics) with cross-validation for model selection.</p>
+<ul>
+<li>K=1 → <span class="math inline">\(\cos(2\pi t/52)\)</span>, <span class="math inline">\(\sin(2\pi t/52)\)</span>
+</li>
+<li>K=2 → Adds <span class="math inline">\(\cos(4\pi t/52)\)</span>, <span class="math inline">\(\sin(4\pi t/52)\)</span>
+</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 2. Define seasonal period (business days/year ≈ 252)</span></span>
+<span><span class="va">period</span> <span class="op">&lt;-</span> <span class="fl">30</span>  <span class="co"># Annual seasonality in trading days</span></span>
+<span></span>
+<span><span class="co"># 3. K Optimization via AICc</span></span>
+<span><span class="va">aic_results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://purrr.tidyverse.org/reference/map_dfr.html">map_dfr</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">10</span>, <span class="kw">function</span><span class="op">(</span><span class="va">k</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">fit</span> <span class="op">&lt;-</span> <span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span></span>
+<span>      <span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span></span>
+<span>        <span class="va">adjusted</span> <span class="op">~</span> <span class="fu">fourier</span><span class="op">(</span>K <span class="op">=</span> <span class="va">k</span>, period <span class="op">=</span> <span class="va">period</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>        <span class="fu">pdq</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">5</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span> <span class="op">+</span> <span class="fu">PDQ</span><span class="op">(</span><span class="fl">0</span><span class="op">:</span><span class="fl">2</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">1</span>, <span class="fl">0</span><span class="op">:</span><span class="fl">2</span><span class="op">)</span> </span>
+<span>      <span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">fit</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>    <span class="fu">mutate</span><span class="op">(</span>K <span class="op">=</span> <span class="va">k</span><span class="op">)</span></span>
+<span><span class="op">}</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="va">optimal_k</span> <span class="op">&lt;-</span> <span class="va">aic_results</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">AICc</span> <span class="op">==</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html">min</a></span><span class="op">(</span><span class="va">AICc</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">K</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 4. Final Hybrid Model</span></span>
+<span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span></span>
+<span>    Optimal <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span></span>
+<span>      <span class="va">adjusted</span> <span class="op">~</span> <span class="fu">fourier</span><span class="op">(</span>period <span class="op">=</span> <span class="va">period</span>, K <span class="op">=</span> <span class="va">optimal_k</span><span class="op">)</span> </span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 5. Cross-validation with optimal K</span></span>
+<span><span class="va">cv_results</span> <span class="op">&lt;-</span> <span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">stretch_tsibble</span><span class="op">(</span>.init <span class="op">=</span> <span class="fl">3</span><span class="op">*</span><span class="va">period</span>, .step <span class="op">=</span> <span class="fl">21</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="co"># 3-year window, monthly steps</span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span></span>
+<span>    Optimal <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span></span>
+<span>      <span class="va">adjusted</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">PDQ</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>      <span class="fu">fourier</span><span class="op">(</span>period <span class="op">=</span> <span class="va">period</span>, K <span class="op">=</span> <span class="va">optimal_k</span><span class="op">)</span></span>
+<span>    <span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">21</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="co"># 1-month ahead</span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="va">nyse</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 6. Diagnostic Visualization</span></span>
+<span><span class="va">final_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsresiduals.html">gg_tsresiduals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">"Residuals for K ="</span>, <span class="va">optimal_k</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity13_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">final_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span>h <span class="op">=</span> <span class="va">period</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="co"># 1-year forecast</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="fu">year</span><span class="op">(</span><span class="va">date</span><span class="op">)</span> <span class="op">&gt;=</span> <span class="fl">2022</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"NYSE Adjusted Price Forecast with Optimized Fourier-SARIMA"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity13_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="lab-activities" class="level4"><h4 class="anchored" data-anchor-id="lab-activities">Lab Activities</h4>
+<blockquote class="blockquote">
+<p><strong>Task:</strong> For the following COVID data, compute daily new confirmed cases, and try fitting the periodic regression with Fourier terms with different seasonal periods (e.g., 7-day vs.&nbsp;14-day cycles) and compare the residual diagnostics.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://covid19datahub.io">COVID19</a></span><span class="op">)</span> <span class="co"># install the package first</span></span>
+<span><span class="va">covid_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://covid19datahub.io/reference/covid19.html">covid19</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>We have invested a lot of time and effort in creating COVID-19 Data
+Hub, please cite the following when using it:
+
+  Guidotti, E., Ardia, D., (2020), "COVID-19 Data Hub", Journal of Open
+  Source Software 5(51):2376, doi: 10.21105/joss.02376
+
+The implementation details and the latest version of the data are
+described in:
+
+  Guidotti, E., (2022), "A worldwide epidemiological database for
+  COVID-19 at fine-grained spatial resolution", Sci Data 9(1):112, doi:
+  10.1038/s41597-022-01245-1
+To print citations in BibTeX format use:
+ &gt; print(citation('COVID19'), bibtex=TRUE)
+
+To hide this message use 'verbose = FALSE'.</code></pre>
+</div>
+</div>
+<!--
+
+::: {.cell}
+
+```{.r .cell-code}
+library(COVID19)
+
+covid_data <- covid19(verbose = FALSE)
+
+covid <- covid_data %>% 
+  filter(administrative_area_level_1 == "United States") %>% 
+  as_tsibble(index = date) %>% 
+  mutate(cases = difference(confirmed))  # Daily new cases
 
 
+# Compare 7 vs 14-day cycles
+covid_models <- covid %>% 
+  model(
+    Weekly = ARIMA(cases ~ fourier(7, K = 3) + pdq()),
+    Biweekly = ARIMA(cases ~ fourier(14, K = 5) + pdq())
+  )
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+
+# Best model diagnostics
+covid_models %>% 
+  select(Weekly) %>% 
+  gg_tsresiduals()
+```
+
+::: {.cell-output-display}
+![](activity13_files/figure-html/unnamed-chunk-8-1.png){width=672}
+:::
+:::
+
+-->
+</section></section></section><section id="references" class="level2"><h2 class="anchored" data-anchor-id="references">References</h2>
+<p>Guidotti, E., Ardia, D., (2020), “COVID-19 Data Hub”, Journal of Open Source Software 5(51):2376, doi: 10.21105/joss.02376</p>
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
