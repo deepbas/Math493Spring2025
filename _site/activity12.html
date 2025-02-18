@@ -321,14 +321,14 @@ window.Quarto = {
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Retrieve VIX data from 2000-01-01 to current date and convert to a tsibble</span></span>
 <span><span class="va">vix_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"^VIX"</span>, from <span class="op">=</span> <span class="st">"2000-01-01"</span>, </span>
-<span>                   to <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, </span>
+<span>                   to <span class="op">=</span> <span class="st">"2025-01-01"</span>, </span>
 <span>                   get <span class="op">=</span> <span class="st">"stock.prices"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># Clean and interpolate missing values</span></span>
 <span><span class="va">vix_data</span> <span class="op">&lt;-</span> <span class="va">vix_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">tsibble</span><span class="fu">::</span><span class="fu"><a href="https://tsibble.tidyverts.org/reference/fill_gaps.html">fill_gaps</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>adjusted <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/na.approx.html">na.approx</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>adjusted <span class="op">=</span> <span class="fu">zoo</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/na.approx.html">na.approx</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -387,11 +387,11 @@ Model: ARIMA(3,1,1)(0,0,2)[7]
 
 Coefficients:
          ar1     ar2      ar3      ma1    sma1    sma2
-      0.9606  0.0082  -0.0184  -0.9802  0.0289  0.0554
-s.e.  0.0176  0.0145   0.0123   0.0144  0.0116  0.0106
+      0.9615  0.0082  -0.0179  -0.9811  0.0286  0.0553
+s.e.  0.0168  0.0145   0.0122   0.0133  0.0115  0.0107
 
-sigma^2 estimated as 1.723:  log likelihood=-15507.3
-AIC=31028.6   AICc=31028.61   BIC=31078.47</code></pre>
+sigma^2 estimated as 1.728:  log likelihood=-15446.52
+AIC=30907.05   AICc=30907.06   BIC=30956.88</code></pre>
 </div>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Display accuracy metrics</span></span>
 <span><span class="va">model_arima</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -399,7 +399,7 @@ AIC=31028.6   AICc=31028.61   BIC=31078.47</code></pre>
 <pre><code># A tibble: 1 × 10
   .model          .type         ME  RMSE   MAE    MPE  MAPE  MASE RMSSE     ACF1
   &lt;chr&gt;           &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
-1 ARIMA(adjusted) Traini… -0.00201  1.31 0.731 -0.220  3.43 0.356 0.403 -2.27e-4</code></pre>
+1 ARIMA(adjusted) Traini… -0.00181  1.31 0.731 -0.220  3.42 0.356 0.403 -2.97e-4</code></pre>
 </div>
 </div>
 </section><section id="ets-model" class="level2"><h2 class="anchored" data-anchor-id="ets-model">2. ETS Model</h2>
@@ -412,27 +412,31 @@ AIC=31028.6   AICc=31028.61   BIC=31078.47</code></pre>
 <span><span class="fu"><a href="https://fabletools.tidyverts.org/reference/report.html">report</a></span><span class="op">(</span><span class="va">model_ets</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Series: adjusted 
-Model: ETS(M,N,M) 
+Model: ETS(M,Ad,M) 
   Smoothing parameters:
-    alpha = 0.9923805 
-    gamma = 0.0001001026 
+    alpha = 0.9998863 
+    beta  = 0.0449181 
+    gamma = 0.0001019892 
+    phi   = 0.8178318 
 
   Initial states:
-     l[0]     s[0]     s[-1]     s[-2]    s[-3]     s[-4]    s[-5]    s[-6]
- 22.53512 1.002111 0.9985352 0.9944005 1.000657 0.9992066 1.000716 1.004373
+     l[0]       b[0]    s[0]     s[-1]     s[-2]    s[-3]     s[-4]     s[-5]
+ 25.49738 -0.7829361 1.00114 0.9990668 0.9956332 1.002539 0.9994978 0.9996608
+    s[-6]
+ 1.002462
 
   sigma^2:  0.003
 
      AIC     AICc      BIC 
-83982.39 83982.41 84053.63 </code></pre>
+83569.41 83569.45 83661.96 </code></pre>
 </div>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Display accuracy metrics</span></span>
 <span><span class="va">model_ets</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 10
-  .model        .type           ME  RMSE   MAE    MPE  MAPE  MASE RMSSE     ACF1
-  &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
-1 ETS(adjusted) Training -0.000716  1.31 0.728 -0.143  3.41 0.354 0.403 -0.00325</code></pre>
+  .model        .type           ME  RMSE   MAE    MPE  MAPE  MASE RMSSE    ACF1
+  &lt;chr&gt;         &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1 ETS(adjusted) Training -0.000342  1.32 0.732 -0.120  3.43 0.356 0.405 -0.0392</code></pre>
 </div>
 </div>
 </section></section><section id="forecasting-with-the-optimal-model" class="level1"><h1>Forecasting with the Optimal Model</h1>
@@ -466,138 +470,90 @@ Model: ETS(M,N,M)
 </li>
 <li>Forecast 1-month ahead returns</li>
 </ol>
-<!--
-
-**Solution**
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-# Task 1: Data Preparation
-spy_data <- tq_get("SPY", from = "2015-01-01") %>% 
-  as_tsibble(index = date) %>% 
-  tsibble::fill_gaps() %>% 
-  mutate(adjusted = na.approx(adjusted),
-         log_return = difference(log(adjusted))) %>% 
-  select(date, adjusted, log_return) %>% 
-  tidyr::drop_na()
-
-
-# Task 2: EDA
-spy_data %>% autoplot(log_return) +
-  labs(title = "SPY Daily Log Returns", y = "Return")
-```
-
-::: {.cell-output-display}
-![](activity12_files/figure-html/unnamed-chunk-8-1.png){width=672}
-:::
-
-```{.r .cell-code}
-spy_data %>% ACF(log_return) %>% autoplot()
-```
-
-::: {.cell-output-display}
-![](activity12_files/figure-html/unnamed-chunk-8-2.png){width=672}
-:::
-
-```{.r .cell-code}
-spy_data %>% PACF(log_return) %>% autoplot()
-```
-
-::: {.cell-output-display}
-![](activity12_files/figure-html/unnamed-chunk-8-3.png){width=672}
-:::
-
-```{.r .cell-code}
-# Task 3: Model Fitting
-fit_arima <- spy_data %>% 
-  model(ARIMA(log_return ~ pdq(2,0,1)))
-
-fit_ets <- spy_data %>% 
-  model(ETS(log_return))
-
-# Task 4: Model Comparison
-glance(fit_arima) %>% select(AIC, AICc, BIC)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 3
+<p><strong>Solution</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Task 1: Data Preparation</span></span>
+<span><span class="va">spy_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"SPY"</span>, from <span class="op">=</span> <span class="st">"2015-01-01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tsibble</span><span class="fu">::</span><span class="fu"><a href="https://tsibble.tidyverts.org/reference/fill_gaps.html">fill_gaps</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>adjusted <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/na.approx.html">na.approx</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span>,</span>
+<span>         log_return <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">adjusted</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">adjusted</span>, <span class="va">log_return</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Task 2: EDA</span></span>
+<span><span class="va">spy_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">log_return</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"SPY Daily Log Returns"</span>, y <span class="op">=</span> <span class="st">"Return"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity12_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spy_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/ACF.html">ACF</a></span><span class="op">(</span><span class="va">log_return</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity12_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">spy_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/ACF.html">PACF</a></span><span class="op">(</span><span class="va">log_return</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity12_files/figure-html/unnamed-chunk-8-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Task 3: Model Fitting</span></span>
+<span><span class="va">fit_arima</span> <span class="op">&lt;-</span> <span class="va">spy_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">log_return</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">fit_ets</span> <span class="op">&lt;-</span> <span class="va">spy_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html">ETS</a></span><span class="op">(</span><span class="va">log_return</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Task 4: Model Comparison</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">fit_arima</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="va">AIC</span>, <span class="va">AICc</span>, <span class="va">BIC</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
       AIC    AICc     BIC
-    <dbl>   <dbl>   <dbl>
-1 -24844. -24844. -24794.
-```
-
-
-:::
-
-```{.r .cell-code}
-glance(fit_ets) %>% select(AIC, AICc, BIC)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 3
+    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+1 -24852. -24852. -24802.</code></pre>
+</div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">fit_ets</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="va">AIC</span>, <span class="va">AICc</span>, <span class="va">BIC</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
      AIC   AICc    BIC
-   <dbl>  <dbl>  <dbl>
-1 -4944. -4944. -4926.
-```
-
-
-:::
-
-```{.r .cell-code}
-accuracy(fit_arima)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 10
+   &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 -4946. -4946. -4927.</code></pre>
+</div>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="va">fit_arima</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 10
   .model         .type       ME    RMSE     MAE   MPE  MAPE  MASE RMSSE     ACF1
-  <chr>          <chr>    <dbl>   <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl>    <dbl>
-1 ARIMA(log_ret… Trai… -3.63e-6 0.00837 0.00502   NaN   Inf 0.691 0.709 -3.81e-4
-```
-
-
-:::
-
-```{.r .cell-code}
-accuracy(fit_ets)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 1 × 10
+  &lt;chr&gt;          &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;
+1 ARIMA(log_ret… Trai… -3.84e-6 0.00837 0.00502   NaN   Inf 0.691 0.709 -4.20e-4</code></pre>
+</div>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/accuracy.html">accuracy</a></span><span class="op">(</span><span class="va">fit_ets</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 10
   .model          .type       ME    RMSE     MAE   MPE  MAPE  MASE RMSSE    ACF1
-  <chr>           <chr>    <dbl>   <dbl>   <dbl> <dbl> <dbl> <dbl> <dbl>   <dbl>
-1 ETS(log_return) Train… 8.00e-6 0.00842 0.00501  -Inf   Inf 0.689 0.713 -0.0153
-```
+  &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1 ETS(log_return) Train… 8.24e-6 0.00842 0.00501  -Inf   Inf 0.689 0.713 -0.0153</code></pre>
+</div>
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Task 5: Forecasting</span></span>
+<span><span class="va">fit_arima</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">30</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">spy_data</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"30-Day SPY Return Forecast"</span>, y <span class="op">=</span> <span class="st">"Log Return"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity12_files/figure-html/unnamed-chunk-8-4.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
-
-:::
-
-```{.r .cell-code}
-# Task 5: Forecasting
-fit_arima %>% 
-  forecast(h = 30) %>% 
-  autoplot(spy_data) +
-  labs(title = "30-Day SPY Return Forecast", y = "Log Return")
-```
-
-::: {.cell-output-display}
-![](activity12_files/figure-html/unnamed-chunk-8-4.png){width=672}
-:::
-:::
-
-
-
--->
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

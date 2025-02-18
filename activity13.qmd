@@ -155,7 +155,6 @@ covid_data <- covid19()
 ```
 
 
-<!--
 
 ```{r}
 library(COVID19)
@@ -183,7 +182,7 @@ covid_models %>%
 
 ```
 
--->
+
 
 
 ## References

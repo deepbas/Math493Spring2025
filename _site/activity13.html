@@ -436,41 +436,36 @@ To print citations in BibTeX format use:
 To hide this message use 'verbose = FALSE'.</code></pre>
 </div>
 </div>
-<!--
-
-::: {.cell}
-
-```{.r .cell-code}
-library(COVID19)
-
-covid_data <- covid19(verbose = FALSE)
-
-covid <- covid_data %>% 
-  filter(administrative_area_level_1 == "United States") %>% 
-  as_tsibble(index = date) %>% 
-  mutate(cases = difference(confirmed))  # Daily new cases
-
-
-# Compare 7 vs 14-day cycles
-covid_models <- covid %>% 
-  model(
-    Weekly = ARIMA(cases ~ fourier(7, K = 3) + pdq()),
-    Biweekly = ARIMA(cases ~ fourier(14, K = 5) + pdq())
-  )
-
-
-# Best model diagnostics
-covid_models %>% 
-  select(Weekly) %>% 
-  gg_tsresiduals()
-```
-
-::: {.cell-output-display}
-![](activity13_files/figure-html/unnamed-chunk-8-1.png){width=672}
-:::
-:::
-
--->
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://covid19datahub.io">COVID19</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">covid_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://covid19datahub.io/reference/covid19.html">covid19</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">covid</span> <span class="op">&lt;-</span> <span class="va">covid_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">administrative_area_level_1</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>cases <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">confirmed</span><span class="op">)</span><span class="op">)</span>  <span class="co"># Daily new cases</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Compare 7 vs 14-day cycles</span></span>
+<span><span class="va">covid_models</span> <span class="op">&lt;-</span> <span class="va">covid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span></span>
+<span>    Weekly <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">cases</span> <span class="op">~</span> <span class="fu">fourier</span><span class="op">(</span><span class="fl">7</span>, K <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu">pdq</span><span class="op">(</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    Biweekly <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">cases</span> <span class="op">~</span> <span class="fu">fourier</span><span class="op">(</span><span class="fl">14</span>, K <span class="op">=</span> <span class="fl">5</span><span class="op">)</span> <span class="op">+</span> <span class="fu">pdq</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span></span>
+<span><span class="co"># Best model diagnostics</span></span>
+<span><span class="va">covid_models</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Weekly</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsresiduals.html">gg_tsresiduals</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity13_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section></section></section><section id="references" class="level2"><h2 class="anchored" data-anchor-id="references">References</h2>
 <p>Guidotti, E., Ardia, D., (2020), “COVID-19 Data Hub”, Journal of Open Source Software 5(51):2376, doi: 10.21105/joss.02376</p>
 

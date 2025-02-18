@@ -57,14 +57,14 @@ We retrieve the VIX data and format as a `tsibble`, handling missing values whil
 ```{r}
 # Retrieve VIX data from 2000-01-01 to current date and convert to a tsibble
 vix_data <- tq_get("^VIX", from = "2000-01-01", 
-                   to = Sys.Date(), 
+                   to = "2025-01-01", 
                    get = "stock.prices") %>% 
   as_tsibble(index = date)
 
 # Clean and interpolate missing values
 vix_data <- vix_data %>% 
   tsibble::fill_gaps() %>% 
-  mutate(adjusted = na.approx(adjusted)) %>% 
+  mutate(adjusted = zoo::na.approx(adjusted)) %>% 
   select(date, adjusted) %>% 
   tidyr::drop_na()
 ```
@@ -152,7 +152,7 @@ Model daily SPY returns using ARIMA, analyze residuals, and compare with ETS.
 4. Compare models using AIC and RMSE  
 5. Forecast 1-month ahead returns
 
-<!--
+
 
 **Solution**
 
@@ -194,6 +194,4 @@ fit_arima %>%
   autoplot(spy_data) +
   labs(title = "30-Day SPY Return Forecast", y = "Log Return")
 ```
-
--->
 

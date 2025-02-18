@@ -250,7 +250,7 @@ window.Quarto = {
   </ul>
 </li>
   <li>
-<a href="#lab-activities-advanced-residual-analysis" id="toc-lab-activities-advanced-residual-analysis" class="nav-link" data-scroll-target="#lab-activities-advanced-residual-analysis">Lab Activities: Advanced Residual Analysis</a>
+<a href="#lab-activities" id="toc-lab-activities" class="nav-link" data-scroll-target="#lab-activities">Lab Activities</a>
   <ul class="collapse">
 <li><a href="#activity-1-retail-sales-seasonality-analysis" id="toc-activity-1-retail-sales-seasonality-analysis" class="nav-link" data-scroll-target="#activity-1-retail-sales-seasonality-analysis">Activity 1: Retail Sales Seasonality Analysis</a></li>
   <li><a href="#activity-2-gasoline-production-transformation-study" id="toc-activity-2-gasoline-production-transformation-study" class="nav-link" data-scroll-target="#activity-2-gasoline-production-transformation-study">Activity 2: Gasoline Production Transformation Study</a></li>
@@ -810,7 +810,7 @@ e_t &amp;= y_t - \hat{y}_t,
 </div>
 </div>
 </div>
-</section></section><section id="lab-activities-advanced-residual-analysis" class="level1"><h1>Lab Activities: Advanced Residual Analysis</h1>
+</section></section><section id="lab-activities" class="level1"><h1>Lab Activities</h1>
 <section id="activity-1-retail-sales-seasonality-analysis" class="level2"><h2 class="anchored" data-anchor-id="activity-1-retail-sales-seasonality-analysis">Activity 1: Retail Sales Seasonality Analysis</h2>
 <p><strong>Prompt</strong></p>
 <p>Using the <code>aus_retail</code> dataset (Tidyverts), analyze the <strong>“Takeaway food services”</strong> sector in Victoria.</p>
@@ -821,45 +821,37 @@ e_t &amp;= y_t - \hat{y}_t,
 </li>
 <li>Discuss whether seasonality improves the model</li>
 </ol>
-<!--
-
-**Solution**  
-
-::: {.cell}
-
-```{.r .cell-code}
-# Subset data and fit seasonal model  
-retail_model <- aus_retail %>%  
-  filter(Industry == "Takeaway food services", State == "Victoria") %>%  
-  model(TSLM(Turnover ~ trend() + season()))  
-
-# Residual diagnostics  
-retail_model %>%  
-  augment() %>%  
-  ggplot(aes(x = .fitted, y = .resid)) +  
-  geom_point(alpha = 0.5) +  
-  geom_hline(yintercept = 0, col = "red") +  
-  labs(title = "Residuals vs Fitted: Takeaway Food Services Model")  
-```
-
-::: {.cell-output-display}
-![](activity11_files/figure-html/unnamed-chunk-6-1.png){width=672}
-:::
-
-```{.r .cell-code}
-retail_model %>% gg_tsresiduals()  
-```
-
-::: {.cell-output-display}
-![](activity11_files/figure-html/unnamed-chunk-6-2.png){width=672}
-:::
-:::
-
-**Key Insight**  
-
-The `season()` term automatically creates **11 monthly dummy variables**. Compare residuals before/after adding seasonality using `glance()` metrics like AIC.  
-
---></section><section id="activity-2-gasoline-production-transformation-study" class="level2"><h2 class="anchored" data-anchor-id="activity-2-gasoline-production-transformation-study">Activity 2: Gasoline Production Transformation Study</h2>
+<p><strong>Solution</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Subset data and fit seasonal model  </span></span>
+<span><span class="va">retail_model</span> <span class="op">&lt;-</span> <span class="va">aus_retail</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Industry</span> <span class="op">==</span> <span class="st">"Takeaway food services"</span>, <span class="va">State</span> <span class="op">==</span> <span class="st">"Victoria"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">Turnover</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">season</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="co"># Residual diagnostics  </span></span>
+<span><span class="va">retail_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">.fitted</span>, y <span class="op">=</span> <span class="va">.resid</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Residuals vs Fitted: Takeaway Food Services Model"</span><span class="op">)</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">retail_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsresiduals.html">gg_tsresiduals</a></span><span class="op">(</span><span class="op">)</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-6-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Key Insight</strong></p>
+<p>The <code>season()</code> term automatically creates <strong>11 monthly dummy variables</strong>. Compare residuals before/after adding seasonality using <code><a href="https://generics.r-lib.org/reference/glance.html">glance()</a></code> metrics like AIC.</p>
+</section><section id="activity-2-gasoline-production-transformation-study" class="level2"><h2 class="anchored" data-anchor-id="activity-2-gasoline-production-transformation-study">Activity 2: Gasoline Production Transformation Study</h2>
 <p><strong>Prompt</strong></p>
 <p>Using the <code>gas</code> dataset (astsa):</p>
 <ol type="1">
@@ -869,43 +861,37 @@ The `season()` term automatically creates **11 monthly dummy variables**. Compar
 </li>
 <li>Identify which transformation better satisfies homoscedasticity</li>
 </ol>
-<!--
-**Solution**  
+<p><strong>Solution</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Convert to tsibble and model  </span></span>
+<span><span class="va">gas_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">gas</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">rename</span><span class="op">(</span>Week <span class="op">=</span> <span class="va">index</span>, Production <span class="op">=</span> <span class="va">value</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="va">lambda_opt</span> <span class="op">&lt;-</span> <span class="va">gas_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">Production</span>, <span class="va">guerrero</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pull</span><span class="op">(</span><span class="va">lambda_guerrero</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="va">fit_opt</span> <span class="op">&lt;-</span> <span class="va">gas_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Transformed <span class="op">=</span> <span class="fu"><a href="https://fabletools.tidyverts.org/reference/box_cox.html">box_cox</a></span><span class="op">(</span><span class="va">Production</span>, <span class="va">lambda_opt</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">Transformed</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="va">fit_sqrt</span> <span class="op">&lt;-</span> <span class="va">gas_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>Sqrt <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="va">Production</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">Sqrt</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="co"># Residual comparison  </span></span>
+<span><span class="fu">gridExtra</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span>  </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fit_opt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">.resid</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Optimal Box-Cox"</span><span class="op">)</span>,  </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">fit_sqrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">.resid</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Square Root"</span><span class="op">)</span>,  </span>
+<span>  ncol <span class="op">=</span> <span class="fl">1</span>  </span>
+<span><span class="op">)</span>  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity11_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Critical Check</strong></p>
+<p>Use <code>glance(fit_opt)</code> vs <code>glance(fit_sqrt)</code> to compare <strong>sigma</strong> (residual SD) - lower values indicate better variance stabilization.</p>
 
-::: {.cell}
-
-```{.r .cell-code}
-# Convert to tsibble and model  
-gas_ts <- as_tsibble(gas) %>% rename(Week = index, Production = value)  
-
-lambda_opt <- gas_ts %>% features(Production, guerrero) %>% pull(lambda_guerrero)  
-
-fit_opt <- gas_ts %>%  
-  mutate(Transformed = box_cox(Production, lambda_opt)) %>%  
-  model(TSLM(Transformed ~ trend()))  
-
-fit_sqrt <- gas_ts %>%  
-  mutate(Sqrt = sqrt(Production)) %>%  
-  model(TSLM(Sqrt ~ trend()))  
-
-# Residual comparison  
-gridExtra::grid.arrange(  
-  autoplot(fit_opt %>% augment(), .resid) + labs(title = "Optimal Box-Cox"),  
-  autoplot(fit_sqrt %>% augment(), .resid) + labs(title = "Square Root"),  
-  ncol = 1  
-)  
-```
-
-::: {.cell-output-display}
-![](activity11_files/figure-html/unnamed-chunk-7-1.png){width=672}
-:::
-:::
-
-**Critical Check**  
-
-Use `glance(fit_opt)` vs `glance(fit_sqrt)` to compare **sigma** (residual SD) - lower values indicate better variance stabilization.  
-
--->
 
 </section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

@@ -9,7 +9,7 @@ message: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
-library(fpp3)         # Tidy time series dataseta
+library(fpp3)         # Tidy time series datasets
 library(astsa)        # Applied statistical TS methods from textbook
 library(tseries)      # Unit root tests & TS diagnostics
 library(tsibbledata)  # Curated TS datasets
@@ -171,7 +171,7 @@ Using the `aus_retail` dataset (Tidyverts), analyze the **"Takeaway food service
 2. Perform residual analysis to assess model adequacy  
 3. Discuss whether seasonality improves the model  
 
-<!--
+
 
 **Solution**  
 
@@ -196,7 +196,7 @@ retail_model %>% gg_tsresiduals()
 
 The `season()` term automatically creates **11 monthly dummy variables**. Compare residuals before/after adding seasonality using `glance()` metrics like AIC.  
 
--->
+
 
 
 ## Activity 2: Gasoline Production Transformation Study  
@@ -209,7 +209,7 @@ Using the `gas` dataset (astsa):
 2. Compare residuals against a **square root transformation** ($\lambda=0.5$)  
 3. Identify which transformation better satisfies homoscedasticity  
 
-<!--
+
 **Solution**  
 
 ```{r}  
@@ -238,4 +238,4 @@ gridExtra::grid.arrange(
 
 Use `glance(fit_opt)` vs `glance(fit_sqrt)` to compare **sigma** (residual SD) - lower values indicate better variance stabilization.  
 
--->
+
