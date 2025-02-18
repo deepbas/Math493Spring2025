@@ -1,5 +1,5 @@
 ---
-title: "Activity9"
+title: "Activity14"
 format: html
 warning: false
 message: false
@@ -18,5 +18,128 @@ library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 ```
+
+
+## Regression with Lagged Variables & Multivariate EDA
+
+### Objective
+
+Improve seasonal forecasting models using:  
+
+1. **Autoregressive components** via lagged variables ($y_{t-1}, y_{t-2}$)  
+2. **Multivariate diagnostics** using correlation matrices and pairwise plots
+
+- **Lagged variables** capture serial dependence: $E[y_t | y_{t-1}]$  
+- **Fourier terms** model periodic patterns: $S_t = \sum_{k=1}^K [\alpha_k\sin(2\pi kt/m) + \beta_k\cos(2\pi kt/m)]$  
+- **Multicollinearity** detection via pairwise correlations (|r| > 0.8 indicates potential issues)
+
+
+### Focus
+
+- Extend the NYSE example by including lagged volume values.
+- Visualize relationships between the current volume, its lagged values, and Fourier terms.
+
+### Step-by-Step Tutorial
+
+#### 1. Data Preparation & Lag Creation
+
+```{r message=FALSE, warning=FALSE}
+# Get NYSE Composite index data (volume) from tidyquant and convert to tsibble
+nyse <- tq_get("^NYA", from = "2021-01-01", to = Sys.Date(), get = "stock.prices") %>% 
+  as_tsibble(index = date) %>% 
+  fill_gaps() %>% 
+  mutate(volume = na.approx(volume),
+         adjusted = na.approx(adjusted),
+         logVolume = log(volume)) %>% 
+  select(date, volume, logVolume, adjusted)
+
+# Plot volume series
+nyse %>% 
+  autoplot(volume) +
+  labs(title = "NYSE Composite Index Volume", y = "Volume", x = "Date")
+
+# Create extended lag structure (4 weeks backward)
+nyse <- nyse %>% 
+  mutate(volume_lag1 = lag(volume, 1),
+         volume_lag2 = lag(volume, 2)) %>% 
+  drop_na()
+```
+
+#### 2. Regression with Lagged Variables & Fourier Terms
+
+```{r}
+# Fit a model including Fourier terms and lagged volume predictors
+nyse_lag_model <- nyse %>% 
+  model(
+    LagModel = TSLM(volume ~ fourier(K = 2) + volume_lag1 + volume_lag2)
+  )
+
+report(nyse_lag_model) %>% 
+glance(nyse_lag_model) %>% knitr::kable()
+
+# Residual diagnostics
+nyse_lag_model %>% 
+  gg_tsresiduals() +
+  labs(title = "Residual Diagnostics: NYSE Lag Model")
+```
+
+#### 3. Multivariate EDA: ggpairs Plot
+
+```{r}
+# Prepare a multivariate dataset for ggpairs visualization
+nyse_multi <- nyse %>% 
+  mutate(trend = row_number()) %>% 
+  select(trend, volume, volume_lag1, volume_lag2) %>% 
+  as_tibble()
+
+library(GGally)
+ggpairs(nyse_multi, 
+        lower = list(continuous = wrap("smooth", alpha = 0.3)),
+        title = "Multivariate Relationships with Trend Component")
+```
+
+#### Lab Activity
+
+> **Task:** Experiment with including additional lags (e.g., lag 3 or lag 4) and higher order Fourier Harmonics in your model. Use ggpairs to visualize how these lagged variables relate to the current volume and discuss potential multicollinearity issues.
+
+<!--
+**Solution:**
+
+1. **Model Comparison**:  
+
+```{r}
+
+nyse <- nyse %>% 
+  mutate(volume_lag3 = lag(volume, 3),
+         volume_lag4 = lag(volume, 4)) %>% 
+  drop_na()
+
+nyse %>% 
+  model(
+    Base = TSLM(volume ~ fourier(K = 2)),
+    Extended = TSLM(volume ~ fourier(K = 3) + volume_lag1 + volume_lag2),
+    Extended1 = TSLM(volume ~ fourier(K = 3) + volume_lag1 + volume_lag2 + volume_lag3 + volume_lag4)
+  ) %>% 
+  glance() %>%  # Compare AIC/BIC
+  select(.model, adj_r_squared, AIC, AICc, BIC)
+
+# Fit the better mode
+nyse_final <- nyse %>% 
+  model(
+    BestModel = TSLM(volume ~ fourier(K = 3) + volume_lag1 + volume_lag2 + volume_lag3 + volume_lag4)
+  )
+  
+nyse_final %>% gg_tsresiduals()
+
+nyse_final %>% 
+  augment() %>% 
+  ggplot(aes(x = .fitted, y = volume)) + 
+  geom_hex() +  # Density-aware plotting
+  geom_abline(slope = 1) +
+  labs(title = "Actual vs Fitted Values with Density Gradient")
+```
+
+
+-->
 
 
