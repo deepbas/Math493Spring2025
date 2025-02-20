@@ -102,7 +102,7 @@ ggpairs(nyse_multi,
 
 > **Task:** Experiment with including additional lags (e.g., lag 3 or lag 4) and higher order Fourier Harmonics in your model. Use ggpairs to visualize how these lagged variables relate to the current volume and discuss potential multicollinearity issues.
 
-<!--
+
 **Solution:**
 
 1. **Model Comparison**:  
@@ -140,6 +140,6 @@ nyse_final %>%
 ```
 
 
--->
+
 
 

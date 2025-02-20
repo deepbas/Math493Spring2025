@@ -186,6 +186,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./activity15.html">
  <span class="dropdown-text">Activity15</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity16.html">
+ <span class="dropdown-text">Activity16</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -219,17 +223,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#covid-data-analysis-and-granger-causality-test" id="toc-covid-data-analysis-and-granger-causality-test" class="nav-link active" data-scroll-target="#covid-data-analysis-and-granger-causality-test">COVID Data Analysis and Granger causality test</a>
+  <ul class="collapse">
+<li><a href="#objective" id="toc-objective" class="nav-link" data-scroll-target="#objective">Objective</a></li>
+  <li><a href="#granger-causality-test-theory-implementation" id="toc-granger-causality-test-theory-implementation" class="nav-link" data-scroll-target="#granger-causality-test-theory-implementation">Granger Causality Test: Theory &amp; Implementation</a></li>
+  <li><a href="#var-modeling-and-irf-computation" id="toc-var-modeling-and-irf-computation" class="nav-link" data-scroll-target="#var-modeling-and-irf-computation">VAR Modeling and IRF Computation</a></li>
+  </ul>
+</li>
+  <li><a href="#lab-activity-exploring-granger-causality-with-different-lags" id="toc-lab-activity-exploring-granger-causality-with-different-lags" class="nav-link" data-scroll-target="#lab-activity-exploring-granger-causality-with-different-lags">Lab Activity: Exploring Granger Causality with Different Lags</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Activity9</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -249,12 +265,122 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.quantmod.com/">quantmod</a></span><span class="op">)</span>     <span class="co"># Financial data retrieval</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://business-science.github.io/tidyquant/">tidyquant</a></span><span class="op">)</span>    <span class="co"># Financial analysis in tidyverse</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.pfaffikus.de">vars</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://covid19datahub.io">COVID19</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://ggobi.github.io/ggally/">GGally</a></span><span class="op">)</span></span>
+<span><span class="va">select</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="va"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="covid-data-analysis-and-granger-causality-test" class="level2"><h2 class="anchored" data-anchor-id="covid-data-analysis-and-granger-causality-test">COVID Data Analysis and Granger causality test</h2>
+<section id="objective" class="level3"><h3 class="anchored" data-anchor-id="objective">Objective</h3>
+<p>Investigate whether changes in COVID-19 vaccination numbers help predict changes in confirmed cases using a Granger causality test.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Retrieve COVID-19 data for the United States and prepare a tsibble</span></span>
+<span><span class="va">covid_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://covid19datahub.io/reference/covid19.html">covid19</a></span><span class="op">(</span>verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">administrative_area_level_1</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>date <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="va">date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/pkg/MASS/man/lm.ridge.html">select</a></span><span class="op">(</span><span class="va">date</span>, <span class="va">confirmed</span>, <span class="va">vaccines</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>vaccines <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span><span class="op">(</span><span class="va">vaccines</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compute daily changes in confirmed cases and vaccinations</span></span>
+<span><span class="va">covid_data</span> <span class="op">&lt;-</span> <span class="va">covid_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>dConfirmed <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">confirmed</span><span class="op">)</span>,</span>
+<span>         dVacc <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">vaccines</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Plot daily changes in confirmed cases and vaccinations</span></span>
+<span><span class="va">covid_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="va">dConfirmed</span>, <span class="va">dVacc</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Daily Changes: Confirmed Cases &amp; Vaccinations"</span>, x <span class="op">=</span> <span class="st">"Date"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity16_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="granger-causality-test-theory-implementation" class="level3"><h3 class="anchored" data-anchor-id="granger-causality-test-theory-implementation">Granger Causality Test: Theory &amp; Implementation</h3>
+<p>The Granger causality test checks whether past values of one variable (here, dVacc) provide statistically significant information for predicting another variable (dConfirmed).</p>
+<p><strong>Implications and Uses:</strong></p>
+<ul>
+<li>A significant result (p-value &lt; 0.05) suggests that changes in vaccinations Granger-cause changes in confirmed cases.</li>
+<li>This does not imply true causality, but indicates that past vaccination data improves forecast accuracy for confirmed cases.</li>
+<li>Such insights can help inform public health policies by highlighting the predictive value of vaccination trends.</li>
+</ul>
+<p><strong>P-value Interpretation:</strong></p>
+<ul>
+<li>p &lt; 0.05: Reject the null hypothesis. Past vaccination changes significantly improve prediction of confirmed cases.</li>
+<li>p ≥ 0.05: Fail to reject the null hypothesis. Vaccination changes do not add significant predictive power.</li>
+</ul></section><section id="var-modeling-and-irf-computation" class="level3"><h3 class="anchored" data-anchor-id="var-modeling-and-irf-computation">VAR Modeling and IRF Computation</h3>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Test if changes in vaccinations (dVacc) Granger-cause changes in confirmed cases (dConfirmed) using a lag of 1.</span></span>
+<span><span class="va">model_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">dConfirmed</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">dVacc</span>, <span class="fl">1</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">covid_data</span><span class="op">)</span></span>
+<span><span class="va">model_restricted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">dConfirmed</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">covid_data</span><span class="op">)</span></span>
+<span><span class="va">F_stat</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/deviance.html">deviance</a></span><span class="op">(</span><span class="va">model_restricted</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deviance.html">deviance</a></span><span class="op">(</span><span class="va">model_full</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> </span>
+<span>          <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/deviance.html">deviance</a></span><span class="op">(</span><span class="va">model_full</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">covid_data</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">df1</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span><span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">covid_data</span><span class="op">)</span> <span class="op">-</span> <span class="fl">2</span> <span class="op">-</span> <span class="fl">1</span></span>
+<span><span class="va">p_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Fdist.html">pf</a></span><span class="op">(</span><span class="va">F_stat</span>, <span class="va">df1</span>, <span class="va">df2</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">p_value</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 0.260462</code></pre>
+</div>
+</div>
+</section></section><section id="lab-activity-exploring-granger-causality-with-different-lags" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-exploring-granger-causality-with-different-lags">Lab Activity: Exploring Granger Causality with Different Lags</h2>
+<p><strong>Task:</strong> Using the covid_data, perform Granger causality tests with lag orders 1, 2, 3, 5, and 10.</p>
+<p>For each lag, compute the p-value to assess whether lagged vaccination changes improve the prediction of confirmed cases. Answer the following:</p>
+<ol type="1">
+<li>How do the p-values change with different lag orders?</li>
+<li>Which lag order appears most appropriate for capturing the predictive relationship?</li>
+</ol>
+<p>Write a brief discussion on how these findings might inform public health policy.</p>
+<!--
 
 
+::: {.cell}
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+```{.r .cell-code}
+# Test Granger causality using multiple lag orders and collect the results.
+lag_orders <- c(1, 2, 3, 5, 10)
+results <- data.frame(Lag = integer(), P_Value = numeric())
+
+for (lag_order in lag_orders) {
+  model_full <- lm(dConfirmed ~ lag(dVacc, lag_order), data = covid_data)
+  model_restricted <- lm(dConfirmed ~ 1, data = covid_data)
+  F_stat <- ((deviance(model_restricted) - deviance(model_full)) / 1) / 
+            (deviance(model_full) / (nrow(covid_data) - lag_order - 1))
+  df1 <- 1
+  df2 <- nrow(covid_data) - lag_order - 1
+  p_value <- pf(F_stat, df1, df2, lower.tail = FALSE)
+  results <- rbind(results, data.frame(Lag = lag_order, P_Value = p_value))
+}
+
+print(results)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+  Lag    P_Value
+1   1 0.26017385
+2   2 0.34376628
+3   3 0.16895390
+4   5 0.03827663
+5  10 0.01375423
+```
+
+
+:::
+:::
+
+-->
+
+
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");

@@ -105,7 +105,6 @@ This output helps visualize both the magnitude and duration of the shock's impac
 
 **Task:** Using the `oil_data_df`, fit VAR models with different lag orders (e.g., VAR(2) and VAR(3)) and analyze the impulse response functions (IRFs) to study how shocks in Brent returns affect WTI returns.
 
-<!--
 
 ```{r}
 # VAR model with lag order 2
@@ -119,6 +118,5 @@ irf_3 <- irf(var_model_3, impulse = "dBrent", response = "dWTI", boot = TRUE)
 plot(irf_3, main = "IRF: VAR(3) Model (Brent -> WTI)")
 ```
 
--->
 
 

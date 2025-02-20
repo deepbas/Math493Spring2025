@@ -211,6 +211,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./activity15.html">
  <span class="dropdown-text">Activity15</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity16.html">
+ <span class="dropdown-text">Activity16</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -324,7 +328,7 @@ window.Quarto = {
 <span></span>
 <span><span class="co"># Plot volume series</span></span>
 <span><span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">logVolume</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">volume</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"NYSE Composite Index Volume"</span>, y <span class="op">=</span> <span class="st">"Volume"</span>, x <span class="op">=</span> <span class="st">"Date"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -354,23 +358,23 @@ Model: TSLM
 
 Residuals:
        Min         1Q     Median         3Q        Max 
--2.017e+09 -2.255e+08 -4.552e+07  1.507e+08  4.220e+09 
+-2.017e+09 -2.253e+08 -4.482e+07  1.506e+08  4.220e+09 
 
 Coefficients:
                      Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)         9.108e+08  7.364e+07  12.370  &lt; 2e-16 ***
-fourier(K = 2)C1_7  8.434e+07  2.042e+07   4.129 3.84e-05 ***
-fourier(K = 2)S1_7  1.758e+06  2.042e+07   0.086   0.9314    
-fourier(K = 2)C2_7 -3.528e+07  2.036e+07  -1.732   0.0834 .  
-fourier(K = 2)S2_7  4.128e+07  2.036e+07   2.028   0.0427 *  
-volume_lag1         7.767e-01  2.587e-02  30.018  &lt; 2e-16 ***
-volume_lag2         8.565e-03  2.587e-02   0.331   0.7406    
+(Intercept)         9.109e+08  7.352e+07  12.390  &lt; 2e-16 ***
+fourier(K = 2)C1_7  8.367e+07  2.036e+07   4.109  4.2e-05 ***
+fourier(K = 2)S1_7  1.782e+06  2.035e+07   0.088   0.9302    
+fourier(K = 2)C2_7 -3.516e+07  2.030e+07  -1.732   0.0834 .  
+fourier(K = 2)S2_7  4.132e+07  2.029e+07   2.036   0.0419 *  
+volume_lag1         7.768e-01  2.583e-02  30.079  &lt; 2e-16 ***
+volume_lag2         8.535e-03  2.582e-02   0.331   0.7410    
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-Residual standard error: 5.57e+08 on 1494 degrees of freedom
+Residual standard error: 556100000 on 1499 degrees of freedom
 Multiple R-squared: 0.6168, Adjusted R-squared: 0.6153
-F-statistic: 400.8 on 6 and 1494 DF, p-value: &lt; 2.22e-16</code></pre>
+F-statistic: 402.2 on 6 and 1499 DF, p-value: &lt; 2.22e-16</code></pre>
 </div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
@@ -382,12 +386,12 @@ F-statistic: 400.8 on 6 and 1494 DF, p-value: &lt; 2.22e-16</code></pre>
 <col style="width: 6%">
 <col style="width: 5%">
 <col style="width: 2%">
+<col style="width: 5%">
 <col style="width: 6%">
 <col style="width: 6%">
 <col style="width: 6%">
-<col style="width: 6%">
-<col style="width: 8%">
-<col style="width: 8%">
+<col style="width: 9%">
+<col style="width: 9%">
 <col style="width: 8%">
 <col style="width: 3%">
 </colgroup>
@@ -410,19 +414,19 @@ F-statistic: 400.8 on 6 and 1494 DF, p-value: &lt; 2.22e-16</code></pre>
 </tr></thead>
 <tbody><tr class="odd">
 <td style="text-align: left;">LagModel</td>
-<td style="text-align: right;">0.6167899</td>
-<td style="text-align: right;">0.6152509</td>
-<td style="text-align: right;">3.102188e+17</td>
-<td style="text-align: right;">400.7742</td>
+<td style="text-align: right;">0.6168396</td>
+<td style="text-align: right;">0.6153059</td>
+<td style="text-align: right;">3.09279e+17</td>
+<td style="text-align: right;">402.1999</td>
 <td style="text-align: right;">0</td>
 <td style="text-align: right;">7</td>
-<td style="text-align: right;">-32353.5</td>
-<td style="text-align: right;">60463.34</td>
-<td style="text-align: right;">60463.44</td>
-<td style="text-align: right;">60505.85</td>
-<td style="text-align: right;">3.123266e+17</td>
-<td style="text-align: right;">4.634668e+20</td>
-<td style="text-align: right;">1494</td>
+<td style="text-align: right;">-32459</td>
+<td style="text-align: right;">60660.15</td>
+<td style="text-align: right;">60660.25</td>
+<td style="text-align: right;">60702.69</td>
+<td style="text-align: right;">3.113802e+17</td>
+<td style="text-align: right;">4.636092e+20</td>
+<td style="text-align: right;">1499</td>
 <td style="text-align: right;">7</td>
 </tr></tbody>
 </table>
@@ -461,73 +465,59 @@ F-statistic: 400.8 on 6 and 1494 DF, p-value: &lt; 2.22e-16</code></pre>
 <blockquote class="blockquote">
 <p><strong>Task:</strong> Experiment with including additional lags (e.g., lag 3 or lag 4) and higher order Fourier Harmonics in your model. Use ggpairs to visualize how these lagged variables relate to the current volume and discuss potential multicollinearity issues.</p>
 </blockquote>
-<!--
-**Solution:**
-
-1. **Model Comparison**:  
-
-::: {.cell}
-
-```{.r .cell-code}
-nyse <- nyse %>% 
-  mutate(volume_lag3 = lag(volume, 3),
-         volume_lag4 = lag(volume, 4)) %>% 
-  drop_na()
-
-nyse %>% 
-  model(
-    Base = TSLM(volume ~ fourier(K = 2)),
-    Extended = TSLM(volume ~ fourier(K = 3) + volume_lag1 + volume_lag2),
-    Extended1 = TSLM(volume ~ fourier(K = 3) + volume_lag1 + volume_lag2 + volume_lag3 + volume_lag4)
-  ) %>% 
-  glance() %>%  # Compare AIC/BIC
-  select(.model, adj_r_squared, AIC, AICc, BIC)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 3 × 5
+<p><strong>Solution:</strong></p>
+<ol type="1">
+<li>
+<strong>Model Comparison</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nyse</span> <span class="op">&lt;-</span> <span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>volume_lag3 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">volume</span>, <span class="fl">3</span><span class="op">)</span>,</span>
+<span>         volume_lag4 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">volume</span>, <span class="fl">4</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span></span>
+<span>    Base <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">volume</span> <span class="op">~</span> <span class="fu">fourier</span><span class="op">(</span>K <span class="op">=</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    Extended <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">volume</span> <span class="op">~</span> <span class="fu">fourier</span><span class="op">(</span>K <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="va">volume_lag1</span> <span class="op">+</span> <span class="va">volume_lag2</span><span class="op">)</span>,</span>
+<span>    Extended1 <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">volume</span> <span class="op">~</span> <span class="fu">fourier</span><span class="op">(</span>K <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="va">volume_lag1</span> <span class="op">+</span> <span class="va">volume_lag2</span> <span class="op">+</span> <span class="va">volume_lag3</span> <span class="op">+</span> <span class="va">volume_lag4</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  <span class="co"># Compare AIC/BIC</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">.model</span>, <span class="va">adj_r_squared</span>, <span class="va">AIC</span>, <span class="va">AICc</span>, <span class="va">BIC</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 5
   .model    adj_r_squared    AIC   AICc    BIC
-  <chr>             <dbl>  <dbl>  <dbl>  <dbl>
-1 Base            0.00505 61721. 61721. 61753.
-2 Extended        0.617   60294. 60294. 60347.
-3 Extended1       0.623   60273. 60273. 60337.
-```
-
-
-:::
-
-```{.r .cell-code}
-# Fit the better mode
-nyse_final <- nyse %>% 
-  model(
-    BestModel = TSLM(volume ~ fourier(K = 3) + volume_lag1 + volume_lag2 + volume_lag3 + volume_lag4)
-  )
-  
-nyse_final %>% gg_tsresiduals()
-```
-
-::: {.cell-output-display}
-![](activity14_files/figure-html/unnamed-chunk-5-1.png){width=672}
-:::
-
-```{.r .cell-code}
-nyse_final %>% 
-  augment() %>% 
-  ggplot(aes(x = .fitted, y = volume)) + 
-  geom_hex() +  # Density-aware plotting
-  geom_abline(slope = 1) +
-  labs(title = "Actual vs Fitted Values with Density Gradient")
-```
-
-::: {.cell-output-display}
-![](activity14_files/figure-html/unnamed-chunk-5-2.png){width=672}
-:::
-:::
-
-
--->
+  &lt;chr&gt;             &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+1 Base            0.00492 61923. 61923. 61955.
+2 Extended        0.618   60491. 60491. 60544.
+3 Extended1       0.623   60470. 60470. 60533.</code></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit the better mode</span></span>
+<span><span class="va">nyse_final</span> <span class="op">&lt;-</span> <span class="va">nyse</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span></span>
+<span>    BestModel <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">volume</span> <span class="op">~</span> <span class="fu">fourier</span><span class="op">(</span>K <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="va">volume_lag1</span> <span class="op">+</span> <span class="va">volume_lag2</span> <span class="op">+</span> <span class="va">volume_lag3</span> <span class="op">+</span> <span class="va">volume_lag4</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span>  </span>
+<span><span class="va">nyse_final</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsresiduals.html">gg_tsresiduals</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity14_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">nyse_final</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">.fitted</span>, y <span class="op">=</span> <span class="va">volume</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_hex.html">geom_hex</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span>  <span class="co"># Density-aware plotting</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html">geom_abline</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Actual vs Fitted Values with Density Gradient"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity14_files/figure-html/unnamed-chunk-5-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
