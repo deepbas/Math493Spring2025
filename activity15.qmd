@@ -1,5 +1,5 @@
 ---
-title: "Activity9"
+title: "Activity15"
 format: html
 warning: false
 message: false
@@ -18,5 +18,103 @@ library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 ```
+
+
+
+## Oil Prices Analysis: Brent, WTI & Impulse Response Function
+
+### Objective
+
+Retrieve Brent and WTI crude oil prices, compute daily returns, and explore a basic VAR model.
+
+```{r}
+# Get Brent (BZ=F) and WTI (CL=F) crude oil prices and convert to tsibble
+brent <- tq_get("BZ=F", from = "2021-01-01", to = Sys.Date(), get = "stock.prices") %>% 
+  as_tsibble(index = date)
+
+wti <- tq_get("CL=F", from = "2021-01-01", to = Sys.Date(), get = "stock.prices") %>% 
+  as_tsibble(index = date)
+
+# Merge Brent and WTI by date and compute daily returns
+oil_data <- left_join(brent %>% select(date, adjusted) %>% rename(Brent = adjusted),
+                      wti %>% select(date, adjusted) %>% rename(WTI = adjusted),
+                      by = "date") %>% 
+  mutate(dBrent = difference(Brent),
+         dWTI = difference(WTI)) %>% 
+  drop_na() %>% 
+  as_tsibble(index = date)
+
+# Plot daily returns for Brent and WTI
+oil_data %>% 
+  autoplot(vars(dBrent, dWTI)) +
+  labs(title = "Daily Returns: Brent & WTI", x = "Date", y = "Return")
+```
+
+
+### VAR Models & Impulse Response Functions
+
+A VAR (Vector Autoregression) model captures the dynamic relationships between multiple time series.
+In our case, each variable (`dBrent` and `dWTI`) is modeled as a function of its own past values and those of the other.
+
+Impulse response functions (IRFs) trace the effect of a one-time shock to one variable (e.g., Brent returns)
+on the future values of another variable (e.g., WTI returns). The IRF output typically displays point estimates and confidence intervals for the response over a series of future periods.
+
+
+### VAR Lag Order Selection
+
+```{r}
+# Convert to tibble for VAR analysis
+oil_data_df <- oil_data %>% 
+  as_tibble() %>%
+  select(dBrent, dWTI)
+
+# Select optimal lag order for the VAR model
+var_selection <- VARselect(oil_data_df, lag.max = 20, type = "const")
+print(var_selection$selection)
+```
+
+
+### Fitting a VAR Model and Computing its IRF
+
+Here we fit a VAR model with a chosen lag order (e.g., p = 4) and compute its impulse response function.
+
+```{r}
+var_model_1 <- VAR(oil_data_df, p = 4, type = "const")
+```
+
+
+```{r}
+# Compute the IRF: show how a shock to Brent returns (dBrent) affects WTI returns (dWTI)
+irf_1 <- irf(var_model_1, impulse = "dBrent", response = "dWTI", boot = TRUE)
+plot(irf_1, main = "IRF Demo: Shock to Brent Returns and Response of WTI Returns")
+```
+
+In the IRF plot, we see:
+
+- The horizontal axis representing the number of periods after the shock.
+- The vertical axis showing the estimated change in WTI returns due to a unit shock in Brent returns.
+- A solid line for the point estimates and dashed lines indicating the confidence intervals.
+
+This output helps visualize both the magnitude and duration of the shock's impact.
+
+### Lab Activity
+
+**Task:** Using the `oil_data_df`, fit VAR models with different lag orders (e.g., VAR(2) and VAR(3)) and analyze the impulse response functions (IRFs) to study how shocks in Brent returns affect WTI returns.
+
+<!--
+
+```{r}
+# VAR model with lag order 2
+var_model_2 <- VAR(oil_data_df, p = 2, type = "const")
+irf_2 <- irf(var_model_2, impulse = "dBrent", response = "dWTI", boot = TRUE)
+plot(irf_2, main = "IRF: VAR(2) Model (Brent -> WTI)")
+
+# VAR model with lag order 3
+var_model_3 <- VAR(oil_data_df, p = 3, type = "const")
+irf_3 <- irf(var_model_3, impulse = "dBrent", response = "dWTI", boot = TRUE)
+plot(irf_3, main = "IRF: VAR(3) Model (Brent -> WTI)")
+```
+
+-->
 
 
