@@ -47,8 +47,8 @@ website:
             href: activity15.html
           - text: "Activity16"
             href: activity16.html
-          # - text: "Activity1"
-          #   href: activity1.html
+          - text: "Activity17"
+            href: activity17.html
           # - text: "Activity2"
           #   href: activity2.html
           # - text: "Activity3"

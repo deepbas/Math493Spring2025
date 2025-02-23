@@ -1,8 +1,8 @@
 {
-  "hash": "bc512248f0b87c06691ada9bb6c0f345",
+  "hash": "161a3fef1a6a94fcea0f0fbe99652ef5",
   "result": {
     "engine": "knitr",
-    "markdown": "---\ntitle: \"Activity9\"\nformat: html\nwarning: false\nmessage: false\n---\n\n::: {.cell}\n\n```{.r .cell-code}\n# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import\n```\n:::\n\n\n",
+    "markdown": "---\ntitle: \"Activity17\"\nformat: html\nwarning: false\nmessage: false\n---\n\n::: {.cell}\n\n```{.r .cell-code}\n# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import\n```\n:::\n\n\n## Review of concepts and applications covered so far!",
     "supporting": [],
     "filters": [
       "rmarkdown/pagebreak.lua"

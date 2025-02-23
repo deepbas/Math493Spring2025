@@ -1,5 +1,5 @@
 ---
-title: "Activity9"
+title: "Activity17"
 format: html
 warning: false
 message: false
@@ -17,6 +17,118 @@ library(quantmod)     # Financial data retrieval
 library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
+library(gridExtra)
+library(vars)
 ```
 
+
+## Review of concepts and applications covered so far!
+
+
+1. Exploratory Data Analysis and Preprocessing
+
+- *Visualization:* Plot the raw time‐series data to inspect for trends, seasonality, and irregular fluctuations (including rolling means/variances).
+- *Transformations:* Apply appropriate transformations (e.g. logarithmic or Box–Cox) to stabilize variance.
+
+
+```{r}
+# Simulate a multivariate time series dataset with trend, seasonality, and noise
+set.seed(42)
+n <- 200
+dates <- seq.Date(as.Date("2021-01-01"), by = "day", length.out = n)
+trend1 <- seq(1, n) / 10
+trend2 <- seq(1, n) / 12
+season1 <- sin(2 * pi * (1:n) / 12)
+season2 <- cos(2 * pi * (1:n) / 12)
+noise1 <- rnorm(n, 0, 1)
+noise2 <- rnorm(n, 0, 1)
+data_df <- data.frame(
+  date = dates,
+  series1 = 50 + trend1 + season1 + noise1,
+  series2 = 30 + trend2 + season2 + noise2
+)
+
+# Convert to tsibble 
+ts_data <- as_tsibble(data_df, index = date)
+
+# Plot raw data for series1 and series2
+p1 <- autoplot(ts_data, series1) +
+  labs(title = "Raw Data: Series1", y = "Series1")
+p2 <- autoplot(ts_data, series2) +
+  labs(title = "Raw Data: Series2", y = "Series2")
+grid.arrange(p1, p2, ncol = 2)
+```
+
+
+2. Decomposition & Stationarity Testing
+
+- *Decomposition:* Use methods like STL or X-12-ARIMA to break the series into trend, seasonal, and remainder components.
+- *Detrending/Deseasonalizing:* Remove or model the trend and seasonal components so that the residual approximates white noise.
+Stationarity Tests: Apply tests (e.g., ADF, KPSS) and difference the series as needed to achieve stationarity.
+
+```{r}
+# Decompose series1 using STL (additive model)
+stl_decomp <- ts_data %>%
+  model(STL(series1 ~ season(window = "periodic"))) %>%
+  components()
+
+autoplot(stl_decomp) +
+  labs(title = "STL Decomposition of Series1")
+
+# Inspect the remainder component as a proxy for stationarity
+autoplot(stl_decomp, remainder) +
+  labs(title = "Remainder (Noise) Component of Series1")
+```
+
+
+3. Model Identification & Fitting
+
+- *Lag Selection:* Determine the optimal lag length (using criteria such as AIC or BIC) for an autoregressive or VAR model.
+- *Dynamic Modeling:* Fit an autoregressive model (or a VAR for multivariate data) on the stationary series.
+Granger Causality Testing: Within the VAR framework, test whether past values of one variable significantly improve the prediction of another.
+
+```{r}
+# For VAR, we need a multivariate time series object.
+var_data <- ts_data %>% as_tibble() %>% dplyr::select(series1, series2)
+             
+
+# Lag Selection: Use VARselect to determine optimal lag order 
+lag_sel <- VARselect(var_data, lag.max = 10, type = "const")
+print(lag_sel$selection)
+
+# Fit the VAR model with the chosen lag order
+var_model <- VAR(var_data, p = 10, type = "const")
+summary(var_model)
+```
+
+
+
+4. Impulse Response Analysis
+
+- *IRF Computation:* After estimating the VAR, compute impulse response functions to trace how shocks to one variable affect the system over time.
+- *Interpretation:* Use IRFs to quantify the duration and magnitude of shock effects, complementing the Granger causality findings.
+
+```{r}
+# Compute the impulse response function for the effect of a shock in series1 on series2 (12 periods ahead)
+irf_result <- irf(var_model, impulse = "series1", response = "series2",
+                  n.ahead = 18, boot = TRUE)
+plot(irf_result)
+```
+
+
+5. Diagnostics & Forecasting
+
+- *Residual Analysis:* Check that the model’s residuals resemble white noise (e.g., via Ljung–Box tests) to validate the model fit.
+Forecasting: Employ the fitted model to forecast future values, reintroducing trend and seasonal components as needed.
+
+
+```{r}
+# Diagnostics: Test for serial correlation in the VAR residuals (using 12 lags)
+serial_test <- serial.test(var_model, lags.pt = 12, type = "PT.adjusted")
+print(serial_test)
+
+# Forecasting: Forecast the next 12 periods using the VAR model
+var_forecast <- predict(var_model, n.ahead = 12)
+plot(var_forecast)
+```
 
