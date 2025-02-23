@@ -261,9 +261,263 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.quantmod.com/">quantmod</a></span><span class="op">)</span>     <span class="co"># Financial data retrieval</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://business-science.github.io/tidyquant/">tidyquant</a></span><span class="op">)</span>    <span class="co"># Financial analysis in tidyverse</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">gridExtra</span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.pfaffikus.de">vars</a></span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="review-of-concepts-and-applications-covered-so-far" class="level2"><h2 class="anchored" data-anchor-id="review-of-concepts-and-applications-covered-so-far">Review of concepts and applications covered so far!</h2>
+<ol type="1">
+<li>Exploratory Data Analysis and Preprocessing</li>
+</ol>
+<ul>
+<li>
+<em>Visualization:</em> Plot the raw time‐series data to inspect for trends, seasonality, and irregular fluctuations (including rolling means/variances).</li>
+<li>
+<em>Transformations:</em> Apply appropriate transformations (e.g.&nbsp;logarithmic or Box–Cox) to stabilize variance.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Simulate a multivariate time series dataset with trend, seasonality, and noise</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">42</span><span class="op">)</span></span>
+<span><span class="va">n</span> <span class="op">&lt;-</span> <span class="fl">200</span></span>
+<span><span class="va">dates</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.Date.html">seq.Date</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/pkg/zoo/man/yearmon.html">as.Date</a></span><span class="op">(</span><span class="st">"2021-01-01"</span><span class="op">)</span>, by <span class="op">=</span> <span class="st">"day"</span>, length.out <span class="op">=</span> <span class="va">n</span><span class="op">)</span></span>
+<span><span class="va">trend1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">n</span><span class="op">)</span> <span class="op">/</span> <span class="fl">10</span></span>
+<span><span class="va">trend2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="fl">1</span>, <span class="va">n</span><span class="op">)</span> <span class="op">/</span> <span class="fl">12</span></span>
+<span><span class="va">season1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">sin</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">/</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">season2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/Trig.html">cos</a></span><span class="op">(</span><span class="fl">2</span> <span class="op">*</span> <span class="va">pi</span> <span class="op">*</span> <span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span> <span class="op">/</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="va">noise1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">noise2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">rnorm</a></span><span class="op">(</span><span class="va">n</span>, <span class="fl">0</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">data_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span></span>
+<span>  date <span class="op">=</span> <span class="va">dates</span>,</span>
+<span>  series1 <span class="op">=</span> <span class="fl">50</span> <span class="op">+</span> <span class="va">trend1</span> <span class="op">+</span> <span class="va">season1</span> <span class="op">+</span> <span class="va">noise1</span>,</span>
+<span>  series2 <span class="op">=</span> <span class="fl">30</span> <span class="op">+</span> <span class="va">trend2</span> <span class="op">+</span> <span class="va">season2</span> <span class="op">+</span> <span class="va">noise2</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Convert to tsibble </span></span>
+<span><span class="va">ts_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">data_df</span>, index <span class="op">=</span> <span class="va">date</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Plot raw data for series1 and series2</span></span>
+<span><span class="va">p1</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ts_data</span>, <span class="va">series1</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Raw Data: Series1"</span>, y <span class="op">=</span> <span class="st">"Series1"</span><span class="op">)</span></span>
+<span><span class="va">p2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">ts_data</span>, <span class="va">series2</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Raw Data: Series2"</span>, y <span class="op">=</span> <span class="st">"Series2"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/gridExtra/man/arrangeGrob.html">grid.arrange</a></span><span class="op">(</span><span class="va">p1</span>, <span class="va">p2</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity17_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>Decomposition &amp; Stationarity Testing</li>
+</ol>
+<ul>
+<li>
+<em>Decomposition:</em> Use methods like STL or X-12-ARIMA to break the series into trend, seasonal, and remainder components.</li>
+<li>
+<em>Detrending/Deseasonalizing:</em> Remove or model the trend and seasonal components so that the residual approximates white noise. Stationarity Tests: Apply tests (e.g., ADF, KPSS) and difference the series as needed to achieve stationarity.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Decompose series1 using STL (additive model)</span></span>
+<span><span class="va">stl_decomp</span> <span class="op">&lt;-</span> <span class="va">ts_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://feasts.tidyverts.org/reference/STL.html">STL</a></span><span class="op">(</span><span class="va">series1</span> <span class="op">~</span> <span class="fu">season</span><span class="op">(</span>window <span class="op">=</span> <span class="st">"periodic"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/components.html">components</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">stl_decomp</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"STL Decomposition of Series1"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity17_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Inspect the remainder component as a proxy for stationarity</span></span>
+<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">stl_decomp</span>, <span class="va">remainder</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Remainder (Noise) Component of Series1"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity17_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>Model Identification &amp; Fitting</li>
+</ol>
+<ul>
+<li>
+<em>Lag Selection:</em> Determine the optimal lag length (using criteria such as AIC or BIC) for an autoregressive or VAR model.</li>
+<li>
+<em>Dynamic Modeling:</em> Fit an autoregressive model (or a VAR for multivariate data) on the stationary series. Granger Causality Testing: Within the VAR framework, test whether past values of one variable significantly improve the prediction of another.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># For VAR, we need a multivariate time series object.</span></span>
+<span><span class="va">var_data</span> <span class="op">&lt;-</span> <span class="va">ts_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">as_tibble</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">series1</span>, <span class="va">series2</span><span class="op">)</span></span>
+<span>             </span>
+<span></span>
+<span><span class="co"># Lag Selection: Use VARselect to determine optimal lag order </span></span>
+<span><span class="va">lag_sel</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/VARselect.html">VARselect</a></span><span class="op">(</span><span class="va">var_data</span>, lag.max <span class="op">=</span> <span class="fl">10</span>, type <span class="op">=</span> <span class="st">"const"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">lag_sel</span><span class="op">$</span><span class="va">selection</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>AIC(n)  HQ(n)  SC(n) FPE(n) 
+    10     10      3     10 </code></pre>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Fit the VAR model with the chosen lag order</span></span>
+<span><span class="va">var_model</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/VAR.html">VAR</a></span><span class="op">(</span><span class="va">var_data</span>, p <span class="op">=</span> <span class="fl">10</span>, type <span class="op">=</span> <span class="st">"const"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/urca/man/summary-methods.html">summary</a></span><span class="op">(</span><span class="va">var_model</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+VAR Estimation Results:
+========================= 
+Endogenous variables: series1, series2 
+Deterministic variables: const 
+Sample size: 190 
+Log Likelihood: -533.265 
+Roots of the characteristic polynomial:
+    1 0.9659 0.9659 0.898 0.898 0.859 0.859 0.8513 0.8513 0.843 0.843 0.8371 0.8371 0.8034 0.8034 0.7746 0.7746 0.619 0.504 0.504
+Call:
+VAR(y = var_data, p = 10, type = "const")
+
+
+Estimation results for equation series1: 
+======================================== 
+series1 = series1.l1 + series2.l1 + series1.l2 + series2.l2 + series1.l3 + series2.l3 + series1.l4 + series2.l4 + series1.l5 + series2.l5 + series1.l6 + series2.l6 + series1.l7 + series2.l7 + series1.l8 + series2.l8 + series1.l9 + series2.l9 + series1.l10 + series2.l10 + const 
+
+             Estimate Std. Error t value Pr(&gt;|t|)    
+series1.l1   0.122877   0.076589   1.604 0.110499    
+series2.l1   0.001737   0.074155   0.023 0.981337    
+series1.l2   0.137280   0.076629   1.791 0.075004 .  
+series2.l2   0.251250   0.072968   3.443 0.000725 ***
+series1.l3   0.019961   0.077146   0.259 0.796153    
+series2.l3   0.242982   0.075094   3.236 0.001460 ** 
+series1.l4   0.023500   0.076088   0.309 0.757815    
+series2.l4   0.097273   0.075932   1.281 0.201926    
+series1.l5   0.012457   0.075742   0.164 0.869564    
+series2.l5   0.029780   0.075707   0.393 0.694549    
+series1.l6  -0.100836   0.075910  -1.328 0.185848    
+series2.l6  -0.001456   0.074714  -0.019 0.984472    
+series1.l7  -0.130671   0.075732  -1.725 0.086275 .  
+series2.l7   0.089534   0.074633   1.200 0.231951    
+series1.l8   0.095971   0.075373   1.273 0.204667    
+series2.l8   0.072311   0.075100   0.963 0.336990    
+series1.l9   0.090060   0.073133   1.231 0.219861    
+series2.l9  -0.098305   0.074922  -1.312 0.191266    
+series1.l10  0.065699   0.074015   0.888 0.375991    
+series2.l10  0.105207   0.073140   1.438 0.152163    
+const        9.875173   2.622006   3.766 0.000229 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 1.039 on 169 degrees of freedom
+Multiple R-Squared: 0.9695, Adjusted R-squared: 0.9659 
+F-statistic: 268.9 on 20 and 169 DF,  p-value: &lt; 2.2e-16 
+
+
+Estimation results for equation series2: 
+======================================== 
+series2 = series1.l1 + series2.l1 + series1.l2 + series2.l2 + series1.l3 + series2.l3 + series1.l4 + series2.l4 + series1.l5 + series2.l5 + series1.l6 + series2.l6 + series1.l7 + series2.l7 + series1.l8 + series2.l8 + series1.l9 + series2.l9 + series1.l10 + series2.l10 + const 
+
+            Estimate Std. Error t value Pr(&gt;|t|)   
+series1.l1   0.12196    0.07744   1.575  0.11716   
+series2.l1   0.13703    0.07498   1.828  0.06938 . 
+series1.l2  -0.10699    0.07748  -1.381  0.16918   
+series2.l2   0.04090    0.07378   0.554  0.58004   
+series1.l3  -0.03307    0.07801  -0.424  0.67214   
+series2.l3   0.01991    0.07593   0.262  0.79352   
+series1.l4   0.01795    0.07694   0.233  0.81577   
+series2.l4   0.01205    0.07678   0.157  0.87548   
+series1.l5   0.05329    0.07659   0.696  0.48752   
+series2.l5  -0.01524    0.07655  -0.199  0.84241   
+series1.l6   0.03161    0.07676   0.412  0.68102   
+series2.l6  -0.07952    0.07555  -1.053  0.29405   
+series1.l7   0.12927    0.07658   1.688  0.09323 . 
+series2.l7  -0.08456    0.07547  -1.120  0.26410   
+series1.l8   0.01776    0.07621   0.233  0.81601   
+series2.l8   0.01472    0.07594   0.194  0.84653   
+series1.l9   0.22280    0.07395   3.013  0.00299 **
+series2.l9   0.05090    0.07576   0.672  0.50259   
+series1.l10  0.19784    0.07484   2.644  0.00898 **
+series2.l10  0.13111    0.07396   1.773  0.07806 . 
+const       -8.85007    2.65124  -3.338  0.00104 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+
+Residual standard error: 1.05 on 169 degrees of freedom
+Multiple R-Squared: 0.9561, Adjusted R-squared: 0.9509 
+F-statistic: 184.1 on 20 and 169 DF,  p-value: &lt; 2.2e-16 
+
+
+
+Covariance matrix of residuals:
+        series1 series2
+series1 1.07898 0.05327
+series2 0.05327 1.10317
+
+Correlation matrix of residuals:
+        series1 series2
+series1 1.00000 0.04883
+series2 0.04883 1.00000</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>Impulse Response Analysis</li>
+</ol>
+<ul>
+<li>
+<em>IRF Computation:</em> After estimating the VAR, compute impulse response functions to trace how shocks to one variable affect the system over time.</li>
+<li>
+<em>Interpretation:</em> Use IRFs to quantify the duration and magnitude of shock effects, complementing the Granger causality findings.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Compute the impulse response function for the effect of a shock in series1 on series2 (12 periods ahead)</span></span>
+<span><span class="va">irf_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/irf.html">irf</a></span><span class="op">(</span><span class="va">var_model</span>, impulse <span class="op">=</span> <span class="st">"series1"</span>, response <span class="op">=</span> <span class="st">"series2"</span>,</span>
+<span>                  n.ahead <span class="op">=</span> <span class="fl">18</span>, boot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">irf_result</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity17_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="5" type="1">
+<li>Diagnostics &amp; Forecasting</li>
+</ol>
+<ul>
+<li>
+<em>Residual Analysis:</em> Check that the model’s residuals resemble white noise (e.g., via Ljung–Box tests) to validate the model fit. Forecasting: Employ the fitted model to forecast future values, reintroducing trend and seasonal components as needed.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Diagnostics: Test for serial correlation in the VAR residuals (using 12 lags)</span></span>
+<span><span class="va">serial_test</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/vars/man/serial.html">serial.test</a></span><span class="op">(</span><span class="va">var_model</span>, lags.pt <span class="op">=</span> <span class="fl">12</span>, type <span class="op">=</span> <span class="st">"PT.adjusted"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">serial_test</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Portmanteau Test (adjusted)
+
+data:  Residuals of VAR object var_model
+Chi-squared = 23.058, df = 8, p-value = 0.003291</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>$serial
+
+    Portmanteau Test (adjusted)
+
+data:  Residuals of VAR object var_model
+Chi-squared = 23.058, df = 8, p-value = 0.003291</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Forecasting: Forecast the next 12 periods using the VAR model</span></span>
+<span><span class="va">var_forecast</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html">predict</a></span><span class="op">(</span><span class="va">var_model</span>, n.ahead <span class="op">=</span> <span class="fl">12</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/plot.html">plot</a></span><span class="op">(</span><span class="va">var_forecast</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity17_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
