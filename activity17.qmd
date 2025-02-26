@@ -62,7 +62,7 @@ grid.arrange(p1, p2, ncol = 2)
 
 2. Decomposition & Stationarity Testing
 
-- *Decomposition:* Use methods like STL or X-12-ARIMA to break the series into trend, seasonal, and remainder components.
+- *Decomposition:* Use methods like STL to break the series into trend, seasonal, and remainder components.
 - *Detrending/Deseasonalizing:* Remove or model the trend and seasonal components so that the residual approximates white noise.
 Stationarity Tests: Apply tests (e.g., ADF, KPSS) and difference the series as needed to achieve stationarity.
 
