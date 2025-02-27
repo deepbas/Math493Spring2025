@@ -25,7 +25,7 @@ library(readr)        # Efficient data import
 
 *Objective: Identify AR(p)/MA(q) signatures through autocorrelation patterns*
 
-The ACF reveals how autocorrelations persist over lags, indicating the need for differencing (if autocorrelations decay slowly) or the presence of seasonality (periodic spikes). The PACF pinpoints the order of AR terms by showing where partial correlations become negligible. Together, ACF and PACF help diagnose appropriate ARIMA or seasonal ARIMA structures.
+The ACF reveals how auto correlations persist over lags, indicating the need for differencing (if autocorrelations decay slowly) or the presence of seasonality (periodic spikes). The PACF pinpoints the order of AR terms by showing where partial correlations become negligible. Together, ACF and PACF help diagnose appropriate ARIMA or seasonal ARIMA structures.
 
 ### 1.1 ACF Decay Patterns with `gtemp_both`
 
