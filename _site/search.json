@@ -373,9 +373,9 @@
   {
     "objectID": "activity18.html",
     "href": "activity18.html",
-    "title": "Activity9",
+    "title": "Activity18",
     "section": "",
-    "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
+    "text": "📌 No Activity\n📝 In-Class Quiz 1"
   },
   {
     "objectID": "activity1.html",

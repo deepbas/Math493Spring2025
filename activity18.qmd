@@ -3,6 +3,7 @@ title: "Activity18"
 format: html
 warning: false
 message: false
+echo: false
 ---
 
 ```{r}
