@@ -2,9 +2,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Activity9 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity16 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -59,17 +59,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-9e2db6d60132874137d35cd80df6d385.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-c2299866e9c1ed9e4d64cbb04b200562.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -193,6 +194,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./activity17.html">
  <span class="dropdown-text">Activity17</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity18.html">
+ <span class="dropdown-text">Activity18</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./activity19.html">
+ <span class="dropdown-text">Activity19</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -243,7 +252,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </div>
 <!-- main -->
 <main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Activity9</h1>
+<h1 class="title">Activity16</h1>
 </div>
 
 
@@ -341,46 +350,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Which lag order appears most appropriate for capturing the predictive relationship?</li>
 </ol>
 <p>Write a brief discussion on how these findings might inform public health policy.</p>
-<!--
-
-
-::: {.cell}
-
-```{.r .cell-code}
-# Test Granger causality using multiple lag orders and collect the results.
-lag_orders <- c(1, 2, 3, 5, 10)
-results <- data.frame(Lag = integer(), P_Value = numeric())
-
-for (lag_order in lag_orders) {
-  model_full <- lm(dConfirmed ~ lag(dVacc, lag_order), data = covid_data)
-  model_restricted <- lm(dConfirmed ~ 1, data = covid_data)
-  F_stat <- ((deviance(model_restricted) - deviance(model_full)) / 1) / 
-            (deviance(model_full) / (nrow(covid_data) - lag_order - 1))
-  df1 <- 1
-  df2 <- nrow(covid_data) - lag_order - 1
-  p_value <- pf(F_stat, df1, df2, lower.tail = FALSE)
-  results <- rbind(results, data.frame(Lag = lag_order, P_Value = p_value))
-}
-
-print(results)
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-  Lag    P_Value
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Test Granger causality using multiple lag orders and collect the results.</span></span>
+<span><span class="va">lag_orders</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">2</span>, <span class="fl">3</span>, <span class="fl">5</span>, <span class="fl">10</span><span class="op">)</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Lag <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">integer</a></span><span class="op">(</span><span class="op">)</span>, P_Value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html">numeric</a></span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span> <span class="op">(</span><span class="va">lag_order</span> <span class="kw">in</span> <span class="va">lag_orders</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">model_full</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">dConfirmed</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/r/stats/lag.html">lag</a></span><span class="op">(</span><span class="va">dVacc</span>, <span class="va">lag_order</span><span class="op">)</span>, data <span class="op">=</span> <span class="va">covid_data</span><span class="op">)</span></span>
+<span>  <span class="va">model_restricted</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html">lm</a></span><span class="op">(</span><span class="va">dConfirmed</span> <span class="op">~</span> <span class="fl">1</span>, data <span class="op">=</span> <span class="va">covid_data</span><span class="op">)</span></span>
+<span>  <span class="va">F_stat</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/deviance.html">deviance</a></span><span class="op">(</span><span class="va">model_restricted</span><span class="op">)</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/stats/deviance.html">deviance</a></span><span class="op">(</span><span class="va">model_full</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fl">1</span><span class="op">)</span> <span class="op">/</span> </span>
+<span>            <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/deviance.html">deviance</a></span><span class="op">(</span><span class="va">model_full</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">covid_data</span><span class="op">)</span> <span class="op">-</span> <span class="va">lag_order</span> <span class="op">-</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span>  <span class="va">df1</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
+<span>  <span class="va">df2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">covid_data</span><span class="op">)</span> <span class="op">-</span> <span class="va">lag_order</span> <span class="op">-</span> <span class="fl">1</span></span>
+<span>  <span class="va">p_value</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Fdist.html">pf</a></span><span class="op">(</span><span class="va">F_stat</span>, <span class="va">df1</span>, <span class="va">df2</span>, lower.tail <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span>  <span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html">rbind</a></span><span class="op">(</span><span class="va">results</span>, <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Lag <span class="op">=</span> <span class="va">lag_order</span>, P_Value <span class="op">=</span> <span class="va">p_value</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">results</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>  Lag    P_Value
 1   1 0.26017385
 2   2 0.34376628
 3   3 0.16895390
 4   5 0.03827663
-5  10 0.01375423
-```
-
-
-:::
-:::
-
--->
+5  10 0.01375423</code></pre>
+</div>
+</div>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
@@ -609,8 +604,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -721,7 +714,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

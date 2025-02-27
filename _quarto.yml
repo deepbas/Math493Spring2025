@@ -49,10 +49,10 @@ website:
             href: activity16.html
           - text: "Activity17"
             href: activity17.html
-          # - text: "Activity2"
-          #   href: activity2.html
-          # - text: "Activity3"
-          #   href: activity3.html
+          - text: "Activity18"
+            href: activity18.html
+          - text: "Activity19"
+            href: activity19.html
           # - text: "Activity4"
           #   href: activity4.html
           # - text: "Activity5"

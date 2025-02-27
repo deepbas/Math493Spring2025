@@ -1,5 +1,5 @@
 ---
-title: "Activity9"
+title: "Activity16"
 format: html
 warning: false
 message: false
@@ -103,7 +103,6 @@ of confirmed cases. Answer the following:
 
 Write a brief discussion on how these findings might inform public health policy.
 
-<!--
 
 
 ```{r}
@@ -125,4 +124,3 @@ for (lag_order in lag_orders) {
 print(results)
 ```
 
--->

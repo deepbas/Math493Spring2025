@@ -1,5 +1,5 @@
 ---
-title: "Activity9"
+title: "Activity18"
 format: html
 warning: false
 message: false
@@ -20,3 +20,6 @@ library(readr)        # Efficient data import
 ```
 
 
+### 📌 No Activity  
+
+#### 📝 In-Class Quiz 1  
