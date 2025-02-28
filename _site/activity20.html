@@ -272,6 +272,7 @@ window.Quarto = {
   <li><a href="#spurious-correlation-caveat" id="toc-spurious-correlation-caveat" class="nav-link" data-scroll-target="#spurious-correlation-caveat">1.2 Spurious Correlation Caveat</a></li>
   <li><a href="#ar2-simulation-diagnostics" id="toc-ar2-simulation-diagnostics" class="nav-link" data-scroll-target="#ar2-simulation-diagnostics">1.3 AR(2) Simulation &amp; Diagnostics</a></li>
   <li><a href="#ma1-characteristics" id="toc-ma1-characteristics" class="nav-link" data-scroll-target="#ma1-characteristics">1.4 MA(1) Characteristics</a></li>
+  <li><a href="#lab-activity-1-electricity-demand-and-temperature" id="toc-lab-activity-1-electricity-demand-and-temperature" class="nav-link" data-scroll-target="#lab-activity-1-electricity-demand-and-temperature"><strong>Lab Activity 1: Electricity demand and Temperature</strong></a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -417,7 +418,63 @@ window.Quarto = {
 <li>MA(q): ACF significant for first q lags<br>
 </li>
 <li>ARMA: Both decay gradually</li>
-</ul>
+</ul></section><section id="lab-activity-1-electricity-demand-and-temperature" class="level3"><h3 class="anchored" data-anchor-id="lab-activity-1-electricity-demand-and-temperature"><strong>Lab Activity 1: Electricity demand and Temperature</strong></h3>
+<p>The <code>vic_elec</code> dataset contains half-hourly electricity demand in Victoria, Australia, alongside temperature readings.</p>
+<pre><code>1.  Aggregate the data to daily resolution (summing demand and averaging temperature).
+2.  Plot the cross-correlation function (CCF) between daily demand and temperature.
+3.  Interpret the results.</code></pre>
+<!--
+
+
+
+::: {.cell}
+
+```{.r .cell-code}
+vic_elec_daily <- vic_elec %>%
+  index_by(Date = as.Date(Time)) %>%
+  summarise(
+    DailyDemand = sum(Demand),
+    DailyTemp   = mean(Temperature)
+  ) %>%
+  as_tsibble(index = Date)
+
+knitr::kable(vic_elec_daily %>% head())
+```
+
+::: {.cell-output-display}
+
+
+|Date       | DailyDemand| DailyTemp|
+|:----------|-----------:|---------:|
+|2011-12-31 |    82531.75|  21.04773|
+|2012-01-01 |   227778.26|  26.57812|
+|2012-01-02 |   275490.99|  31.75104|
+|2012-01-03 |   258955.33|  24.56771|
+|2012-01-04 |   213792.38|  18.19167|
+|2012-01-05 |   211066.43|  17.81250|
+
+
+:::
+:::
+
+::: {.cell}
+
+```{.r .cell-code}
+# Cross-correlation function between Demand and Temperature up to ±30 days
+ccf_obj <- CCF(vic_elec_daily, DailyDemand, DailyTemp, lag_max = 30)
+autoplot(ccf_obj) 
+```
+
+::: {.cell-output-display}
+![](activity20_files/figure-html/unnamed-chunk-7-1.png){width=672}
+:::
+:::
+
+
+
+The CCF values are consistently near or below zero across all lags; there isn’t a pronounced peak or trough at any specific lag. Since the correlations remain broadly negative (and small in magnitude) for both positive and negative lags, there’s no clear evidence that temperature systematically leads or lags demand in this dataset. The correlation is negative, suggesting that higher daily temperatures coincide with slightly lower daily electricity demand (or vice versa). One possible explanation is that the observed period or region may use more electricity for heating rather than cooling, so warmer days reduce demand.
+
+-->
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

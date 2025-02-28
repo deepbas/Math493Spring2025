@@ -121,3 +121,36 @@ sim_ma1 |>
 - AR(p): PACF significant for first p lags  
 - MA(q): ACF significant for first q lags  
 - ARMA: Both decay gradually
+
+### **Lab Activity 1: Electricity demand and Temperature**  
+
+The `vic_elec` dataset contains half-hourly electricity demand in Victoria, Australia, alongside temperature readings.
+
+	1.	Aggregate the data to daily resolution (summing demand and averaging temperature).
+	2.	Plot the cross-correlation function (CCF) between daily demand and temperature.
+	3.	Interpret the results.
+
+<!--
+
+```{r}
+vic_elec_daily <- vic_elec %>%
+  index_by(Date = as.Date(Time)) %>%
+  summarise(
+    DailyDemand = sum(Demand),
+    DailyTemp   = mean(Temperature)
+  ) %>%
+  as_tsibble(index = Date)
+
+knitr::kable(vic_elec_daily %>% head())
+```
+
+```{r}
+# Cross-correlation function between Demand and Temperature up to ±30 days
+vic_elec_daily %>% 
+  CCF(DailyDemand, DailyTemp) %>% 
+  autoplot()
+```
+
+The CCF values are consistently near or below zero across all lags; there isn’t a pronounced peak or trough at any specific lag. Since the correlations remain broadly negative (and small in magnitude) for both positive and negative lags, there’s no clear evidence that temperature systematically leads or lags demand in this dataset. The correlation is negative, suggesting that higher daily temperatures coincide with slightly lower daily electricity demand (or vice versa). One possible explanation is that the observed period or region may use more electricity for heating rather than cooling, so warmer days reduce demand.
+
+-->
