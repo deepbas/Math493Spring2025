@@ -1,5 +1,5 @@
 ---
-title: "Activity9"
+title: "Activity20"
 format: html
 warning: false
 message: false
@@ -20,3 +20,104 @@ library(readr)        # Efficient data import
 ```
 
 
+**Cross-Correlation & Multiserial Dynamics**  
+
+*Objective: Analyze lead-lag relationships between series*
+
+The cross-correlation function at lag k is given by:
+
+$$
+\rho_{XY}(k) = \frac{\gamma_{XY}(k)}{\sqrt{\gamma_{XX}(0)\,\gamma_{YY}(0)}}
+$$
+
+where:
+
+ - $\gamma_{XY}(k)$ is the cross-covariance at lag k between series X and Y
+ - $\gamma_{XX}(0)$ and $\gamma_{YY}(0)$ are the variances (covariance at lag 0)
+   of X and Y, respectively
+ - $\rho_{XY}(k)$ thus ranges between -1 and +1
+
+
+
+### How to interpret the CCF?
+
+The CCF at lag k measures how strongly the current values of one series correlate with the values of the other series shifted by k time steps.
+
+- Positive lag (k > 0) indicates how much the first series LEADS the second.
+- Negative lag (k < 0) indicates how much the second series LEADS the first.
+- A high absolute value of CCF at a particular lag suggests a strong
+ lead-lag relationship at that time shift.
+
+
+### 1.1 CCF Analysis with `pelt`
+
+```{r}
+pelt |> 
+  as_tsibble() |>
+  CCF(Lynx, Hare) |> 
+  autoplot() +
+  labs(title = "Hare peaks lead Lynx by 1-2 years (predator-prey dynamics)")
+```
+
+
+- A single cross-correlation plot is sufficient for understanding how two time series move relative to each other over different time shifts.
+
+- Peaks at positive lags suggest that the first series' changes come before changes in the second series (leading). Peaks at negative lags suggest the second series leads the first.
+
+- In ecological contexts (like hare vs. lynx), a positive lag at which the CCF is high might mean prey population spikes occur 1-2 years before predator population spikes.
+
+
+### 1.2 Spurious Correlation Caveat
+
+```{r}
+# Simulate independent series
+set.seed(123)
+fake_data <- tsibble(t=1:100, x=rnorm(100), y=rnorm(100), index=t)
+fake_data |> 
+  CCF(x,y) |> autoplot()
+```
+
+**Critical Thinking**: Even independent series may show "significant" correlations by chance. Always validate with domain knowledge.
+
+
+**Simulation & Model Identification**  
+
+*Hands-on ARMA process experimentation*
+
+### 1.3 AR(2) Simulation & Diagnostics
+
+```{r}
+sim_ar2 <- arima.sim(n=200, list(ar=c(0.6, -0.3))) 
+
+sim_ar2 |> 
+  as_tsibble() |>
+  ACF() |> 
+  autoplot() # Decaying oscillations
+
+sim_ar2 |> 
+  as_tsibble() |>
+  PACF() |> 
+  autoplot() # Spikes at lags 1-2
+```
+
+### 1.4 MA(1) Characteristics
+
+```{r}
+sim_ma1 <- arima.sim(n=200, list(ma=0.8))
+
+sim_ma1 |> 
+  as_tsibble() |>
+  ACF() |> 
+  autoplot() # Cutoff after lag 1
+
+sim_ma1 |> 
+  as_tsibble() |>
+  PACF() |> 
+  autoplot() # Exponential decay
+```
+
+**Golden Rule**:  
+
+- AR(p): PACF significant for first p lags  
+- MA(q): ACF significant for first q lags  
+- ARMA: Both decay gradually
