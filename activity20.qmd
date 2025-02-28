@@ -64,7 +64,7 @@ pelt |>
 
 - Peaks at positive lags suggest that the first series' changes come before changes in the second series (leading). Peaks at negative lags suggest the second series leads the first.
 
-- In ecological contexts (like hare vs. lynx), a positive lag at which the CCF is high might mean prey population spikes occur 1-2 years before predator population spikes.
+- In ecological contexts (like hare vs. lynx), the classic Hudson Bay hare–lynx data show that the hare population tends to peak first, with the lynx population lagging by roughly 1–2 years.
 
 
 ### 1.2 Spurious Correlation Caveat
