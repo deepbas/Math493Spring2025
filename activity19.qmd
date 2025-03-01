@@ -81,7 +81,6 @@ vic_elec |>
 
 1. Load the `aus_production` dataset from `fpp3`.
 
-<!--
 
 ```{r}
 # 1) Load and visualize the 'Gas' time series
@@ -92,12 +91,10 @@ aus_production %>%
 ```
 
 
--->
 
 
 2. Choose the 'Gas' time series. Plot its ACF and PACF to identify any AR/MA components or seasonal effects.
 
-<!--
 
 ```{r}
 # 2) Plot ACF & PACF to assess AR/MA/seasonal components
@@ -112,11 +109,11 @@ aus_production %>%
   labs(title="PACF of Gas")
 ```
 
--->
+
 
 3. Apply differencing if needed, and re-check the ACF/PACF to refine your model choice.
 
-<!--
+
 
 ```{r}
 # 3) Apply differencing if needed, then re-check ACF/PACF
@@ -133,6 +130,5 @@ aus_production %>%
   labs(title="PACF of Differenced Gas")
 ```
 
--->
 
 
