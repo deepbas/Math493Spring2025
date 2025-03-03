@@ -114,6 +114,7 @@ consumption_ts %>%
 ```{r}
 consumption_ts %>%
   features(Consumption, unitroot_kpss) # H0: Stationary
+
 consumption_ts %>%
   gg_tsdisplay(Consumption, plot_type = "partial")
 ```
@@ -124,7 +125,7 @@ consumption_ts %>%
 
 ```{r}
 ar_fit <- consumption_ts %>%
-  model(ARIMA(Consumption ~ pdq(2,0,0)))
+  model(ARIMA(Consumption ~ pdq() + PDQ(0,0,0)))
 
 report(ar_fit) # Compare φ coefficients to simulation
 ```
@@ -148,7 +149,6 @@ ar_fit %>%
 ```
 
 
-
 ### **Lab Activity B: Real-World Application - US Income Changes**
 
 **1. Data Preparation & Visualization**
@@ -167,14 +167,14 @@ income_ts %>%
 
 Determine appropriate AR order through PACF:
 
-<!--
+
 
 ```{r}
 income_ts %>%
-  gg_tsdisplay(Income, plot_type = "partial", lag_max = 8) +
+  gg_tsdisplay(Income, plot_type = "partial", lag_max = 25) +
   labs(title = "Income Series Diagnostics")
 ```
--->
+
 
 
 
@@ -182,7 +182,6 @@ income_ts %>%
 
 Fit competing specifications and evaluate:
 
-<!--
 
 ```{r}
 income_models <- income_ts %>%
@@ -192,24 +191,22 @@ income_models <- income_ts %>%
     Auto = ARIMA(Income)
   )
 
-glance(income_models) %>% arrange(AICc)
+glance(income_models) 
+tidy(income_models)
 ```
 
--->
 
 **4. Forecasting & Policy Implications**  
 
 Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
 
-<!--
-
 ```{r}
 income_models %>%
-  select(AR2) %>%
+  select(Auto) %>%
   forecast(h = 8) %>%
   autoplot(income_ts) +
   labs(title = "2-Year Income Growth Forecast",
-       subtitle = "AR(2) Model Projection")
+       subtitle = "Auto Model Projection")
 ```
 
 
