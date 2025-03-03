@@ -20,3 +20,199 @@ library(readr)        # Efficient data import
 ```
 
 
+
+
+# Theoretical Foundations of AR Models
+
+## **Time Series Nature & Stationarity**
+
+Define AR($p$): $Y_t = \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \epsilon_t$, $\epsilon_t \sim WN(0,\sigma^2)$  
+
+
+**AR(p) Properties**:
+
+- Captures *temporal dependence* through lagged terms
+- PACF cuts off after lag $p$
+- Requires stationarity for reliable inference
+- Unit root non-stationarity occurs when characteristic equation $1 - \phi_1 z - \cdots - \phi_p z^p = 0$ has roots *on* unit circle
+
+
+```{r}
+library(fable)
+set.seed(123)
+ar_data <- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %>% 
+  as_tsibble(index = time)
+
+ar_data %>% 
+  gg_tsdisplay(y, plot_type = c("scatter")) + # ACF/PACF
+  labs(title = "AR(2) Process: φ₁=0.7, φ₂=-0.2")
+```
+
+**Model Fitting & Diagnostics**  
+
+
+```{r}
+fit_ar <- ar_data %>% 
+  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification
+
+report(fit_ar) # Check coefficients & σ²
+fit_ar %>% residuals() %>% gg_tsdisplay(plot_type = c("scatter")) # Residual diagnostics
+```
+
+
+## **Real-World Process: US Consumption**
+
+From the *global_economy* dataset (Ch. 5 of text), we'll analyze quarterly percentage changes in personal consumption expenditures (stationary series):
+
+```{r}
+library(fpp3)
+data(us_change)
+consumption_ts <- us_change %>%
+  select(Quarter, Consumption) %>%
+  as_tsibble(index = Quarter)
+```
+
+
+### **Lab Activity A: AR Modeling with Real Data**
+
+**Exploratory Analysis & Stationarity**
+
+1. **Visualize Series**:
+
+```{r}
+consumption_ts %>%
+  autoplot(Consumption) +
+  labs(title = "US Consumption Changes", y = "% Change")
+```
+
+2. **Stationarity Assessment**:
+
+```{r}
+consumption_ts %>%
+  features(Consumption, unitroot_kpss) # H0: Stationary
+consumption_ts %>%
+  gg_tsdisplay(Consumption, plot_type = "partial")
+```
+
+**Model Fitting & Forecasting**
+
+1. **Fit AR Model**:
+
+```{r}
+ar_fit <- consumption_ts %>%
+  model(ARIMA(Consumption ~ pdq(2,0,0)))
+
+report(ar_fit) # Compare φ coefficients to simulation
+```
+
+2. **Residual Diagnostics**:
+
+```{r}
+ar_fit %>%
+  residuals() %>%
+  gg_tsdisplay(.resid, plot_type = "partial") +
+  labs(title = "Residual Diagnostics")
+```
+
+3. **Forecasting**:
+
+```{r}
+ar_fit %>%
+  forecast(h = 8) %>%
+  autoplot(consumption_ts) +
+  labs(title = "2-Year Consumption Forecast")
+```
+
+
+
+### **Lab Activity B: Real-World Application - US Income Changes**
+
+**1. Data Preparation & Visualization**
+
+```{r}
+income_ts <- us_change %>%
+  select(Quarter, Income) %>%
+  as_tsibble(index = Quarter)
+
+income_ts %>%
+  autoplot(Income) +
+  labs(title = "US Personal Income Growth Rate", y = "% Change")
+```
+
+**2. Order Identification**  
+
+Determine appropriate AR order through PACF:
+
+<!--
+
+```{r}
+income_ts %>%
+  gg_tsdisplay(Income, plot_type = "partial", lag_max = 8) +
+  labs(title = "Income Series Diagnostics")
+```
+-->
+
+
+
+**3. Model Comparison**  
+
+Fit competing specifications and evaluate:
+
+<!--
+
+```{r}
+income_models <- income_ts %>%
+  model(
+    AR1 = ARIMA(Income ~ pdq(1,0,0)),
+    AR2 = ARIMA(Income ~ pdq(2,0,0)),
+    Auto = ARIMA(Income)
+  )
+
+glance(income_models) %>% arrange(AICc)
+```
+
+-->
+
+**4. Forecasting & Policy Implications**  
+
+Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
+
+<!--
+
+```{r}
+income_models %>%
+  select(AR2) %>%
+  forecast(h = 8) %>%
+  autoplot(income_ts) +
+  labs(title = "2-Year Income Growth Forecast",
+       subtitle = "AR(2) Model Projection")
+```
+
+
+-->
+
+<!--
+
+## **Pedagogical Notes**
+
+1. **Key Comparisons**:
+
+- Contrast simulated vs real-world ACF/PACF patterns
+- Highlight stationarity preservation in differenced series
+- Discuss economic interpretation of persistence in consumption
+
+2. **Common Pitfalls**:
+
+- Overlooking residual correlation (indicates inadequate model order)
+- Misinterpreting PACF spikes beyond lag p as significant
+- Ignoring structural breaks in real data
+
+3. **Extensions**:
+
+- Compare AR model to ARIMA(2,1,0) on non-stationary original series
+- Add exogenous predictors (Income, Savings) to create ARX model
+- Implement rolling-origin forecast evaluation
+
+-->
+
+

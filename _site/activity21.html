@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-<title>Activity9 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity21 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -206,6 +231,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./activity20.html">
  <span class="dropdown-text">Activity20</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity21.html">
+ <span class="dropdown-text">Activity21</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -239,17 +268,33 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#theoretical-foundations-of-ar-models" id="toc-theoretical-foundations-of-ar-models" class="nav-link active" data-scroll-target="#theoretical-foundations-of-ar-models">Theoretical Foundations of AR Models</a>
+  <ul class="collapse">
+<li><a href="#time-series-nature-stationarity" id="toc-time-series-nature-stationarity" class="nav-link" data-scroll-target="#time-series-nature-stationarity"><strong>Time Series Nature &amp; Stationarity</strong></a></li>
+  <li>
+<a href="#real-world-process-us-consumption" id="toc-real-world-process-us-consumption" class="nav-link" data-scroll-target="#real-world-process-us-consumption"><strong>Real-World Process: US Consumption</strong></a>
+  <ul class="collapse">
+<li><a href="#lab-activity-a-ar-modeling-with-real-data" id="toc-lab-activity-a-ar-modeling-with-real-data" class="nav-link" data-scroll-target="#lab-activity-a-ar-modeling-with-real-data"><strong>Lab Activity A: AR Modeling with Real Data</strong></a></li>
+  <li><a href="#lab-activity-b-real-world-application---us-income-changes" id="toc-lab-activity-b-real-world-application---us-income-changes" class="nav-link" data-scroll-target="#lab-activity-b-real-world-application---us-income-changes"><strong>Lab Activity B: Real-World Application - US Income Changes</strong></a></li>
+  </ul>
+</li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
-<h1 class="title">Activity9</h1>
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">Activity21</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -271,10 +316,277 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="theoretical-foundations-of-ar-models" class="level1"><h1>Theoretical Foundations of AR Models</h1>
+<section id="time-series-nature-stationarity" class="level2"><h2 class="anchored" data-anchor-id="time-series-nature-stationarity"><strong>Time Series Nature &amp; Stationarity</strong></h2>
+<p>Define AR(<span class="math inline">\(p\)</span>): <span class="math inline">\(Y_t = \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \epsilon_t\)</span>, <span class="math inline">\(\epsilon_t \sim WN(0,\sigma^2)\)</span></p>
+<p><strong>AR(p) Properties</strong>:</p>
+<ul>
+<li>Captures <em>temporal dependence</em> through lagged terms</li>
+<li>PACF cuts off after lag <span class="math inline">\(p\)</span>
+</li>
+<li>Requires stationarity for reliable inference</li>
+<li>Unit root non-stationarity occurs when characteristic equation <span class="math inline">\(1 - \phi_1 z - \cdots - \phi_p z^p = 0\)</span> has roots <em>on</em> unit circle</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org">fable</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="fl">123</span><span class="op">)</span></span>
+<span><span class="va">ar_data</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="op">(</span>time <span class="op">=</span> <span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, y <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/arima.sim.html">arima.sim</a></span><span class="op">(</span>model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>ar <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.7</span>, <span class="op">-</span><span class="fl">0.2</span><span class="op">)</span><span class="op">)</span>, n <span class="op">=</span> <span class="fl">100</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">time</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ar_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsdisplay.html">gg_tsdisplay</a></span><span class="op">(</span><span class="va">y</span>, plot_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scatter"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> <span class="co"># ACF/PACF</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"AR(2) Process: φ₁=0.7, φ₂=-0.2"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity21_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Model Fitting &amp; Diagnostics</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_ar</span> <span class="op">&lt;-</span> <span class="va">ar_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">y</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="co"># Explicit AR specification</span></span>
+<span></span>
+<span><span class="fu"><a href="https://fabletools.tidyverts.org/reference/report.html">report</a></span><span class="op">(</span><span class="va">fit_ar</span><span class="op">)</span> <span class="co"># Check coefficients &amp; σ²</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: y 
+Model: ARIMA(2,0,0) 
+
+Coefficients:
+         ar1      ar2
+      0.6757  -0.1576
+s.e.  0.0990   0.1002
+
+sigma^2 estimated as 0.8167:  log likelihood=-130.99
+AIC=267.99   AICc=268.24   BIC=275.8</code></pre>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_ar</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsdisplay.html">gg_tsdisplay</a></span><span class="op">(</span>plot_type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"scatter"</span><span class="op">)</span><span class="op">)</span> <span class="co"># Residual diagnostics</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity21_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="real-world-process-us-consumption" class="level2"><h2 class="anchored" data-anchor-id="real-world-process-us-consumption"><strong>Real-World Process: US Consumption</strong></h2>
+<p>From the <em>global_economy</em> dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):</p>
+<div class="cell">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/fpp3/">fpp3</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">us_change</span><span class="op">)</span></span>
+<span><span class="va">consumption_ts</span> <span class="op">&lt;-</span> <span class="va">us_change</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Quarter</span>, <span class="va">Consumption</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Quarter</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="lab-activity-a-ar-modeling-with-real-data" class="level3"><h3 class="anchored" data-anchor-id="lab-activity-a-ar-modeling-with-real-data"><strong>Lab Activity A: AR Modeling with Real Data</strong></h3>
+<p><strong>Exploratory Analysis &amp; Stationarity</strong></p>
+<ol type="1">
+<li>
+<strong>Visualize Series</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">consumption_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">Consumption</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"US Consumption Changes"</span>, y <span class="op">=</span> <span class="st">"% Change"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity21_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="2" type="1">
+<li>
+<strong>Stationarity Assessment</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">consumption_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">Consumption</span>, <span class="va">unitroot_kpss</span><span class="op">)</span> <span class="co"># H0: Stationary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  kpss_stat kpss_pvalue
+      &lt;dbl&gt;       &lt;dbl&gt;
+1     0.275         0.1</code></pre>
+</div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">consumption_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsdisplay.html">gg_tsdisplay</a></span><span class="op">(</span><span class="va">Consumption</span>, plot_type <span class="op">=</span> <span class="st">"partial"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity21_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Model Fitting &amp; Forecasting</strong></p>
+<ol type="1">
+<li>
+<strong>Fit AR Model</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ar_fit</span> <span class="op">&lt;-</span> <span class="va">consumption_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">Consumption</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://fabletools.tidyverts.org/reference/report.html">report</a></span><span class="op">(</span><span class="va">ar_fit</span><span class="op">)</span> <span class="co"># Compare φ coefficients to simulation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: Consumption 
+Model: ARIMA(2,0,0)(2,0,0)[4] w/ mean 
+
+Coefficients:
+        ar1     ar2     sar1     sar2  constant
+      0.256  0.2350  -0.0172  -0.1488    0.4406
+s.e.  0.071  0.0704   0.0760   0.0716    0.0412
+
+sigma^2 estimated as 0.3453:  log likelihood=-173.33
+AIC=358.67   AICc=359.11   BIC=378.4</code></pre>
+</div>
+</div>
+<ol start="2" type="1">
+<li>
+<strong>Residual Diagnostics</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ar_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsdisplay.html">gg_tsdisplay</a></span><span class="op">(</span><span class="va">.resid</span>, plot_type <span class="op">=</span> <span class="st">"partial"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Residual Diagnostics"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity21_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<ol start="3" type="1">
+<li>
+<strong>Forecasting</strong>:</li>
+</ol>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ar_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">consumption_ts</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"2-Year Consumption Forecast"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity21_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="lab-activity-b-real-world-application---us-income-changes" class="level3"><h3 class="anchored" data-anchor-id="lab-activity-b-real-world-application---us-income-changes"><strong>Lab Activity B: Real-World Application - US Income Changes</strong></h3>
+<p><strong>1. Data Preparation &amp; Visualization</strong></p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">income_ts</span> <span class="op">&lt;-</span> <span class="va">us_change</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Quarter</span>, <span class="va">Income</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Quarter</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">income_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">Income</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"US Personal Income Growth Rate"</span>, y <span class="op">=</span> <span class="st">"% Change"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity21_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>2. Order Identification</strong></p>
+<p>Determine appropriate AR order through PACF:</p>
+<!--
+
+::: {.cell}
+
+```{.r .cell-code}
+income_ts %>%
+  gg_tsdisplay(Income, plot_type = "partial", lag_max = 8) +
+  labs(title = "Income Series Diagnostics")
+```
+
+::: {.cell-output-display}
+![](activity21_files/figure-html/unnamed-chunk-11-1.png){width=672}
+:::
+:::
+-->
+<p><strong>3. Model Comparison</strong></p>
+<p>Fit competing specifications and evaluate:</p>
+<!--
+
+::: {.cell}
+
+```{.r .cell-code}
+income_models <- income_ts %>%
+  model(
+    AR1 = ARIMA(Income ~ pdq(1,0,0)),
+    AR2 = ARIMA(Income ~ pdq(2,0,0)),
+    Auto = ARIMA(Income)
+  )
+
+glance(income_models) %>% arrange(AICc)
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 3 × 8
+  .model sigma2 log_lik   AIC  AICc   BIC ar_roots  ma_roots 
+  <chr>   <dbl>   <dbl> <dbl> <dbl> <dbl> <list>    <list>   
+1 Auto    0.784   -255.  519.  519.  532. <cpl [0]> <cpl [2]>
+2 AR2     0.790   -256.  520.  521.  534. <cpl [2]> <cpl [0]>
+3 AR1     0.802   -258.  522.  522.  532. <cpl [1]> <cpl [0]>
+```
 
 
+:::
+:::
 
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+-->
+<p><strong>4. Forecasting &amp; Policy Implications</strong></p>
+<p>Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:</p>
+<!--
+
+::: {.cell}
+
+```{.r .cell-code}
+income_models %>%
+  select(AR2) %>%
+  forecast(h = 8) %>%
+  autoplot(income_ts) +
+  labs(title = "2-Year Income Growth Forecast",
+       subtitle = "AR(2) Model Projection")
+```
+
+::: {.cell-output-display}
+![](activity21_files/figure-html/unnamed-chunk-13-1.png){width=672}
+:::
+:::
+
+
+-->
+<!--
+
+## **Pedagogical Notes**
+
+1. **Key Comparisons**:
+
+- Contrast simulated vs real-world ACF/PACF patterns
+- Highlight stationarity preservation in differenced series
+- Discuss economic interpretation of persistence in consumption
+
+2. **Common Pitfalls**:
+
+- Overlooking residual correlation (indicates inadequate model order)
+- Misinterpreting PACF spikes beyond lag p as significant
+- Ignoring structural breaks in real data
+
+3. **Extensions**:
+
+- Compare AR model to ARIMA(2,1,0) on non-stationary original series
+- Add exogenous predictors (Income, Savings) to create ARX model
+- Implement rolling-origin forecast evaluation
+
+-->
+
+
+</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
