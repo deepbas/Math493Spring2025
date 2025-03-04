@@ -168,7 +168,6 @@ income_ts %>%
 Determine appropriate AR order through PACF:
 
 
-
 ```{r}
 income_ts %>%
   gg_tsdisplay(Income, plot_type = "partial", lag_max = 25) +
@@ -182,10 +181,6 @@ income_ts %>%
 
 Fit competing specifications and evaluate:
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
 
 ```{r}
 income_models <- income_ts %>%
@@ -199,19 +194,11 @@ glance(income_models)
 tidy(income_models)
 ```
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
 
 **4. Forecasting & Policy Implications**  
 
 Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
 ```{r}
 income_models %>%
   select(Auto) %>%
