@@ -20,3 +20,206 @@ library(readr)        # Efficient data import
 ```
 
 
+
+**Theoretical Foundations of MA Processes**
+
+## **Time Series Nature & Invertibility**
+
+**Definition**:  
+
+MA($q$) model:  
+$Y_t = \epsilon_t + \theta_1 \epsilon_{t-1} + \cdots + \theta_q \epsilon_{t-q}$  
+where $\epsilon_t \sim WN(0,\sigma^2)$  
+
+**Key Properties**:  
+
+- Models *shock persistence* through lagged errors  
+- ACF cuts off after lag $q$ (distinct signature)  
+- PACF tails off gradually  
+- Requires **invertibility** (roots of $1 + \theta_1 z + \cdots + \theta_q z^q = 0$ lie **outside** unit circle)  
+
+---
+
+## **Simulating & Diagnosing MA Processes**
+
+### **Simulated MA(2) Process**  
+
+```{r}
+library(fable)
+set.seed(123)
+ma_data <- tibble(
+  time = 1:100,
+  y = arima.sim(model = list(ma = c(0.5, -0.3)), n = 100) # θ₁=0.5, θ₂=-0.3
+) %>% as_tsibble(index = time)
+
+ma_data %>% 
+  gg_tsdisplay(y, plot_type = "scatter") + # Observe ACF cutoff at lag 2
+  labs(title = "Simulated MA(2): θ₁=0.5, θ₂=-0.3")
+```
+
+### **Model Estimation & Diagnostics**  
+
+```{r}
+fit_ma <- ma_data %>% 
+  model(ARIMA(y ~ pdq(0,0,2))) # Explicit MA(2) specification
+
+report(fit_ma) # Check θ estimates vs true values (0.5, -0.3)
+
+fit_ma %>% 
+  residuals() %>% 
+  gg_tsdisplay(plot_type = "scatter") + 
+  labs(title = "MA(2) Residual Diagnostics")
+```
+
+---
+
+## **Real-World Case Study: US Consumption**
+
+### **Lab Activity A: Modeling Consumption with MA**
+
+**1. Data Preparation**  
+
+```{r}
+library(fpp3)
+data(us_change)
+consumption_ts <- us_change %>%
+  select(Quarter, Consumption) %>%
+  as_tsibble(index = Quarter)
+```
+
+**2. Exploratory Analysis** 
+
+```{r}
+consumption_ts %>%
+  autoplot(Consumption) +
+  labs(title = "US Consumption Growth Rate", y = "% Change")
+```
+
+**3. MA Order Identification**  
+
+```{r}
+consumption_ts %>%
+  gg_tsdisplay(Consumption, plot_type = "partial", lag_max = 8) + 
+  labs(title = "ACF Shows Sharp Cutoff at Lag 3 → MA(3) Candidate")
+```
+
+**4. Model Fitting**  
+
+```{r}
+ma_fit <- consumption_ts %>%
+  model(
+    MA3 = ARIMA(Consumption ~ pdq(0,0,3)),
+    Auto = ARIMA(Consumption) # Auto-detected MA/SARIMA
+  )
+
+glance(ma_fit) %>% arrange(AICc) # Compare models
+report(ma_fit %>% select(MA3)) # Show θ coefficients
+```
+
+**5. Residual Diagnostics**  
+
+```{r}
+ma_fit %>% 
+  select(MA3) %>% 
+  residuals() %>% 
+  gg_tsdisplay(.resid, plot_type = "partial") +
+  labs(title = "MA(3) Residuals: No Significant Autocorrelation")
+```
+
+**6. Forecasting**  
+
+```{r}
+ma_fit %>%
+  select(MA3) %>%
+  forecast(h = 8) %>% 
+  autoplot(consumption_ts) +
+  labs(title = "2-Year Consumption Forecast Using MA(3)")
+```
+
+---
+
+## **Lab Activity B: Modeling US Production**
+
+**1. Data Preparation**  
+
+```{r}
+production_ts <- us_change %>%
+  select(Quarter, Production) %>%
+  as_tsibble(index = Quarter)
+```
+
+**2. Visualize Series**  
+
+```{r}
+production_ts %>%
+  autoplot(Production) +
+  labs(title = "US Industrial Production Growth", y = "% Change")
+```
+
+**3. MA Order Selection**  
+
+Determine appropriate MA order through ACF:
+
+<!--
+
+```{r}
+production_ts %>%
+  gg_tsdisplay(Production, plot_type = "partial", lag_max = 8) + 
+  labs(title = "ACF Suggests MA(1) Structure")
+```
+
+
+-->
+
+**4. Model Comparison**  
+
+Fit competing specifications and evaluate:
+
+<!--
+
+```{r}
+prod_models <- production_ts %>%
+  model(
+    MA1 = ARIMA(Production ~ pdq(0,0,1) + PDQ(0,0,0)),
+    MA3 = ARIMA(Production ~ pdq(0,0,3) + PDQ(0,0,0)),
+    Auto = ARIMA(Production)
+  )
+
+glance(prod_models) %>% arrange(AICc) 
+report(prod_models %>% select(MA3))
+```
+
+-->
+
+**5. Policy-Relevant Forecasting**  
+
+Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
+
+<!--
+
+```{r}
+prod_models %>%
+  select(MA3) %>%
+  forecast(h = 8) %>%
+  autoplot(production_ts) +
+  labs(title = "Production Growth Forecast",
+       subtitle = "MA(3) Model")
+```
+
+---
+
+## **Key Concepts Cheat Sheet**
+
+| Feature        | MA($q$)                          | Contrast with AR($p$)              |
+|----------------|----------------------------------|------------------------------------|
+| **ACF**        | Cuts off at lag $q$              | Tails off gradually                |
+| **PACF**       | Tails off gradually              | Cuts off at lag $p$                |
+| **Condition**  | Invertibility (roots > 1)        | Stationarity (roots < 1)           |
+| **Use Case**   | Short-lived shock effects        | Long-term dependencies             |
+
+**Equation Interpretation**:  
+
+$\hat{Y}_t = \epsilon_t + 0.82\epsilon_{t-1}$ (MA(1) example) means last quarter's shock impacts current consumption by 82% of its magnitude.
+
+
+-->

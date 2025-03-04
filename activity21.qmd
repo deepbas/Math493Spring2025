@@ -143,14 +143,14 @@ income_ts %>%
 
 Determine appropriate AR order through PACF:
 
-<!--
+
 
 ```{r}
 income_ts %>%
   gg_tsdisplay(Income, plot_type = "partial", lag_max = 8) +
   labs(title = "Income Series Diagnostics")
 ```
--->
+
 
 
 
@@ -158,7 +158,7 @@ income_ts %>%
 
 Fit competing specifications and evaluate:
 
-<!--
+
 
 ```{r}
 income_models <- income_ts %>%
@@ -171,13 +171,12 @@ income_models <- income_ts %>%
 glance(income_models) %>% arrange(AICc)
 ```
 
--->
+
 
 **4. Forecasting & Policy Implications**  
 
 Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
 
-<!--
 
 ```{r}
 income_models %>%
@@ -189,30 +188,7 @@ income_models %>%
 ```
 
 
--->
 
-<!--
 
-## **Pedagogical Notes**
-
-1. **Key Comparisons**:
-
-- Contrast simulated vs real-world ACF/PACF patterns
-- Highlight stationarity preservation in differenced series
-- Discuss economic interpretation of persistence in consumption
-
-2. **Common Pitfalls**:
-
-- Overlooking residual correlation (indicates inadequate model order)
-- Misinterpreting PACF spikes beyond lag p as significant
-- Ignoring structural breaks in real data
-
-3. **Extensions**:
-
-- Compare AR model to ARIMA(2,1,0) on non-stationary original series
-- Add exogenous predictors (Income, Savings) to create ARX model
-- Implement rolling-origin forecast evaluation
-
--->
 
 
