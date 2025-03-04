@@ -36,6 +36,30 @@ Define AR($p$): $Y_t = \phi_1 Y_{t-1} + \dots + \phi_p Y_{t-p} + \epsilon_t$, $\
 - Requires stationarity for reliable inference
 - Unit root non-stationarity occurs when characteristic equation $1 - \phi_1 z - \cdots - \phi_p z^p = 0$ has roots *on* unit circle
 
+```{r}
+#| echo: false
+# Define the range for phi1 and phi2
+phi1_vals <- seq(-2, 2, length.out = 400)
+phi2_vals <- seq(-2, 2, length.out = 400)
+
+# Create a grid of phi1 and phi2 values
+grid <- expand.grid(phi1 = phi1_vals, phi2 = phi2_vals)
+
+# Define the stationarity conditions
+condition1 <- abs(grid$phi2) < 1
+condition2 <- (1 - grid$phi2) > grid$phi1
+condition3 <- (1 + grid$phi2) > -grid$phi1
+
+# Determine the points that satisfy all conditions
+stationary_points <- condition1 & condition2 & condition3
+
+# Plot the stationarity region
+plot(grid$phi1, grid$phi2, col = ifelse(stationary_points, "lightblue", "white"),
+     pch = 20, cex = 0.5, xlab = expression(phi[1]), ylab = expression(phi[2]),
+     main = "Stationarity Region for AR(2) Process")
+abline(h = 0, v = 0, col = "black", lwd = 1)
+```
+
 
 ```{r}
 library(fable)
@@ -90,6 +114,7 @@ consumption_ts %>%
 ```{r}
 consumption_ts %>%
   features(Consumption, unitroot_kpss) # H0: Stationary
+
 consumption_ts %>%
   gg_tsdisplay(Consumption, plot_type = "partial")
 ```
@@ -100,7 +125,7 @@ consumption_ts %>%
 
 ```{r}
 ar_fit <- consumption_ts %>%
-  model(ARIMA(Consumption ~ pdq(2,0,0)))
+  model(ARIMA(Consumption ~ pdq() + PDQ(0,0,0)))
 
 report(ar_fit) # Compare φ coefficients to simulation
 ```
@@ -122,7 +147,6 @@ ar_fit %>%
   autoplot(consumption_ts) +
   labs(title = "2-Year Consumption Forecast")
 ```
-
 
 
 ### **Lab Activity B: Real-World Application - US Income Changes**
@@ -147,7 +171,7 @@ Determine appropriate AR order through PACF:
 
 ```{r}
 income_ts %>%
-  gg_tsdisplay(Income, plot_type = "partial", lag_max = 8) +
+  gg_tsdisplay(Income, plot_type = "partial", lag_max = 25) +
   labs(title = "Income Series Diagnostics")
 ```
 
@@ -158,7 +182,10 @@ income_ts %>%
 
 Fit competing specifications and evaluate:
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 
 ```{r}
 income_models <- income_ts %>%
@@ -168,23 +195,30 @@ income_models <- income_ts %>%
     Auto = ARIMA(Income)
   )
 
-glance(income_models) %>% arrange(AICc)
+glance(income_models) 
+tidy(income_models)
 ```
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 
 **4. Forecasting & Policy Implications**  
 
 Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/main
 ```{r}
 income_models %>%
-  select(AR2) %>%
+  select(Auto) %>%
   forecast(h = 8) %>%
   autoplot(income_ts) +
   labs(title = "2-Year Income Growth Forecast",
-       subtitle = "AR(2) Model Projection")
+       subtitle = "Auto Model Projection")
 ```
 
 
