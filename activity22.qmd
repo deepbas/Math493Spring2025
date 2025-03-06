@@ -160,7 +160,6 @@ production_ts %>%
 
 Determine appropriate MA order through ACF:
 
-<!--
 
 ```{r}
 production_ts %>%
@@ -169,13 +168,10 @@ production_ts %>%
 ```
 
 
--->
-
 **4. Model Comparison**  
 
 Fit competing specifications and evaluate:
 
-<!--
 
 ```{r}
 prod_models <- production_ts %>%
@@ -189,13 +185,12 @@ glance(prod_models) %>% arrange(AICc)
 report(prod_models %>% select(MA3))
 ```
 
--->
+
 
 **5. Policy-Relevant Forecasting**  
 
 Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
 
-<!--
 
 ```{r}
 prod_models %>%
@@ -206,7 +201,7 @@ prod_models %>%
        subtitle = "MA(3) Model")
 ```
 
----
+
 
 ## **Key Concepts Cheat Sheet**
 
@@ -217,9 +212,5 @@ prod_models %>%
 | **Condition**  | Invertibility (roots > 1)        | Stationarity (roots < 1)           |
 | **Use Case**   | Short-lived shock effects        | Long-term dependencies             |
 
-**Equation Interpretation**:  
-
-$\hat{Y}_t = \epsilon_t + 0.82\epsilon_{t-1}$ (MA(1) example) means last quarter's shock impacts current consumption by 82% of its magnitude.
 
 
--->

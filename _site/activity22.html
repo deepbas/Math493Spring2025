@@ -239,6 +239,10 @@ window.Quarto = {
     <a class="dropdown-item" href="./activity22.html">
  <span class="dropdown-text">Activity22</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity23.html">
+ <span class="dropdown-text">Activity23</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -291,6 +295,7 @@ window.Quarto = {
   </ul>
 </li>
   <li><a href="#lab-activity-b-modeling-us-production" id="toc-lab-activity-b-modeling-us-production" class="nav-link" data-scroll-target="#lab-activity-b-modeling-us-production"><strong>Lab Activity B: Modeling US Production</strong></a></li>
+  <li><a href="#key-concepts-cheat-sheet" id="toc-key-concepts-cheat-sheet" class="nav-link" data-scroll-target="#key-concepts-cheat-sheet"><strong>Key Concepts Cheat Sheet</strong></a></li>
   </ul></nav>
     </div>
 <!-- main -->
@@ -499,62 +504,39 @@ AIC=349.93   AICc=350.52   BIC=372.95</code></pre>
 </div>
 <p><strong>3. MA Order Selection</strong></p>
 <p>Determine appropriate MA order through ACF:</p>
-<!--
-
-::: {.cell}
-
-```{.r .cell-code}
-production_ts %>%
-  gg_tsdisplay(Production, plot_type = "partial", lag_max = 8) + 
-  labs(title = "ACF Suggests MA(1) Structure")
-```
-
-::: {.cell-output-display}
-![](activity22_files/figure-html/unnamed-chunk-12-1.png){width=672}
-:::
-:::
-
-
--->
+<div class="cell">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">production_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsdisplay.html">gg_tsdisplay</a></span><span class="op">(</span><span class="va">Production</span>, plot_type <span class="op">=</span> <span class="st">"partial"</span>, lag_max <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op">+</span> </span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"ACF Suggests MA(1) Structure"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity22_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p><strong>4. Model Comparison</strong></p>
 <p>Fit competing specifications and evaluate:</p>
-<!--
-
-::: {.cell}
-
-```{.r .cell-code}
-prod_models <- production_ts %>%
-  model(
-    MA1 = ARIMA(Production ~ pdq(0,0,1) + PDQ(0,0,0)),
-    MA3 = ARIMA(Production ~ pdq(0,0,3) + PDQ(0,0,0)),
-    Auto = ARIMA(Production)
-  )
-
-glance(prod_models) %>% arrange(AICc) 
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 3 × 8
+<div class="cell">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prod_models</span> <span class="op">&lt;-</span> <span class="va">production_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span></span>
+<span>    MA1 <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">Production</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu">PDQ</span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    MA3 <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">Production</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">3</span><span class="op">)</span> <span class="op">+</span> <span class="fu">PDQ</span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    Auto <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">Production</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span>
+<span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">prod_models</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">arrange</span><span class="op">(</span><span class="va">AICc</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 8
   .model sigma2 log_lik   AIC  AICc   BIC ar_roots  ma_roots 
-  <chr>   <dbl>   <dbl> <dbl> <dbl> <dbl> <list>    <list>   
-1 Auto     1.37   -310.  635.  636.  662. <cpl [9]> <cpl [9]>
-2 MA3      1.52   -320.  651.  651.  667. <cpl [0]> <cpl [3]>
-3 MA1      1.58   -326.  657.  657.  667. <cpl [0]> <cpl [1]>
-```
-
-
-:::
-
-```{.r .cell-code}
-report(prod_models %>% select(MA3))
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-Series: Production 
+  &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;list&gt;    &lt;list&gt;   
+1 Auto     1.37   -310.  635.  636.  662. &lt;cpl [9]&gt; &lt;cpl [9]&gt;
+2 MA3      1.52   -320.  651.  651.  667. &lt;cpl [0]&gt; &lt;cpl [3]&gt;
+3 MA1      1.58   -326.  657.  657.  667. &lt;cpl [0]&gt; &lt;cpl [1]&gt;</code></pre>
+</div>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://fabletools.tidyverts.org/reference/report.html">report</a></span><span class="op">(</span><span class="va">prod_models</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="va">MA3</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: Production 
 Model: ARIMA(0,0,3) w/ mean 
 
 Coefficients:
@@ -563,51 +545,62 @@ Coefficients:
 s.e.  0.0715  0.0762  0.0934    0.1772
 
 sigma^2 estimated as 1.517:  log likelihood=-320.43
-AIC=650.86   AICc=651.18   BIC=667.31
-```
-
-
-:::
-:::
-
--->
+AIC=650.86   AICc=651.18   BIC=667.31</code></pre>
+</div>
+</div>
 <p><strong>5. Policy-Relevant Forecasting</strong></p>
 <p>Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:</p>
-<!--
-
-::: {.cell}
-
-```{.r .cell-code}
-prod_models %>%
-  select(MA3) %>%
-  forecast(h = 8) %>%
-  autoplot(production_ts) +
-  labs(title = "Production Growth Forecast",
-       subtitle = "MA(3) Model")
-```
-
-::: {.cell-output-display}
-![](activity22_files/figure-html/unnamed-chunk-14-1.png){width=672}
-:::
-:::
-
----
-
-## **Key Concepts Cheat Sheet**
-
-| Feature        | MA($q$)                          | Contrast with AR($p$)              |
-|----------------|----------------------------------|------------------------------------|
-| **ACF**        | Cuts off at lag $q$              | Tails off gradually                |
-| **PACF**       | Tails off gradually              | Cuts off at lag $p$                |
-| **Condition**  | Invertibility (roots > 1)        | Stationarity (roots < 1)           |
-| **Use Case**   | Short-lived shock effects        | Long-term dependencies             |
-
-**Equation Interpretation**:  
-
-$\hat{Y}_t = \epsilon_t + 0.82\epsilon_{t-1}$ (MA(1) example) means last quarter's shock impacts current consumption by 82% of its magnitude.
-
-
--->
+<div class="cell">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">prod_models</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">MA3</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/forecast.html">forecast</a></span><span class="op">(</span>h <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">production_ts</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Production Growth Forecast"</span>,</span>
+<span>       subtitle <span class="op">=</span> <span class="st">"MA(3) Model"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity22_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section><section id="key-concepts-cheat-sheet" class="level2"><h2 class="anchored" data-anchor-id="key-concepts-cheat-sheet"><strong>Key Concepts Cheat Sheet</strong></h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 18%">
+<col style="width: 39%">
+<col style="width: 41%">
+</colgroup>
+<thead><tr class="header">
+<th>Feature</th>
+<th>MA(<span class="math inline">\(q\)</span>)</th>
+<th>Contrast with AR(<span class="math inline">\(p\)</span>)</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><strong>ACF</strong></td>
+<td>Cuts off at lag <span class="math inline">\(q\)</span>
+</td>
+<td>Tails off gradually</td>
+</tr>
+<tr class="even">
+<td><strong>PACF</strong></td>
+<td>Tails off gradually</td>
+<td>Cuts off at lag <span class="math inline">\(p\)</span>
+</td>
+</tr>
+<tr class="odd">
+<td><strong>Condition</strong></td>
+<td>Invertibility (roots &gt; 1)</td>
+<td>Stationarity (roots &lt; 1)</td>
+</tr>
+<tr class="even">
+<td><strong>Use Case</strong></td>
+<td>Short-lived shock effects</td>
+<td>Long-term dependencies</td>
+</tr>
+</tbody>
+</table>
 
 
 </section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">

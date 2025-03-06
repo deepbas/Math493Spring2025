@@ -20,3 +20,175 @@ library(readr)        # Efficient data import
 ```
 
 
+## **1. SARIMA Model Structure**  
+
+A SARIMA$(p,d,q)(P,D,Q)_m$ model combines:  
+- **Regular components**: AR(p), MA(q) terms for short-term patterns  
+- **Seasonal components**: Seasonal AR(P), MA(Q) terms at period $m$  
+- **Differencing**: $d$ regular differences + $D$ seasonal differences  
+
+Prototype equation for monthly data:  
+
+$\text{Passengers}_t = \alpha + \text{Past Values}_{t-1,t-12} + \text{Errors}_{t-1,t-12} + \varepsilon_t$  
+
+
+## **2. Strategic Differencing**  
+
+**Key Principle**: Use minimal differencing to stabilize mean/variance  
+
+```{r}
+# AirPassengers dataset
+ap_ts <- tsibble::as_tsibble(AirPassengers) %>% 
+  index_by(Date = yearmonth(index)) %>% 
+  rename(Passengers = value)
+
+# Automated selection
+ap_ts %>% 
+  features(Passengers, list(unitroot_kpss, unitroot_ndiffs, unitroot_nsdiffs))
+
+# Visual check
+ap_ts %>%
+  gg_tsdisplay(difference(log(Passengers), lag = 12))
+```
+
+**Insight**: Seasonal differencing (lag=12) removes yearly patterns while preserving monthly trends  
+
+
+## **3. Model Building**  
+
+### **3.1 Candidate Models**  
+
+```{r}
+models <- ap_ts %>%
+  model(
+    Auto = ARIMA(log(Passengers)),
+    Manual1 = ARIMA(log(Passengers) ~ pdq(1,1,1) + PDQ(0,1,1, period=12)),
+    Manual2 = ARIMA(log(Passengers) ~ pdq(2,1,0) + PDQ(1,1,0, period=12))
+  )
+
+glance(models) %>% arrange(AICc)
+```
+
+### **3.2 Coefficient Check**  
+
+For top model:  
+
+```{r}
+final_model <- models %>% 
+  select(Manual2)
+
+tidy(models) %>% 
+  filter(.model == "Manual2") %>% 
+  mutate(
+    t_stat = estimate / std.error,
+    p_value = 2*pnorm(-abs(t_stat)))
+```
+
+
+## **4. Model Refinement Cycle**  
+
+1. Start with automatic differencing  
+2. Compare multiple model specifications  
+3. Validate residuals systematically  
+4. Iterate using PACF patterns  
+
+```{r}
+# Final refinement example
+ap_ts %>%
+  model(
+    Best = ARIMA(log(Passengers) ~ pdq(1,1,1) + PDQ(0,1,1, period=12))
+  ) %>% 
+  report()
+```
+
+
+## **Lab Activity**
+
+## **1. Data Preparation**
+
+```{r}
+library(fpp3)
+accidents <- as_tsibble(USAccDeaths) %>% 
+  rename(Deaths = value) %>% 
+  mutate(Month = yearmonth(index))
+```
+
+**Q1:** Examine the seasonal patterns using `gg_season()`. What type of seasonality dominates this series?  
+
+
+## **2. Model Specification**
+
+Fit SARIMA(1,1,1)(0,1,1)₁₂ model with maximum likelihood estimation
+
+```{r}
+sarima_fit <- accidents %>%
+  model(SARIMA = ARIMA(Deaths ~ pdq(1,1,1) + PDQ(0,1,1, period = 12),
+                      stepwise = FALSE, approximation = FALSE))
+```
+
+**Q2:** Interpret the model structure:  
+
+a) What does the (1,1,1) non-seasonal component represent?  
+
+b) Why do we use PDQ(0,1,1) for seasonal terms?  
+
+
+
+## **3. Parameter Estimation**
+
+**Task:** Extract and interpret coefficients
+
+```{r}
+tidy(sarima_fit) %>% 
+  mutate(signif = ifelse(p.value < 0.05, "***", ""))
+```
+
+**Q3:** Which coefficients are statistically significant (α=0.05)? What does the MA(1) coefficient suggest?  
+
+## **4. Residual Diagnostics**
+
+### **4.1 Visual Analysis**
+
+```{r}
+sarima_fit %>% 
+  augment() %>% 
+  ACF(.innov) %>% 
+  autoplot() +
+  geom_hline(yintercept = c(-1,1)*1.96/sqrt(nrow(accidents)), linetype=2)
+```
+
+**Q4:** Do residuals show concerning autocorrelation patterns? Justify your answer.  
+
+### **4.2 Formal Tests**
+
+```{r}
+augment(sarima_fit) %>% 
+  features(.innov, list(
+    LB_test = ~ljung_box(.x, lag=24, dof=4)
+  ))
+```
+
+**Q5:** Interpret the Ljung-Box (LB) and ARCH test results: 
+
+a) Can we maintain the white noise assumption? 
+
+b) Is there evidence of volatility clustering?  
+
+**A5:**  
+
+
+## **5. Model Validation**
+
+**Task:** Check specification robustness
+
+```{r}
+accidents %>% 
+  model(
+    SARIMA_CSS = ARIMA(Deaths ~ pdq(1,1,1) + PDQ(0,1,1), 
+                      method = "CSS-ML"),
+    AutoSARIMA = ARIMA(Deaths)
+  ) %>% 
+  glance()
+```
+
+**Q6:** Compare AICc values across estimation methods. Does our original model remain preferred?  
