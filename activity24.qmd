@@ -9,7 +9,7 @@ message: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
-library(fpp3)         # Tidy time series dataseta
+library(fpp3)         # Tidy time series datasets
 library(astsa)        # Applied statistical TS methods from textbook
 library(tseries)      # Unit root tests & TS diagnostics
 library(tsibbledata)  # Curated TS datasets
@@ -20,10 +20,6 @@ library(readr)        # Efficient data import
 ```
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
 ### Theoretical Background: Volatility Clustering  
 
 **Volatility clustering** (periods of high/low variability persisting) violates ARIMA's constant variance assumption. Common in COVID-19 cases (waves) and stock returns (crashes). **ARCH** (Autoregressive Conditional Heteroskedasticity) tests help detect this phenomenon.  
