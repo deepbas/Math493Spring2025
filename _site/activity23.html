@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-99.9.9">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <title>Activity23 – Math 493: Advanced Topics in Statistics</title>
 <style>
@@ -59,17 +59,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-9e2db6d60132874137d35cd80df6d385.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-c2299866e9c1ed9e4d64cbb04b200562.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -333,13 +334,17 @@ window.Quarto = {
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <section id="sarima-model-structure" class="level2"><h2 class="anchored" data-anchor-id="sarima-model-structure"><strong>1. SARIMA Model Structure</strong></h2>
-<p>A SARIMA<span class="math inline">\((p,d,q)(P,D,Q)_m\)</span> model combines:<br>
-- <strong>Regular components</strong>: AR(p), MA(q) terms for short-term patterns<br>
-- <strong>Seasonal components</strong>: Seasonal AR(P), MA(Q) terms at period <span class="math inline">\(m\)</span><br>
-- <strong>Differencing</strong>: <span class="math inline">\(d\)</span> regular differences + <span class="math inline">\(D\)</span> seasonal differences</p>
-<p>Prototype equation for monthly data:</p>
-<p><span class="math inline">\(\text{Passengers}_t = \alpha + \text{Past Values}_{t-1,t-12} + \text{Errors}_{t-1,t-12} + \varepsilon_t\)</span></p>
-</section><section id="strategic-differencing" class="level2"><h2 class="anchored" data-anchor-id="strategic-differencing"><strong>2. Strategic Differencing</strong></h2>
+<p>A SARIMA<span class="math inline">\((p,d,q)(P,D,Q)_m\)</span> model combines:</p>
+<ul>
+<li>
+<strong>Regular components</strong>: AR(p), MA(q) terms for short-term patterns<br>
+</li>
+<li>
+<strong>Seasonal components</strong>: Seasonal AR(P), MA(Q) terms at period <span class="math inline">\(m\)</span><br>
+</li>
+<li>
+<strong>Differencing</strong>: <span class="math inline">\(d\)</span> regular differences + <span class="math inline">\(D\)</span> seasonal differences</li>
+</ul></section><section id="strategic-differencing" class="level2"><h2 class="anchored" data-anchor-id="strategic-differencing"><strong>2. Strategic Differencing</strong></h2>
 <p><strong>Key Principle</strong>: Use minimal differencing to stabilize mean/variance</p>
 <div class="cell">
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># AirPassengers dataset</span></span>
@@ -391,20 +396,18 @@ window.Quarto = {
 <p>For top model:</p>
 <div class="cell">
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">final_model</span> <span class="op">&lt;-</span> <span class="va">models</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Manual2</span><span class="op">)</span></span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">Auto</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">models</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">.model</span> <span class="op">==</span> <span class="st">"Manual2"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    t_stat <span class="op">=</span> <span class="va">estimate</span> <span class="op">/</span> <span class="va">std.error</span>,</span>
-<span>    p_value <span class="op">=</span> <span class="fl">2</span><span class="op">*</span><span class="fu"><a href="https://rdrr.io/r/stats/Normal.html">pnorm</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">abs</a></span><span class="op">(</span><span class="va">t_stat</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">.model</span> <span class="op">==</span> <span class="st">"Auto"</span><span class="op">)</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 3 × 8
-  .model  term  estimate std.error statistic      p.value t_stat       p_value
-  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;        &lt;dbl&gt;  &lt;dbl&gt;         &lt;dbl&gt;
-1 Manual2 ar1    -0.406     0.0876    -4.63  0.00000866   -4.63  0.00000364   
-2 Manual2 ar2    -0.0799    0.0876    -0.913 0.363        -0.913 0.361        
-3 Manual2 sar1   -0.472     0.0806    -5.86  0.0000000353 -5.86  0.00000000460</code></pre>
+<pre><code># A tibble: 4 × 6
+  .model term     estimate std.error statistic  p.value
+  &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 Auto   ar1        0.575    0.0843       6.83 2.83e-10
+2 Auto   ar2        0.261    0.0842       3.11 2.33e- 3
+3 Auto   sma1      -0.555    0.0771      -7.21 3.99e-11
+4 Auto   constant   0.0193   0.00149     13.0  2.07e-25</code></pre>
 </div>
 </div>
 </section></section><section id="model-refinement-cycle" class="level2"><h2 class="anchored" data-anchor-id="model-refinement-cycle"><strong>4. Model Refinement Cycle</strong></h2>
@@ -479,7 +482,7 @@ AIC=-481.9   AICc=-481.58   BIC=-470.4</code></pre>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">sarima_fit</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
 <span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/ACF.html">ACF</a></span><span class="op">(</span><span class="va">.innov</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/pkg/ggplot2/man/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_hline</span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span><span class="op">*</span><span class="fl">1.96</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html">sqrt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">accidents</span><span class="op">)</span><span class="op">)</span>, linetype<span class="op">=</span><span class="fl">2</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
@@ -502,13 +505,10 @@ AIC=-481.9   AICc=-481.58   BIC=-470.4</code></pre>
 1 SARIMA            25.9             0.170</code></pre>
 </div>
 </div>
-<p><strong>Q5:</strong> Interpret the Ljung-Box (LB) and ARCH test results:</p>
+<p><strong>Q5:</strong> Interpret the Ljung-Box (LB) test results:</p>
 <ol type="a">
-<li><p>Can we maintain the white noise assumption?</p></li>
-<li><p>Is there evidence of volatility clustering?</p></li>
-</ol>
-<p><strong>A5:</strong></p>
-</section></section><section id="model-validation" class="level2"><h2 class="anchored" data-anchor-id="model-validation"><strong>5. Model Validation</strong></h2>
+<li>Can we maintain the white noise assumption?</li>
+</ol></section></section><section id="model-validation" class="level2"><h2 class="anchored" data-anchor-id="model-validation"><strong>5. Model Validation</strong></h2>
 <p><strong>Task:</strong> Check specification robustness</p>
 <div class="cell">
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">accidents</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
@@ -755,8 +755,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -867,7 +865,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {
