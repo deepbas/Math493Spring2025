@@ -585,7 +585,21 @@
     "href": "activity25.html",
     "title": "Activity25",
     "section": "",
-    "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
+    "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import\nTheoretical Background: ARIMA(\\(p,d,q\\))(\\(P,D,Q\\))[\\(s\\)] Model Interpretations"
+  },
+  {
+    "objectID": "activity25.html#example-configurations",
+    "href": "activity25.html#example-configurations",
+    "title": "Activity25",
+    "section": "Example Configurations",
+    "text": "Example Configurations\nARIMA(1,1,1) with Drift (Nonseasonal)\nIn this configuration, we first remove trends by differencing the series, then model the differenced series with one AR term and one MA term.\n\nNonseasonal Differencing: \\[\n\\begin{aligned}\n\\Delta y_t = y_t - y_{t-1}.\n\\end{aligned}\n\\]\nModeling the Differenced Series: \\[\n\\begin{aligned}\n\\Delta y_t &= c + \\phi_1\\,\\Delta y_{t-1} + \\varepsilon_t + \\theta_1\\,\\varepsilon_{t-1}.\n\\end{aligned}\n\\]\n\nKey Points: - The first difference \\(\\Delta y_t\\) helps stabilize the mean. - \\(\\phi_1\\) captures the autoregressive effect on the differenced data. - \\(\\theta_1\\) models the influence of the previous error.\nARIMA(1,0,1)(0,1,1)[4] with Drift (Seasonal)\nThis model introduces seasonal differencing with period 4 and includes nonseasonal AR(1) and MA(1) terms along with a seasonal MA(1) component.\n\nSeasonal Differencing: \\[\n\\begin{aligned}\n\\Delta_4 y_t = y_t - y_{t-4}.\n\\end{aligned}\n\\]\nSequentially Building the Model: \\[\n\\begin{aligned}\ny_t - y_{t-4} &= c + \\phi_1\\,\\Bigl[(y_{t-1} - y_{t-5})\\Bigr] + \\varepsilon_t + \\theta_1\\,\\varepsilon_{t-1} - \\Theta_1\\,\\varepsilon_{t-4}.\n\\end{aligned}\n\\]\n\nKey Points:\n\nSeasonal differencing (\\(y_t - y_{t-4}\\)) removes periodic effects.\n\n\\(\\phi_1\\) is the nonseasonal AR term applied to the lagged (but also seasonally adjusted) data.\n\n\\(\\theta_1\\) is the nonseasonal MA term.\n\n\\(\\Theta_1\\) is the seasonal MA term that adjusts the error from one season ago.\n\n\\(c\\) is the drift."
+  },
+  {
+    "objectID": "activity25.html#practice-configurations",
+    "href": "activity25.html#practice-configurations",
+    "title": "Activity25",
+    "section": "Practice Configurations",
+    "text": "Practice Configurations\nPractice Problem 1\nProblem: Write the sequential equation for a simple AR(1) model with drift.\n\nPractice Problem 2\nProblem: Write the sequential equation for an ARIMA(0,1,1) model with drift—that is, first-difference the series and then apply an MA(1) model.\n\nPractice Problem 3\nProblem: Write the sequential equation for a seasonal ARIMA(0,1,1)(1,0,0)[12] model with drift.(Hint: This model applies nonseasonal differencing and includes a seasonal AR(1) component with period 12 along with a nonseasonal MA(1) term.)"
   },
   {
     "objectID": "activity17.html",
@@ -613,7 +627,21 @@
     "href": "activity26.html",
     "title": "Activity26",
     "section": "",
-    "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import"
+    "text": "# Time Series Essentials, install if needed!\nlibrary(feasts)       # Feature extraction & decomposition\nlibrary(fable)        # Forecasting models (ARIMA, ETS, etc.)\nlibrary(fpp3)         # Tidy time series dataseta\nlibrary(astsa)        # Applied statistical TS methods from textbook\nlibrary(tseries)      # Unit root tests & TS diagnostics\nlibrary(tsibbledata)  # Curated TS datasets\nlibrary(quantmod)     # Financial data retrieval\nlibrary(tidyquant)    # Financial analysis in tidyverse\nlibrary(purrr)        # Functional programming for TS pipelines\nlibrary(readr)        # Efficient data import\nTheoretical Background: Volatility Clustering\nIn many financial and real‐world time series (e.g., stock returns or COVID‐19 cases), periods of high and low volatility tend to cluster. This violates the constant variance assumption of simple models. ARCH and its generalization, GARCH, allow the conditional variance to change over time, capturing this volatility clustering.\nKey Ideas:\n- ARCH Models: Variance depends on past squared errors.\n- GARCH Models: Extend ARCH by also letting past variances influence today’s volatility."
+  },
+  {
+    "objectID": "activity26.html#sequential-build-up-of-garch-models",
+    "href": "activity26.html#sequential-build-up-of-garch-models",
+    "title": "Activity26",
+    "section": "Sequential Build-Up of GARCH Models",
+    "text": "Sequential Build-Up of GARCH Models\n1. Simple ARCH(1) Model\nStart with modeling the return \\(r_t\\) (or residual) as having a constant mean \\(\\mu\\) and a time-varying volatility:\n\\[\n\\begin{aligned}\nr_t &= \\mu + \\epsilon_t, \\quad \\epsilon_t = \\sigma_t z_t, \\quad z_t \\sim N(0,1), \\\\\n\\sigma_t^2 &= \\alpha_0 + \\alpha_1\\,\\epsilon_{t-1}^2.\n\\end{aligned}\n\\]\nInterpretation:\n\nThe current volatility \\(\\sigma_t^2\\) is a function of a constant \\(\\alpha_0\\) plus the influence of the previous period’s squared error, \\(\\alpha_1\\,\\epsilon_{t-1}^2\\).\n\n2. GARCH(1,1) Model\nA natural extension is to include persistence in volatility. The GARCH(1,1) model adds the last period’s variance:\n\\[\n\\begin{aligned}\nr_t &= \\mu + \\epsilon_t, \\quad \\epsilon_t = \\sigma_t z_t, \\quad z_t \\sim N(0,1), \\\\\n\\sigma_t^2 &= \\alpha_0 + \\alpha_1\\,\\epsilon_{t-1}^2 + \\beta_1\\,\\sigma_{t-1}^2.\n\\end{aligned}\n\\]\nInterpretation:\n\n\n\\(\\alpha_0\\) is the baseline variance.\n\n\n\\(\\alpha_1\\,\\epsilon_{t-1}^2\\) captures the immediate impact of shocks (news effect).\n\n\n\\(\\beta_1\\,\\sigma_{t-1}^2\\) shows how past volatility persists into the current period.\n\n3. GARCH(1,1) Model with Drift in the Mean\nOften, we also include a drift (constant mean) in the returns. Here the mean equation and the variance equation are modeled jointly:\n\\[\n\\begin{aligned}\nr_t &= \\mu + \\epsilon_t, \\quad \\epsilon_t = \\sigma_t z_t, \\quad z_t \\sim N(0,1), \\\\\n\\sigma_t^2 &= \\alpha_0 + \\alpha_1\\,\\epsilon_{t-1}^2 + \\beta_1\\,\\sigma_{t-1}^2.\n\\end{aligned}\n\\]\nInterpretation:\n\nThe first line models the return with a constant mean \\(\\mu\\) plus a noise term scaled by the conditional standard deviation \\(\\sigma_t\\).\n\nThe second line builds the volatility equation just as in the GARCH(1,1) model, indicating that today’s variance depends on both the last period’s shock and the previous variance."
+  },
+  {
+    "objectID": "activity26.html#practice-configurations",
+    "href": "activity26.html#practice-configurations",
+    "title": "Activity26",
+    "section": "Practice Configurations",
+    "text": "Practice Configurations\nPractice Problem 1: ARCH(1) Model\nProblem:\nWrite the sequential equations for an ARCH(1) model where returns \\(r_t\\) have a constant mean and conditional variance that depends on the previous squared error.\n\nPractice Problem 2: GARCH(1,1) Model\nProblem:\nWrite the sequential equations for a GARCH(1,1) model for returns \\(r_t\\).\n\nPractice Problem 3: GARCH(1,1) Model with Drift\nProblem:\nWrite the sequential equation for a GARCH(1,1) model that includes a drift in the mean of the returns."
   },
   {
     "objectID": "activity7.html",

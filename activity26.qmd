@@ -20,3 +20,127 @@ library(readr)        # Efficient data import
 ```
 
 
+**Theoretical Background: Volatility Clustering**  
+
+In many financial and real‐world time series (e.g., stock returns or COVID‐19 cases), periods of high and low volatility tend to cluster. This violates the constant variance assumption of simple models. ARCH and its generalization, GARCH, allow the conditional variance to change over time, capturing this volatility clustering.  
+
+**Key Ideas:**  
+- **ARCH Models:** Variance depends on past squared errors.  
+- **GARCH Models:** Extend ARCH by also letting past variances influence today’s volatility.
+
+
+
+## Sequential Build-Up of GARCH Models
+
+### 1. Simple ARCH(1) Model
+
+Start with modeling the return $r_t$ (or residual) as having a constant mean $\mu$ and a time-varying volatility:
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1), \\
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2.
+\end{aligned}
+$$
+
+**Interpretation:**  
+
+- The current volatility $\sigma_t^2$ is a function of a constant $\alpha_0$ plus the influence of the previous period’s squared error, $\alpha_1\,\epsilon_{t-1}^2$.
+
+---
+
+### 2. GARCH(1,1) Model
+
+A natural extension is to include persistence in volatility. The GARCH(1,1) model adds the last period’s variance:
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1), \\
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2 + \beta_1\,\sigma_{t-1}^2.
+\end{aligned}
+$$
+
+**Interpretation:**  
+
+- $\alpha_0$ is the baseline variance.  
+- $\alpha_1\,\epsilon_{t-1}^2$ captures the immediate impact of shocks (news effect).  
+- $\beta_1\,\sigma_{t-1}^2$ shows how past volatility persists into the current period.
+
+---
+
+### 3. GARCH(1,1) Model with Drift in the Mean
+
+Often, we also include a drift (constant mean) in the returns. Here the mean equation and the variance equation are modeled jointly:
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1), \\
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2 + \beta_1\,\sigma_{t-1}^2.
+\end{aligned}
+$$
+
+**Interpretation:**  
+
+- The first line models the return with a constant mean $\mu$ plus a noise term scaled by the conditional standard deviation $\sigma_t$.  
+- The second line builds the volatility equation just as in the GARCH(1,1) model, indicating that today's variance depends on both the last period’s shock and the previous variance.
+
+---
+
+## Practice Configurations
+
+### Practice Problem 1: ARCH(1) Model
+
+**Problem:**  
+Write the sequential equations for an ARCH(1) model where returns $r_t$ have a constant mean and conditional variance that depends on the previous squared error.
+
+<!--
+**Answer:**
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1),\\[1mm]
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2.
+\end{aligned}
+$$
+
+-->
+
+### Practice Problem 2: GARCH(1,1) Model
+
+**Problem:**  
+
+Write the sequential equations for a GARCH(1,1) model for returns $r_t$.
+
+<!--
+
+**Answer:**
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1),\\[1mm]
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2 + \beta_1\,\sigma_{t-1}^2.
+\end{aligned}
+$$
+
+-->
+
+### Practice Problem 3: GARCH(1,1) Model with Drift
+
+**Problem:**  
+
+Write the sequential equation for a GARCH(1,1) model that includes a drift in the mean of the returns.
+
+<!--
+
+**Answer:**
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1),\\[1mm]
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2 + \beta_1\,\sigma_{t-1}^2.
+\end{aligned}
+$$
+
+-->
+
+

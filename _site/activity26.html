@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -255,17 +280,36 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li>
+<a href="#sequential-build-up-of-garch-models" id="toc-sequential-build-up-of-garch-models" class="nav-link active" data-scroll-target="#sequential-build-up-of-garch-models">Sequential Build-Up of GARCH Models</a>
+  <ul class="collapse">
+<li><a href="#simple-arch1-model" id="toc-simple-arch1-model" class="nav-link" data-scroll-target="#simple-arch1-model">1. Simple ARCH(1) Model</a></li>
+  <li><a href="#garch11-model" id="toc-garch11-model" class="nav-link" data-scroll-target="#garch11-model">2. GARCH(1,1) Model</a></li>
+  <li><a href="#garch11-model-with-drift-in-the-mean" id="toc-garch11-model-with-drift-in-the-mean" class="nav-link" data-scroll-target="#garch11-model-with-drift-in-the-mean">3. GARCH(1,1) Model with Drift in the Mean</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#practice-configurations" id="toc-practice-configurations" class="nav-link" data-scroll-target="#practice-configurations">Practice Configurations</a>
+  <ul class="collapse">
+<li><a href="#practice-problem-1-arch1-model" id="toc-practice-problem-1-arch1-model" class="nav-link" data-scroll-target="#practice-problem-1-arch1-model">Practice Problem 1: ARCH(1) Model</a></li>
+  <li><a href="#practice-problem-2-garch11-model" id="toc-practice-problem-2-garch11-model" class="nav-link" data-scroll-target="#practice-problem-2-garch11-model">Practice Problem 2: GARCH(1,1) Model</a></li>
+  <li><a href="#practice-problem-3-garch11-model-with-drift" id="toc-practice-problem-3-garch11-model-with-drift" class="nav-link" data-scroll-target="#practice-problem-3-garch11-model-with-drift">Practice Problem 3: GARCH(1,1) Model with Drift</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Activity26</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -287,10 +331,105 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p><strong>Theoretical Background: Volatility Clustering</strong></p>
+<p>In many financial and real‐world time series (e.g., stock returns or COVID‐19 cases), periods of high and low volatility tend to cluster. This violates the constant variance assumption of simple models. ARCH and its generalization, GARCH, allow the conditional variance to change over time, capturing this volatility clustering.</p>
+<p><strong>Key Ideas:</strong><br>
+- <strong>ARCH Models:</strong> Variance depends on past squared errors.<br>
+- <strong>GARCH Models:</strong> Extend ARCH by also letting past variances influence today’s volatility.</p>
+<section id="sequential-build-up-of-garch-models" class="level2"><h2 class="anchored" data-anchor-id="sequential-build-up-of-garch-models">Sequential Build-Up of GARCH Models</h2>
+<section id="simple-arch1-model" class="level3"><h3 class="anchored" data-anchor-id="simple-arch1-model">1. Simple ARCH(1) Model</h3>
+<p>Start with modeling the return <span class="math inline">\(r_t\)</span> (or residual) as having a constant mean <span class="math inline">\(\mu\)</span> and a time-varying volatility:</p>
+<p><span class="math display">\[
+\begin{aligned}
+r_t &amp;= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1), \\
+\sigma_t^2 &amp;= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2.
+\end{aligned}
+\]</span></p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li>The current volatility <span class="math inline">\(\sigma_t^2\)</span> is a function of a constant <span class="math inline">\(\alpha_0\)</span> plus the influence of the previous period’s squared error, <span class="math inline">\(\alpha_1\,\epsilon_{t-1}^2\)</span>.</li>
+</ul>
+<hr></section><section id="garch11-model" class="level3"><h3 class="anchored" data-anchor-id="garch11-model">2. GARCH(1,1) Model</h3>
+<p>A natural extension is to include persistence in volatility. The GARCH(1,1) model adds the last period’s variance:</p>
+<p><span class="math display">\[
+\begin{aligned}
+r_t &amp;= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1), \\
+\sigma_t^2 &amp;= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2 + \beta_1\,\sigma_{t-1}^2.
+\end{aligned}
+\]</span></p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li>
+<span class="math inline">\(\alpha_0\)</span> is the baseline variance.<br>
+</li>
+<li>
+<span class="math inline">\(\alpha_1\,\epsilon_{t-1}^2\)</span> captures the immediate impact of shocks (news effect).<br>
+</li>
+<li>
+<span class="math inline">\(\beta_1\,\sigma_{t-1}^2\)</span> shows how past volatility persists into the current period.</li>
+</ul>
+<hr></section><section id="garch11-model-with-drift-in-the-mean" class="level3"><h3 class="anchored" data-anchor-id="garch11-model-with-drift-in-the-mean">3. GARCH(1,1) Model with Drift in the Mean</h3>
+<p>Often, we also include a drift (constant mean) in the returns. Here the mean equation and the variance equation are modeled jointly:</p>
+<p><span class="math display">\[
+\begin{aligned}
+r_t &amp;= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1), \\
+\sigma_t^2 &amp;= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2 + \beta_1\,\sigma_{t-1}^2.
+\end{aligned}
+\]</span></p>
+<p><strong>Interpretation:</strong></p>
+<ul>
+<li>The first line models the return with a constant mean <span class="math inline">\(\mu\)</span> plus a noise term scaled by the conditional standard deviation <span class="math inline">\(\sigma_t\)</span>.<br>
+</li>
+<li>The second line builds the volatility equation just as in the GARCH(1,1) model, indicating that today’s variance depends on both the last period’s shock and the previous variance.</li>
+</ul>
+<hr></section></section><section id="practice-configurations" class="level2"><h2 class="anchored" data-anchor-id="practice-configurations">Practice Configurations</h2>
+<section id="practice-problem-1-arch1-model" class="level3"><h3 class="anchored" data-anchor-id="practice-problem-1-arch1-model">Practice Problem 1: ARCH(1) Model</h3>
+<p><strong>Problem:</strong><br>
+Write the sequential equations for an ARCH(1) model where returns <span class="math inline">\(r_t\)</span> have a constant mean and conditional variance that depends on the previous squared error.</p>
+<!--
+**Answer:**
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1),\\[1mm]
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2.
+\end{aligned}
+$$
+
+-->
+</section><section id="practice-problem-2-garch11-model" class="level3"><h3 class="anchored" data-anchor-id="practice-problem-2-garch11-model">Practice Problem 2: GARCH(1,1) Model</h3>
+<p><strong>Problem:</strong></p>
+<p>Write the sequential equations for a GARCH(1,1) model for returns <span class="math inline">\(r_t\)</span>.</p>
+<!--
+
+**Answer:**
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1),\\[1mm]
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2 + \beta_1\,\sigma_{t-1}^2.
+\end{aligned}
+$$
+
+-->
+</section><section id="practice-problem-3-garch11-model-with-drift" class="level3"><h3 class="anchored" data-anchor-id="practice-problem-3-garch11-model-with-drift">Practice Problem 3: GARCH(1,1) Model with Drift</h3>
+<p><strong>Problem:</strong></p>
+<p>Write the sequential equation for a GARCH(1,1) model that includes a drift in the mean of the returns.</p>
+<!--
+
+**Answer:**
+
+$$
+\begin{aligned}
+r_t &= \mu + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \quad z_t \sim N(0,1),\\[1mm]
+\sigma_t^2 &= \alpha_0 + \alpha_1\,\epsilon_{t-1}^2 + \beta_1\,\sigma_{t-1}^2.
+\end{aligned}
+$$
+
+-->
 
 
-
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
