@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -255,17 +280,27 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#theoretical-background-volatility-clustering" id="toc-theoretical-background-volatility-clustering" class="nav-link active" data-scroll-target="#theoretical-background-volatility-clustering">Theoretical Background: Volatility Clustering</a></li>
+  <li><a href="#testing-steps" id="toc-testing-steps" class="nav-link" data-scroll-target="#testing-steps">Testing Steps</a></li>
+  <li><a href="#example-1-covid-19-cases" id="toc-example-1-covid-19-cases" class="nav-link" data-scroll-target="#example-1-covid-19-cases">Example 1: COVID-19 Cases</a></li>
+  <li><a href="#example-2-stock-returns" id="toc-example-2-stock-returns" class="nav-link" data-scroll-target="#example-2-stock-returns">Example 2: Stock Returns</a></li>
+  <li><a href="#fix-covid-19-cases" id="toc-fix-covid-19-cases" class="nav-link" data-scroll-target="#fix-covid-19-cases">Fix: COVID-19 Cases</a></li>
+  <li><a href="#next-steps-garch-modeling" id="toc-next-steps-garch-modeling" class="nav-link" data-scroll-target="#next-steps-garch-modeling">Next Steps: GARCH Modeling</a></li>
+  <li><a href="#lab-activity-sp-500-returns" id="toc-lab-activity-sp-500-returns" class="nav-link" data-scroll-target="#lab-activity-sp-500-returns">Lab activity: S&amp;P 500 Returns</a></li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Activity24</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -287,10 +322,242 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<section id="theoretical-background-volatility-clustering" class="level3"><h3 class="anchored" data-anchor-id="theoretical-background-volatility-clustering">Theoretical Background: Volatility Clustering</h3>
+<p><strong>Volatility clustering</strong> (periods of high/low variability persisting) violates ARIMA’s constant variance assumption. Common in COVID-19 cases (waves) and stock returns (crashes). <strong>ARCH</strong> (Autoregressive Conditional Heteroskedasticity) tests help detect this phenomenon.</p>
+<section id="mathematical-foundation" class="level4"><h4 class="anchored" data-anchor-id="mathematical-foundation">Mathematical Foundation</h4>
+<ul>
+<li>
+<p><strong>ARCH Model</strong>:</p>
+<p>The ARCH(q) model for volatility is defined as:<br><span class="math display">\[  
+\begin{align*}  
+r_t &amp;= \mu_t + \epsilon_t, \quad \epsilon_t = \sigma_t z_t, \\  
+\sigma_t^2 &amp;= \alpha_0 + \alpha_1 \epsilon_{t-1}^2 + \dots + \alpha_q \epsilon_{t-q}^2  
+\end{align*}  
+\]</span><br>
+where <span class="math inline">\(z_t \sim N(0,1)\)</span>, and <span class="math inline">\(\alpha_0 &gt; 0\)</span>, <span class="math inline">\(\alpha_i \geq 0\)</span>.</p>
+</li>
+<li>
+<p><strong>Key Idea</strong>:</p>
+<p>Variance <span class="math inline">\(\sigma_t^2\)</span> depends on past squared residuals (<span class="math inline">\(\epsilon_{t-1}^2, \dots, \epsilon_{t-q}^2\)</span>), capturing volatility clustering.</p>
+</li>
+</ul></section></section><section id="testing-steps" class="level3"><h3 class="anchored" data-anchor-id="testing-steps">Testing Steps</h3>
+<ol type="1">
+<li><p><strong>Fit ARIMA Model</strong>:<br>
+Model the mean structure (e.g., log returns).</p></li>
+<li><p><strong>Extract Residuals</strong>:<br>
+Compute residuals <span class="math inline">\(\epsilon_t\)</span> and squared residuals <span class="math inline">\(\epsilon_t^2\)</span>.</p></li>
+<li>
+<p><strong>Visual Diagnostics</strong>:</p>
+<ul>
+<li>Plot ACF/PACF of squared residuals.<br>
+</li>
+<li>Look for significant autocorrelation (sign of ARCH effects).</li>
+</ul>
+</li>
+<li>
+<p><strong>Statistical Tests</strong>:</p>
+<ul>
+<li>
+<strong>Ljung-Box Test</strong>: Tests autocorrelation in <span class="math inline">\(\epsilon_t^2\)</span>.<br>
+</li>
+<li>
+<strong>Engle’s ARCH Test</strong>: Formal Lagrange Multiplier (LM) test for ARCH effects.</li>
+</ul>
+</li>
+</ol></section><section id="example-1-covid-19-cases" class="level3"><h3 class="anchored" data-anchor-id="example-1-covid-19-cases">Example 1: COVID-19 Cases</h3>
+<section id="data-preparation" class="level4"><h4 class="anchored" data-anchor-id="data-preparation">Data Preparation</h4>
+<p>Use the <code>COVID19</code> package to fetch daily confirmed cases in Italy (clear volatility during waves):</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://covid19datahub.io">COVID19</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Get data</span></span>
+<span><span class="va">covid_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://covid19datahub.io/reference/covid19.html">covid19</a></span><span class="op">(</span>country <span class="op">=</span> <span class="st">"Italy"</span>, level <span class="op">=</span> <span class="fl">1</span>, verbose <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>new_cases <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="va">confirmed</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>log_new_cases <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">confirmed</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">log_new_cases</span>, <span class="va">new_cases</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>scaled_cases <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/scale.html">scale</a></span><span class="op">(</span><span class="va">log_new_cases</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="model-fitting-volatility-check" class="level4"><h4 class="anchored" data-anchor-id="model-fitting-volatility-check">Model Fitting &amp; Volatility Check</h4>
+<p>Fit an ARIMA model to <code>new_cases</code> and inspect residuals:</p>
+<div class="cell">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_covid</span> <span class="op">&lt;-</span> <span class="va">covid_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">scaled_cases</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span> <span class="op">+</span> <span class="fu">PDQ</span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Check residuals for volatility clustering</span></span>
+<span></span>
+<span><span class="va">fit_covid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsresiduals.html">gg_tsresiduals</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity24_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_covid</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">.resid</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Squared Residuals (COVID-19 Cases)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity24_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_covid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/features.html">features</a></span><span class="op">(</span><span class="va">.innov</span>,<span class="op">~</span><span class="fu"><a href="https://feasts.tidyverts.org/reference/portmanteau_tests.html">ljung_box</a></span><span class="op">(</span><span class="va">.x</span>, lag<span class="op">=</span><span class="fl">24</span>, dof<span class="op">=</span><span class="fl">4</span><span class="op">)</span></span>
+<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .model                                            lb_stat lb_pvalue
+  &lt;chr&gt;                                               &lt;dbl&gt;     &lt;dbl&gt;
+1 ARIMA(scaled_cases ~ pdq(2, 1, 1) + PDQ(0, 0, 0))    920.         0</code></pre>
+</div>
+</div>
+<p><strong>Key Observation</strong>: Squared residuals cluster many times between January 2020 and January 2023 (COVID waves), indicating volatility clustering.</p>
+</section></section><section id="example-2-stock-returns" class="level3"><h3 class="anchored" data-anchor-id="example-2-stock-returns">Example 2: Stock Returns</h3>
+<section id="data-preparation-1" class="level4"><h4 class="anchored" data-anchor-id="data-preparation-1">Data Preparation</h4>
+<p>Fetch S&amp;P 500 returns using <code><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get()</a></code> (more realistic volatility with irregular trading days):</p>
+<div class="cell">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Get S&amp;P 500 data and calculate daily returns</span></span>
+<span><span class="va">sp500</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"^GSPC"</span>, get <span class="op">=</span> <span class="st">"stock.prices"</span>, from <span class="op">=</span> <span class="st">"2000-01-01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu">fill_gaps</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">fill</span><span class="op">(</span><span class="va">close</span>, .direction <span class="op">=</span> <span class="st">"down"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>return <span class="op">=</span> <span class="fu">difference</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="va">close</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span>  </span>
+<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">return</span><span class="op">)</span>           </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="model-fitting-volatility-check-1" class="level4"><h4 class="anchored" data-anchor-id="model-fitting-volatility-check-1">Model Fitting &amp; Volatility Check</h4>
+<div class="cell">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">fit_sp500</span> <span class="op">&lt;-</span> <span class="va">sp500</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/ARIMA.html">ARIMA</a></span><span class="op">(</span><span class="va">return</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>  </span>
+<span></span>
+<span><span class="co"># Visualize squared residuals for volatility clustering</span></span>
+<span><span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_sp500</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">date</span>, y <span class="op">=</span> <span class="va">.resid</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">geom_line</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.6</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Squared Residuals (S&amp;P 500 Returns)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity24_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Key Observations</strong>:</p>
+<ul>
+<li>Squared residuals cluster during crises (e.g., 2008 financial crisis, 2020 COVID crash).<br>
+</li>
+<li>ARIMA assumes <em>constant variance</em> — clustered residuals violate this, signaling <strong>volatility clustering</strong>.</li>
+</ul></section></section><section id="fix-covid-19-cases" class="level3"><h3 class="anchored" data-anchor-id="fix-covid-19-cases">Fix: COVID-19 Cases</h3>
+<section id="extract-residuals" class="level4"><h4 class="anchored" data-anchor-id="extract-residuals">1. <strong>Extract Residuals</strong>
+</h4>
+<p>First, extract residuals from the ARIMA model:</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># For COVID-19 example:</span></span>
+<span><span class="va">covid_resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_covid</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
+<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">.resid</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section><section id="visual-arch-test-acfpacf-of-squared-residuals" class="level4"><h4 class="anchored" data-anchor-id="visual-arch-test-acfpacf-of-squared-residuals">2. <strong>Visual ARCH Test (ACF/PACF of Squared Residuals)</strong>
+</h4>
+<p>Plot autocorrelation in squared residuals:</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">covid_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>resid_sq <span class="op">=</span> <span class="va">.resid</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsdisplay.html">gg_tsdisplay</a></span><span class="op">(</span><span class="va">resid_sq</span>, plot_type <span class="op">=</span> <span class="st">"partial"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"ACF/PACF of Squared Residuals (COVID-19)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity24_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><strong>Interpretation</strong>:</p>
+<ul>
+<li>Significant spikes at lag 1 or higher → Evidence of ARCH effects.</li>
+</ul>
+<hr></section><section id="engles-arch-test" class="level4"><h4 class="anchored" data-anchor-id="engles-arch-test">3. <strong>Engle’s ARCH Test </strong>
+</h4>
+<p>Use the <code>FinTS</code> package to test ARCH effects on residuals:</p>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://geobosh.github.io/FinTSDoc/">FinTS</a></span><span class="op">)</span>  <span class="co"># install.packages("FinTS")</span></span>
+<span></span>
+<span><span class="co"># Extract residual vector</span></span>
+<span><span class="va">resid_vector</span> <span class="op">&lt;-</span> <span class="va">covid_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pull</span><span class="op">(</span><span class="va">.resid</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Engle’s ARCH test (lag = 5)</span></span>
+<span><span class="fu"><a href="https://geobosh.github.io/FinTSDoc/reference/ArchTest.html">ArchTest</a></span><span class="op">(</span><span class="va">resid_vector</span>, lags <span class="op">=</span> <span class="fl">12</span>, demean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    ARCH LM-test; Null hypothesis: no ARCH effects
+
+data:  resid_vector
+Chi-squared = 1051.1, df = 12, p-value &lt; 2.2e-16</code></pre>
+</div>
+</div>
+<p><strong>Conclusion</strong>: If <span class="math inline">\(p &lt; 0.05\)</span>, reject the null (ARCH effects exist).</p>
+</section></section><section id="next-steps-garch-modeling" class="level3"><h3 class="anchored" data-anchor-id="next-steps-garch-modeling">Next Steps: GARCH Modeling</h3>
+<p>If ARCH effects are detected, use the <code>rugarch</code> package to model volatility:</p>
+<div class="cell">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://www.unstarched.net">rugarch</a></span><span class="op">)</span>  <span class="co"># install.packages("rugarch")</span></span>
+<span></span>
+<span><span class="co"># Fit ARIMA(1,0,1)-GARCH(1,1)</span></span>
+<span></span>
+<span><span class="va">spec</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rugarch/man/ugarchspec-methods.html">ugarchspec</a></span><span class="op">(</span></span>
+<span>  mean.model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>armaOrder <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">10</span>,<span class="fl">10</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>  variance.model <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>model <span class="op">=</span> <span class="st">"sGARCH"</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">fit_garch</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rugarch/man/ugarchfit-methods.html">ugarchfit</a></span><span class="op">(</span><span class="va">spec</span>, data <span class="op">=</span> <span class="va">resid_vector</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">fit_garch</span>, which <span class="op">=</span> <span class="fl">10</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity24_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="parameter-stability" class="level4"><h4 class="anchored" data-anchor-id="parameter-stability"><strong>Parameter Stability</strong></h4>
+<p>Check rolling estimates to assess model stability over time:</p>
+<div class="cell">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">roll_fit</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/rugarch/man/ugarchroll-methods.html">ugarchroll</a></span><span class="op">(</span><span class="va">spec</span>, data <span class="op">=</span> <span class="va">resid_vector</span>, n.ahead <span class="op">=</span> <span class="fl">1</span>, n.start <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">roll_fit</span>, which <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>  <span class="co"># Rolling parameter estimates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity24_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section></section><section id="lab-activity-sp-500-returns" class="level3"><h3 class="anchored" data-anchor-id="lab-activity-sp-500-returns">Lab activity: S&amp;P 500 Returns</h3>
+<p>Repeat the above steps for S&amp;P Returns</p>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Extract residuals from ARIMA</span></span>
+<span><span class="va">sp500_resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="va">fit_sp500</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">.resid</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Engle’s test</span></span>
+<span><span class="va">resid_sp500</span> <span class="op">&lt;-</span> <span class="va">sp500_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">pull</span><span class="op">(</span><span class="va">.resid</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://geobosh.github.io/FinTSDoc/reference/ArchTest.html">ArchTest</a></span><span class="op">(</span><span class="va">resid_sp500</span>, lags <span class="op">=</span> <span class="fl">5</span>, demean <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    ARCH LM-test; Null hypothesis: no ARCH effects
+
+data:  resid_sp500
+Chi-squared = 1048.6, df = 5, p-value &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># ACF/PACF of squared residuals</span></span>
+<span><span class="va">sp500_resid</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>resid_sq <span class="op">=</span> <span class="va">.resid</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://feasts.tidyverts.org/reference/gg_tsdisplay.html">gg_tsdisplay</a></span><span class="op">(</span><span class="va">resid_sq</span>, plot_type <span class="op">=</span> <span class="st">"partial"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity24_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
-
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
