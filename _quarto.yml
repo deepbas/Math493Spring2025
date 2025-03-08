@@ -63,10 +63,10 @@ website:
             href: activity23.html
           - text: "Activity24"
             href: activity24.html
-          # - text: "Activity1"
-          #   href: activity1.html
-          # - text: "Activity2"
-          #   href: activity2.html
+          - text: "Activity25"
+            href: activity25.html
+          - text: "Activity26"
+            href: activity26.html
           # - text: "Activity3"
           #   href: activity3.html
           # - text: "Activity4"
