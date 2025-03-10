@@ -142,9 +142,6 @@ $$
 
 Here, $z_t$ represents the series after both nonseasonal and seasonal differencing. This equation is a conceptual “blueprint” that shows how each modeling component is added sequentially.
 
-
-Below is a tutorial that walks you through three easy configurations, showing how to build a time series model step by step. Each configuration adds one or more components—autoregression (AR), moving average (MA), differencing, and a touch of seasonality—in a sequential and intuitive way. At the end, you’ll find three practice problems along with their answers.
-
 ---
 
 ## Example Configurations
