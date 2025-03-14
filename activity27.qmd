@@ -154,7 +154,6 @@ Key differences to assess:
 - Compare AICc values for models with/without seasonal terms
 - Check if residuals show remaining production cycle patterns
 
-<!--
 
 ```{r}
 beer_ts <- aus_production %>%
@@ -162,7 +161,6 @@ beer_ts <- aus_production %>%
   filter(year(Quarter) >= 1992) %>%  
   as_tsibble(index = Quarter)
 
-# 2. Revised model grid with feasible orders
 grid_beer <- expand_grid(
   non_seasonal = list(c(1,1,1), c(0,1,1), c(2,1,2)),
   seasonal = list(
@@ -196,6 +194,19 @@ results_beer <- grid_beer %>%
 # Compare models by AICc 
 best_model <- results_beer %>% arrange(AICc) %>% slice(1)
 best_model 
+
+results_beer %>% 
+  select(ns_str, s_str, AICc) %>% 
+  arrange(AICc)
+
+# no seasonal model
+no_seasonal_model <- results_beer %>% arrange(AICc) %>% slice(9)
+no_seasonal_model %>% 
+  pull(model) %>% 
+  .[[1]] %>% 
+  #residuals() %>% 
+  gg_tsresiduals()
+
 ```
 
 
@@ -234,10 +245,6 @@ best_model %>%
   autoplot(beer_ts) +
   labs(title = "Beer Production Forecast with Seasonal Differencing")
 ```
-
-
--->
-
 
 
 
