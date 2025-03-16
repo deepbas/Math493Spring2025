@@ -7,11 +7,7 @@ webr:
   packages:
     - dplyr
     - ggplot2
-    - purrr
-    - feasts
     - fpp3
-    - fable
-    - astsa
 warning: false
 message: false
 ---
@@ -148,6 +144,7 @@ pcorr_Imp_Exp_GDP  # Display partial correlation result
 1. Apply the partial correlation formula to compute the relationship between GDP and Exports, controlling for Population.
 
 ```{webr}
+#| label: Activity2Lab1
 aus_data <- global_economy %>%
   filter(Country == "Australia") %>%    
   select(Year, GDP, Growth, Population, CPI, Imports, Exports)

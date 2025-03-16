@@ -1,11 +1,20 @@
 ---
 title: "Activity4"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
 warning: false
 message: false
 ---
 
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -126,7 +135,6 @@ autoplot(rw_drift, y) + labs(title = "Random Walk with Drift") +
 
 ### Lab Actiity: More Simulations and Comparisons
 
-
 ## Q1: MA(1) Process  
 
 **Prompt:** Simulate and visualize an MA(1) process with parameter θ = 0.9 using `tsibble` and `autoplot`.
@@ -134,12 +142,10 @@ autoplot(rw_drift, y) + labs(title = "Random Walk with Drift") +
 **Solution:**
 
 
+```{webr}
+#| label: Activity4Lab1
 
-```{r}
-library(tsibble)
-library(feasts)
-library(patchwork)  # For plot arrangement
-
+library(patchwork)  
 set.seed(123)
 n <- 200
 
@@ -156,7 +162,6 @@ ma_ts <- tsibble(
 ```
 
 
-
 ## Q2: AR(1) Process  
 
 **Prompt:** Simulate and visualize an AR(1) process with parameter  $\phi=0.96$ using `tsibble` and `autoplot`.
@@ -164,8 +169,9 @@ ma_ts <- tsibble(
 **Solution:**
 
 
+```{webr}
+#| label: Activity4Lab2
 
-```{r}
 ar_ts <- tsibble(
   time = 1:n,
   value = {
@@ -189,7 +195,9 @@ ar_ts <- tsibble(
 **Solution:**
 
 
-```{r}
+```{webr}
+#| label: Activity4Lab3
+
 rw_ts <- tsibble(
   time = 1:n,
   value = cumsum(0.2 + rnorm(n)),
@@ -197,10 +205,6 @@ rw_ts <- tsibble(
   model = "Random Walk with Drift"
 )
 
-```
-
-
-```{r}
 combined_ts <- bind_rows(
   as_tibble(ma_ts) %>% mutate(model = "MA(1)"),
   as_tibble(ar_ts) %>% mutate(model = "AR(1)"),
@@ -208,10 +212,7 @@ combined_ts <- bind_rows(
 ) %>% 
   as_tsibble(index = time, key = model) %>% 
   mutate(model = factor(model, levels = c("MA(1)", "AR(1)", "Random Walk with Drift")))
-```
 
-
-```{r}
 autoplot(combined_ts) +
   facet_grid(model ~ ., scales = "free_y") +
   labs(title = "Time Series Comparison", y = "Value") +

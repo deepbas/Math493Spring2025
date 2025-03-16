@@ -6,12 +6,6 @@ toc: true
 webr:
   packages:
     - dplyr
-    - ggplot2
-    - purrr
-    - feasts
-    - fpp3
-    - fable
-    - astsa
 warning: false
 message: false
 ---

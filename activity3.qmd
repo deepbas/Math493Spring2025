@@ -1,11 +1,19 @@
 ---
 title: "Activity3"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
 warning: false
 message: false
 ---
 
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -135,6 +143,7 @@ contaminated_wn %>%
 ### Lab Activity: White Noise Series, ACF, and Portmanteau Test
 
 1. **Simulate a White Noise Series**  
+
    Generate a white noise series of length $n = 500$ using the equation:
    $$
    X_t = \varepsilon_t, \quad \varepsilon_t \stackrel{iid}{\sim} \mathcal{N}(0, 1)
@@ -142,9 +151,11 @@ contaminated_wn %>%
    Plot the series.
 
 2. **Plot the ACF**  
+
    Compute and plot the autocorrelation function (ACF) of the white noise series. Interpret the results.
 
 3. **Contaminate the Series**  
+
    Introduce contamination into the white noise series by adding a lagged component:
    $$
    Y_t = X_t + 0.4 \cdot X_{t-3}
@@ -152,18 +163,17 @@ contaminated_wn %>%
    Replace missing values with 0. Plot the contaminated series.
 
 4. **Plot the ACF of the Contaminated Series**  
+
    Compute and plot the ACF of the contaminated series. Compare it with the ACF of the original white noise series.
 
 5. **Perform the Portmanteau (Ljung-Box) Test**  
+
    - Apply the Ljung-Box test to the original white noise series. Interpret the results.
    - Apply the Ljung-Box test to the contaminated series. Interpret the results.
    
 
-
-
-```{r}
-library(fpp3)
-
+```{webr}
+#| label: Activity3Lab1
 # 1. Simulate White Noise
 wn <- tsibble(time = 1:500, y = rnorm(500), index = time)
 wn %>% autoplot(y) + ggtitle("White Noise Process")

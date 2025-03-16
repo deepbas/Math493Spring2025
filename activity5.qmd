@@ -1,11 +1,22 @@
 ---
 title: "Activity5"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
 warning: false
 message: false
 ---
 
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -40,8 +51,6 @@ A time series is **stationary** if its statistical properties (mean, variance, a
    
 3. **Box-Cox Transformation**: A generalized power transformation that stabilizes variance and can handle non-linear trends.
    - Formula: $Y_t = \frac{X_t^\lambda - 1}{\lambda}$
-
-
 
 ### Step 1: Visualize Non-Stationary Data
 
@@ -145,13 +154,11 @@ google_stock |>
 ### Prompt 1: Load and Visualize Data
 
 1. Load the `global_economy` dataset from the `tsibble` package.
-
 2. Plot GDP for a specific country (e.g., "United States"). Assess stationarity visually.
-
 
 **Solution**:
 
-```{r}
+```{webr}
 library(tsibbledata)
 data("global_economy")
 
@@ -163,17 +170,14 @@ global_economy |>
 ```
 
 
-
 ### Prompt 2: Test for Stationarity
 
 1. Use the KPSS test to check for stationarity.
 2. Determine the required differencing order using `unitroot_ndiffs`.
 
-
-
 **Solution**:
 
-```{r}
+```{webr}
 # KPSS test
 global_economy |>
   filter(Country == "United States") |>
@@ -185,21 +189,16 @@ global_economy |>
   features(GDP, unitroot_ndiffs)
 ```
 
--->
 
 ### Prompt 3: Apply Transformations
 
 1. Apply first differencing to the GDP series.
-
 2. Apply a Box-Cox transformation using Guerrero’s method to estimate λ.
-
 3. Re-test stationarity using the KPSS test.
-
-
 
 **Solution**:
 
-```{r}
+```{webr}
 # First difference
 us_gdp_diff <- global_economy |>
   filter(Country == "United States") |>

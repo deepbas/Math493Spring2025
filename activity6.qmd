@@ -1,11 +1,24 @@
 ---
 title: "Activity6"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - quantmod
+    - TTM
 warning: false
 message: false
 ---
 
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -147,10 +160,9 @@ kpss_test_diff_sp500
 
 Repeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results. 
 
-
 **Solution:**
 
-```{r}
+```{webr}
 # Step 1: Get NVIDIA (NVDA) stock data
 nvda <- tq_get("NVDA", 
                from = "2010-01-01", 
