@@ -1,11 +1,25 @@
 ---
 title: "Activity2"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - purrr
+    - feasts
+    - fpp3
+    - fable
+    - astsa
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -124,7 +138,7 @@ rho_Exports_GDP <- cor_matrix["Exports", "GDP"]  # <3>
 
 ```{r}
 # Compute partial correlation between Imports and Exports controlling for GDP
-pcorr_Imp_Exp_GDP <- (rho_Imports_Exports - rho_Imports_GDP * rho_Exports_GDP) /
+pcorr_Imp_Exp_GDP <- (rho_Imports_Exports - rho_Imports_Exports * rho_Exports_GDP) /
   sqrt((1 - rho_Imports_GDP^2) * (1 - rho_Exports_GDP^2))   # <1> 
 pcorr_Imp_Exp_GDP  # Display partial correlation result
 ```
@@ -133,4 +147,24 @@ pcorr_Imp_Exp_GDP  # Display partial correlation result
 
 1. Apply the partial correlation formula to compute the relationship between GDP and Exports, controlling for Population.
 
+```{webr}
+aus_data <- global_economy %>%
+  filter(Country == "Australia") %>%    
+  select(Year, GDP, Growth, Population, CPI, Imports, Exports)
+
+cor_matrix <- aus_data %>%
+  select(GDP, Growth, Population, CPI, Imports, Exports) %>%  
+  cor(use = "complete.obs")             
+
+# Extract required correlations from the matrix
+rho_GDP_Exports <- cor_matrix["GDP", "Exports"]  # r_xy
+rho_GDP_Pop <- cor_matrix["GDP", "Population"]   # r_xz
+rho_Exports_Pop <- cor_matrix["Exports", "Population"]  # r_yz
+
+# Apply partial correlation formula
+pcorr_GDP_Exp_Pop <- (rho_GDP_Exports - rho_GDP_Pop * rho_Exports_Pop) / 
+  sqrt((1 - rho_GDP_Pop^2) * (1 - rho_Exports_Pop^2))
+
+pcorr_GDP_Exp_Pop  
+```
 
