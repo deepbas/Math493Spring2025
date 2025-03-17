@@ -1,6 +1,10 @@
 ---
 title: "Activity15"
-format: live-html
+format: 
+  live-html:
+    theme:
+      light: minty
+      dark: darkly  
 engine: knitr
 toc: true
 webr:

@@ -83,12 +83,12 @@ website:
         #   - text: "Lecture 2"
         #     href: Day2.html
         #     target: "_blank"
-      - text: "Datasets"
-        menu:
+      - section: "Datasets"
+        contents:
           - text: "Google"
             href: googledata.html
-      - text: "Tutorials"
-        menu:
+      - section: "Tutorials"
+        contents:
           - text: "R and RStudio"
             href: RandRStudio.html
 
