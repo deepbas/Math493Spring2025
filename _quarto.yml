@@ -15,7 +15,7 @@ website:
         href: about.html
       - section: "Activities"
         contents:
-          - text: "<i class='fas fa-book'></i> Activity 28"
+          - text: "`r fa('book')` Activity 28"
             href: activity28.html
           - text: "<i class='fas fa-book'></i> Activity 27"
             href: activity27.html
