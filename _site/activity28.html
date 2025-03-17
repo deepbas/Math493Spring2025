@@ -412,11 +412,15 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#arima-model-selection-strategy" id="toc-arima-model-selection-strategy" class="nav-link active" data-scroll-target="#arima-model-selection-strategy"><strong>ARIMA Model Selection Strategy</strong>:</a></li>
+  <li><a href="#setup.r" id="toc-setup.r" class="nav-link active" data-scroll-target="#setup.r">setup.R</a></li>
+  <li><a href="#load-required-libraries" id="toc-load-required-libraries" class="nav-link" data-scroll-target="#load-required-libraries">Load required libraries</a>
+  <ul class="collapse">
+  <li><a href="#arima-model-selection-strategy" id="toc-arima-model-selection-strategy" class="nav-link" data-scroll-target="#arima-model-selection-strategy"><strong>ARIMA Model Selection Strategy</strong>:</a></li>
   <li><a href="#residual-diagnostics" id="toc-residual-diagnostics" class="nav-link" data-scroll-target="#residual-diagnostics"><strong>Residual Diagnostics</strong>:</a></li>
   <li><a href="#forecast-uncertainty" id="toc-forecast-uncertainty" class="nav-link" data-scroll-target="#forecast-uncertainty"><strong>Forecast Uncertainty</strong>:</a>
   <ul class="collapse">
   <li><a href="#lab-activity-beer-production-analysis" id="toc-lab-activity-beer-production-analysis" class="nav-link" data-scroll-target="#lab-activity-beer-production-analysis">Lab Activity: Beer Production Analysis</a></li>
+  </ul></li>
   </ul></li>
   </ul>
 </nav>
@@ -443,6 +447,13 @@ window.Quarto = {
 </header>
 
 
+<section id="setup.r" class="level1">
+<h1>setup.R</h1>
+</section>
+<section id="load-required-libraries" class="level1">
+<h1>Load required libraries</h1>
+<p>library(dplyr) library(ggplot2) library(fpp3) library(patchwork) library(tsibbledata) library(urca) library(astsa) library(gridExtra) library(vars) library(fable) library(feasts) library(tidyquant) library(quantmod) library(purrr) library(tidyverse) suppressWarnings(library(quantmod))</p>
+<p>The <code>us_change</code> dataset from provides percentage changes in quarterly personal consumption expenditure, personal disposable income, production, savings, and the unemployment rate in the United States from 1960 to 2016.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(us_change)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>consumption_ts <span class="ot">&lt;-</span> us_change <span class="sc">%&gt;%</span></span>
@@ -766,6 +777,7 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+</section>
 </section>
 </section>
 

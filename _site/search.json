@@ -1054,17 +1054,6 @@
     ]
   },
   {
-    "objectID": "activity28.html",
-    "href": "activity28.html",
-    "title": "Activity28",
-    "section": "",
-    "text": "data(us_change)\nconsumption_ts &lt;- us_change %&gt;%\n  dplyr::select(Quarter, Consumption) %&gt;%\n  as_tsibble(index = Quarter)",
-    "crumbs": [
-      "Activities",
-      "<i class='fas fa-book'></i> Activity 28"
-    ]
-  },
-  {
     "objectID": "activity28.html#arima-model-selection-strategy",
     "href": "activity28.html#arima-model-selection-strategy",
     "title": "Activity28",
