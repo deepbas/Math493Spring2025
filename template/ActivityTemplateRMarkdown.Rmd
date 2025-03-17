@@ -9,6 +9,8 @@ knitr::opts_chunk$set(message = FALSE,
                       warning = FALSE)
 ```
 
+{{< include ../_extensions/r-wasm/live/_knitr.qmd >}}
+{{< include ../setup.R >}}
 
 ```{r}
 # Time Series Essentials, install if needed!
