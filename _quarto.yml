@@ -3,74 +3,157 @@ project:
 output-dir: _site
 
 
-
 website:
   title: "Math 493: Advanced Topics in Statistics"
   sidebar:
     style: "docked"
+    collapse-level: 1
     contents:
       - text: "Home"
         href: index.html
       - text: "About"
         href: about.html
-      - section: "Activities"
+      - section: "Week 1"
         contents:
-          - text: "<i class='fas fa-book'></i> Activity 28"
-            href: activity28.html
-          - text: "<i class='fas fa-book'></i> Activity 27"
-            href: activity27.html
-          - text: "<i class='fas fa-book'></i> Activity 26"
-            href: activity26.html
-          - text: "<i class='fas fa-book'></i> Activity 25"
-            href: activity25.html
-          - text: "<i class='fas fa-book'></i> Activity 24"
-            href: activity24.html
-          - text: "<i class='fas fa-book'></i> Activity 23"
-            href: activity23.html
-          - text: "<i class='fas fa-book'></i> Activity 22"
-            href: activity22.html
-          - text: "<i class='fas fa-book'></i> Activity 21"
-            href: activity21.html
-          - text: "<i class='fas fa-book'></i> Activity 20"
-            href: activity20.html
-          - text: "<i class='fas fa-book'></i> Activity 19"
-            href: activity19.html
-          - text: "<i class='fas fa-book'></i> Activity 18"
-            href: activity18.html
-          - text: "<i class='fas fa-book'></i> Activity 17"
-            href: activity17.html
-          - text: "<i class='fas fa-book'></i> Activity 16"
-            href: activity16.html
-          - text: "<i class='fas fa-book'></i> Activity 15"
-            href: activity15.html
-          - text: "<i class='fas fa-book'></i> Activity 14"
-            href: activity14.html
-          - text: "<i class='fas fa-book'></i> Activity 13"
-            href: activity13.html
-          - text: "<i class='fas fa-book'></i> Activity 12"
-            href: activity12.html
-          - text: "<i class='fas fa-book'></i> Activity 11"
-            href: activity11.html
-          - text: "<i class='fas fa-book'></i> Activity 10"
-            href: activity10.html
-          - text: "<i class='fas fa-book'></i> Activity 9"
-            href: activity9.html
-          - text: "<i class='fas fa-book'></i> Activity 8"
-            href: activity8.html
-          - text: "<i class='fas fa-book'></i> Activity 7"
-            href: activity7.html
-          - text: "<i class='fas fa-book'></i> Activity 6"
-            href: activity6.html
-          - text: "<i class='fas fa-book'></i> Activity 5"
-            href: activity5.html
-          - text: "<i class='fas fa-book'></i> Activity 4"
-            href: activity4.html
-          - text: "<i class='fas fa-book'></i> Activity 3"
-            href: activity3.html
-          - text: "<i class='fas fa-book'></i> Activity 2"
-            href: activity2.html
-          - text: "<i class='fas fa-book'></i> Activity 1"
+          - text: "Activity 1"
             href: activity1.html
+          - text: "Activity 2"
+            href: activity2.html
+          - text: "Activity 3"
+            href: activity3.html
+          - text: "Activity 4"
+            href: activity4.html
+      - section: "Week 2"
+        contents:
+          - text: "Activity 5"
+            href: activity5.html
+          - text: "Activity 6"
+            href: activity6.html
+          - text: "Activity 7"
+            href: activity7.html
+          - text: "Activity 8"
+            href: activity8.html
+      - section: "Week 3"
+        contents:
+          - text: "Activity 9"
+            href: activity9.html
+          - text: "Activity 10"
+            href: activity10.html
+          - text: "Activity 11"
+            href: activity11.html
+          - text: "Activity 12"
+            href: activity12.html
+      - section: "Week 4"
+        contents:
+          - text: "Activity 13"
+            href: activity13.html
+          - text: "Activity 14"
+            href: activity14.html
+          - text: "Activity 15"
+            href: activity15.html
+          - text: "Activity 16"
+            href: activity16.html
+      - section: "Week 5"
+        contents:
+          - text: "Activity 17"
+            href: activity17.html
+          - text: "Activity 18"
+            href: activity18.html
+          - text: "Activity 19"
+            href: activity19.html
+          - text: "Activity 20"
+            href: activity20.html
+      - section: "Week 6"
+        contents:
+          - text: "Activity 21"
+            href: activity21.html
+          - text: "Activity 22"
+            href: activity22.html
+          - text: "Activity 23"
+            href: activity23.html
+          - text: "Activity 24"
+            href: activity24.html
+      - section: "Week 7"
+        contents:
+          - text: "Activity 25"
+            href: activity25.html
+          - text: "Activity 26"
+            href: activity26.html
+          - text: "Activity 27"
+            href: activity27.html
+          - text: "Activity 28"
+            href: activity28.html
+      # - section: "Week 8"
+      #   contents:
+      #     - text: "Activity 29"
+      #       href: activity29.html
+      #     - text: "Activity 30"
+      #       href: activity30.html
+      #     - text: "Activity 31"
+      #       href: activity31.html
+      #     - text: "Activity 32"
+      #       href: activity32.html
+      # - section: "Week 9"
+      #   contents:
+      #     - text: "Activity 33"
+      #       href: activity33.html
+      #     - text: "Activity 34"
+      #       href: activity34.html
+      #     - text: "Activity 35"
+      #       href: activity35.html
+      #     - text: "Activity 36"
+      #       href: activity36.html
+      # - section: "Week 10"
+      #   contents:
+      #     - text: "Activity 37"
+      #       href: activity37.html
+      #     - text: "Activity 38"
+      #       href: activity38.html
+      #     - text: "Activity 39"
+      #       href: activity39.html
+      #     - text: "Activity 40"
+      #       href: activity40.html
+      # - section: "Week 11"
+      #   contents:
+      #     - text: "Activity 41"
+      #       href: activity41.html
+      #     - text: "Activity 42"
+      #       href: activity42.html
+      #     - text: "Activity 43"
+      #       href: activity43.html
+      #     - text: "Activity 44"
+      #       href: activity44.html
+      # - section: "Week 12"
+      #   contents:
+      #     - text: "Activity 45"
+      #       href: activity45.html
+      #     - text: "Activity 46"
+      #       href: activity46.html
+      #     - text: "Activity 47"
+      #       href: activity47.html
+      #     - text: "Activity 48"
+      #       href: activity48.html
+      # - section: "Week 13"
+      #   contents:
+      #     - text: "Activity 49"
+      #       href: activity49.html
+      #     - text: "Activity 50"
+      #       href: activity50.html
+      #     - text: "Activity 51"
+      #       href: activity51.html
+      #     - text: "Activity 52"
+      #       href: activity52.html
+      # - section: "Week 14"
+      #   contents:
+      #     - text: "Activity 53"
+      #       href: activity53.html
+      #     - text: "Activity 54"
+      #       href: activity54.html
+      #     - text: "Activity 55"
+      #       href: activity55.html
+      #     - text: "Activity 56"
+      #       href: activity56.html
+
 
       - section: "Datasets"
         contents:
