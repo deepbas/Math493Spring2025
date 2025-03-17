@@ -15,74 +15,64 @@ website:
         href: about.html
       - section: "Activities"
         contents:
-          - text: "Activity 1"
-            href: activity1.html
-          - text: "Activity 2"
-            href: activity2.html
-          - text: "Activity3"
-            href: activity3.html
-          - text: "Activity4"
-            href: activity4.html
-          - text: "Activity5"
-            href: activity5.html
-          - text: "Activity6"
-            href: activity6.html
-          - text: "Activity7"
-            href: activity7.html
-          - text: "Activity8"
-            href: activity8.html
-          - text: "Activity9"
-            href: activity9.html
-          - text: "Activity10"
-            href: activity10.html
-          - text: "Activity11"
-            href: activity11.html
-          - text: "Activity12"
-            href: activity12.html
-          - text: "Activity13"
-            href: activity13.html
-          - text: "Activity14"
-            href: activity14.html
-          - text: "Activity15"
-            href: activity15.html
-          - text: "Activity16"
-            href: activity16.html
-          - text: "Activity17"
-            href: activity17.html
-          - text: "Activity18"
-            href: activity18.html
-          - text: "Activity19"
-            href: activity19.html
-          - text: "Activity20"
-            href: activity20.html
-          - text: "Activity21"
-            href: activity21.html
-          - text: "Activity22"
-            href: activity22.html
-          - text: "Activity23"
-            href: activity23.html
-          - text: "Activity24"
-            href: activity24.html
-          - text: "Activity25"
-            href: activity25.html
-          - text: "Activity26"
-            href: activity26.html
-          - text: "Activity27"
-            href: activity27.html
-          - text: "Activity28"
+          - text: "<i class='fas fa-book'></i> Activity 28"
             href: activity28.html
+          - text: "<i class='fas fa-book'></i> Activity 27"
+            href: activity27.html
+          - text: "<i class='fas fa-book'></i> Activity 26"
+            href: activity26.html
+          - text: "<i class='fas fa-book'></i> Activity 25"
+            href: activity25.html
+          - text: "<i class='fas fa-book'></i> Activity 24"
+            href: activity24.html
+          - text: "<i class='fas fa-book'></i> Activity 23"
+            href: activity23.html
+          - text: "<i class='fas fa-book'></i> Activity 22"
+            href: activity22.html
+          - text: "<i class='fas fa-book'></i> Activity 21"
+            href: activity21.html
+          - text: "<i class='fas fa-book'></i> Activity 20"
+            href: activity20.html
+          - text: "<i class='fas fa-book'></i> Activity 19"
+            href: activity19.html
+          - text: "<i class='fas fa-book'></i> Activity 18"
+            href: activity18.html
+          - text: "<i class='fas fa-book'></i> Activity 17"
+            href: activity17.html
+          - text: "<i class='fas fa-book'></i> Activity 16"
+            href: activity16.html
+          - text: "<i class='fas fa-book'></i> Activity 15"
+            href: activity15.html
+          - text: "<i class='fas fa-book'></i> Activity 14"
+            href: activity14.html
+          - text: "<i class='fas fa-book'></i> Activity 13"
+            href: activity13.html
+          - text: "<i class='fas fa-book'></i> Activity 12"
+            href: activity12.html
+          - text: "<i class='fas fa-book'></i> Activity 11"
+            href: activity11.html
+          - text: "<i class='fas fa-book'></i> Activity 10"
+            href: activity10.html
+          - text: "<i class='fas fa-book'></i> Activity 9"
+            href: activity9.html
+          - text: "<i class='fas fa-book'></i> Activity 8"
+            href: activity8.html
+          - text: "<i class='fas fa-book'></i> Activity 7"
+            href: activity7.html
+          - text: "<i class='fas fa-book'></i> Activity 6"
+            href: activity6.html
+          - text: "<i class='fas fa-book'></i> Activity 5"
+            href: activity5.html
+          - text: "<i class='fas fa-book'></i> Activity 4"
+            href: activity4.html
+          - text: "<i class='fas fa-book'></i> Activity 3"
+            href: activity3.html
+          - text: "<i class='fas fa-book'></i> Activity 2"
+            href: activity2.html
+          - text: "<i class='fas fa-book'></i> Activity 1"
+            href: activity1.html
           # - text: "Activity5"
           #   href: activity5.html
-          # - text: "Activity6"
-          #   href: activity6.html
-          # - text: "Activity7"
-          #   href: activity7.html
-          # - text: "Activity8"
-          #   href: activity8.html
-           #     target: "_blank"
-        #   - text: "Lecture 2"
-        #     href: Day2.html
-        #     target: "_blank"
       - section: "Datasets"
         contents:
           - text: "Google"
@@ -109,17 +99,24 @@ format:
     reference-location: margin
     footnotes-hover: true
 
-
-
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
+    - FinTS
+    - tidyr
+    
 filters:
   - shinylive
   - webr
 
-page-footer: 
-  left: |
-    <span class="faux-block">&#169; 2024 Deepak Bastola</span>
-  right: |
-    <span class="faux-block"><a href="https://github.com/deepbas/">View source on GitHub</a></span>
 
 execute:
   new_session: true
@@ -128,4 +125,10 @@ execute:
   eval: true
   echo: true
   warning: false
+  message: false
 
+page-footer: 
+  left: |
+    <span class="faux-block">&#169; 2024 Deepak Bastola</span>
+  right: |
+    <span class="faux-block"><a href="https://github.com/deepbas/">View source on GitHub</a></span>
