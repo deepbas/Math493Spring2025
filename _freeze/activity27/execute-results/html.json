@@ -1,0 +1,15 @@
+{
+  "hash": "0aea1311c7c41ac8e37ce3e2cc8147de",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Activity27\"\nformat: live-html\nengine: knitr\ntoc: true\nwebr:\n  packages:\n    - dplyr\n    - ggplot2\n    - fpp3\n    - patchwork\n    - tsibbledata\n    - urca\n    - astsa\n    - gridExtra\n    - vars\n    - purrr\n    - FinTS\n    - tidyr\nwarning: false\nmessage: false\n---\n\n::: {.cell}\n\n:::\n\n\n::: {.cell}\n\n:::\n\n\n### 📌 No Activity  \n\n#### 📝 In-Class Midterm  \n\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

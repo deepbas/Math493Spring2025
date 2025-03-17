@@ -3,22 +3,21 @@ project:
 output-dir: _site
 
 
+
 website:
   title: "Math 493: Advanced Topics in Statistics"
-  navbar:
-    title: "Math 493"
-    collapse: true
-    pinned: true
-    left:
+  sidebar:
+    style: "docked"
+    contents:
       - text: "Home"
         href: index.html
       - text: "About"
         href: about.html
-      - text: "Activities"
-        menu:
-          - text: "Activity1"
+      - section: "Activities"
+        contents:
+          - text: "Activity 1"
             href: activity1.html
-          - text: "Activity2"
+          - text: "Activity 2"
             href: activity2.html
           - text: "Activity3"
             href: activity3.html
@@ -122,5 +121,11 @@ page-footer:
   right: |
     <span class="faux-block"><a href="https://github.com/deepbas/">View source on GitHub</a></span>
 
-
+execute:
+  new_session: true
+  before_chapter_script: common.R
+  freeze: true
+  eval: true
+  echo: true
+  warning: false
 

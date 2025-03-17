@@ -456,7 +456,7 @@ X_t = \varepsilon_t, \quad \varepsilon_t \stackrel{iid}{\sim} \mathcal{N}(0, \si
 <pre><code># A tibble: 1 × 2
   lb_stat lb_pvalue
     &lt;dbl&gt;     &lt;dbl&gt;
-1    11.3     0.332</code></pre>
+1    14.6     0.149</code></pre>
 </div>
 </div>
 <ol start="2" type="1">
@@ -476,7 +476,7 @@ Q = n(n+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{n-k} \sim \chi^2_h
 <pre><code># A tibble: 1 × 2
   lb_stat lb_pvalue
     &lt;dbl&gt;     &lt;dbl&gt;
-1    11.3     0.332</code></pre>
+1    14.6     0.149</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -508,9 +508,9 @@ Q = n(n+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{n-k} \sim \chi^2_h
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">features</span>(y, ljung_box, <span class="at">lag =</span> <span class="dv">10</span>)  <span class="co"># p &lt; 0.05 ⇒ reject H₀</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
-  lb_stat  lb_pvalue
-    &lt;dbl&gt;      &lt;dbl&gt;
-1    46.4 0.00000122</code></pre>
+  lb_stat lb_pvalue
+    &lt;dbl&gt;     &lt;dbl&gt;
+1    75.1  4.52e-12</code></pre>
 </div>
 </div>
 <section id="lab-activity-white-noise-series-acf-and-portmanteau-test" class="level3">
