@@ -1054,6 +1054,17 @@
     ]
   },
   {
+    "objectID": "activity28.html",
+    "href": "activity28.html",
+    "title": "Activity28",
+    "section": "",
+    "text": "The us_change dataset from provides percentage changes in quarterly personal consumption expenditure, personal disposable income, production, savings, and the unemployment rate in the United States from 1960 to 2016.\ndata(us_change)\nconsumption_ts &lt;- us_change %&gt;%\n  dplyr::select(Quarter, Consumption) %&gt;%\n  as_tsibble(index = Quarter)",
+    "crumbs": [
+      "Activities",
+      "<i class='fas fa-book'></i> Activity 28"
+    ]
+  },
+  {
     "objectID": "activity28.html#arima-model-selection-strategy",
     "href": "activity28.html#arima-model-selection-strategy",
     "title": "Activity28",
