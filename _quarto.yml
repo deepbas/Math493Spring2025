@@ -69,8 +69,8 @@ website:
             href: activity26.html
           - text: "Activity27"
             href: activity27.html
-          # - text: "Activity4"
-          #   href: activity4.html
+          - text: "Activity28"
+            href: activity28.html
           # - text: "Activity5"
           #   href: activity5.html
           # - text: "Activity6"
@@ -107,7 +107,9 @@ format:
     anchor-sections: true
     fig-cap-location: margin
     reference-location: margin
-    footnotes-hover: true 
+    footnotes-hover: true
+
+
 filters:
   - shinylive
   - webr
@@ -126,6 +128,3 @@ execute:
   echo: true
   warning: false
 
-language:
-  label:
-    chapter: "Chapter "

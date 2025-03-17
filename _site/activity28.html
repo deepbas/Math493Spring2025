@@ -96,7 +96,32 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><link rel="stylesheet" href="styles.css">
+}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script><link rel="stylesheet" href="styles.css">
 </head>
 <body class="nav-fixed">
 
@@ -234,6 +259,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <a class="dropdown-item" href="./activity27.html">
  <span class="dropdown-text">Activity27</span></a>
   </li>  
+        <li>
+    <a class="dropdown-item" href="./activity28.html">
+ <span class="dropdown-text">Activity28</span></a>
+  </li>  
     </ul>
 </li>
   <li class="nav-item dropdown ">
@@ -267,17 +296,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#arima-model-selection-strategy" id="toc-arima-model-selection-strategy" class="nav-link active" data-scroll-target="#arima-model-selection-strategy"><strong>ARIMA Model Selection Strategy</strong>:</a></li>
+  <li><a href="#residual-diagnostics" id="toc-residual-diagnostics" class="nav-link" data-scroll-target="#residual-diagnostics"><strong>Residual Diagnostics</strong>:</a></li>
+  <li>
+<a href="#forecast-uncertainty" id="toc-forecast-uncertainty" class="nav-link" data-scroll-target="#forecast-uncertainty"><strong>Forecast Uncertainty</strong>:</a>
+  <ul class="collapse">
+<li><a href="#lab-activity-beer-production-analysis" id="toc-lab-activity-beer-production-analysis" class="nav-link" data-scroll-target="#lab-activity-beer-production-analysis">Lab Activity: Beer Production Analysis</a></li>
+  </ul>
+</li>
+  </ul></nav>
     </div>
 <!-- main -->
-<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
 <h1 class="title">Activity28</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta column-page-left">
 
     
   
@@ -287,22 +327,306 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 </header><div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Time Series Essentials, install if needed!</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/">feasts</a></span><span class="op">)</span>       <span class="co"># Feature extraction &amp; decomposition</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org">fable</a></span><span class="op">)</span>        <span class="co"># Forecasting models (ARIMA, ETS, etc.)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/fpp3/">fpp3</a></span><span class="op">)</span>         <span class="co"># Tidy time series dataseta</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dsstoffer.github.io/">astsa</a></span><span class="op">)</span>        <span class="co"># Applied statistical TS methods from textbook</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tseries</span><span class="op">)</span>      <span class="co"># Unit root tests &amp; TS diagnostics</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibbledata.tidyverts.org/">tsibbledata</a></span><span class="op">)</span>  <span class="co"># Curated TS datasets</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.quantmod.com/">quantmod</a></span><span class="op">)</span>     <span class="co"># Financial data retrieval</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://business-science.github.io/tidyquant/">tidyquant</a></span><span class="op">)</span>    <span class="co"># Financial analysis in tidyverse</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">us_change</span><span class="op">)</span></span>
+<span><span class="va">consumption_ts</span> <span class="op">&lt;-</span> <span class="va">us_change</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Quarter</span>, <span class="va">Consumption</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">as_tsibble</span><span class="op">(</span>index <span class="op">=</span> <span class="va">Quarter</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="arima-model-selection-strategy" class="level2"><h2 class="anchored" data-anchor-id="arima-model-selection-strategy">
+<strong>ARIMA Model Selection Strategy</strong>:</h2>
+<p>The grid search explores <strong>non-seasonal <span class="math inline">\((p,d,q)\)</span></strong> and <strong>seasonal <span class="math inline">\((P,D,Q)_m\)</span></strong> components, testing both integration orders (<span class="math inline">\(d\)</span>) and seasonal differencing (<span class="math inline">\(D\)</span>). Using <strong>AICc</strong> for selection balances fit and complexity, favoring the <strong>ARIMA(2,1,2)(0,0,1)[4]</strong> model with <span class="math inline">\(\text{AICc}= -540.9\)</span>. Seasonal PDQ terms use <span class="math inline">\(m=4\)</span> (quarterly data), but only a seasonal MA(1) component remains significant.</p>
+<div class="cell">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># --------------------------</span></span>
+<span><span class="co"># 1. Modeling </span></span>
+<span><span class="co"># --------------------------</span></span>
+<span></span>
+<span><span class="co"># Create model grid of candidate orders</span></span>
+<span><span class="va">grid</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span></span>
+<span>  non_seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  seasonal     <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">4</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Define a safe ARIMA function that builds the model from candidate orders</span></span>
+<span><span class="va">safe_arima</span> <span class="op">&lt;-</span> <span class="fu">possibly</span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">ts</span>, <span class="va">ns</span>, <span class="va">s</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ts</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">model</span><span class="op">(</span><span class="fu">ARIMA</span><span class="op">(</span><span class="va">Consumption</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="va">ns</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">ns</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">ns</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span> <span class="fu">PDQ</span><span class="op">(</span><span class="va">s</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">s</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">s</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, period <span class="op">=</span> <span class="va">s</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span>, otherwise <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Fit the candidate models and collect the results as a mable</span></span>
+<span><span class="va">results</span> <span class="op">&lt;-</span> <span class="va">grid</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    model   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu">safe_arima</span><span class="op">(</span><span class="va">consumption_ts</span>, <span class="va">non_seasonal</span>, <span class="va">seasonal</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    ns_str  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">non_seasonal</span>, collapse <span class="op">=</span> <span class="st">","</span><span class="op">)</span>,</span>
+<span>    s_str   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">seasonal</span>, collapse <span class="op">=</span> <span class="st">","</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu">map_lgl</span><span class="op">(</span><span class="va">model</span>, <span class="va">is.null</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>info <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">model</span>, <span class="op">~</span> <span class="fu">glance</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">unnest</span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compare models by AICc </span></span>
+<span><span class="va">best_model</span> <span class="op">&lt;-</span> <span class="va">results</span> <span class="op">%&gt;%</span> <span class="fu">arrange</span><span class="op">(</span><span class="va">AICc</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">best_model</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 13
+  non_seasonal seasonal  model    ns_str s_str .model sigma2 log_lik   AIC  AICc
+  &lt;list&gt;       &lt;list&gt;    &lt;list&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 &lt;dbl [3]&gt;    &lt;dbl [4]&gt; &lt;mdl_df&gt; 0,1,1  0,0,… "ARIM…  0.369   -181.  367.  367.
+# ℹ 3 more variables: BIC &lt;dbl&gt;, ar_roots &lt;list&gt;, ma_roots &lt;list&gt;</code></pre>
+</div>
+</div>
+</section><section id="residual-diagnostics" class="level2"><h2 class="anchored" data-anchor-id="residual-diagnostics">
+<strong>Residual Diagnostics</strong>:</h2>
+<p>The Ljung-Box test (<span class="math inline">\(p=0.245\)</span>) confirms white noise residuals, while the ARCH test (<span class="math inline">\(p=0.56\)</span>) shows no volatility clustering. The seasonal plot reveals no systematic seasonal patterns in residuals, supporting model adequacy.</p>
+<div class="cell">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># --------------------------</span></span>
+<span><span class="co"># 2. Diagnostics</span></span>
+<span><span class="co"># --------------------------</span></span>
+<span></span>
+<span><span class="va">best_model</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">features</span><span class="op">(</span><span class="va">.resid</span>, <span class="op">~</span><span class="fu">ljung_box</span><span class="op">(</span><span class="va">.x</span>, lag <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .model                                                       lb_stat lb_pvalue
+  &lt;chr&gt;                                                          &lt;dbl&gt;     &lt;dbl&gt;
+1 "ARIMA(Consumption ~ pdq(ns[1], ns[2], ns[3]) + PDQ(s[1], s…    23.9     0.245</code></pre>
+</div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_model</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">gg_tsdisplay</span><span class="op">(</span><span class="va">.resid</span>, plot_type <span class="op">=</span> <span class="st">"season"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Residual Diagnostics with Seasonal Analysis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity28_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_model</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">features</span><span class="op">(</span><span class="va">.resid</span><span class="op">^</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>arch_test <span class="op">=</span> <span class="op">~</span> <span class="fu">FinTS</span><span class="fu">::</span><span class="fu"><a href="https://geobosh.github.io/FinTSDoc/reference/ArchTest.html">ArchTest</a></span><span class="op">(</span><span class="va">.x</span>, lags <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  .model                                                  arch_test_Chi-square…¹
+  &lt;chr&gt;                                                                    &lt;dbl&gt;
+1 "ARIMA(Consumption ~ pdq(ns[1], ns[2], ns[3]) + PDQ(s[…                  0.560
+# ℹ abbreviated name: ¹​`arch_test_Chi-squared`</code></pre>
+</div>
+</div>
+</section><section id="forecast-uncertainty" class="level2"><h2 class="anchored" data-anchor-id="forecast-uncertainty">
+<strong>Forecast Uncertainty</strong>:</h2>
+<p>The fan chart shows widening prediction intervals (<span class="math inline">\(\pm2\sigma\)</span>), reflecting increased uncertainty for longer horizons - a hallmark of <strong>Box-Jenkins</strong> forecasts. The stable trend projection suggests the model captured the consumption series’ momentum.</p>
+<div class="cell">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># --------------------------</span></span>
+<span><span class="co"># 3. Forecasting</span></span>
+<span><span class="co"># --------------------------</span></span>
+<span></span>
+<span><span class="co"># Generate forecasts for all viable models</span></span>
+<span><span class="va">ensemble_forecast</span> <span class="op">&lt;-</span> <span class="va">best_model</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>  <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">forecast</span><span class="op">(</span>h <span class="op">=</span> <span class="fl">8</span><span class="op">)</span> </span>
+<span></span>
+<span><span class="co"># Visualize forecast distributions</span></span>
+<span><span class="va">ensemble_forecast</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">autoplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">autolayer</span><span class="op">(</span><span class="va">consumption_ts</span>, <span class="va">Consumption</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"SARIMA Forecasts"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">theme</span><span class="op">(</span>legend.position <span class="op">=</span> <span class="st">"bottom"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity28_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="lab-activity-beer-production-analysis" class="level3"><h3 class="anchored" data-anchor-id="lab-activity-beer-production-analysis">Lab Activity: Beer Production Analysis</h3>
+<p>Apply the same methodology to <code>aus_production</code> (quarterly Australian beer production):</p>
+<div class="cell">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 1. Prepare data</span></span>
+<span><span class="va">beer_ts</span> <span class="op">&lt;-</span> <span class="va">aus_production</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">Quarter</span>, <span class="va">Beer</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  <span class="fu">as_tsibble</span><span class="op">(</span>index <span class="op">=</span> <span class="va">Quarter</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># 2. Modify model grid (adapt seasonal PDQ orders)</span></span>
+<span><span class="va">grid_beer</span> <span class="op">&lt;-</span> <span class="fu">expand_grid</span><span class="op">(</span></span>
+<span>  non_seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">1</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2</span>,<span class="fl">1</span>,<span class="fl">2</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>   seasonal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>,        <span class="co"># No seasonal terms</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">4</span><span class="op">)</span>,        <span class="co"># Seasonal AR(1) + differencing</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">4</span><span class="op">)</span>         <span class="co"># Seasonal MA(1) + differencing</span></span>
+<span>  <span class="op">)</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">grid_beer</span> <span class="op">%&gt;%</span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead><tr class="header">
+<th style="text-align: left;">non_seasonal</th>
+<th style="text-align: left;">seasonal</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1, 1, 1</td>
+<td style="text-align: left;">0, 0, 0, 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1, 1, 1</td>
+<td style="text-align: left;">1, 1, 0, 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1, 1, 1</td>
+<td style="text-align: left;">0, 1, 1, 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0, 1, 2</td>
+<td style="text-align: left;">0, 0, 0, 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">0, 1, 2</td>
+<td style="text-align: left;">1, 1, 0, 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">0, 1, 2</td>
+<td style="text-align: left;">0, 1, 1, 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2, 1, 2</td>
+<td style="text-align: left;">0, 0, 0, 4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2, 1, 2</td>
+<td style="text-align: left;">1, 1, 0, 4</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">2, 1, 2</td>
+<td style="text-align: left;">0, 1, 1, 4</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Key differences to assess:</p>
+<ul>
+<li>Does beer data require stronger seasonal differencing (D=1)?</li>
+<li>Compare AICc values for models with/without seasonal terms</li>
+<li>Check if residuals show remaining production cycle patterns</li>
+</ul>
+<div class="cell">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Generic-safe ARIMA function</span></span>
+<span><span class="va">safe_arima</span> <span class="op">&lt;-</span> <span class="fu">possibly</span><span class="op">(</span><span class="kw">function</span><span class="op">(</span><span class="va">ts</span>, <span class="va">ns</span>, <span class="va">s</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="va">ts</span> <span class="op">%&gt;%</span> </span>
+<span>    <span class="fu">model</span><span class="op">(</span><span class="fu">ARIMA</span><span class="op">(</span><span class="va">Beer</span> <span class="op">~</span> <span class="fu">pdq</span><span class="op">(</span><span class="va">ns</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">ns</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">ns</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span><span class="op">)</span> <span class="op">+</span>  </span>
+<span>                <span class="fu">PDQ</span><span class="op">(</span><span class="va">s</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">s</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="va">s</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, period <span class="op">=</span> <span class="va">s</span><span class="op">[</span><span class="fl">4</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span>, otherwise <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> </span>
+<span></span>
+<span></span>
+<span><span class="co"># Fit the candidate models and collect the results as a mable</span></span>
+<span><span class="va">results_beer</span> <span class="op">&lt;-</span> <span class="va">grid_beer</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">rowwise</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span></span>
+<span>    model   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu">safe_arima</span><span class="op">(</span><span class="va">beer_ts</span>, <span class="va">non_seasonal</span>, <span class="va">seasonal</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>    ns_str  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">non_seasonal</span>, collapse <span class="op">=</span> <span class="st">","</span><span class="op">)</span>,</span>
+<span>    s_str   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="va">seasonal</span>, collapse <span class="op">=</span> <span class="st">","</span><span class="op">)</span></span>
+<span>  <span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">ungroup</span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="op">!</span><span class="fu">map_lgl</span><span class="op">(</span><span class="va">model</span>, <span class="va">is.null</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">mutate</span><span class="op">(</span>info <span class="op">=</span> <span class="fu">map</span><span class="op">(</span><span class="va">model</span>, <span class="op">~</span> <span class="fu">glance</span><span class="op">(</span><span class="va">.x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">unnest</span><span class="op">(</span><span class="va">info</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Compare models by AICc </span></span>
+<span><span class="va">best_model</span> <span class="op">&lt;-</span> <span class="va">results_beer</span> <span class="op">%&gt;%</span> <span class="fu">arrange</span><span class="op">(</span><span class="va">AICc</span><span class="op">)</span> <span class="op">%&gt;%</span> <span class="fu">slice</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span></span>
+<span><span class="va">best_model</span> </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 13
+  non_seasonal seasonal  model    ns_str s_str .model sigma2 log_lik   AIC  AICc
+  &lt;list&gt;       &lt;list&gt;    &lt;list&gt;   &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 &lt;dbl [3]&gt;    &lt;dbl [4]&gt; &lt;mdl_df&gt; 0,1,2  0,1,… "ARIM…   240.   -886. 1781. 1781.
+# ℹ 3 more variables: BIC &lt;dbl&gt;, ar_roots &lt;list&gt;, ma_roots &lt;list&gt;</code></pre>
+</div>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">results_beer</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span><span class="op">(</span><span class="va">ns_str</span>, <span class="va">s_str</span>, <span class="va">AICc</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">arrange</span><span class="op">(</span><span class="va">AICc</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 3
+  ns_str s_str    AICc
+  &lt;chr&gt;  &lt;chr&gt;   &lt;dbl&gt;
+1 0,1,2  0,1,1,4 1781.
+2 1,1,1  0,1,1,4 1785.
+3 2,1,2  0,1,1,4 1785.
+4 2,1,2  1,1,0,4 1817.
+5 1,1,1  1,1,0,4 1824.
+6 0,1,2  1,1,0,4 1825.
+7 2,1,2  0,0,0,4 2061.
+8 0,1,2  0,0,0,4 2261.
+9 1,1,1  0,0,0,4 2327.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># --------------------------</span></span>
+<span><span class="co"># 2. Diagnostics</span></span>
+<span><span class="co"># --------------------------</span></span>
+<span></span>
+<span><span class="va">best_model</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">features</span><span class="op">(</span><span class="va">.resid</span>, <span class="op">~</span><span class="fu">ljung_box</span><span class="op">(</span><span class="va">.x</span>, lag <span class="op">=</span> <span class="fl">20</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .model                                                       lb_stat lb_pvalue
+  &lt;chr&gt;                                                          &lt;dbl&gt;     &lt;dbl&gt;
+1 "ARIMA(Beer ~ pdq(ns[1], ns[2], ns[3]) + PDQ(s[1], s[2], s[…    14.9     0.780</code></pre>
+</div>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_model</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">gg_tsdisplay</span><span class="op">(</span><span class="va">.resid</span>, plot_type <span class="op">=</span> <span class="st">"season"</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Residual Diagnostics with Seasonal Analysis"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity28_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_model</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html">residuals</a></span><span class="op">(</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">features</span><span class="op">(</span><span class="va">.resid</span><span class="op">^</span><span class="fl">2</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span>arch_test <span class="op">=</span> <span class="op">~</span> <span class="fu">FinTS</span><span class="fu">::</span><span class="fu"><a href="https://geobosh.github.io/FinTSDoc/reference/ArchTest.html">ArchTest</a></span><span class="op">(</span><span class="va">.x</span>, lags <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">$</span><span class="va">p.value</span><span class="op">)</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 2
+  .model                                                  arch_test_Chi-square…¹
+  &lt;chr&gt;                                                                    &lt;dbl&gt;
+1 "ARIMA(Beer ~ pdq(ns[1], ns[2], ns[3]) + PDQ(s[1], s[2…                  0.866
+# ℹ abbreviated name: ¹​`arch_test_Chi-squared`</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">best_model</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">pull</span><span class="op">(</span><span class="va">model</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="va">.</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">forecast</span><span class="op">(</span>h<span class="op">=</span><span class="fl">12</span><span class="op">)</span> <span class="op">%&gt;%</span> </span>
+<span>  <span class="fu">autoplot</span><span class="op">(</span><span class="va">beer_ts</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Beer Production Forecast with Seasonal Differencing"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure"><p><img src="activity28_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 
 
-
-</main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
