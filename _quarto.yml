@@ -15,7 +15,7 @@ website:
         href: about.html
       - section: "Activities"
         contents:
-          - text: "`r fa('book')` Activity 28"
+          - text: "<i class='fas fa-book'></i> Activity 28"
             href: activity28.html
           - text: "<i class='fas fa-book'></i> Activity 27"
             href: activity27.html
@@ -71,8 +71,7 @@ website:
             href: activity2.html
           - text: "<i class='fas fa-book'></i> Activity 1"
             href: activity1.html
-          # - text: "Activity5"
-          #   href: activity5.html
+
       - section: "Datasets"
         contents:
           - text: "Google"
@@ -116,7 +115,7 @@ webr:
 filters:
   - shinylive
   - webr
-
+  - tabby
 
 execute:
   new_session: true
@@ -130,7 +129,7 @@ execute:
 
 extensions:
   - quarto-ext/fontawesome
-
+  
 page-footer: 
   left: |
     <span class="faux-block">&#169; 2024 Deepak Bastola</span>
