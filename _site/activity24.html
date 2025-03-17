@@ -352,19 +352,6 @@ window.Quarto = {
 </header>
 
 
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Time Series Essentials, install if needed!</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(feasts)       <span class="co"># Feature extraction &amp; decomposition</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fable)        <span class="co"># Forecasting models (ARIMA, ETS, etc.)</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)         <span class="co"># Tidy time series datasets</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(astsa)        <span class="co"># Applied statistical TS methods from textbook</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tseries)      <span class="co"># Unit root tests &amp; TS diagnostics</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tsibbledata)  <span class="co"># Curated TS datasets</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(quantmod)     <span class="co"># Financial data retrieval</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyquant)    <span class="co"># Financial analysis in tidyverse</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(purrr)        <span class="co"># Functional programming for TS pipelines</span></span>
-<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <section id="theoretical-background-volatility-clustering" class="level3">
 <h3 class="anchored" data-anchor-id="theoretical-background-volatility-clustering">Theoretical Background: Volatility Clustering</h3>
 <p><strong>Volatility clustering</strong> (periods of high/low variability persisting) violates ARIMA’s constant variance assumption. Common in COVID-19 cases (waves) and stock returns (crashes). <strong>ARCH</strong> (Autoregressive Conditional Heteroskedasticity) tests help detect this phenomenon.</p>
@@ -412,48 +399,48 @@ Compute residuals <span class="math inline">\(\epsilon_t\)</span> and squared re
 <h4 class="anchored" data-anchor-id="data-preparation">Data Preparation</h4>
 <p>Use the <code>COVID19</code> package to fetch daily confirmed cases in Italy (clear volatility during waves):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(COVID19)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get data</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>covid_data <span class="ot">&lt;-</span> <span class="fu">covid19</span>(<span class="at">country =</span> <span class="st">"Italy"</span>, <span class="at">level =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> date) <span class="sc">%&gt;%</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_cases =</span> <span class="fu">difference</span>(confirmed)) <span class="sc">%&gt;%</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_new_cases =</span> <span class="fu">difference</span>(<span class="fu">log</span>(confirmed))) <span class="sc">%&gt;%</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(log_new_cases, new_cases) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scaled_cases =</span> <span class="fu">scale</span>(log_new_cases))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(COVID19)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fpp3)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Get data</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>covid_data <span class="ot">&lt;-</span> <span class="fu">covid19</span>(<span class="at">country =</span> <span class="st">"Italy"</span>, <span class="at">level =</span> <span class="dv">1</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> date) <span class="sc">%&gt;%</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">new_cases =</span> <span class="fu">difference</span>(confirmed)) <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_new_cases =</span> <span class="fu">difference</span>(<span class="fu">log</span>(confirmed))) <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(log_new_cases, new_cases) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">scaled_cases =</span> <span class="fu">scale</span>(log_new_cases))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="model-fitting-volatility-check" class="level4">
 <h4 class="anchored" data-anchor-id="model-fitting-volatility-check">Model Fitting &amp; Volatility Check</h4>
 <p>Fit an ARIMA model to <code>new_cases</code> and inspect residuals:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>fit_covid <span class="ot">&lt;-</span> covid_data <span class="sc">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ARIMA</span>(scaled_cases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)))</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check residuals for volatility clustering</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>fit_covid <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>fit_covid <span class="ot">&lt;-</span> covid_data <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ARIMA</span>(scaled_cases <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">2</span>,<span class="dv">1</span>,<span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>)))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Check residuals for volatility clustering</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>fit_covid <span class="sc">%&gt;%</span> <span class="fu">gg_tsresiduals</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity24_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity24_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(fit_covid) <span class="sc">%&gt;%</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> .resid<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Squared Residuals (COVID-19 Cases)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(fit_covid) <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> .resid<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Squared Residuals (COVID-19 Cases)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity24_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity24_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>fit_covid <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(.innov,<span class="sc">~</span><span class="fu">ljung_box</span>(.x, <span class="at">lag=</span><span class="dv">24</span>, <span class="at">dof=</span><span class="dv">4</span>)</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>fit_covid <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(.innov,<span class="sc">~</span><span class="fu">ljung_box</span>(.x, <span class="at">lag=</span><span class="dv">24</span>, <span class="at">dof=</span><span class="dv">4</span>)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 3
   .model                                            lb_stat lb_pvalue
@@ -463,13 +450,13 @@ Compute residuals <span class="math inline">\(\epsilon_t\)</span> and squared re
 </div>
 <p><strong>Key Observation</strong>: Squared residuals cluster many times between January 2020 and January 2023 (COVID waves), indicating volatility clustering.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(fit_covid) <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> .resid<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Squared Residuals (COVID-19 Cases)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(fit_covid) <span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> .resid<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Squared Residuals (COVID-19 Cases)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity24_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity24_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -482,30 +469,30 @@ Compute residuals <span class="math inline">\(\epsilon_t\)</span> and squared re
 <h4 class="anchored" data-anchor-id="data-preparation-1">Data Preparation</h4>
 <p>Fetch S&amp;P 500 returns using <code>tq_get()</code> (more realistic volatility with irregular trading days):</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get S&amp;P 500 data and calculate daily returns</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"^GSPC"</span>, <span class="at">get =</span> <span class="st">"stock.prices"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> date) <span class="sc">%&gt;%</span>  </span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill_gaps</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(close, <span class="at">.direction =</span> <span class="st">"down"</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">return =</span> <span class="fu">difference</span>(<span class="fu">log</span>(close))) <span class="sc">%&gt;%</span>  </span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(return)           </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get S&amp;P 500 data and calculate daily returns</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"^GSPC"</span>, <span class="at">get =</span> <span class="st">"stock.prices"</span>, <span class="at">from =</span> <span class="st">"2000-01-01"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> date) <span class="sc">%&gt;%</span>  </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill_gaps</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill</span>(close, <span class="at">.direction =</span> <span class="st">"down"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">return =</span> <span class="fu">difference</span>(<span class="fu">log</span>(close))) <span class="sc">%&gt;%</span>  </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(return)           </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="model-fitting-volatility-check-1" class="level4">
 <h4 class="anchored" data-anchor-id="model-fitting-volatility-check-1">Model Fitting &amp; Volatility Check</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fit_sp500 <span class="ot">&lt;-</span> sp500 <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ARIMA</span>(return <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>)))  </span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize squared residuals for volatility clustering</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(fit_sp500) <span class="sc">%&gt;%</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> .resid<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Squared Residuals (S&amp;P 500 Returns)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fit_sp500 <span class="ot">&lt;-</span> sp500 <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ARIMA</span>(return <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">1</span>,<span class="dv">0</span>,<span class="dv">1</span>)))  </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize squared residuals for volatility clustering</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">augment</span>(fit_sp500) <span class="sc">%&gt;%</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> date, <span class="at">y =</span> .resid<span class="sc">^</span><span class="dv">2</span>)) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.6</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Squared Residuals (S&amp;P 500 Returns)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity24_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity24_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -524,23 +511,23 @@ Compute residuals <span class="math inline">\(\epsilon_t\)</span> and squared re
 <h4 class="anchored" data-anchor-id="extract-residuals">1. <strong>Extract Residuals</strong></h4>
 <p>First, extract residuals from the ARIMA model:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For COVID-19 example:</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>covid_resid <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit_covid) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, .resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For COVID-19 example:</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>covid_resid <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit_covid) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, .resid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="visual-arch-test-acfpacf-of-squared-residuals" class="level4">
 <h4 class="anchored" data-anchor-id="visual-arch-test-acfpacf-of-squared-residuals">2. <strong>Visual ARCH Test (ACF/PACF of Squared Residuals)</strong></h4>
 <p>Plot autocorrelation in squared residuals:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>covid_resid <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">resid_sq =</span> .resid<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(resid_sq, <span class="at">plot_type =</span> <span class="st">"partial"</span>) <span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ACF/PACF of Squared Residuals (COVID-19)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>covid_resid <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">resid_sq =</span> .resid<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(resid_sq, <span class="at">plot_type =</span> <span class="st">"partial"</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ACF/PACF of Squared Residuals (COVID-19)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity24_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity24_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -552,13 +539,13 @@ Compute residuals <span class="math inline">\(\epsilon_t\)</span> and squared re
 <h4 class="anchored" data-anchor-id="engles-arch-test">3. <strong>Engle’s ARCH Test </strong></h4>
 <p>Use the <code>FinTS</code> package to test ARCH effects on residuals:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FinTS)  <span class="co"># install.packages("FinTS")</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residual vector</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>resid_vector <span class="ot">&lt;-</span> covid_resid <span class="sc">%&gt;%</span> <span class="fu">pull</span>(.resid)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Engle’s ARCH test (lag = 5)</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ArchTest</span>(resid_vector, <span class="at">lags =</span> <span class="dv">5</span>, <span class="at">demean =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(FinTS)  <span class="co"># install.packages("FinTS")</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residual vector</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>resid_vector <span class="ot">&lt;-</span> covid_resid <span class="sc">%&gt;%</span> <span class="fu">pull</span>(.resid)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Engle’s ARCH test (lag = 5)</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ArchTest</span>(resid_vector, <span class="at">lags =</span> <span class="dv">5</span>, <span class="at">demean =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     ARCH LM-test; Null hypothesis: no ARCH effects
@@ -574,19 +561,19 @@ Chi-squared = 273.72, df = 5, p-value &lt; 2.2e-16</code></pre>
 <h3 class="anchored" data-anchor-id="next-steps-garch-modeling">Next Steps: GARCH Modeling</h3>
 <p>If ARCH effects are detected, use the <code>rugarch</code> package to model volatility:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rugarch)  <span class="co"># install.packages("rugarch")</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit ARIMA(1,0,1)-GARCH(1,1)</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">ugarchspec</span>(</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean.model =</span> <span class="fu">list</span>(<span class="at">armaOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)), </span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">variance.model =</span> <span class="fu">list</span>(<span class="at">model =</span> <span class="st">"sGARCH"</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>fit_garch <span class="ot">&lt;-</span> <span class="fu">ugarchfit</span>(spec, <span class="at">data =</span> resid_vector)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_garch, <span class="at">which =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rugarch)  <span class="co"># install.packages("rugarch")</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit ARIMA(1,0,1)-GARCH(1,1)</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>spec <span class="ot">&lt;-</span> <span class="fu">ugarchspec</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">mean.model =</span> <span class="fu">list</span>(<span class="at">armaOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)), </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">variance.model =</span> <span class="fu">list</span>(<span class="at">model =</span> <span class="st">"sGARCH"</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>fit_garch <span class="ot">&lt;-</span> <span class="fu">ugarchfit</span>(spec, <span class="at">data =</span> resid_vector)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(fit_garch, <span class="at">which =</span> <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity24_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity24_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -595,12 +582,12 @@ Chi-squared = 273.72, df = 5, p-value &lt; 2.2e-16</code></pre>
 <h4 class="anchored" data-anchor-id="parameter-stability"><strong>Parameter Stability</strong></h4>
 <p>Check rolling estimates to assess model stability over time:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>roll_fit <span class="ot">&lt;-</span> <span class="fu">ugarchroll</span>(spec, <span class="at">data =</span> resid_vector, <span class="at">n.ahead =</span> <span class="dv">1</span>, <span class="at">n.start =</span> <span class="dv">1000</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roll_fit, <span class="at">which =</span> <span class="dv">4</span>)  <span class="co"># Rolling parameter estimates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>roll_fit <span class="ot">&lt;-</span> <span class="fu">ugarchroll</span>(spec, <span class="at">data =</span> resid_vector, <span class="at">n.ahead =</span> <span class="dv">1</span>, <span class="at">n.start =</span> <span class="dv">1000</span>)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(roll_fit, <span class="at">which =</span> <span class="dv">4</span>)  <span class="co"># Rolling parameter estimates</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity24_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity24_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -611,12 +598,12 @@ Chi-squared = 273.72, df = 5, p-value &lt; 2.2e-16</code></pre>
 <h3 class="anchored" data-anchor-id="lab-activity-sp-500-returns">Lab activity: S&amp;P 500 Returns</h3>
 <p>Repeat the above steps for S&amp;P Returns</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals from ARIMA</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>sp500_resid <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit_sp500) <span class="sc">%&gt;%</span> <span class="fu">select</span>(date, .resid)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Engle’s test</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>resid_sp500 <span class="ot">&lt;-</span> sp500_resid <span class="sc">%&gt;%</span> <span class="fu">pull</span>(.resid)</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ArchTest</span>(resid_sp500, <span class="at">lags =</span> <span class="dv">5</span>, <span class="at">demean =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract residuals from ARIMA</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sp500_resid <span class="ot">&lt;-</span> <span class="fu">augment</span>(fit_sp500) <span class="sc">%&gt;%</span> <span class="fu">select</span>(date, .resid)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Engle’s test</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>resid_sp500 <span class="ot">&lt;-</span> sp500_resid <span class="sc">%&gt;%</span> <span class="fu">pull</span>(.resid)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="fu">ArchTest</span>(resid_sp500, <span class="at">lags =</span> <span class="dv">5</span>, <span class="at">demean =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     ARCH LM-test; Null hypothesis: no ARCH effects
@@ -624,14 +611,14 @@ Chi-squared = 273.72, df = 5, p-value &lt; 2.2e-16</code></pre>
 data:  resid_sp500
 Chi-squared = 1049.2, df = 5, p-value &lt; 2.2e-16</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ACF/PACF of squared residuals</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>sp500_resid <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">resid_sq =</span> .resid<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(resid_sq, <span class="at">plot_type =</span> <span class="st">"partial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ACF/PACF of squared residuals</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sp500_resid <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">resid_sq =</span> .resid<span class="sc">^</span><span class="dv">2</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsdisplay</span>(resid_sq, <span class="at">plot_type =</span> <span class="st">"partial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity24_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity24_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>

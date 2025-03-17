@@ -7,6 +7,7 @@ website:
   title: "Math 493: Advanced Topics in Statistics"
   navbar:
     title: "Math 493"
+    collapse: true
     pinned: true
     left:
       - text: "Home"
@@ -121,11 +122,5 @@ page-footer:
   right: |
     <span class="faux-block"><a href="https://github.com/deepbas/">View source on GitHub</a></span>
 
-execute:
-  new_session: true
-  before_chapter_script: common.R
-  freeze: true
-  eval: true
-  echo: true
-  warning: false
+
 

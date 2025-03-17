@@ -150,3 +150,15 @@ code {
     text-decoration: underline;
   }
 }
+
+/* Ensure body content is scrollable on overflow */
+body {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+/* Handle horizontal overflow for specific elements */
+.container {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+}

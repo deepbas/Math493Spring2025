@@ -397,7 +397,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity3_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity3_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -409,7 +409,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity3_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity3_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -439,7 +439,7 @@ X_t = \varepsilon_t, \quad \varepsilon_t \stackrel{iid}{\sim} \mathcal{N}(0, \si
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity3_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity3_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -447,7 +447,7 @@ X_t = \varepsilon_t, \quad \varepsilon_t \stackrel{iid}{\sim} \mathcal{N}(0, \si
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity3_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity3_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -456,7 +456,7 @@ X_t = \varepsilon_t, \quad \varepsilon_t \stackrel{iid}{\sim} \mathcal{N}(0, \si
 <pre><code># A tibble: 1 × 2
   lb_stat lb_pvalue
     &lt;dbl&gt;     &lt;dbl&gt;
-1    15.2     0.126</code></pre>
+1    11.3     0.332</code></pre>
 </div>
 </div>
 <ol start="2" type="1">
@@ -476,7 +476,7 @@ Q = n(n+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{n-k} \sim \chi^2_h
 <pre><code># A tibble: 1 × 2
   lb_stat lb_pvalue
     &lt;dbl&gt;     &lt;dbl&gt;
-1    15.2     0.126</code></pre>
+1    11.3     0.332</code></pre>
 </div>
 </div>
 <ol start="3" type="1">
@@ -500,7 +500,7 @@ Q = n(n+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{n-k} \sim \chi^2_h
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity3_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity3_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -508,9 +508,9 @@ Q = n(n+2) \sum_{k=1}^{h} \frac{\hat{\rho}_k^2}{n-k} \sim \chi^2_h
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a> <span class="fu">features</span>(y, ljung_box, <span class="at">lag =</span> <span class="dv">10</span>)  <span class="co"># p &lt; 0.05 ⇒ reject H₀</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 1 × 2
-  lb_stat lb_pvalue
-    &lt;dbl&gt;     &lt;dbl&gt;
-1    35.3  0.000109</code></pre>
+  lb_stat  lb_pvalue
+    &lt;dbl&gt;      &lt;dbl&gt;
+1    46.4 0.00000122</code></pre>
 </div>
 </div>
 <section id="lab-activity-white-noise-series-acf-and-portmanteau-test" class="level3">
@@ -540,7 +540,7 @@ Y_t = X_t + 0.4 \cdot X_{t-3}
 
 </div>
 <script type="webr-1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyAxLiBTaW11bGF0ZSBXaGl0ZSBOb2lzZVxud24gPC0gdHNpYmJsZSh0aW1lID0gMTo1MDAsIHkgPSBybm9ybSg1MDApLCBpbmRleCA9IHRpbWUpXG53biAlPiUgYXV0b3Bsb3QoeSkgKyBnZ3RpdGxlKFwiV2hpdGUgTm9pc2UgUHJvY2Vzc1wiKVxuXG4jIDIuIFBsb3QgQUNGIG9mIFdoaXRlIE5vaXNlXG53biAlPiUgQUNGKHkpICU+JSBhdXRvcGxvdCgpICsgZ2d0aXRsZShcIkFDRiBvZiBXaGl0ZSBOb2lzZVwiKVxuXG4jIDMuIENvbnRhbWluYXRlIHRoZSBTZXJpZXNcbmNvbnRhbWluYXRlZF93biA8LSB3biAlPiUgXG4gIG11dGF0ZSh5ID0geSArIDAuMyAqIGxhZyh5LCA1KSAlPiUgcmVwbGFjZV9uYSgwKSlcbmNvbnRhbWluYXRlZF93biAlPiUgYXV0b3Bsb3QoeSkgKyBnZ3RpdGxlKFwiQ29udGFtaW5hdGVkIFdoaXRlIE5vaXNlIFByb2Nlc3NcIilcblxuIyA0LiBQbG90IEFDRiBvZiBDb250YW1pbmF0ZWQgU2VyaWVzXG5jb250YW1pbmF0ZWRfd24gJT4lIFxuICBBQ0YoeSkgJT4lIFxuICBhdXRvcGxvdCgpICsgXG4gIGdndGl0bGUoXCJBQ0Ygb2YgQ29udGFtaW5hdGVkIFNlcmllc1wiKVxuXG4jIDUuIFBlcmZvcm0gTGp1bmctQm94IFRlc3RcbnduICU+JSBmZWF0dXJlcyh5LCBsanVuZ19ib3gsIGxhZyA9IDEwKSAgIyBUZXN0IGZvciBvcmlnaW5hbCB3aGl0ZSBub2lzZVxuY29udGFtaW5hdGVkX3duICU+JSBmZWF0dXJlcyh5LCBsanVuZ19ib3gsIGxhZyA9IDEwKSAgIyBUZXN0IGZvciBjb250YW1pbmF0ZWQgc2VyaWVzIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsImxhYmVsIjoiQWN0aXZpdHkzTGFiMSJ9LCJjb2RlIjoiIyAxLiBTaW11bGF0ZSBXaGl0ZSBOb2lzZVxud24gPC0gdHNpYmJsZSh0aW1lID0gMTo1MDAsIHkgPSBybm9ybSg1MDApLCBpbmRleCA9IHRpbWUpXG53biAlPiUgYXV0b3Bsb3QoeSkgKyBnZ3RpdGxlKFwiV2hpdGUgTm9pc2UgUHJvY2Vzc1wiKVxuXG4jIDIuIFBsb3QgQUNGIG9mIFdoaXRlIE5vaXNlXG53biAlPiUgQUNGKHkpICU+JSBhdXRvcGxvdCgpICsgZ2d0aXRsZShcIkFDRiBvZiBXaGl0ZSBOb2lzZVwiKVxuXG4jIDMuIENvbnRhbWluYXRlIHRoZSBTZXJpZXNcbmNvbnRhbWluYXRlZF93biA8LSB3biAlPiUgXG4gIG11dGF0ZSh5ID0geSArIDAuMyAqIGxhZyh5LCA1KSAlPiUgcmVwbGFjZV9uYSgwKSlcbmNvbnRhbWluYXRlZF93biAlPiUgYXV0b3Bsb3QoeSkgKyBnZ3RpdGxlKFwiQ29udGFtaW5hdGVkIFdoaXRlIE5vaXNlIFByb2Nlc3NcIilcblxuIyA0LiBQbG90IEFDRiBvZiBDb250YW1pbmF0ZWQgU2VyaWVzXG5jb250YW1pbmF0ZWRfd24gJT4lIFxuICBBQ0YoeSkgJT4lIFxuICBhdXRvcGxvdCgpICsgXG4gIGdndGl0bGUoXCJBQ0Ygb2YgQ29udGFtaW5hdGVkIFNlcmllc1wiKVxuXG4jIDUuIFBlcmZvcm0gTGp1bmctQm94IFRlc3RcbnduICU+JSBmZWF0dXJlcyh5LCBsanVuZ19ib3gsIGxhZyA9IDEwKSAgIyBUZXN0IGZvciBvcmlnaW5hbCB3aGl0ZSBub2lzZVxuY29udGFtaW5hdGVkX3duICU+JSBmZWF0dXJlcyh5LCBsanVuZ19ib3gsIGxhZyA9IDEwKSAgIyBUZXN0IGZvciBjb250YW1pbmF0ZWQgc2VyaWVzIn0=
 </script>
 </div>
 </div>

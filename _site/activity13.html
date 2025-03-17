@@ -423,10 +423,9 @@ y_t = \beta_0 + \sum_{k=1}^2\Big[\alpha_k\sin\Big(\frac{2\pi kt}{78}\Big) + \bet
 <span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mutate</span>(<span class="at">K =</span> k)</span>
 <span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>})</span>
 <span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>optimal_k <span class="ot">&lt;-</span> aic_results <span class="sc">%&gt;%</span> </span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AICc <span class="sc">==</span> <span class="fu">min</span>(AICc)) <span class="sc">%&gt;%</span> </span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(K)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>optimal_k <span class="ot">&lt;-</span> aic_results <span class="sc">%&gt;%</span> </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(AICc <span class="sc">==</span> <span class="fu">min</span>(AICc)) <span class="sc">%&gt;%</span> </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(K)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 4. Final Hybrid Model</span></span>
@@ -485,7 +484,7 @@ y_t = \beta_0 + \sum_{k=1}^2\Big[\alpha_k\sin\Big(\frac{2\pi kt}{78}\Big) + \bet
 
 </div>
 <script type="webr-1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoibGlicmFyeShDT1ZJRDE5KVxuY292aWRfZGF0YSA8LSBjb3ZpZDE5KHZlcmJvc2UgPSBGQUxTRSlcblxuY292aWQgPC0gY292aWRfZGF0YSAlPiUgXG4gIGZpbHRlcihhZG1pbmlzdHJhdGl2ZV9hcmVhX2xldmVsXzEgPT0gXCJVbml0ZWQgU3RhdGVzXCIpICU+JSBcbiAgYXNfdHNpYmJsZShpbmRleCA9IGRhdGUpICU+JSBcbiAgbXV0YXRlKGNhc2VzID0gZGlmZmVyZW5jZShjb25maXJtZWQpKSAgIyBEYWlseSBuZXcgY2FzZXNcblxuXG4jIENvbXBhcmUgNyB2cyAxNC1kYXkgY3ljbGVzXG5jb3ZpZF9tb2RlbHMgPC0gY292aWQgJT4lIFxuICBtb2RlbChcbiAgICBXZWVrbHkgPSBBUklNQShjYXNlcyB+IGZvdXJpZXIoNywgSyA9IDMpICsgcGRxKCkpLFxuICAgIEJpd2Vla2x5ID0gQVJJTUEoY2FzZXMgfiBmb3VyaWVyKDE0LCBLID0gNSkgKyBwZHEoKSlcbiAgKVxuXG5cbiMgQmVzdCBtb2RlbCBkaWFnbm9zdGljc1xuY292aWRfbW9kZWxzICU+JSBcbiAgc2VsZWN0KFdlZWtseSkgJT4lIFxuICBnZ190c3Jlc2lkdWFscygpIn0=
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWUsIndhcm5pbmciOmZhbHNlfSwiY29kZSI6ImxpYnJhcnkoQ09WSUQxOSlcbmNvdmlkX2RhdGEgPC0gY292aWQxOSh2ZXJib3NlID0gRkFMU0UpXG5cbmNvdmlkIDwtIGNvdmlkX2RhdGEgJT4lIFxuICBmaWx0ZXIoYWRtaW5pc3RyYXRpdmVfYXJlYV9sZXZlbF8xID09IFwiVW5pdGVkIFN0YXRlc1wiKSAlPiUgXG4gIGFzX3RzaWJibGUoaW5kZXggPSBkYXRlKSAlPiUgXG4gIG11dGF0ZShjYXNlcyA9IGRpZmZlcmVuY2UoY29uZmlybWVkKSkgICMgRGFpbHkgbmV3IGNhc2VzXG5cblxuIyBDb21wYXJlIDcgdnMgMTQtZGF5IGN5Y2xlc1xuY292aWRfbW9kZWxzIDwtIGNvdmlkICU+JSBcbiAgbW9kZWwoXG4gICAgV2Vla2x5ID0gQVJJTUEoY2FzZXMgfiBmb3VyaWVyKDcsIEsgPSAzKSArIHBkcSgpKSxcbiAgICBCaXdlZWtseSA9IEFSSU1BKGNhc2VzIH4gZm91cmllcigxNCwgSyA9IDUpICsgcGRxKCkpXG4gIClcblxuXG4jIEJlc3QgbW9kZWwgZGlhZ25vc3RpY3NcbmNvdmlkX21vZGVscyAlPiUgXG4gIHNlbGVjdChXZWVrbHkpICU+JSBcbiAgZ2dfdHNyZXNpZHVhbHMoKSJ9
 </script>
 </div>
 </div>
