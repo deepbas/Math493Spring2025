@@ -127,6 +127,10 @@ execute:
   warning: false
   message: false
 
+
+extensions:
+  - quarto-ext/fontawesome
+
 page-footer: 
   left: |
     <span class="faux-block">&#169; 2024 Deepak Bastola</span>
