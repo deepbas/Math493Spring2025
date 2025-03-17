@@ -1,11 +1,27 @@
 ---
 title: "Activity25"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -21,7 +37,6 @@ library(readr)        # Efficient data import
 
 
 **Theoretical Background: ARIMA($p,d,q$)($P,D,Q$)[$s$] Model Interpretations**
-
 
 ### 1. Autoregressive (AR) Model
 
@@ -205,7 +220,6 @@ This model introduces seasonal differencing with period 4 and includes nonseason
 
 **Problem:** Write the sequential equation for a simple AR(1) model with drift.
 
-<!--
 **Answer:**
 
 $$
@@ -214,13 +228,11 @@ y_t &= c + \phi_1\,y_{t-1} + \varepsilon_t.
 \end{aligned}
 $$
 
--->
 
 ### Practice Problem 2
 
 **Problem:** Write the sequential equation for an ARIMA(0,1,1) model with drift—that is, first-difference the series and then apply an MA(1) model.
 
-<!--
 
 **Answer:**
 
@@ -238,14 +250,12 @@ $$
    \end{aligned}
    $$
 
--->
 
 ### Practice Problem 3
 
 **Problem:** Write the sequential equation for a seasonal ARIMA(0,1,1)(1,0,0)[12] model with drift.  
 *(Hint: This model applies nonseasonal differencing and includes a seasonal AR(1) component with period 12 along with a nonseasonal MA(1) term.)*
 
-<!--
 **Answer:**
 
 1. **Nonseasonal Differencing:**
@@ -268,4 +278,4 @@ $$
 - $\theta_1$ is the nonseasonal MA coefficient.
 - The left-hand side shows the nonseasonally differenced data adjusted by the seasonal AR component.
 
--->
+

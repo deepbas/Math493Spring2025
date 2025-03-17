@@ -1,11 +1,27 @@
 ---
 title: "Activity22"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -18,7 +34,6 @@ library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 ```
-
 
 
 **Theoretical Foundations of MA Processes**
@@ -79,17 +94,17 @@ fit_ma %>%
 
 **1. Data Preparation**  
 
-```{r}
+```{webr}
 library(fpp3)
 data(us_change)
 consumption_ts <- us_change %>%
-  select(Quarter, Consumption) %>%
+  dplyr::select(Quarter, Consumption) %>%
   as_tsibble(index = Quarter)
 ```
 
 **2. Exploratory Analysis** 
 
-```{r}
+```{webr}
 consumption_ts %>%
   autoplot(Consumption) +
   labs(title = "US Consumption Growth Rate", y = "% Change")
@@ -97,7 +112,7 @@ consumption_ts %>%
 
 **3. MA Order Identification**  
 
-```{r}
+```{webr}
 consumption_ts %>%
   gg_tsdisplay(Consumption, plot_type = "partial", lag_max = 8) + 
   labs(title = "ACF Shows Sharp Cutoff at Lag 3 → MA(3) Candidate")
@@ -105,7 +120,7 @@ consumption_ts %>%
 
 **4. Model Fitting**  
 
-```{r}
+```{webr}
 ma_fit <- consumption_ts %>%
   model(
     MA3 = ARIMA(Consumption ~ pdq(0,0,3)),
@@ -113,14 +128,14 @@ ma_fit <- consumption_ts %>%
   )
 
 glance(ma_fit) %>% arrange(AICc) # Compare models
-report(ma_fit %>% select(MA3)) # Show θ coefficients
+report(ma_fit %>% dplyr::select(MA3)) # Show θ coefficients
 ```
 
 **5. Residual Diagnostics**  
 
-```{r}
+```{webr}
 ma_fit %>% 
-  select(MA3) %>% 
+  dplyr::select(MA3) %>% 
   residuals() %>% 
   gg_tsdisplay(.resid, plot_type = "partial") +
   labs(title = "MA(3) Residuals: No Significant Autocorrelation")
@@ -128,9 +143,9 @@ ma_fit %>%
 
 **6. Forecasting**  
 
-```{r}
+```{webr}
 ma_fit %>%
-  select(MA3) %>%
+  dplyr::select(MA3) %>%
   forecast(h = 8) %>% 
   autoplot(consumption_ts) +
   labs(title = "2-Year Consumption Forecast Using MA(3)")
@@ -142,15 +157,15 @@ ma_fit %>%
 
 **1. Data Preparation**  
 
-```{r}
+```{webr}
 production_ts <- us_change %>%
-  select(Quarter, Production) %>%
+  dplyr::select(Quarter, Production) %>%
   as_tsibble(index = Quarter)
 ```
 
 **2. Visualize Series**  
 
-```{r}
+```{webr}
 production_ts %>%
   autoplot(Production) +
   labs(title = "US Industrial Production Growth", y = "% Change")
@@ -161,7 +176,7 @@ production_ts %>%
 Determine appropriate MA order through ACF:
 
 
-```{r}
+```{webr}
 production_ts %>%
   gg_tsdisplay(Production, plot_type = "partial", lag_max = 8) + 
   labs(title = "ACF Suggests MA(1) Structure")
@@ -173,7 +188,7 @@ production_ts %>%
 Fit competing specifications and evaluate:
 
 
-```{r}
+```{webr}
 prod_models <- production_ts %>%
   model(
     MA1 = ARIMA(Production ~ pdq(0,0,1) + PDQ(0,0,0)),
@@ -182,9 +197,8 @@ prod_models <- production_ts %>%
   )
 
 glance(prod_models) %>% arrange(AICc) 
-report(prod_models %>% select(MA3))
+report(prod_models %>% dplyr::select(MA3))
 ```
-
 
 
 **5. Policy-Relevant Forecasting**  
@@ -192,9 +206,9 @@ report(prod_models %>% select(MA3))
 Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
 
 
-```{r}
+```{webr}
 prod_models %>%
-  select(MA3) %>%
+  dplyr::select(MA3) %>%
   forecast(h = 8) %>%
   autoplot(production_ts) +
   labs(title = "Production Growth Forecast",

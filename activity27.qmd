@@ -1,11 +1,30 @@
 ---
 title: "Activity27"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
+    - purrr
+    - FinTS
+    - tidyr
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -20,16 +39,14 @@ library(readr)        # Efficient data import
 ```
 
 
-
-
 ```{r}
 data(us_change)
 consumption_ts <- us_change %>%
-  select(Quarter, Consumption) %>%
+  dplyr::select(Quarter, Consumption) %>%
   as_tsibble(index = Quarter)
 ```
 
-1. **ARIMA Model Selection Strategy**:  
+## **ARIMA Model Selection Strategy**:  
 
 The grid search explores **non-seasonal $(p,d,q)$** and **seasonal $(P,D,Q)_m$** components, testing both integration orders ($d$) and seasonal differencing ($D$). Using **AICc** for selection balances fit and complexity, favoring the **ARIMA(2,1,2)(0,0,1)[4]** model with $\text{AICc}= -540.9$. Seasonal PDQ terms use $m=4$ (quarterly data), but only a seasonal MA(1) component remains significant.
 
@@ -71,7 +88,7 @@ best_model
 ```
 
 
-2. **Residual Diagnostics**:  
+## **Residual Diagnostics**:  
 
 The Ljung-Box test ($p=0.245$) confirms white noise residuals, while the ARCH test ($p=0.56$) shows no volatility clustering. The seasonal plot reveals no systematic seasonal patterns in residuals, supporting model adequacy.
 
@@ -104,7 +121,7 @@ best_model %>%
 ```
 
 
-3. **Forecast Uncertainty**:  
+## **Forecast Uncertainty**:  
 
 The fan chart shows widening prediction intervals ($\pm2\sigma$), reflecting increased uncertainty for longer horizons - a hallmark of **Box-Jenkins** forecasts. The stable trend projection suggests the model captured the consumption series' momentum.
 
@@ -137,14 +154,20 @@ Apply the same methodology to `aus_production` (quarterly Australian beer produc
 ```{r}
 # 1. Prepare data
 beer_ts <- aus_production %>%
-  select(Quarter, Beer) %>%
+  dplyr::select(Quarter, Beer) %>%
   as_tsibble(index = Quarter)
 
 # 2. Modify model grid (adapt seasonal PDQ orders)
 grid_beer <- expand_grid(
   non_seasonal = list(c(1,1,1), c(0,1,2), c(2,1,2)),
-  seasonal     = list(c(0,0,0), c(1,1,0,4))
+   seasonal = list(
+    c(0,0,0,4),        # No seasonal terms
+    c(1,1,0,4),        # Seasonal AR(1) + differencing
+    c(0,1,1,4)         # Seasonal MA(1) + differencing
+  )
 )
+
+grid_beer %>% knitr::kable()
 ```
 
 
@@ -156,21 +179,7 @@ Key differences to assess:
 
 
 ```{r}
-beer_ts <- aus_production %>%
-  select(Quarter, Beer) %>%
-  filter(year(Quarter) >= 1992) %>%  
-  as_tsibble(index = Quarter)
-
-grid_beer <- expand_grid(
-  non_seasonal = list(c(1,1,1), c(0,1,1), c(2,1,2)),
-  seasonal = list(
-    c(0,0,0,4),        # No seasonal terms
-    c(1,1,0,4),        # Seasonal AR(1) + differencing
-    c(0,1,1,4)         # Seasonal MA(1) + differencing
-  )
-)
-
-# 3. Generic-safe ARIMA function
+# Generic-safe ARIMA function
 safe_arima <- possibly(function(ts, ns, s) {
   ts %>% 
     model(ARIMA(Beer ~ pdq(ns[1], ns[2], ns[3]) +  
@@ -196,17 +205,8 @@ best_model <- results_beer %>% arrange(AICc) %>% slice(1)
 best_model 
 
 results_beer %>% 
-  select(ns_str, s_str, AICc) %>% 
+  dplyr::select(ns_str, s_str, AICc) %>% 
   arrange(AICc)
-
-# no seasonal model
-no_seasonal_model <- results_beer %>% arrange(AICc) %>% slice(9)
-no_seasonal_model %>% 
-  pull(model) %>% 
-  .[[1]] %>% 
-  #residuals() %>% 
-  gg_tsresiduals()
-
 ```
 
 

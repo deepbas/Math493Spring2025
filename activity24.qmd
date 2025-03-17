@@ -1,11 +1,27 @@
 ---
 title: "Activity24"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -66,22 +82,15 @@ Use the `COVID19` package to fetch daily confirmed cases in Italy (clear volatil
 
 ```{r}
 library(COVID19)
-<<<<<<< HEAD
-=======
 library(fpp3)
->>>>>>> origin/main
 
 # Get data
 covid_data <- covid19(country = "Italy", level = 1, verbose = FALSE) %>%
   as_tsibble(index = date) %>%
   mutate(new_cases = difference(confirmed)) %>%
-<<<<<<< HEAD
   mutate(log_new_cases = difference(log(confirmed))) %>%
   drop_na(log_new_cases, new_cases) %>% 
   mutate(scaled_cases = scale(log_new_cases))
-=======
-  filter(!is.na(new_cases))
->>>>>>> origin/main
 ```
 
 #### Model Fitting & Volatility Check  
@@ -90,16 +99,10 @@ Fit an ARIMA model to `new_cases` and inspect residuals:
 
 ```{r}
 fit_covid <- covid_data %>%
-<<<<<<< HEAD
   model(ARIMA(scaled_cases ~ pdq(2,1,1) + PDQ(0,0,0)))
-=======
-  model(ARIMA(new_cases ~ pdq(2,1,1) + PDQ(0,0,0)))
->>>>>>> origin/main
 
 # Check residuals for volatility clustering
-
 fit_covid %>% gg_tsresiduals()
-<<<<<<< HEAD
 
 augment(fit_covid) %>%
   ggplot(aes(x = date, y = .resid^2)) +
@@ -112,14 +115,12 @@ fit_covid %>%
 ```
 
 **Key Observation**: Squared residuals cluster many times between January 2020 and January 2023 (COVID waves), indicating volatility clustering.
-=======
+
+```{r}
 augment(fit_covid) %>%
   ggplot(aes(x = date, y = .resid^2)) +
   geom_line() + labs(title = "Squared Residuals (COVID-19 Cases)")
 ```
-
-**Key Observation**: Squared residuals cluster around January 2022 and January 2023 (COVID waves), indicating volatility clustering.
->>>>>>> origin/main
 
 
 ### Example 2: Stock Returns
@@ -161,11 +162,7 @@ augment(fit_sp500) %>%
 
 #### 1. **Extract Residuals**  
 
-<<<<<<< HEAD
 First, extract residuals from the ARIMA model:  
-=======
-First, extract residuals from your `fable` ARIMA model:  
->>>>>>> origin/main
 
 ```{r}
 # For COVID-19 example:
@@ -173,14 +170,9 @@ covid_resid <- augment(fit_covid) %>%
   select(date, .resid)
 ```
 
-
 #### 2. **Visual ARCH Test (ACF/PACF of Squared Residuals)**  
 
-<<<<<<< HEAD
 Plot autocorrelation in squared residuals:  
-=======
-Plot autocorrelation in squared residuals using `feasts`:  
->>>>>>> origin/main
 
 ```{r}
 covid_resid %>%
@@ -190,23 +182,11 @@ covid_resid %>%
 ```
 
 **Interpretation**:  
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
 - Significant spikes at lag 1 or higher → Evidence of ARCH effects.  
 
----
-
-<<<<<<< HEAD
 #### 3. **Engle’s ARCH Test **  
 
 Use the `FinTS` package to test ARCH effects on residuals: 
-=======
-#### 3. **Engle’s ARCH Test (Manual Implementation)**  
-
-Use the `FinTS` package (install from CRAN) to test ARCH effects on residuals: 
->>>>>>> origin/main
 
 ```{r}
 library(FinTS)  # install.packages("FinTS")
@@ -215,11 +195,7 @@ library(FinTS)  # install.packages("FinTS")
 resid_vector <- covid_resid %>% pull(.resid)
 
 # Engle’s ARCH test (lag = 5)
-<<<<<<< HEAD
-ArchTest(resid_vector, lags = 12, demean = TRUE)
-=======
 ArchTest(resid_vector, lags = 5, demean = TRUE)
->>>>>>> origin/main
 ```
 
 **Conclusion**: If $p < 0.05$, reject the null (ARCH effects exist).
@@ -232,14 +208,8 @@ If ARCH effects are detected, use the `rugarch` package to model volatility:
 library(rugarch)  # install.packages("rugarch")
 
 # Fit ARIMA(1,0,1)-GARCH(1,1)
-<<<<<<< HEAD
-
-spec <- ugarchspec(
-  mean.model = list(armaOrder = c(10,10)), 
-=======
 spec <- ugarchspec(
   mean.model = list(armaOrder = c(1,1)), 
->>>>>>> origin/main
   variance.model = list(model = "sGARCH")
 )
 fit_garch <- ugarchfit(spec, data = resid_vector)
@@ -256,11 +226,6 @@ roll_fit <- ugarchroll(spec, data = resid_vector, n.ahead = 1, n.start = 1000)
 plot(roll_fit, which = 4)  # Rolling parameter estimates
 ```
 
-
-<<<<<<< HEAD
-=======
-
->>>>>>> origin/main
 ### Lab activity: S&P 500 Returns 
 
 Repeat the above steps for S&P Returns
@@ -279,7 +244,3 @@ sp500_resid %>%
   gg_tsdisplay(resid_sq, plot_type = "partial")
 ```
 
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main

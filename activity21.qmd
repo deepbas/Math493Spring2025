@@ -1,11 +1,27 @@
 ---
 title: "Activity21"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -88,22 +104,22 @@ fit_ar %>% residuals() %>% gg_tsdisplay(plot_type = c("scatter")) # Residual dia
 
 From the *global_economy* dataset (Ch. 5 of text), we'll analyze quarterly percentage changes in personal consumption expenditures (stationary series):
 
-```{r}
+
+### **Lab Activity A: AR Modeling with Real Data**
+
+```{webr}
 library(fpp3)
 data(us_change)
 consumption_ts <- us_change %>%
-  select(Quarter, Consumption) %>%
+  dplyr::select(Quarter, Consumption) %>%
   as_tsibble(index = Quarter)
 ```
-
-
-### **Lab Activity A: AR Modeling with Real Data**
 
 **Exploratory Analysis & Stationarity**
 
 1. **Visualize Series**:
 
-```{r}
+```{webr}
 consumption_ts %>%
   autoplot(Consumption) +
   labs(title = "US Consumption Changes", y = "% Change")
@@ -111,7 +127,7 @@ consumption_ts %>%
 
 2. **Stationarity Assessment**:
 
-```{r}
+```{webr}
 consumption_ts %>%
   features(Consumption, unitroot_kpss) # H0: Stationary
 
@@ -123,7 +139,7 @@ consumption_ts %>%
 
 1. **Fit AR Model**:
 
-```{r}
+```{webr}
 ar_fit <- consumption_ts %>%
   model(ARIMA(Consumption ~ pdq() + PDQ(0,0,0)))
 
@@ -132,7 +148,7 @@ report(ar_fit) # Compare φ coefficients to simulation
 
 2. **Residual Diagnostics**:
 
-```{r}
+```{webr}
 ar_fit %>%
   residuals() %>%
   gg_tsdisplay(.resid, plot_type = "partial") +
@@ -141,7 +157,7 @@ ar_fit %>%
 
 3. **Forecasting**:
 
-```{r}
+```{webr}
 ar_fit %>%
   forecast(h = 8) %>%
   autoplot(consumption_ts) +
@@ -153,9 +169,9 @@ ar_fit %>%
 
 **1. Data Preparation & Visualization**
 
-```{r}
+```{webr}
 income_ts <- us_change %>%
-  select(Quarter, Income) %>%
+  dplyr::select(Quarter, Income) %>%
   as_tsibble(index = Quarter)
 
 income_ts %>%
@@ -167,22 +183,18 @@ income_ts %>%
 
 Determine appropriate AR order through PACF:
 
-
-```{r}
+```{webr}
 income_ts %>%
   gg_tsdisplay(Income, plot_type = "partial", lag_max = 25) +
   labs(title = "Income Series Diagnostics")
 ```
 
 
-
-
 **3. Model Comparison**  
 
 Fit competing specifications and evaluate:
 
-
-```{r}
+```{webr}
 income_models <- income_ts %>%
   model(
     AR1 = ARIMA(Income ~ pdq(1,0,0)),
@@ -199,17 +211,12 @@ tidy(income_models)
 
 Using the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:
 
-```{r}
+```{webr}
 income_models %>%
-  select(Auto) %>%
+  dplyr::select(Auto) %>%
   forecast(h = 8) %>%
   autoplot(income_ts) +
   labs(title = "2-Year Income Growth Forecast",
        subtitle = "Auto Model Projection")
 ```
-
-
-
-
-
 

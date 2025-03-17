@@ -1,11 +1,27 @@
 ---
 title: "Activity23"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -99,7 +115,7 @@ ap_ts %>%
 
 ## **1. Data Preparation**
 
-```{r}
+```{webr}
 library(fpp3)
 accidents <- as_tsibble(USAccDeaths) %>% 
   rename(Deaths = value) %>% 
@@ -113,7 +129,7 @@ accidents <- as_tsibble(USAccDeaths) %>%
 
 Fit SARIMA(1,1,1)(0,1,1)₁₂ model with maximum likelihood estimation
 
-```{r}
+```{webr}
 sarima_fit <- accidents %>%
   model(SARIMA = ARIMA(Deaths ~ pdq(1,1,1) + PDQ(0,1,1, period = 12),
                       stepwise = FALSE, approximation = FALSE))
@@ -125,13 +141,11 @@ a) What does the (1,1,1) non-seasonal component represent?
 
 b) Why do we use PDQ(0,1,1) for seasonal terms?  
 
-
-
 ## **3. Parameter Estimation**
 
 **Task:** Extract and interpret coefficients
 
-```{r}
+```{webr}
 tidy(sarima_fit) %>% 
   mutate(signif = ifelse(p.value < 0.05, "***", ""))
 ```
@@ -142,7 +156,7 @@ tidy(sarima_fit) %>%
 
 ### **4.1 Visual Analysis**
 
-```{r}
+```{webr}
 sarima_fit %>% 
   augment() %>% 
   ACF(.innov) %>% 
@@ -154,7 +168,7 @@ sarima_fit %>%
 
 ### **4.2 Formal Tests**
 
-```{r}
+```{webr}
 augment(sarima_fit) %>% 
   features(.innov, list(
     LB_test = ~ljung_box(.x, lag=24, dof=4)
@@ -170,7 +184,7 @@ a) Can we maintain the white noise assumption?
 
 **Task:** Check specification robustness
 
-```{r}
+```{webr}
 accidents %>% 
   model(
     SARIMA_CSS = ARIMA(Deaths ~ pdq(1,1,1) + PDQ(0,1,1), 

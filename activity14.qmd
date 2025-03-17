@@ -1,11 +1,26 @@
 ---
 title: "Activity14"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - COVID19
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -32,7 +47,6 @@ Improve seasonal forecasting models using:
 - **Lagged variables** capture serial dependence: $E[y_t | y_{t-1}]$  
 - **Fourier terms** model periodic patterns: $S_t = \sum_{k=1}^K [\alpha_k\sin(2\pi kt/m) + \beta_k\cos(2\pi kt/m)]$  
 - **Multicollinearity** detection via pairwise correlations (|r| > 0.8 indicates potential issues)
-
 
 ### Focus
 
@@ -108,7 +122,6 @@ ggpairs(nyse_multi,
 1. **Model Comparison**:  
 
 ```{r}
-
 nyse <- nyse %>% 
   mutate(volume_lag3 = lag(volume, 3),
          volume_lag4 = lag(volume, 4)) %>% 

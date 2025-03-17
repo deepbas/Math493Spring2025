@@ -1,11 +1,26 @@
 ---
 title: "Activity16"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - COVID19
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -103,9 +118,18 @@ of confirmed cases. Answer the following:
 
 Write a brief discussion on how these findings might inform public health policy.
 
+```{webr}
+# Retrieve COVID-19 data for the United States and prepare a tsibble
+covid_data <- covid19(verbose = FALSE) %>% 
+  filter(administrative_area_level_1 == "United States") %>% 
+  mutate(date = ymd(date)) %>% 
+  as_tsibble(index = date) %>% 
+  select(date, confirmed, vaccines) %>% 
+  mutate(vaccines = as.integer(vaccines)) %>% 
+  mutate(dConfirmed = difference(confirmed),
+         dVacc = difference(vaccines)) %>% 
+  drop_na()
 
-
-```{r}
 # Test Granger causality using multiple lag orders and collect the results.
 lag_orders <- c(1, 2, 3, 5, 10)
 results <- data.frame(Lag = integer(), P_Value = numeric())

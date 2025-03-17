@@ -1,11 +1,27 @@
 ---
 title: "Activity11"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -175,7 +191,7 @@ Using the `aus_retail` dataset (Tidyverts), analyze the **"Takeaway food service
 
 **Solution**  
 
-```{r}  
+```{webr}  
 # Subset data and fit seasonal model  
 retail_model <- aus_retail %>%  
   filter(Industry == "Takeaway food services", State == "Victoria") %>%  
@@ -212,7 +228,7 @@ Using the `gas` dataset (astsa):
 
 **Solution**  
 
-```{r}  
+```{webr}  
 # Convert to tsibble and model  
 gas_ts <- as_tsibble(gas) %>% rename(Week = index, Production = value)  
 
@@ -237,5 +253,4 @@ gridExtra::grid.arrange(
 **Critical Check**  
 
 Use `glance(fit_opt)` vs `glance(fit_sqrt)` to compare **sigma** (residual SD) - lower values indicate better variance stabilization.  
-
 

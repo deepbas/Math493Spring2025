@@ -1,11 +1,26 @@
 ---
 title: "Activity8"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -139,24 +154,26 @@ autoplot(airpass_log_diff, SeasonalDiff) +
 ## Lab Activity 1: Stationarity Analysis (Nile Dataset)
 
 1. **Plot the Original Series**  
+
    Visualize the Nile dataset to detect any potential seasonality or cyclical components. Even if the Nile data do not exhibit strong seasonal patterns, this initial inspection confirms whether or not seasonal differencing might be warranted.
 
 2. **Compute Rolling Statistics**  
+
    - **Rolling Mean**: Examine how the mean evolves over a chosen window (e.g., 10 or 12 observations). A stationary series should have a stable rolling mean over time.  
    - **Rolling Variance**: Similarly, assess how the variance changes (or remains constant) across the same rolling window. Stationarity requires a relatively constant variance.
 
 3. **Seasonal Differencing**  
+
    If a seasonal pattern is present (e.g., annual cycles in monthly data), remove it by differencing observations separated by one full season. This step is relevant if the data exhibit cyclical or repeating patterns at fixed intervals.  
 
 4. **Interpretation**  
-   - Evaluate how rolling mean and variance behave post-seasonal differencing (if performed).  
+
+   - Evaluate how rolling mean and variance behave post-seasonal differencing (if performed).
    - Verify if stationarity indicators (constant mean, constant variance) are satisfied.
 
-
-
-```{r}
+```{webr}
 # Load the Nile dataset
-data(Nile)
+data("Nile")
 nile_ts <- tsibble(y = Nile, year = 1871:1970, index = year)
 
 # Plot the original series
@@ -177,23 +194,28 @@ autoplot(nile_ts) +
 ## Lab Activity 2: Stationarity Analysis (Lynx Dataset)
 
 1. **Plot the Original Series**  
+
    Investigate any repeating or cyclical behavior in the annual Lynx data that might hint at seasonal or quasi-seasonal effects.
 
 2. **Compute Rolling Statistics**  
+
    - **Rolling Mean**: Check if the mean stays relatively stable over a certain window, which supports stationarity.  
+   
    - **Rolling Variance**: Verify whether variance remains relatively constant over time.
 
 3. **Seasonal Differencing**  
+
    If the Lynx data show cyclical behavior at fixed intervals (e.g., periodic surges), seasonal differencing with an appropriate lag can reduce these cycles to produce a more stationary series.
 
 4. **Interpretation**  
-   - Compare rolling mean and variance before and after seasonal differencing to confirm stationarity improvements.  
+
+   - Compare rolling mean and variance before and after seasonal differencing to confirm stationarity improvements. 
+   
    - Discuss whether the cyclical patterns are effectively removed or diminished.
 
 
-
-```{r}
-data("Lynx")
+```{webr}
+data(Lynx)
 lynx_ts <- tsibble(y = Lynx, year = 1845:1935, index = year)
 
 # Plot the original series
@@ -243,8 +265,6 @@ p_var <- autoplot(lynx_roll_diff, RollingVar) +
 
 gridExtra::grid.arrange(p_roll, p_var, ncol = 2)
 ```
-
-
 
 **Reflection Questions**
 

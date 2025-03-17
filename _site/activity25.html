@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>Activity25 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
@@ -17,41 +20,8 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
-}
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
-}
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
-}
 </style>
+
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
@@ -65,12 +35,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9e2db6d60132874137d35cd80df6d385.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c2299866e9c1ed9e4d64cbb04b200562.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-0522aeb2e65cb0a4bd37577de0a3038c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -96,7 +67,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script>
+<script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -121,12 +99,16 @@ const typesetMath = (el) => {
 window.Quarto = {
   typesetMath
 };
-</script><link rel="stylesheet" href="styles.css">
+</script>
+
 </head>
+
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Math 493</span>
@@ -138,7 +120,7 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-<li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
@@ -150,8 +132,8 @@ window.Quarto = {
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-activities" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Activities</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-activities">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-activities">    
+        <li>
     <a class="dropdown-item" href="./activity1.html">
  <span class="dropdown-text">Activity1</span></a>
   </li>  
@@ -260,73 +242,77 @@ window.Quarto = {
  <span class="dropdown-text">Activity27</span></a>
   </li>  
     </ul>
-</li>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-datasets" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Datasets</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-datasets">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-datasets">    
+        <li>
     <a class="dropdown-item" href="./googledata.html">
  <span class="dropdown-text">Google</span></a>
   </li>  
     </ul>
-</li>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorials</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
     <a class="dropdown-item" href="./RandRStudio.html">
  <span class="dropdown-text">R and RStudio</span></a>
   </li>  
     </ul>
-</li>
+  </li>
 </ul>
-</div> <!-- /navcollapse -->
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
-<li><a href="#autoregressive-ar-model" id="toc-autoregressive-ar-model" class="nav-link active" data-scroll-target="#autoregressive-ar-model">1. Autoregressive (AR) Model</a></li>
+  <li><a href="#autoregressive-ar-model" id="toc-autoregressive-ar-model" class="nav-link active" data-scroll-target="#autoregressive-ar-model">1. Autoregressive (AR) Model</a></li>
   <li><a href="#moving-average-ma-component" id="toc-moving-average-ma-component" class="nav-link" data-scroll-target="#moving-average-ma-component">2. Moving Average (MA) Component</a></li>
   <li><a href="#combine-them-into-an-arma-model" id="toc-combine-them-into-an-arma-model" class="nav-link" data-scroll-target="#combine-them-into-an-arma-model">3. Combine Them into an ARMA Model</a></li>
   <li><a href="#incorporate-differencing-to-remove-trends" id="toc-incorporate-differencing-to-remove-trends" class="nav-link" data-scroll-target="#incorporate-differencing-to-remove-trends">4. Incorporate Differencing to Remove Trends</a></li>
   <li><a href="#add-seasonality-with-seasonal-differencing" id="toc-add-seasonality-with-seasonal-differencing" class="nav-link" data-scroll-target="#add-seasonality-with-seasonal-differencing">5. Add Seasonality with Seasonal Differencing</a></li>
   <li><a href="#build-a-multiplicative-seasonal-arima-model" id="toc-build-a-multiplicative-seasonal-arima-model" class="nav-link" data-scroll-target="#build-a-multiplicative-seasonal-arima-model">6. Build a Multiplicative Seasonal ARIMA Model</a></li>
-  <li>
-<a href="#example-configurations" id="toc-example-configurations" class="nav-link" data-scroll-target="#example-configurations">Example Configurations</a>
+  <li><a href="#example-configurations" id="toc-example-configurations" class="nav-link" data-scroll-target="#example-configurations">Example Configurations</a>
   <ul class="collapse">
-<li><a href="#arima111-with-drift-nonseasonal" id="toc-arima111-with-drift-nonseasonal" class="nav-link" data-scroll-target="#arima111-with-drift-nonseasonal">ARIMA(1,1,1) with Drift (Nonseasonal)</a></li>
+  <li><a href="#arima111-with-drift-nonseasonal" id="toc-arima111-with-drift-nonseasonal" class="nav-link" data-scroll-target="#arima111-with-drift-nonseasonal">ARIMA(1,1,1) with Drift (Nonseasonal)</a></li>
   <li><a href="#arima1010114-with-drift-seasonal" id="toc-arima1010114-with-drift-seasonal" class="nav-link" data-scroll-target="#arima1010114-with-drift-seasonal">ARIMA(1,0,1)(0,1,1)[4] with Drift (Seasonal)</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#practice-configurations" id="toc-practice-configurations" class="nav-link" data-scroll-target="#practice-configurations">Practice Configurations</a>
+  </ul></li>
+  <li><a href="#practice-configurations" id="toc-practice-configurations" class="nav-link" data-scroll-target="#practice-configurations">Practice Configurations</a>
   <ul class="collapse">
-<li><a href="#practice-problem-1" id="toc-practice-problem-1" class="nav-link" data-scroll-target="#practice-problem-1">Practice Problem 1</a></li>
+  <li><a href="#practice-problem-1" id="toc-practice-problem-1" class="nav-link" data-scroll-target="#practice-problem-1">Practice Problem 1</a></li>
   <li><a href="#practice-problem-2" id="toc-practice-problem-2" class="nav-link" data-scroll-target="#practice-problem-2">Practice Problem 2</a></li>
   <li><a href="#practice-problem-3" id="toc-practice-problem-3" class="nav-link" data-scroll-target="#practice-problem-3">Practice Problem 3</a></li>
+  </ul></li>
   </ul>
-</li>
-  </ul></nav>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <h1 class="title">Activity25</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta">
 
     
   
@@ -335,21 +321,12 @@ window.Quarto = {
   
 
 
-</header><div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Time Series Essentials, install if needed!</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/">feasts</a></span><span class="op">)</span>       <span class="co"># Feature extraction &amp; decomposition</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org">fable</a></span><span class="op">)</span>        <span class="co"># Forecasting models (ARIMA, ETS, etc.)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/fpp3/">fpp3</a></span><span class="op">)</span>         <span class="co"># Tidy time series dataseta</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dsstoffer.github.io/">astsa</a></span><span class="op">)</span>        <span class="co"># Applied statistical TS methods from textbook</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tseries</span><span class="op">)</span>      <span class="co"># Unit root tests &amp; TS diagnostics</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibbledata.tidyverts.org/">tsibbledata</a></span><span class="op">)</span>  <span class="co"># Curated TS datasets</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.quantmod.com/">quantmod</a></span><span class="op">)</span>     <span class="co"># Financial data retrieval</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://business-science.github.io/tidyquant/">tidyquant</a></span><span class="op">)</span>    <span class="co"># Financial analysis in tidyverse</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
+</header>
+
+
 <p><strong>Theoretical Background: ARIMA(<span class="math inline">\(p,d,q\)</span>)(<span class="math inline">\(P,D,Q\)</span>)[<span class="math inline">\(s\)</span>] Model Interpretations</strong></p>
-<section id="autoregressive-ar-model" class="level3"><h3 class="anchored" data-anchor-id="autoregressive-ar-model">1. Autoregressive (AR) Model</h3>
+<section id="autoregressive-ar-model" class="level3">
+<h3 class="anchored" data-anchor-id="autoregressive-ar-model">1. Autoregressive (AR) Model</h3>
 <p>An AR(1) model predicts the current value from its immediately preceding value. In its simplest form, it is written as</p>
 <p><span class="math display">\[
 y_t = c + \phi_1\,y_{t-1} + \varepsilon_t,
@@ -359,19 +336,25 @@ y_t = c + \phi_1\,y_{t-1} + \varepsilon_t,
 - <span class="math inline">\(c\)</span> is a constant (or drift),<br>
 - <span class="math inline">\(\phi_1\)</span> is the AR coefficient, and<br>
 - <span class="math inline">\(\varepsilon_t\)</span> is the error (white noise) at time <span class="math inline">\(t\)</span>.</p>
-</section><section id="moving-average-ma-component" class="level3"><h3 class="anchored" data-anchor-id="moving-average-ma-component">2. Moving Average (MA) Component</h3>
+</section>
+<section id="moving-average-ma-component" class="level3">
+<h3 class="anchored" data-anchor-id="moving-average-ma-component">2. Moving Average (MA) Component</h3>
 <p>An MA(1) model expresses the current value as a function of the current and one past error term:</p>
 <p><span class="math display">\[
 y_t = c + \varepsilon_t + \theta_1\,\varepsilon_{t-1},
 \]</span></p>
 <p>where <span class="math inline">\(\theta_1\)</span> is the MA coefficient. This shows that the noise from the previous period also influences the current observation.</p>
-</section><section id="combine-them-into-an-arma-model" class="level3"><h3 class="anchored" data-anchor-id="combine-them-into-an-arma-model">3. Combine Them into an ARMA Model</h3>
+</section>
+<section id="combine-them-into-an-arma-model" class="level3">
+<h3 class="anchored" data-anchor-id="combine-them-into-an-arma-model">3. Combine Them into an ARMA Model</h3>
 <p>When both AR and MA parts are included, we have an ARMA(1,1) model:</p>
 <p><span class="math display">\[
 y_t = c + \phi_1\,y_{t-1} + \varepsilon_t + \theta_1\,\varepsilon_{t-1}.
 \]</span></p>
 <p>This model now explains the series using both its past values and past errors.</p>
-</section><section id="incorporate-differencing-to-remove-trends" class="level3"><h3 class="anchored" data-anchor-id="incorporate-differencing-to-remove-trends">4. Incorporate Differencing to Remove Trends</h3>
+</section>
+<section id="incorporate-differencing-to-remove-trends" class="level3">
+<h3 class="anchored" data-anchor-id="incorporate-differencing-to-remove-trends">4. Incorporate Differencing to Remove Trends</h3>
 <p>If the original series is nonstationary (for example, it has a trend), we apply differencing. A first difference is defined as</p>
 <p><span class="math display">\[
 \Delta y_t = y_t - y_{t-1}.
@@ -381,19 +364,21 @@ y_t = c + \phi_1\,y_{t-1} + \varepsilon_t + \theta_1\,\varepsilon_{t-1}.
 \Delta y_t = c + \phi_1\,\Delta y_{t-1} + \varepsilon_t + \theta_1\,\varepsilon_{t-1}.
 \]</span></p>
 <p>This step removes linear trends and stabilizes the mean of the series.</p>
-</section><section id="add-seasonality-with-seasonal-differencing" class="level3"><h3 class="anchored" data-anchor-id="add-seasonality-with-seasonal-differencing">5. Add Seasonality with Seasonal Differencing</h3>
+</section>
+<section id="add-seasonality-with-seasonal-differencing" class="level3">
+<h3 class="anchored" data-anchor-id="add-seasonality-with-seasonal-differencing">5. Add Seasonality with Seasonal Differencing</h3>
 <p>Seasonal patterns can be removed by seasonal differencing. For example, if your data shows a weekly pattern (period <span class="math inline">\(s=7\)</span>), the seasonal difference is</p>
 <p><span class="math display">\[
 \Delta_7 y_t = y_t - y_{t-7}.
 \]</span></p>
 <p>If seasonality is also modeled through seasonal AR or MA terms, you can add these effects after differencing.</p>
-</section><section id="build-a-multiplicative-seasonal-arima-model" class="level3"><h3 class="anchored" data-anchor-id="build-a-multiplicative-seasonal-arima-model">6. Build a Multiplicative Seasonal ARIMA Model</h3>
+</section>
+<section id="build-a-multiplicative-seasonal-arima-model" class="level3">
+<h3 class="anchored" data-anchor-id="build-a-multiplicative-seasonal-arima-model">6. Build a Multiplicative Seasonal ARIMA Model</h3>
 <p>A full seasonal ARIMA model is usually denoted as ARIMA(<span class="math inline">\(p,d,q\)</span>)(<span class="math inline">\(P,D,Q\)</span>)[<span class="math inline">\(s\)</span>], which combines:</p>
 <ul>
-<li>
-<strong>Nonseasonal components:</strong> AR(<span class="math inline">\(p\)</span>), differencing <span class="math inline">\(d\)</span>, and MA(<span class="math inline">\(q\)</span>).</li>
-<li>
-<strong>Seasonal components:</strong> Seasonal AR(<span class="math inline">\(P\)</span>), seasonal differencing <span class="math inline">\(D\)</span>, and seasonal MA(<span class="math inline">\(Q\)</span>) with period <span class="math inline">\(s\)</span>.</li>
+<li><strong>Nonseasonal components:</strong> AR(<span class="math inline">\(p\)</span>), differencing <span class="math inline">\(d\)</span>, and MA(<span class="math inline">\(q\)</span>).</li>
+<li><strong>Seasonal components:</strong> Seasonal AR(<span class="math inline">\(P\)</span>), seasonal differencing <span class="math inline">\(D\)</span>, and seasonal MA(<span class="math inline">\(Q\)</span>) with period <span class="math inline">\(s\)</span>.</li>
 </ul>
 <p>A simplified way to “build up” the full model in one long equation is as follows:</p>
 <blockquote class="blockquote">
@@ -433,8 +418,12 @@ z_t &amp;= c \\
 \end{aligned}
 \]</span></p>
 <p>Here, <span class="math inline">\(z_t\)</span> represents the series after both nonseasonal and seasonal differencing. This equation is a conceptual “blueprint” that shows how each modeling component is added sequentially.</p>
-<hr></section><section id="example-configurations" class="level2"><h2 class="anchored" data-anchor-id="example-configurations">Example Configurations</h2>
-<section id="arima111-with-drift-nonseasonal" class="level3"><h3 class="anchored" data-anchor-id="arima111-with-drift-nonseasonal">ARIMA(1,1,1) with Drift (Nonseasonal)</h3>
+<hr>
+</section>
+<section id="example-configurations" class="level2">
+<h2 class="anchored" data-anchor-id="example-configurations">Example Configurations</h2>
+<section id="arima111-with-drift-nonseasonal" class="level3">
+<h3 class="anchored" data-anchor-id="arima111-with-drift-nonseasonal">ARIMA(1,1,1) with Drift (Nonseasonal)</h3>
 <p>In this configuration, we first remove trends by differencing the series, then model the differenced series with one AR term and one MA term.</p>
 <ol type="1">
 <li><p><strong>Nonseasonal Differencing:</strong> <span class="math display">\[
@@ -449,7 +438,10 @@ z_t &amp;= c \\
 \]</span></p></li>
 </ol>
 <p><strong>Key Points:</strong> - The first difference <span class="math inline">\(\Delta y_t\)</span> helps stabilize the mean. - <span class="math inline">\(\phi_1\)</span> captures the autoregressive effect on the differenced data. - <span class="math inline">\(\theta_1\)</span> models the influence of the previous error.</p>
-<hr></section><section id="arima1010114-with-drift-seasonal" class="level3"><h3 class="anchored" data-anchor-id="arima1010114-with-drift-seasonal">ARIMA(1,0,1)(0,1,1)[4] with Drift (Seasonal)</h3>
+<hr>
+</section>
+<section id="arima1010114-with-drift-seasonal" class="level3">
+<h3 class="anchored" data-anchor-id="arima1010114-with-drift-seasonal">ARIMA(1,0,1)(0,1,1)[4] with Drift (Seasonal)</h3>
 <p>This model introduces seasonal differencing with period 4 and includes nonseasonal AR(1) and MA(1) terms along with a seasonal MA(1) component.</p>
 <ol type="1">
 <li><p><strong>Seasonal Differencing:</strong> <span class="math display">\[
@@ -466,78 +458,98 @@ y_t - y_{t-4} &amp;= c + \phi_1\,\Bigl[(y_{t-1} - y_{t-5})\Bigr] + \varepsilon_t
 <p><strong>Key Points:</strong></p>
 <ul>
 <li>Seasonal differencing (<span class="math inline">\(y_t - y_{t-4}\)</span>) removes periodic effects.</li>
-<li>
-<span class="math inline">\(\phi_1\)</span> is the nonseasonal AR term applied to the lagged (but also seasonally adjusted) data.</li>
-<li>
-<span class="math inline">\(\theta_1\)</span> is the nonseasonal MA term.</li>
-<li>
-<span class="math inline">\(\Theta_1\)</span> is the seasonal MA term that adjusts the error from one season ago.</li>
-<li>
-<span class="math inline">\(c\)</span> is the drift.</li>
+<li><span class="math inline">\(\phi_1\)</span> is the nonseasonal AR term applied to the lagged (but also seasonally adjusted) data.</li>
+<li><span class="math inline">\(\theta_1\)</span> is the nonseasonal MA term.</li>
+<li><span class="math inline">\(\Theta_1\)</span> is the seasonal MA term that adjusts the error from one season ago.</li>
+<li><span class="math inline">\(c\)</span> is the drift.</li>
 </ul>
-<hr></section></section><section id="practice-configurations" class="level2"><h2 class="anchored" data-anchor-id="practice-configurations">Practice Configurations</h2>
-<section id="practice-problem-1" class="level3"><h3 class="anchored" data-anchor-id="practice-problem-1">Practice Problem 1</h3>
+<hr>
+</section>
+</section>
+<section id="practice-configurations" class="level2">
+<h2 class="anchored" data-anchor-id="practice-configurations">Practice Configurations</h2>
+<section id="practice-problem-1" class="level3">
+<h3 class="anchored" data-anchor-id="practice-problem-1">Practice Problem 1</h3>
 <p><strong>Problem:</strong> Write the sequential equation for a simple AR(1) model with drift.</p>
-<!--
-**Answer:**
-
-$$
+<p><strong>Answer:</strong></p>
+<p><span class="math display">\[
 \begin{aligned}
-y_t &= c + \phi_1\,y_{t-1} + \varepsilon_t.
+y_t &amp;= c + \phi_1\,y_{t-1} + \varepsilon_t.
 \end{aligned}
-$$
-
--->
-</section><section id="practice-problem-2" class="level3"><h3 class="anchored" data-anchor-id="practice-problem-2">Practice Problem 2</h3>
+\]</span></p>
+</section>
+<section id="practice-problem-2" class="level3">
+<h3 class="anchored" data-anchor-id="practice-problem-2">Practice Problem 2</h3>
 <p><strong>Problem:</strong> Write the sequential equation for an ARIMA(0,1,1) model with drift—that is, first-difference the series and then apply an MA(1) model.</p>
-<!--
-
-**Answer:**
-
-1. **Differencing:**
-   $$
-   \begin{aligned}
-   \Delta y_t = y_t - y_{t-1}.
-   \end{aligned}
-   $$
-
-2. **Model Equation:**
-   $$
-   \begin{aligned}
-   y_t - y_{t-1} &= c + \varepsilon_t + \theta_1\,\varepsilon_{t-1}.
-   \end{aligned}
-   $$
-
--->
-</section><section id="practice-problem-3" class="level3"><h3 class="anchored" data-anchor-id="practice-problem-3">Practice Problem 3</h3>
-<p><strong>Problem:</strong> Write the sequential equation for a seasonal ARIMA(0,1,1)(1,0,0)[12] model with drift.<br><em>(Hint: This model applies nonseasonal differencing and includes a seasonal AR(1) component with period 12 along with a nonseasonal MA(1) term.)</em></p>
-<!--
-**Answer:**
-
-1. **Nonseasonal Differencing:**
-   $$
-   \begin{aligned}
-   \Delta y_t = y_t - y_{t-1}.
-   \end{aligned}
-   $$
-
-2. **Incorporate Seasonal AR(1):**
-   $$
-   \begin{aligned}
-   (y_t - y_{t-1}) - \Phi_1\,(y_{t-12} - y_{t-13}) &= c + \varepsilon_t + \theta_1\,\varepsilon_{t-1}.
-   \end{aligned}
-   $$
-
-**Key Points:**
-
-- $\Phi_1$ is the seasonal AR coefficient with period 12.
-- $\theta_1$ is the nonseasonal MA coefficient.
-- The left-hand side shows the nonseasonally differenced data adjusted by the seasonal AR component.
-
--->
+<p><strong>Answer:</strong></p>
+<ol type="1">
+<li><p><strong>Differencing:</strong> <span class="math display">\[
+\begin{aligned}
+\Delta y_t = y_t - y_{t-1}.
+\end{aligned}
+\]</span></p></li>
+<li><p><strong>Model Equation:</strong> <span class="math display">\[
+\begin{aligned}
+y_t - y_{t-1} &amp;= c + \varepsilon_t + \theta_1\,\varepsilon_{t-1}.
+\end{aligned}
+\]</span></p></li>
+</ol>
+</section>
+<section id="practice-problem-3" class="level3">
+<h3 class="anchored" data-anchor-id="practice-problem-3">Practice Problem 3</h3>
+<p><strong>Problem:</strong> Write the sequential equation for a seasonal ARIMA(0,1,1)(1,0,0)[12] model with drift.<br>
+<em>(Hint: This model applies nonseasonal differencing and includes a seasonal AR(1) component with period 12 along with a nonseasonal MA(1) term.)</em></p>
+<p><strong>Answer:</strong></p>
+<ol type="1">
+<li><p><strong>Nonseasonal Differencing:</strong> <span class="math display">\[
+\begin{aligned}
+\Delta y_t = y_t - y_{t-1}.
+\end{aligned}
+\]</span></p></li>
+<li><p><strong>Incorporate Seasonal AR(1):</strong> <span class="math display">\[
+\begin{aligned}
+(y_t - y_{t-1}) - \Phi_1\,(y_{t-12} - y_{t-13}) &amp;= c + \varepsilon_t + \theta_1\,\varepsilon_{t-1}.
+\end{aligned}
+\]</span></p></li>
+</ol>
+<p><strong>Key Points:</strong></p>
+<ul>
+<li><span class="math inline">\(\Phi_1\)</span> is the seasonal AR coefficient with period 12.</li>
+<li><span class="math inline">\(\theta_1\)</span> is the nonseasonal MA coefficient.</li>
+<li>The left-hand side shows the nonseasonally differenced data adjusted by the seasonal AR component.</li>
+</ul>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -557,150 +569,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1099,6 +967,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

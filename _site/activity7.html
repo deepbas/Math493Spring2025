@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>Activity7 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
@@ -53,6 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -65,12 +69,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9e2db6d60132874137d35cd80df6d385.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c2299866e9c1ed9e4d64cbb04b200562.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-0522aeb2e65cb0a4bd37577de0a3038c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -96,7 +101,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script>
+<script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -121,12 +133,16 @@ const typesetMath = (el) => {
 window.Quarto = {
   typesetMath
 };
-</script><link rel="stylesheet" href="styles.css">
+</script>
+
 </head>
+
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Math 493</span>
@@ -138,7 +154,7 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-<li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
@@ -150,8 +166,8 @@ window.Quarto = {
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-activities" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Activities</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-activities">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-activities">    
+        <li>
     <a class="dropdown-item" href="./activity1.html">
  <span class="dropdown-text">Activity1</span></a>
   </li>  
@@ -260,59 +276,65 @@ window.Quarto = {
  <span class="dropdown-text">Activity27</span></a>
   </li>  
     </ul>
-</li>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-datasets" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Datasets</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-datasets">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-datasets">    
+        <li>
     <a class="dropdown-item" href="./googledata.html">
  <span class="dropdown-text">Google</span></a>
   </li>  
     </ul>
-</li>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorials</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
     <a class="dropdown-item" href="./RandRStudio.html">
  <span class="dropdown-text">R and RStudio</span></a>
   </li>  
     </ul>
-</li>
+  </li>
 </ul>
-</div> <!-- /navcollapse -->
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
   <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
-<li>
-<a href="#understanding-components-decomposition-and-smoothing" id="toc-understanding-components-decomposition-and-smoothing" class="nav-link active" data-scroll-target="#understanding-components-decomposition-and-smoothing"><strong>Understanding Components, Decomposition, and Smoothing</strong></a>
+  <li><a href="#understanding-components-decomposition-and-smoothing" id="toc-understanding-components-decomposition-and-smoothing" class="nav-link active" data-scroll-target="#understanding-components-decomposition-and-smoothing"><strong>Understanding Components, Decomposition, and Smoothing</strong></a>
   <ul class="collapse">
-<li><a href="#applied-example-with-tidyverts-ecosystem" id="toc-applied-example-with-tidyverts-ecosystem" class="nav-link" data-scroll-target="#applied-example-with-tidyverts-ecosystem">Applied Example with Tidyverts Ecosystem</a></li>
+  <li><a href="#applied-example-with-tidyverts-ecosystem" id="toc-applied-example-with-tidyverts-ecosystem" class="nav-link" data-scroll-target="#applied-example-with-tidyverts-ecosystem">Applied Example with Tidyverts Ecosystem</a></li>
   <li><a href="#lab-activity" id="toc-lab-activity" class="nav-link" data-scroll-target="#lab-activity">Lab Activity:</a></li>
+  </ul></li>
   </ul>
-</li>
-  </ul></nav>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <h1 class="title">Activity7</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta">
 
     
   
@@ -321,212 +343,226 @@ window.Quarto = {
   
 
 
-</header><div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Time Series Essentials, install if needed!</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/">feasts</a></span><span class="op">)</span>       <span class="co"># Feature extraction &amp; decomposition</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org">fable</a></span><span class="op">)</span>        <span class="co"># Forecasting models (ARIMA, ETS, etc.)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/fpp3/">fpp3</a></span><span class="op">)</span>         <span class="co"># Tidy time series dataseta</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dsstoffer.github.io/">astsa</a></span><span class="op">)</span>        <span class="co"># Applied statistical TS methods from textbook</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tseries</span><span class="op">)</span>      <span class="co"># Unit root tests &amp; TS diagnostics</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibbledata.tidyverts.org/">tsibbledata</a></span><span class="op">)</span>  <span class="co"># Curated TS datasets</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.quantmod.com/">quantmod</a></span><span class="op">)</span>     <span class="co"># Financial data retrieval</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://business-science.github.io/tidyquant/">tidyquant</a></span><span class="op">)</span>    <span class="co"># Financial analysis in tidyverse</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="understanding-components-decomposition-and-smoothing" class="level2"><h2 class="anchored" data-anchor-id="understanding-components-decomposition-and-smoothing"><strong>Understanding Components, Decomposition, and Smoothing</strong></h2>
+</header>
+
+
+<section id="understanding-components-decomposition-and-smoothing" class="level2">
+<h2 class="anchored" data-anchor-id="understanding-components-decomposition-and-smoothing"><strong>Understanding Components, Decomposition, and Smoothing</strong></h2>
 <p>Time series data often exhibit patterns that evolve over time. Three key components to recognize in many series are <strong>trend</strong>, <strong>seasonality</strong>, and <strong>noise</strong>. Understanding these components is crucial for forecasting and interpretation.</p>
 <ol type="1">
-<li>
-<strong>Trend</strong>: Refers to the long-term progression of the series — an overall increase, decrease, or stable behavior over a period.</li>
-<li>
-<strong>Seasonality</strong>: Captures repeating patterns or cycles, such as higher sales every December or temperature variations across seasons.</li>
-<li>
-<strong>Noise</strong>: Represents random fluctuations or irregularities in the data that are not explained by trend or seasonality.</li>
+<li><strong>Trend</strong>: Refers to the long-term progression of the series — an overall increase, decrease, or stable behavior over a period.</li>
+<li><strong>Seasonality</strong>: Captures repeating patterns or cycles, such as higher sales every December or temperature variations across seasons.</li>
+<li><strong>Noise</strong>: Represents random fluctuations or irregularities in the data that are not explained by trend or seasonality.</li>
 </ol>
 <p>Mathematically, a time series <span class="math inline">\(y_t\)</span> can be represented as a combination of these components:</p>
 <ul>
-<li>
-<p><strong>Additive Model</strong>:</p>
+<li><p><strong>Additive Model</strong>:</p>
 <p><span class="math display">\[
 y_t = T_t + S_t + R_t
 \]</span> where:</p>
 <ul>
-<li>
-<span class="math inline">\(T_t\)</span> is the trend component,</li>
-<li>
-<span class="math inline">\(S_t\)</span> is the seasonal component,</li>
-<li>
-<span class="math inline">\(R_t\)</span> is the remainder or residual (noise) component.</li>
-</ul>
-</li>
-<li>
-<p><strong>Multiplicative Model</strong>:</p>
+<li><span class="math inline">\(T_t\)</span> is the trend component,</li>
+<li><span class="math inline">\(S_t\)</span> is the seasonal component,</li>
+<li><span class="math inline">\(R_t\)</span> is the remainder or residual (noise) component.</li>
+</ul></li>
+<li><p><strong>Multiplicative Model</strong>:</p>
 <p><span class="math display">\[
 y_t = T_t \times S_t \times R_t
 \]</span></p>
-<p>This form is useful when seasonal fluctuations change proportionally to the series level.</p>
-</li>
+<p>This form is useful when seasonal fluctuations change proportionally to the series level.</p></li>
 </ul>
-<section id="decomposition-and-visualization" class="level4"><h4 class="anchored" data-anchor-id="decomposition-and-visualization"><strong>Decomposition and Visualization</strong></h4>
+<section id="decomposition-and-visualization" class="level4">
+<h4 class="anchored" data-anchor-id="decomposition-and-visualization"><strong>Decomposition and Visualization</strong></h4>
 <p>To analyze these components, we can use decomposition methods such as <strong>classical decomposition</strong> or <strong>STL (Seasonal-Trend decomposition using Loess)</strong>. These methods separate a time series into its trend, seasonal, and remainder components, providing insights into underlying patterns.</p>
 <p><strong>Steps in Decomposition</strong>:</p>
 <ol type="1">
 <li><p>Fit an STL decomposition model to the series, specifying a seasonal window to capture recurring patterns.</p></li>
 <li><p>Extract the trend, seasonal, and remainder components.</p></li>
-<li>
-<p>Plot the decomposed components:</p>
+<li><p>Plot the decomposed components:</p>
 <ul>
 <li>The observed series.</li>
 <li>The extracted trend component.</li>
 <li>The seasonal component, revealing periodic patterns.</li>
 <li>The remainder (residuals) after removing trend and seasonality.</li>
-</ul>
-</li>
+</ul></li>
 </ol>
 <p>These plots allow us to visually inspect how much of the variation in the data is due to trend, seasonal effects, or noise.</p>
-</section><section id="smoothing-techniques" class="level4"><h4 class="anchored" data-anchor-id="smoothing-techniques"><strong>Smoothing Techniques</strong></h4>
+</section>
+<section id="smoothing-techniques" class="level4">
+<h4 class="anchored" data-anchor-id="smoothing-techniques"><strong>Smoothing Techniques</strong></h4>
 <p>Smoothing helps to highlight the trend by reducing short-term fluctuations.</p>
 <ol type="1">
-<li>
-<p><strong>Moving Average Smoothing</strong>:</p>
+<li><p><strong>Moving Average Smoothing</strong>:</p>
 <ul>
 <li>Each point is replaced by the average of its neighbors over a specified window.</li>
 <li>This technique smooths out short-term variations, making long-term trends more visible.</li>
-</ul>
-</li>
-<li>
-<p><strong>Exponential Smoothing</strong>:</p>
+</ul></li>
+<li><p><strong>Exponential Smoothing</strong>:</p>
 <ul>
 <li>Applies decreasing weights to older observations, making it responsive to recent changes.</li>
-</ul>
-</li>
-</ol></section><section id="applied-example-with-tidyverts-ecosystem" class="level3"><h3 class="anchored" data-anchor-id="applied-example-with-tidyverts-ecosystem">Applied Example with Tidyverts Ecosystem</h3>
+</ul></li>
+</ol>
+</section>
+<section id="applied-example-with-tidyverts-ecosystem" class="level3">
+<h3 class="anchored" data-anchor-id="applied-example-with-tidyverts-ecosystem">Applied Example with Tidyverts Ecosystem</h3>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 1: Retrieve stock data using tq_get()</span></span>
-<span><span class="va">stock_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"AAPL"</span>, get <span class="op">=</span> <span class="st">"stock.prices"</span>, from <span class="op">=</span> <span class="st">"2018-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">rename</span><span class="op">(</span>Adjusted_Close <span class="op">=</span> <span class="va">adjusted</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Convert to a tsibble object</span></span>
-<span><span class="va">stock_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">stock_data</span>, index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">fill_gaps</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Adjusted_Close <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/na.approx.html">na.approx</a></span><span class="op">(</span><span class="va">Adjusted_Close</span><span class="op">)</span><span class="op">)</span></span>
-<span>  </span>
-<span></span>
-<span><span class="co"># Step 2: STL Decomposition</span></span>
-<span><span class="va">decomp</span> <span class="op">&lt;-</span> <span class="va">stock_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://feasts.tidyverts.org/reference/STL.html">STL</a></span><span class="op">(</span><span class="va">Adjusted_Close</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span>window <span class="op">=</span> <span class="fl">365</span><span class="op">)</span> <span class="op">+</span> <span class="fu">season</span><span class="op">(</span>window <span class="op">=</span> <span class="st">"periodic"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/components.html">components</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot the decomposed components</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">decomp</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"STL Decomposition of Apple Inc. Adjusted Closing Price"</span>,</span>
-<span>       subtitle <span class="op">=</span> <span class="st">"Trend, Seasonal, and Remainder Components"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Retrieve stock data using tq_get()</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>stock_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"AAPL"</span>, <span class="at">get =</span> <span class="st">"stock.prices"</span>, <span class="at">from =</span> <span class="st">"2018-01-01"</span>, <span class="at">to =</span> <span class="st">"2023-01-01"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, adjusted) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Adjusted_Close =</span> adjusted)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a tsibble object</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>stock_ts <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(stock_data, <span class="at">index =</span> date) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill_gaps</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Adjusted_Close =</span> <span class="fu">na.approx</span>(Adjusted_Close))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: STL Decomposition</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>decomp <span class="ot">&lt;-</span> stock_ts <span class="sc">%&gt;%</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">STL</span>(Adjusted_Close <span class="sc">~</span> <span class="fu">trend</span>(<span class="at">window =</span> <span class="dv">365</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="at">window =</span> <span class="st">"periodic"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>()</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the decomposed components</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(decomp) <span class="sc">+</span></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"STL Decomposition of Apple Inc. Adjusted Closing Price"</span>,</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Trend, Seasonal, and Remainder Components"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity7_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure">
+<p><img src="activity7_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 3: Smoothing Techniques</span></span>
-<span><span class="co"># Moving Average Smoothing (30-day window)</span></span>
-<span><span class="va">stock_ts</span> <span class="op">&lt;-</span> <span class="va">stock_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Moving_Avg <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, <span class="va">mean</span>, .before <span class="op">=</span> <span class="fl">29</span>, .after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Fit Holt's method using fable</span></span>
-<span><span class="va">fit_holt</span> <span class="op">&lt;-</span> <span class="va">stock_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>Holt <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html">ETS</a></span><span class="op">(</span><span class="va">Adjusted_Close</span> <span class="op">~</span> <span class="fu">error</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">season</span><span class="op">(</span><span class="st">"N"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Extract fitted values</span></span>
-<span><span class="va">holt_fc</span> <span class="op">&lt;-</span> <span class="va">fit_holt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">.fitted</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot the original series, moving average</span></span>
-<span><span class="va">stock_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">stock_ts</span>, <span class="va">Moving_Avg</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">holt_fc</span>, <span class="va">.fitted</span>, color <span class="op">=</span> <span class="st">"red"</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Smoothing Techniques Applied to Apple Inc. Adjusted Closing Price"</span>,</span>
-<span>       subtitle <span class="op">=</span> <span class="st">"Original Series (Black), 30-day MA (Blue), Holt's ES (Red)"</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/theme_tq.html">theme_tq</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Smoothing Techniques</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Moving Average Smoothing (30-day window)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>stock_ts <span class="ot">&lt;-</span> stock_ts <span class="sc">%&gt;%</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Moving_Avg =</span> slider<span class="sc">::</span><span class="fu">slide_dbl</span>(Adjusted_Close, mean, <span class="at">.before =</span> <span class="dv">29</span>, <span class="at">.after =</span> <span class="dv">0</span>))</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Holt's method using fable</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>fit_holt <span class="ot">&lt;-</span> stock_ts <span class="sc">%&gt;%</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">Holt =</span> <span class="fu">ETS</span>(Adjusted_Close <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)))</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract fitted values</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>holt_fc <span class="ot">&lt;-</span> fit_holt <span class="sc">%&gt;%</span> </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, .fitted)</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the original series, moving average</span></span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>stock_ts <span class="sc">%&gt;%</span></span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(Adjusted_Close, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(stock_ts, Moving_Avg, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(holt_fc, .fitted, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Smoothing Techniques Applied to Apple Inc. Adjusted Closing Price"</span>,</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Original Series (Black), 30-day MA (Blue), Holt's ES (Red)"</span>,</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Adjusted Close Price (USD)"</span>) <span class="sc">+</span></span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_tq</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity7_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure">
+<p><img src="activity7_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section><section id="lab-activity" class="level3"><h3 class="anchored" data-anchor-id="lab-activity">Lab Activity:</h3>
+</section>
+<section id="lab-activity" class="level3">
+<h3 class="anchored" data-anchor-id="lab-activity">Lab Activity:</h3>
 <p>Apply the concepts of time series decomposition and smoothing using the Tidyverts ecosystem in R. Use the stock data for <strong>Microsoft Corporation (MSFT)</strong> obtained via the <code>tidyquant</code> package. Perform the following tasks:</p>
 <ol type="1">
-<li>
-<strong>Decompose the time series</strong> for Microsoft’s adjusted closing price using STL decomposition. Visualize the trend, seasonal, and remainder components.</li>
-<li>
-<strong>Apply smoothing techniques</strong> (e.g., moving average or exponential smoothing) to the same series and compare the results.</li>
+<li><strong>Decompose the time series</strong> for Microsoft’s adjusted closing price using STL decomposition. Visualize the trend, seasonal, and remainder components.</li>
+<li><strong>Apply smoothing techniques</strong> (e.g., moving average or exponential smoothing) to the same series and compare the results.</li>
 <li>Interpret the components and smoothed series to identify trends, seasonality, and noise.</li>
 </ol>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 1: Retrieve Microsoft stock data using tq_get()</span></span>
-<span><span class="va">msft_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"MSFT"</span>, get <span class="op">=</span> <span class="st">"stock.prices"</span>, from <span class="op">=</span> <span class="st">"2018-01-01"</span>, to <span class="op">=</span> <span class="st">"2023-01-01"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">adjusted</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">rename</span><span class="op">(</span>Adjusted_Close <span class="op">=</span> <span class="va">adjusted</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Convert to a tsibble object</span></span>
-<span><span class="va">msft_ts</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span><span class="va">msft_data</span>, index <span class="op">=</span> <span class="va">date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">fill_gaps</span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Adjusted_Close <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/zoo/man/na.approx.html">na.approx</a></span><span class="op">(</span><span class="va">Adjusted_Close</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Step 2: STL Decomposition</span></span>
-<span><span class="va">decomp</span> <span class="op">&lt;-</span> <span class="va">msft_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://feasts.tidyverts.org/reference/STL.html">STL</a></span><span class="op">(</span><span class="va">Adjusted_Close</span> <span class="op">~</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span>window <span class="op">=</span> <span class="fl">365</span><span class="op">)</span> <span class="op">+</span> <span class="fu">season</span><span class="op">(</span>window <span class="op">=</span> <span class="st">"periodic"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/components.html">components</a></span><span class="op">(</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot the decomposed components</span></span>
-<span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">decomp</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"STL Decomposition of Microsoft Corporation Adjusted Closing Price"</span>,</span>
-<span>       subtitle <span class="op">=</span> <span class="st">"Trend, Seasonal, and Remainder Components"</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 1: Retrieve Microsoft stock data using tq_get()</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>msft_data <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"MSFT"</span>, <span class="at">get =</span> <span class="st">"stock.prices"</span>, <span class="at">from =</span> <span class="st">"2018-01-01"</span>, <span class="at">to =</span> <span class="st">"2023-01-01"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, adjusted) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Adjusted_Close =</span> adjusted)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to a tsibble object</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>msft_ts <span class="ot">&lt;-</span> <span class="fu">as_tsibble</span>(msft_data, <span class="at">index =</span> date) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fill_gaps</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Adjusted_Close =</span> <span class="fu">na.approx</span>(Adjusted_Close))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 2: STL Decomposition</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>decomp <span class="ot">&lt;-</span> msft_ts <span class="sc">%&gt;%</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">STL</span>(Adjusted_Close <span class="sc">~</span> <span class="fu">trend</span>(<span class="at">window =</span> <span class="dv">365</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="at">window =</span> <span class="st">"periodic"</span>))) <span class="sc">%&gt;%</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>()</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the decomposed components</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(decomp) <span class="sc">+</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"STL Decomposition of Microsoft Corporation Adjusted Closing Price"</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Trend, Seasonal, and Remainder Components"</span>,</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Adjusted Close Price (USD)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity7_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure">
+<p><img src="activity7_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Step 3: Smoothing Techniques</span></span>
-<span><span class="co"># Moving Average Smoothing (30-day window)</span></span>
-<span><span class="va">msft_ts</span> <span class="op">&lt;-</span> <span class="va">msft_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Moving_Avg <span class="op">=</span> <span class="fu">slider</span><span class="fu">::</span><span class="fu"><a href="https://slider.r-lib.org/reference/slide.html">slide_dbl</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, <span class="va">mean</span>, .before <span class="op">=</span> <span class="fl">29</span>, .after <span class="op">=</span> <span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Fit Holt's method using fable</span></span>
-<span><span class="va">fit_holt</span> <span class="op">&lt;-</span> <span class="va">msft_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>Holt <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/ETS.html">ETS</a></span><span class="op">(</span><span class="va">Adjusted_Close</span> <span class="op">~</span> <span class="fu">error</span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="https://rdrr.io/pkg/astsa/man/trend.html">trend</a></span><span class="op">(</span><span class="st">"A"</span><span class="op">)</span> <span class="op">+</span> <span class="fu">season</span><span class="op">(</span><span class="st">"N"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Extract fitted values</span></span>
-<span><span class="va">holt_fc</span> <span class="op">&lt;-</span> <span class="va">fit_holt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/augment.html">augment</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, <span class="va">.fitted</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Plot with Holt smoothing</span></span>
-<span><span class="va">msft_ts</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autoplot.html">autoplot</a></span><span class="op">(</span><span class="va">Adjusted_Close</span>, color <span class="op">=</span> <span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">msft_ts</span>, <span class="va">Moving_Avg</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/autolayer.html">autolayer</a></span><span class="op">(</span><span class="va">holt_fc</span>, <span class="va">.fitted</span>, color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Smoothing Techniques Applied to Microsoft Corporation Adjusted Closing Price"</span>,</span>
-<span>       subtitle <span class="op">=</span> <span class="st">"Original Series (Black), 30-day MA (Blue), Holt's ES (Red)"</span>,</span>
-<span>       y <span class="op">=</span> <span class="st">"Adjusted Close Price (USD)"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Step 3: Smoothing Techniques</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Moving Average Smoothing (30-day window)</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>msft_ts <span class="ot">&lt;-</span> msft_ts <span class="sc">%&gt;%</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Moving_Avg =</span> slider<span class="sc">::</span><span class="fu">slide_dbl</span>(Adjusted_Close, mean, <span class="at">.before =</span> <span class="dv">29</span>, <span class="at">.after =</span> <span class="dv">0</span>))</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit Holt's method using fable</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>fit_holt <span class="ot">&lt;-</span> msft_ts <span class="sc">%&gt;%</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">Holt =</span> <span class="fu">ETS</span>(Adjusted_Close <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)))</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract fitted values</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>holt_fc <span class="ot">&lt;-</span> fit_holt <span class="sc">%&gt;%</span> </span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">augment</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, .fitted)</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot with Holt smoothing</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>msft_ts <span class="sc">%&gt;%</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(Adjusted_Close, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(msft_ts, Moving_Avg, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(holt_fc, .fitted, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Smoothing Techniques Applied to Microsoft Corporation Adjusted Closing Price"</span>,</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Original Series (Black), 30-day MA (Blue), Holt's ES (Red)"</span>,</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Adjusted Close Price (USD)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity7_files/figure-html/unnamed-chunk-3-2.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure">
+<p><img src="activity7_files/figure-html/unnamed-chunk-4-2.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
 
 
-</section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -546,150 +582,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1088,6 +980,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 

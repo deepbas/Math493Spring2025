@@ -1,11 +1,26 @@
 ---
 title: "Activity13"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - COVID19
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -18,7 +33,6 @@ library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 ```
-
 
 
 ## Seasonal Modeling
@@ -97,7 +111,6 @@ aic_results <- map_dfr(1:10, function(k) {
     mutate(K = k)
 })
 
-
 optimal_k <- aic_results %>% 
   filter(AICc == min(AICc)) %>% 
   pull(K)
@@ -113,7 +126,6 @@ final_model <- nyse %>%
     )
   )
 ```
-
 
 
 ```{r}
@@ -149,16 +161,9 @@ final_model %>%
 > **Task:** For the following COVID data, compute daily new confirmed cases, and try fitting the periodic regression with Fourier terms with different seasonal periods (e.g., 7-day vs. 14-day cycles) and compare the residual diagnostics.
 
 
-```{r}
-library(COVID19) # install the package first
-covid_data <- covid19()
-```
-
-
-
-```{r}
+```{webr}
+#| warning: false
 library(COVID19)
-
 covid_data <- covid19(verbose = FALSE)
 
 covid <- covid_data %>% 
@@ -179,10 +184,7 @@ covid_models <- covid %>%
 covid_models %>% 
   select(Weekly) %>% 
   gg_tsresiduals()
-
 ```
-
-
 
 
 ## References

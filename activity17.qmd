@@ -1,11 +1,27 @@
 ---
 title: "Activity17"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -24,14 +40,12 @@ library(vars)
 
 ## Review of concepts and applications covered so far!
 
-
 1. Exploratory Data Analysis and Preprocessing
 
 - *Visualization:* Plot the raw time‐series data to inspect for trends, seasonality, and irregular fluctuations (including rolling means/variances).
 - *Transformations:* Apply appropriate transformations (e.g. logarithmic or Box–Cox) to stabilize variance.
 
-
-```{r}
+```{webr}
 # Simulate a multivariate time series dataset with trend, seasonality, and noise
 set.seed(42)
 n <- 200
@@ -66,7 +80,7 @@ grid.arrange(p1, p2, ncol = 2)
 - *Detrending/Deseasonalizing:* Remove or model the trend and seasonal components so that the residual approximates white noise.
 Stationarity Tests: Apply tests (e.g., ADF, KPSS) and difference the series as needed to achieve stationarity.
 
-```{r}
+```{webr}
 # Decompose series1 using STL (additive model)
 stl_decomp <- ts_data %>%
   model(STL(series1 ~ season(window = "periodic"))) %>%
@@ -87,7 +101,7 @@ autoplot(stl_decomp, remainder) +
 - *Dynamic Modeling:* Fit an autoregressive model (or a VAR for multivariate data) on the stationary series.
 Granger Causality Testing: Within the VAR framework, test whether past values of one variable significantly improve the prediction of another.
 
-```{r}
+```{webr}
 # For VAR, we need a multivariate time series object.
 var_data <- ts_data %>% as_tibble() %>% dplyr::select(series1, series2)
              
@@ -108,7 +122,7 @@ summary(var_model)
 - *IRF Computation:* After estimating the VAR, compute impulse response functions to trace how shocks to one variable affect the system over time.
 - *Interpretation:* Use IRFs to quantify the duration and magnitude of shock effects, complementing the Granger causality findings.
 
-```{r}
+```{webr}
 # Compute the impulse response function for the effect of a shock in series1 on series2 (12 periods ahead)
 irf_result <- irf(var_model, impulse = "series1", response = "series2",
                   n.ahead = 18, boot = TRUE)
@@ -122,10 +136,9 @@ plot(irf_result)
 Forecasting: Employ the fitted model to forecast future values, reintroducing trend and seasonal components as needed.
 
 
-```{r}
+```{webr}
 # Diagnostics: Test for serial correlation in the VAR residuals (using 12 lags)
 serial_test <- serial.test(var_model, lags.pt = 12, type = "PT.adjusted")
-print(serial_test)
 
 # Forecasting: Forecast the next 12 periods using the VAR model
 var_forecast <- predict(var_model, n.ahead = 12)

@@ -1,15 +1,30 @@
 ---
 title: "Activity9"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
-library(fpp3)         # Tidy time series dataseta
+library(fpp3)         # Tidy time series datasets
 library(astsa)        # Applied statistical TS methods from textbook
 library(tseries)      # Unit root tests & TS diagnostics
 library(tsibbledata)  # Curated TS datasets
@@ -18,7 +33,6 @@ library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 ```
-
 
 
 # 1. Foundations of Time Series Regression

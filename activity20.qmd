@@ -1,11 +1,27 @@
 ---
 title: "Activity20"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -126,12 +142,12 @@ sim_ma1 |>
 
 The `vic_elec` dataset contains half-hourly electricity demand in Victoria, Australia, alongside temperature readings.
 
-	1.	Aggregate the data to daily resolution (summing demand and averaging temperature).
-	2.	Plot the cross-correlation function (CCF) between daily demand and temperature.
-	3.	Interpret the results.
+1.	Aggregate the data to daily resolution (summing demand and averaging temperature).
+2.	Plot the cross-correlation function (CCF) between daily demand and temperature.
+3.	Interpret the results.
 
 
-```{r}
+```{webr}
 vic_elec_daily <- vic_elec %>%
   index_by(Date = as.Date(Time)) %>%
   summarise(
@@ -143,7 +159,7 @@ vic_elec_daily <- vic_elec %>%
 knitr::kable(vic_elec_daily %>% head())
 ```
 
-```{r}
+```{webr}
 # Cross-correlation function between Demand and Temperature up to ±30 days
 vic_elec_daily %>% 
   CCF(DailyDemand, DailyTemp) %>% 

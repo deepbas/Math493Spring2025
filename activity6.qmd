@@ -10,12 +10,12 @@ webr:
     - fpp3
     - patchwork
     - tsibbledata
-    - urca
-    - quantmod
-    - TTM
 warning: false
 message: false
 ---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 
 ```{r}
 #| echo: false
@@ -162,7 +162,7 @@ Repeat the stationarity and unit root analysis (using ADF and KPSS tests) for NV
 
 **Solution:**
 
-```{webr}
+```{r}
 # Step 1: Get NVIDIA (NVDA) stock data
 nvda <- tq_get("NVDA", 
                from = "2010-01-01", 

@@ -1,11 +1,25 @@
 ---
 title: "Activity7"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -138,7 +152,6 @@ Apply the concepts of time series decomposition and smoothing using the Tidyvert
 3. Interpret the components and smoothed series to identify trends, seasonality, and noise.
 
 
-
 ```{r}
 # Step 1: Retrieve Microsoft stock data using tq_get()
 msft_data <- tq_get("MSFT", get = "stock.prices", from = "2018-01-01", to = "2023-01-01") %>%
@@ -184,7 +197,4 @@ msft_ts %>%
        subtitle = "Original Series (Black), 30-day MA (Blue), Holt's ES (Red)",
        y = "Adjusted Close Price (USD)")
 ```
-
-
-
 

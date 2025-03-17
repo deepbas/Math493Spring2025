@@ -1,11 +1,27 @@
 ---
 title: "Activity19"
-format: html
+format: live-html
+engine: knitr
+toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
 warning: false
 message: false
 ---
 
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
 ```{r}
+#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -82,21 +98,19 @@ vic_elec |>
 1. Load the `aus_production` dataset from `fpp3`.
 
 
-```{r}
+```{webr}
 # 1) Load and visualize the 'Gas' time series
 aus_production %>%
-  select(Quarter, Gas) %>%
+  dplyr::select(Quarter, Gas) %>%
   autoplot(Gas) +
   labs(title="Gas Time Series from aus_production")
 ```
 
 
-
-
 2. Choose the 'Gas' time series. Plot its ACF and PACF to identify any AR/MA components or seasonal effects.
 
 
-```{r}
+```{webr}
 # 2) Plot ACF & PACF to assess AR/MA/seasonal components
 aus_production %>%
   ACF(Gas) %>%
@@ -109,13 +123,9 @@ aus_production %>%
   labs(title="PACF of Gas")
 ```
 
-
-
 3. Apply differencing if needed, and re-check the ACF/PACF to refine your model choice.
 
-
-
-```{r}
+```{webr}
 # 3) Apply differencing if needed, then re-check ACF/PACF
 aus_production %>%
   mutate(dGas = difference(Gas)) %>%

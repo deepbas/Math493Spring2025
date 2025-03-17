@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta charset="utf-8">
 <meta name="generator" content="quarto-99.9.9">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
 <title>Activity9 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
@@ -53,6 +56,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 }
 </style>
 
+
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="site_libs/clipboard/clipboard.min.js"></script>
 <script src="site_libs/quarto-search/autocomplete.umd.js"></script>
@@ -65,12 +69,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-9e2db6d60132874137d35cd80df6d385.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-c2299866e9c1ed9e4d64cbb04b200562.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark"><script id="quarto-search-options" type="application/json">{
+<link href="site_libs/bootstrap/bootstrap-0522aeb2e65cb0a4bd37577de0a3038c.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
+<link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
+<script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
   "collapse-after": 3,
@@ -96,7 +101,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     "search-submit-button-title": "Submit",
     "search-label": "Search"
   }
-}</script><script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script><script type="text/javascript">
+}</script>
+<script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
+<link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
 const typesetMath = (el) => {
   if (window.MathJax) {
     // MathJax Typeset
@@ -121,12 +133,16 @@ const typesetMath = (el) => {
 window.Quarto = {
   typesetMath
 };
-</script><link rel="stylesheet" href="styles.css">
+</script>
+
 </head>
+
 <body class="nav-fixed">
 
 <div id="quarto-search-results"></div>
-  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="./index.html">
     <span class="navbar-title">Math 493</span>
@@ -138,7 +154,7 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-<li class="nav-item">
+  <li class="nav-item">
     <a class="nav-link" href="./index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
@@ -150,8 +166,8 @@ window.Quarto = {
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-activities" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Activities</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-activities">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-activities">    
+        <li>
     <a class="dropdown-item" href="./activity1.html">
  <span class="dropdown-text">Activity1</span></a>
   </li>  
@@ -260,75 +276,74 @@ window.Quarto = {
  <span class="dropdown-text">Activity27</span></a>
   </li>  
     </ul>
-</li>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-datasets" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Datasets</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-datasets">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-datasets">    
+        <li>
     <a class="dropdown-item" href="./googledata.html">
  <span class="dropdown-text">Google</span></a>
   </li>  
     </ul>
-</li>
+  </li>
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-tutorials" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Tutorials</span>
     </a>
-    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">
-<li>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-tutorials">    
+        <li>
     <a class="dropdown-item" href="./RandRStudio.html">
  <span class="dropdown-text">R and RStudio</span></a>
   </li>  
     </ul>
-</li>
+  </li>
 </ul>
-</div> <!-- /navcollapse -->
+          </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
-  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
-    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
    
   <ul>
-<li>
-<a href="#foundations-of-time-series-regression" id="toc-foundations-of-time-series-regression" class="nav-link active" data-scroll-target="#foundations-of-time-series-regression">1. Foundations of Time Series Regression</a>
+  <li><a href="#foundations-of-time-series-regression" id="toc-foundations-of-time-series-regression" class="nav-link active" data-scroll-target="#foundations-of-time-series-regression">1. Foundations of Time Series Regression</a>
   <ul class="collapse">
-<li><a href="#finance-example-amazon-vs.-sp-500" id="toc-finance-example-amazon-vs.-sp-500" class="nav-link" data-scroll-target="#finance-example-amazon-vs.-sp-500">1.1 Finance Example (Amazon vs.&nbsp;S&amp;P 500)</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#using-oxdata-for-further-covid-anaysis" id="toc-using-oxdata-for-further-covid-anaysis" class="nav-link" data-scroll-target="#using-oxdata-for-further-covid-anaysis">Using <code>oxdata</code> for further COVID anaysis</a>
+  <li><a href="#finance-example-amazon-vs.-sp-500" id="toc-finance-example-amazon-vs.-sp-500" class="nav-link" data-scroll-target="#finance-example-amazon-vs.-sp-500">1.1 Finance Example (Amazon vs.&nbsp;S&amp;P 500)</a></li>
+  </ul></li>
+  <li><a href="#using-oxdata-for-further-covid-anaysis" id="toc-using-oxdata-for-further-covid-anaysis" class="nav-link" data-scroll-target="#using-oxdata-for-further-covid-anaysis">Using <code>oxdata</code> for further COVID anaysis</a>
   <ul class="collapse">
-<li>
-<a href="#lab-activity-1" id="toc-lab-activity-1" class="nav-link" data-scroll-target="#lab-activity-1">Lab Activity 1</a>
+  <li><a href="#lab-activity-1" id="toc-lab-activity-1" class="nav-link" data-scroll-target="#lab-activity-1">Lab Activity 1</a>
   <ul class="collapse">
-<li><a href="#solution" id="toc-solution" class="nav-link" data-scroll-target="#solution">Solution</a></li>
-  </ul>
-</li>
-  <li>
-<a href="#lab-activity-2" id="toc-lab-activity-2" class="nav-link" data-scroll-target="#lab-activity-2">Lab Activity 2</a>
+  <li><a href="#solution" id="toc-solution" class="nav-link" data-scroll-target="#solution">Solution</a></li>
+  </ul></li>
+  <li><a href="#lab-activity-2" id="toc-lab-activity-2" class="nav-link" data-scroll-target="#lab-activity-2">Lab Activity 2</a>
   <ul class="collapse">
-<li><a href="#solution-1" id="toc-solution-1" class="nav-link" data-scroll-target="#solution-1">Solution</a></li>
+  <li><a href="#solution-1" id="toc-solution-1" class="nav-link" data-scroll-target="#solution-1">Solution</a></li>
+  </ul></li>
+  </ul></li>
   </ul>
-</li>
-  </ul>
-</li>
-  </ul></nav>
+</nav>
     </div>
 <!-- main -->
-<main class="content column-page-left" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
 <h1 class="title">Activity9</h1>
 </div>
 
 
 
-<div class="quarto-title-meta column-page-left">
+<div class="quarto-title-meta">
 
     
   
@@ -337,20 +352,11 @@ window.Quarto = {
   
 
 
-</header><div class="cell">
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Time Series Essentials, install if needed!</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="http://feasts.tidyverts.org/">feasts</a></span><span class="op">)</span>       <span class="co"># Feature extraction &amp; decomposition</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://fable.tidyverts.org">fable</a></span><span class="op">)</span>        <span class="co"># Forecasting models (ARIMA, ETS, etc.)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://pkg.robjhyndman.com/fpp3/">fpp3</a></span><span class="op">)</span>         <span class="co"># Tidy time series dataseta</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://dsstoffer.github.io/">astsa</a></span><span class="op">)</span>        <span class="co"># Applied statistical TS methods from textbook</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">tseries</span><span class="op">)</span>      <span class="co"># Unit root tests &amp; TS diagnostics</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tsibbledata.tidyverts.org/">tsibbledata</a></span><span class="op">)</span>  <span class="co"># Curated TS datasets</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://www.quantmod.com/">quantmod</a></span><span class="op">)</span>     <span class="co"># Financial data retrieval</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://business-science.github.io/tidyquant/">tidyquant</a></span><span class="op">)</span>    <span class="co"># Financial analysis in tidyverse</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://purrr.tidyverse.org/">purrr</a></span><span class="op">)</span>        <span class="co"># Functional programming for TS pipelines</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span>        <span class="co"># Efficient data import</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<section id="foundations-of-time-series-regression" class="level1"><h1>1. Foundations of Time Series Regression</h1>
+</header>
+
+
+<section id="foundations-of-time-series-regression" class="level1">
+<h1>1. Foundations of Time Series Regression</h1>
 <p>We often model a response <span class="math inline">\(Y_t\)</span> as a linear function of a predictor <span class="math inline">\(X_t\)</span>:</p>
 <p><span class="math display">\[
 \begin{align}
@@ -360,39 +366,35 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 \]</span></p>
 <p>Where:</p>
 <ul>
-<li>
-<span class="math inline">\(Y_t\)</span> is the response at time <span class="math inline">\(t\)</span>.</li>
-<li>
-<span class="math inline">\(X_t\)</span> is the predictor at time <span class="math inline">\(t\)</span>.</li>
-<li>
-<span class="math inline">\(\beta_0\)</span> is the intercept.</li>
-<li>
-<span class="math inline">\(\beta_1\)</span> is the slope.</li>
-<li>
-<span class="math inline">\(\varepsilon_t\)</span> is the error term.</li>
+<li><span class="math inline">\(Y_t\)</span> is the response at time <span class="math inline">\(t\)</span>.</li>
+<li><span class="math inline">\(X_t\)</span> is the predictor at time <span class="math inline">\(t\)</span>.</li>
+<li><span class="math inline">\(\beta_0\)</span> is the intercept.</li>
+<li><span class="math inline">\(\beta_1\)</span> is the slope.</li>
+<li><span class="math inline">\(\varepsilon_t\)</span> is the error term.</li>
 </ul>
-<section id="finance-example-amazon-vs.-sp-500" class="level2"><h2 class="anchored" data-anchor-id="finance-example-amazon-vs.-sp-500">1.1 Finance Example (Amazon vs.&nbsp;S&amp;P 500)</h2>
+<section id="finance-example-amazon-vs.-sp-500" class="level2">
+<h2 class="anchored" data-anchor-id="finance-example-amazon-vs.-sp-500">1.1 Finance Example (Amazon vs.&nbsp;S&amp;P 500)</h2>
 <p><em>Dataset:</em> <code>gafa_stock</code> (Amazon vs Market Index)</p>
 <div class="cell">
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 1) Get S&amp;P 500 data (adjust as needed for start dates):</span></span>
-<span><span class="va">sp500</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://business-science.github.io/tidyquant/reference/tq_get.html">tq_get</a></span><span class="op">(</span><span class="st">"^GSPC"</span>, from <span class="op">=</span> <span class="st">"2018-01-01"</span>, to <span class="op">=</span> <span class="st">"2019-12-31"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="co"># Rename for consistency</span></span>
-<span>  <span class="fu">select</span><span class="op">(</span><span class="va">date</span>, sp500_close <span class="op">=</span> <span class="va">adjusted</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 2) Use Amazon data from gafa_stock in fpp3:</span></span>
-<span><span class="va">amzn</span> <span class="op">&lt;-</span> <span class="va">gafa_stock</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span> <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">Symbol</span> <span class="op">==</span> <span class="st">"AMZN"</span>, <span class="va">Date</span> <span class="op">&gt;=</span> <span class="st">"2018-01-01"</span>, <span class="va">Date</span> <span class="op">&lt;=</span> <span class="st">"2018-12-31"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span> <span class="fu">select</span><span class="op">(</span><span class="va">Date</span>, amzn_close <span class="op">=</span> <span class="va">Adj_Close</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># 3) Join by date</span></span>
-<span><span class="va">amzn_sp</span> <span class="op">&lt;-</span> <span class="va">amzn</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">inner_join</span><span class="op">(</span><span class="va">sp500</span>, by <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Date"</span> <span class="op">=</span> <span class="st">"date"</span><span class="op">)</span><span class="op">)</span> </span>
-<span></span>
-<span><span class="co"># Regression coefficients</span></span>
-<span><span class="va">amzn_sp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">amzn_close</span> <span class="op">~</span> <span class="va">sp500_close</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Coefficients table"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1) Get S&amp;P 500 data (adjust as needed for start dates):</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sp500 <span class="ot">&lt;-</span> <span class="fu">tq_get</span>(<span class="st">"^GSPC"</span>, <span class="at">from =</span> <span class="st">"2018-01-01"</span>, <span class="at">to =</span> <span class="st">"2019-12-31"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Rename for consistency</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, <span class="at">sp500_close =</span> adjusted)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2) Use Amazon data from gafa_stock in fpp3:</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>amzn <span class="ot">&lt;-</span> gafa_stock <span class="sc">%&gt;%</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a> <span class="fu">filter</span>(Symbol <span class="sc">==</span> <span class="st">"AMZN"</span>, Date <span class="sc">&gt;=</span> <span class="st">"2018-01-01"</span>, Date <span class="sc">&lt;=</span> <span class="st">"2018-12-31"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a> <span class="fu">select</span>(Date, <span class="at">amzn_close =</span> Adj_Close)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># 3) Join by date</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>amzn_sp <span class="ot">&lt;-</span> amzn <span class="sc">%&gt;%</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(sp500, <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"Date"</span> <span class="ot">=</span> <span class="st">"date"</span>)) </span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Regression coefficients</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>amzn_sp <span class="sc">%&gt;%</span> </span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">TSLM</span>(amzn_close <span class="sc">~</span> sp500_close)) <span class="sc">%&gt;%</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Coefficients table"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Coefficients table</caption>
@@ -404,14 +406,16 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <col style="width: 11%">
 <col style="width: 9%">
 </colgroup>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th style="text-align: left;">.model</th>
 <th style="text-align: left;">term</th>
 <th style="text-align: right;">estimate</th>
 <th style="text-align: right;">std.error</th>
 <th style="text-align: right;">statistic</th>
 <th style="text-align: right;">p.value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">TSLM(amzn_close ~ sp500_close)</td>
@@ -432,19 +436,20 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># 4) Quick visualization</span></span>
-<span> <span class="va">amzn_sp</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">sp500_close</span>, y <span class="op">=</span> <span class="va">amzn_close</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Amazon Stock vs S&amp;P 500"</span>,</span>
-<span>    x <span class="op">=</span> <span class="st">"S&amp;P 500 Adjusted Close"</span>,</span>
-<span>    y <span class="op">=</span> <span class="st">"Amazon Adjusted Close"</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 4) Quick visualization</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a> amzn_sp <span class="sc">%&gt;%</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> sp500_close, <span class="at">y =</span> amzn_close)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Amazon Stock vs S&amp;P 500"</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"S&amp;P 500 Adjusted Close"</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Amazon Adjusted Close"</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity9_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure">
+<p><img src="activity9_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
@@ -452,25 +457,24 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <p><strong>COVID Example (Mobility):</strong></p>
 <p><em>Dataset:</em> <code>oxcgrt</code> (Oxford COVID Policy Tracker)</p>
 <div class="cell">
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://readr.tidyverse.org">readr</a></span><span class="op">)</span></span>
-<span><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv"</span></span>
-<span><span class="va">oxcgrt</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://readr.tidyverse.org/reference/read_delim.html">read_csv</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">"https://github.com/OxCGRT/covid-policy-dataset/raw/main/data/OxCGRT_compact_national_v1.csv"</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>oxcgrt <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(url)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <ul>
 <li>Model: <span class="math inline">\(\log(\text{ConfirmedCases}_t) = \beta_0 + \beta_1\text{ConfirmedDeaths}_t + \varepsilon_t\)</span><br>
 </li>
-<li>Activity: Test <span class="math inline">\(H_0: \beta_1=0\)</span> using <span class="math inline">\(t = \frac{\hat{\beta}_1}{SE(\hat{\beta}_1)}\)</span>
-</li>
+<li>Activity: Test <span class="math inline">\(H_0: \beta_1=0\)</span> using <span class="math inline">\(t = \frac{\hat{\beta}_1}{SE(\hat{\beta}_1)}\)</span></li>
 </ul>
 <div class="cell">
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/drop_na.html">drop_na</a></span><span class="op">(</span><span class="va">ConfirmedCases</span>,<span class="va">ConfirmedDeaths</span> <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span><span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">ConfirmedCases</span> <span class="op">~</span> <span class="va">ConfirmedDeaths</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span>caption <span class="op">=</span> <span class="st">"Coefficients table"</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>oxcgrt <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CountryName <span class="sc">==</span> <span class="st">"United States"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(Date)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Date) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">drop_na</span>(ConfirmedCases,ConfirmedDeaths ) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">TSLM</span>(ConfirmedCases <span class="sc">~</span> ConfirmedDeaths)) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy</span>()  <span class="sc">%&gt;%</span> </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">caption =</span> <span class="st">"Coefficients table"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <caption>Coefficients table</caption>
@@ -482,14 +486,16 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <col style="width: 10%">
 <col style="width: 8%">
 </colgroup>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th style="text-align: left;">.model</th>
 <th style="text-align: left;">term</th>
 <th style="text-align: right;">estimate</th>
 <th style="text-align: right;">std.error</th>
 <th style="text-align: right;">statistic</th>
 <th style="text-align: right;">p.value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">TSLM(ConfirmedCases ~ ConfirmedDeaths)</td>
@@ -512,55 +518,60 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">oxdata</span> <span class="op">&lt;-</span> <span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">"United States"</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">mutate</span><span class="op">(</span>Date <span class="op">=</span> <span class="fu">lubridate</span><span class="fu">::</span><span class="fu"><a href="https://lubridate.tidyverse.org/reference/ymd.html">ymd</a></span><span class="op">(</span><span class="va">Date</span><span class="op">)</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> </span>
-<span>  </span>
-<span></span>
-<span><span class="va">oxdata</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> </span>
-<span>  <span class="fu">ggplot</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">ConfirmedCases</span>, y <span class="op">=</span> <span class="va">ConfirmedDeaths</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_point</span><span class="op">(</span>alpha <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">geom_smooth</span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span>, se <span class="op">=</span> <span class="cn">FALSE</span>, color <span class="op">=</span> <span class="st">"blue"</span><span class="op">)</span> <span class="op">+</span></span>
-<span>  <span class="fu">labs</span><span class="op">(</span></span>
-<span>    title <span class="op">=</span> <span class="st">"Confirmed Cases vs Confirmed Deaths"</span>,</span>
-<span>    x <span class="op">=</span> <span class="st">"Confirmed Cases"</span>,</span>
-<span>    y <span class="op">=</span> <span class="st">"Confirmed Deaths"</span></span>
-<span>  <span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>oxdata <span class="ot">&lt;-</span> oxcgrt <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CountryName <span class="sc">==</span> <span class="st">"United States"</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Date =</span> lubridate<span class="sc">::</span><span class="fu">ymd</span>(Date)) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Date) </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>oxdata <span class="sc">%&gt;%</span> </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> ConfirmedCases, <span class="at">y =</span> ConfirmedDeaths)) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"blue"</span>) <span class="sc">+</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Confirmed Cases vs Confirmed Deaths"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Confirmed Cases"</span>,</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Confirmed Deaths"</span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
-<figure class="figure"><p><img src="activity9_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<figure class="figure">
+<p><img src="activity9_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-</section></section><section id="using-oxdata-for-further-covid-anaysis" class="level1"><h1>Using <code>oxdata</code> for further COVID anaysis</h1>
-<section id="lab-activity-1" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-1">Lab Activity 1</h2>
+</section>
+</section>
+<section id="using-oxdata-for-further-covid-anaysis" class="level1">
+<h1>Using <code>oxdata</code> for further COVID anaysis</h1>
+<section id="lab-activity-1" class="level2">
+<h2 class="anchored" data-anchor-id="lab-activity-1">Lab Activity 1</h2>
 <ol type="1">
 <li>Filter the data to one country (e.g., ‘United States’).</li>
-<li>Create a new variable, <code>log_cases</code>, defined as <span class="math inline">\(\\(\log(1 + \text{ConfirmedCases})\\)\)</span>. (Adding 1 helps avoid <span class="math inline">\(\\(\log(0)\\).)\)</span>
-</li>
+<li>Create a new variable, <code>log_cases</code>, defined as <span class="math inline">\(\\(\log(1 + \text{ConfirmedCases})\\)\)</span>. (Adding 1 helps avoid <span class="math inline">\(\\(\log(0)\\).)\)</span></li>
 <li>Fit a TSLM model relating <code>log_cases</code> to <code>C6M_Stay at home requirements</code>.</li>
 <li>Interpret the slope coefficient.</li>
 </ol>
-<section id="solution" class="level3"><h3 class="anchored" data-anchor-id="solution">Solution</h3>
+<section id="solution" class="level3">
+<h3 class="anchored" data-anchor-id="solution">Solution</h3>
 <div class="cell">
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Filter &amp; transform</span></span>
-<span><span class="va">exercise1_data</span> <span class="op">&lt;-</span> <span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">'United States'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    Date <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,</span>
-<span>    log_cases <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ConfirmedCases</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">log_cases</span>, <span class="va">`C6M_Stay at home requirements`</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Fit TSLM</span></span>
-<span><span class="va">ex1_model</span> <span class="op">&lt;-</span> <span class="va">exercise1_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>tslm_ex1 <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">log_cases</span> <span class="op">~</span> <span class="va">`C6M_Stay at home requirements`</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Summaries</span></span>
-<span><span class="va">ex1_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">tslm_ex1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter &amp; transform</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>exercise1_data <span class="ot">&lt;-</span> oxcgrt <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CountryName <span class="sc">==</span> <span class="st">'United States'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Date =</span> <span class="fu">ymd</span>(Date),</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_cases =</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> ConfirmedCases)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Date) <span class="sc">%&gt;%</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(log_cases, <span class="st">`</span><span class="at">C6M_Stay at home requirements</span><span class="st">`</span>)</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit TSLM</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>ex1_model <span class="ot">&lt;-</span> exercise1_data <span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">tslm_ex1 =</span> <span class="fu">TSLM</span>(log_cases <span class="sc">~</span> <span class="st">`</span><span class="at">C6M_Stay at home requirements</span><span class="st">`</span>))</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Summaries</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ex1_model <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(tslm_ex1) <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -571,14 +582,16 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <col style="width: 12%">
 <col style="width: 10%">
 </colgroup>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th style="text-align: left;">.model</th>
 <th style="text-align: left;">term</th>
 <th style="text-align: right;">estimate</th>
 <th style="text-align: right;">std.error</th>
 <th style="text-align: right;">statistic</th>
 <th style="text-align: right;">p.value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">tslm_ex1</td>
@@ -599,7 +612,7 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ex1_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">tslm_ex1</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ex1_model <span class="sc">%&gt;%</span> <span class="fu">glance</span>(tslm_ex1) <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -619,7 +632,8 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <col style="width: 8%">
 <col style="width: 3%">
 </colgroup>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th style="text-align: left;">.model</th>
 <th style="text-align: right;">r_squared</th>
 <th style="text-align: right;">adj_r_squared</th>
@@ -635,8 +649,10 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <th style="text-align: right;">deviance</th>
 <th style="text-align: right;">df.residual</th>
 <th style="text-align: right;">rank</th>
-</tr></thead>
-<tbody><tr class="odd">
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td style="text-align: left;">tslm_ex1</td>
 <td style="text-align: right;">0.0252702</td>
 <td style="text-align: right;">0.0243792</td>
@@ -652,35 +668,40 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <td style="text-align: right;">17233.7</td>
 <td style="text-align: right;">1094</td>
 <td style="text-align: right;">2</td>
-</tr></tbody>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
-</section></section><section id="lab-activity-2" class="level2"><h2 class="anchored" data-anchor-id="lab-activity-2">Lab Activity 2</h2>
+</section>
+</section>
+<section id="lab-activity-2" class="level2">
+<h2 class="anchored" data-anchor-id="lab-activity-2">Lab Activity 2</h2>
 <ol type="1">
 <li>Filter to the same (or another) country.</li>
 <li>Define a new variable, <code>log_deaths</code> = <span class="math inline">\(\\(\log(1 + \text{ConfirmedDeaths})\\)\)</span>.</li>
 <li>Regress <code>log_deaths</code> on <code>StringencyIndex_Average</code> using TSLM.</li>
 <li>Check if increased stringency is correlated with reduced deaths (i.e., a negative slope).</li>
 </ol>
-<section id="solution-1" class="level3"><h3 class="anchored" data-anchor-id="solution-1">Solution</h3>
+<section id="solution-1" class="level3">
+<h3 class="anchored" data-anchor-id="solution-1">Solution</h3>
 <div class="cell">
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="co"># Filter &amp; transform</span></span>
-<span><span class="va">exercise2_data</span> <span class="op">&lt;-</span> <span class="va">oxcgrt</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://rdrr.io/r/stats/filter.html">filter</a></span><span class="op">(</span><span class="va">CountryName</span> <span class="op">==</span> <span class="st">'United States'</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">mutate</span><span class="op">(</span></span>
-<span>    Date <span class="op">=</span> <span class="fu">ymd</span><span class="op">(</span><span class="va">Date</span><span class="op">)</span>,</span>
-<span>    log_deaths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Log.html">log</a></span><span class="op">(</span><span class="fl">1</span> <span class="op">+</span> <span class="va">ConfirmedDeaths</span><span class="op">)</span></span>
-<span>  <span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://tsibble.tidyverts.org/reference/as-tsibble.html">as_tsibble</a></span><span class="op">(</span>index <span class="op">=</span> <span class="va">Date</span><span class="op">)</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu">drop_na</span><span class="op">(</span><span class="va">log_deaths</span>, <span class="va">StringencyIndex_Average</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Fit TSLM</span></span>
-<span><span class="va">ex2_model</span> <span class="op">&lt;-</span> <span class="va">exercise2_data</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span></span>
-<span>  <span class="fu"><a href="https://fabletools.tidyverts.org/reference/model.html">model</a></span><span class="op">(</span>tslm_ex2 <span class="op">=</span> <span class="fu"><a href="https://fable.tidyverts.org/reference/TSLM.html">TSLM</a></span><span class="op">(</span><span class="va">log_deaths</span> <span class="op">~</span> <span class="va">StringencyIndex_Average</span><span class="op">)</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Summaries</span></span>
-<span><span class="va">ex2_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/tidy.html">tidy</a></span><span class="op">(</span><span class="va">tslm_ex2</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter &amp; transform</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>exercise2_data <span class="ot">&lt;-</span> oxcgrt <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(CountryName <span class="sc">==</span> <span class="st">'United States'</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Date =</span> <span class="fu">ymd</span>(Date),</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">log_deaths =</span> <span class="fu">log</span>(<span class="dv">1</span> <span class="sc">+</span> ConfirmedDeaths)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Date) <span class="sc">%&gt;%</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>(log_deaths, StringencyIndex_Average)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit TSLM</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>ex2_model <span class="ot">&lt;-</span> exercise2_data <span class="sc">%&gt;%</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="at">tslm_ex2 =</span> <span class="fu">TSLM</span>(log_deaths <span class="sc">~</span> StringencyIndex_Average))</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Summaries</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>ex2_model <span class="sc">%&gt;%</span> <span class="fu">tidy</span>(tslm_ex2)  <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -691,14 +712,16 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <col style="width: 14%">
 <col style="width: 11%">
 </colgroup>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th style="text-align: left;">.model</th>
 <th style="text-align: left;">term</th>
 <th style="text-align: right;">estimate</th>
 <th style="text-align: right;">std.error</th>
 <th style="text-align: right;">statistic</th>
 <th style="text-align: right;">p.value</th>
-</tr></thead>
+</tr>
+</thead>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">tslm_ex2</td>
@@ -719,7 +742,7 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 </tbody>
 </table>
 </div>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r code-with-copy"><code class="sourceCode R"><span><span class="va">ex2_model</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu"><a href="https://generics.r-lib.org/reference/glance.html">glance</a></span><span class="op">(</span><span class="va">tslm_ex2</span><span class="op">)</span>  <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html">%&gt;%</a></span> <span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span><span class="op">(</span><span class="op">)</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>ex2_model <span class="sc">%&gt;%</span> <span class="fu">glance</span>(tslm_ex2)  <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
@@ -739,7 +762,8 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <col style="width: 9%">
 <col style="width: 3%">
 </colgroup>
-<thead><tr class="header">
+<thead>
+<tr class="header">
 <th style="text-align: left;">.model</th>
 <th style="text-align: right;">r_squared</th>
 <th style="text-align: right;">adj_r_squared</th>
@@ -755,8 +779,10 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <th style="text-align: right;">deviance</th>
 <th style="text-align: right;">df.residual</th>
 <th style="text-align: right;">rank</th>
-</tr></thead>
-<tbody><tr class="odd">
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
 <td style="text-align: left;">tslm_ex2</td>
 <td style="text-align: right;">0.1222721</td>
 <td style="text-align: right;">0.1214698</td>
@@ -772,13 +798,44 @@ Y_t &amp;= \beta_0 + \beta_1 X_t + \varepsilon_t, \\
 <td style="text-align: right;">10780.93</td>
 <td style="text-align: right;">1094</td>
 <td style="text-align: right;">2</td>
-</tr></tbody>
+</tr>
+</tbody>
 </table>
 </div>
 </div>
 
 
-</section></section></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
+<div id="exercise-loading-status" class="d-flex gap-2">
+
+</div>
+<div class="spinner-grow spinner-grow-sm">
+
+</div>
+</div>
+<script type="vfs-file">
+W10=
+</script>
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script type="ojs-module-contents">
+eyJjb250ZW50cyI6W119
+</script>
+<script type="module">
+if (window.location.protocol === "file:") { alert("The OJS runtime does not work with file:// URLs. Please use a web server to view this document."); }
+window._ojs.paths.runtimeToDoc = "../..";
+window._ojs.paths.runtimeToRoot = "../..";
+window._ojs.paths.docToRoot = "";
+window._ojs.selfContained = false;
+window._ojs.runtime.interpretFromScriptTags();
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
     const mode = bsSheetEl.getAttribute("data-mode");
@@ -798,150 +855,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     }
   }
   toggleBodyColorPrimary();  
-  const disableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'prefetch';
-    }
-  }
-  const enableStylesheet = (stylesheets) => {
-    for (let i=0; i < stylesheets.length; i++) {
-      const stylesheet = stylesheets[i];
-      stylesheet.rel = 'stylesheet';
-    }
-  }
-  const manageTransitions = (selector, allowTransitions) => {
-    const els = window.document.querySelectorAll(selector);
-    for (let i=0; i < els.length; i++) {
-      const el = els[i];
-      if (allowTransitions) {
-        el.classList.remove('notransition');
-      } else {
-        el.classList.add('notransition');
-      }
-    }
-  }
-  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
-    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
-    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
-    let newTheme = '';
-    if(darkModeDefault) {
-      newTheme = isAlternate ? baseTheme : alternateTheme;
-    } else {
-      newTheme = isAlternate ? alternateTheme : baseTheme;
-    }
-    const changeGiscusTheme = () => {
-      // From: https://github.com/giscus/giscus/issues/336
-      const sendMessage = (message) => {
-        const iframe = document.querySelector('iframe.giscus-frame');
-        if (!iframe) return;
-        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
-      }
-      sendMessage({
-        setConfig: {
-          theme: newTheme
-        }
-      });
-    }
-    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
-    if (isGiscussLoaded) {
-      changeGiscusTheme();
-    }
-  }
-  const toggleColorMode = (alternate) => {
-    // Switch the stylesheets
-    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
-    manageTransitions('#quarto-margin-sidebar .nav-link', false);
-    if (alternate) {
-      enableStylesheet(alternateStylesheets);
-      for (const sheetNode of alternateStylesheets) {
-        if (sheetNode.id === "quarto-bootstrap") {
-          toggleBodyColorMode(sheetNode);
-        }
-      }
-    } else {
-      disableStylesheet(alternateStylesheets);
-      toggleBodyColorPrimary();
-    }
-    manageTransitions('#quarto-margin-sidebar .nav-link', true);
-    // Switch the toggles
-    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
-    for (let i=0; i < toggles.length; i++) {
-      const toggle = toggles[i];
-      if (toggle) {
-        if (alternate) {
-          toggle.classList.add("alternate");     
-        } else {
-          toggle.classList.remove("alternate");
-        }
-      }
-    }
-    // Hack to workaround the fact that safari doesn't
-    // properly recolor the scrollbar when toggling (#1455)
-    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
-      manageTransitions("body", false);
-      window.scrollTo(0, 1);
-      setTimeout(() => {
-        window.scrollTo(0, 0);
-        manageTransitions("body", true);
-      }, 40);  
-    }
-  }
-  const isFileUrl = () => { 
-    return window.location.protocol === 'file:';
-  }
-  const hasAlternateSentinel = () => {  
-    let styleSentinel = getColorSchemeSentinel();
-    if (styleSentinel !== null) {
-      return styleSentinel === "alternate";
-    } else {
-      return false;
-    }
-  }
-  const setStyleSentinel = (alternate) => {
-    const value = alternate ? "alternate" : "default";
-    if (!isFileUrl()) {
-      window.localStorage.setItem("quarto-color-scheme", value);
-    } else {
-      localAlternateSentinel = value;
-    }
-  }
-  const getColorSchemeSentinel = () => {
-    if (!isFileUrl()) {
-      const storageValue = window.localStorage.getItem("quarto-color-scheme");
-      return storageValue != null ? storageValue : localAlternateSentinel;
-    } else {
-      return localAlternateSentinel;
-    }
-  }
-  const darkModeDefault = false;
-  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
-  // Dark / light mode switch
-  window.quartoToggleColorScheme = () => {
-    // Read the current dark / light value 
-    let toAlternate = !hasAlternateSentinel();
-    toggleColorMode(toAlternate);
-    setStyleSentinel(toAlternate);
-    toggleGiscusIfUsed(toAlternate, darkModeDefault);
-  };
-  // Ensure there is a toggle, if there isn't float one in the top right
-  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
-    const a = window.document.createElement('a');
-    a.classList.add('top-right');
-    a.classList.add('quarto-color-scheme-toggle');
-    a.href = "";
-    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
-    const i = window.document.createElement("i");
-    i.classList.add('bi');
-    a.appendChild(i);
-    window.document.body.appendChild(a);
-  }
-  // Switch to dark mode if need be
-  if (hasAlternateSentinel()) {
-    toggleColorMode(true);
-  } else {
-    toggleColorMode(false);
-  }
   const icon = "";
   const anchorJS = new window.AnchorJS();
   anchorJS.options = {
@@ -1340,6 +1253,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
+
 
 
 
