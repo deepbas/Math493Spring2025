@@ -1,18 +1,7 @@
 /* ========== Base Setup ========== */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&display=swap');
 
-/* ========== Color Variables ========== */
-$brand-red: #e64626;
-$brand-blue: #5ebccf;
-$brand-dark-blue: #0148A4;
-$accent-green: #386247;
-$neutral-light: #E6E6E6;
-
 /* ========== Core Styles ========== */
-:root {
-  --transition-speed: 0.3s;
-}
-
 body {
   font-family: 'Josefin Sans', sans-serif;
   line-height: 1.6;
@@ -25,106 +14,97 @@ body {
   &-green { color: #008000; }
   &-yellow { color: #FFFF00; }
   &-orange { color: #FFA500; }
-  &-brand { color: $brand-red; }
+  &-brand { color: #e64626; }
 }
 
 a {
-  color: $brand-blue;
-  transition: color var(--transition-speed) ease;
+  color: #5ebccf;
+  transition: color 0.3s ease;
+}
 
-  &:hover {
-    color: darken($brand-blue, 10%);
-  }
+a:hover {
+  color: darken(#5ebccf, 10%);
 }
 
 /* ========== Component Styles ========== */
 .bql {
   padding: 1rem;
   margin: 0.5rem;
-  background: rgba(255,255,255,0.95);
-  border: 2px solid $neutral-light;
-  border-left: 5px solid $neutral-light;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background: rgba(255, 255, 255, 0.95);
+  border: 2px solid #E6E6E6;
+  border-left: 5px solid #E6E6E6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 0.5rem;
-  font: {
-    style: italic;
-    weight: 600;
-    size: 1.1rem;
-  }
+  font-style: italic;
+  font-weight: 600;
+  font-size: 1.1rem;
 }
 
 /* ========== Data Table Improvements ========== */
-.dataTable {
-  &-wrapper {
-    color: $brand-dark-blue;
-    
-    .paginate_button {
-      color: lighten($brand-dark-blue, 15%) !important;
-    }
-  }
-
-  tbody {
-    background: $neutral-light;
-    
-    tr {
-      transition: background var(--transition-speed) ease;
-      
-      &.odd { background: lighten($neutral-light, 5%); }
-      &.even { background: $brand-dark-blue; }
-      
-      &:hover {
-        background: $accent-green;
-        color: white;
-      }
-    }
-  }
+.dataTable-wrapper {
+  color: #0148A4;
 }
 
+.dataTable tbody tr {
+  transition: background 0.3s ease;
+}
 
+.dataTable tbody tr.odd {
+  background: lighten(#E6E6E6, 5%);
+}
+
+.dataTable tbody tr.even {
+  background: #0148A4;
+}
+
+.dataTable tbody tr:hover {
+  background: #386247;
+  color: white;
+}
 
 /* ========== Utility Classes ========== */
 .fade {
   opacity: 0.5;
-  transition: opacity var(--transition-speed) ease;
-  
-  &:hover {
-    opacity: 1;
-  }
+  transition: opacity 0.3s ease;
+}
+
+.fade:hover {
+  opacity: 1;
 }
 
 .spoiler {
   position: relative;
   cursor: pointer;
-  
-  &::before {
-    content: "⚠️ Spoiler Alert - Click to Reveal";
-    position: absolute;
-    background: rgba($brand-red, 0.1);
-    padding: 0.5rem;
-    border-radius: 0.3rem;
-  }
-  
-  &:hover::before {
-    display: none;
-  }
+}
+
+.spoiler::before {
+  content: "⚠️ Spoiler Alert - Click to Reveal";
+  position: absolute;
+  background: rgba(230, 70, 38, 0.1);
+  padding: 0.5rem;
+  border-radius: 0.3rem;
+}
+
+.spoiler:hover::before {
+  display: none;
 }
 
 /* ========== Layout Improvements ========== */
-.pull {
-  &-left, &-right {
-    width: 50%;
-    padding: 1rem;
-    
-    @media (max-width: 768px) {
-      width: 100%;
-      float: none;
-    }
+.pull-left, .pull-right {
+  width: 50%;
+  padding: 1rem;
+}
+
+@media (max-width: 768px) {
+  .pull-left, .pull-right {
+    width: 100%;
+    float: none;
   }
 }
 
 /* ========== Code Display ========== */
 code {
-  background: rgba($neutral-light, 0.3);
+  background: rgba(#E6E6E6, 0.3);
   padding: 0.2em 0.4em;
   border-radius: 0.3em;
   font-family: 'Source Code Pro', monospace;
@@ -135,7 +115,7 @@ code {
 .navbar .dropdown-menu {
   max-height: 70vh;
   overflow-y: auto;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .download-link {
@@ -144,11 +124,9 @@ code {
   color: #666;
   font-size: 0.9em;
   text-decoration: none;
-  
-  &:hover {
-    color: #333;
-    text-decoration: underline;
-  }
 }
 
-
+.download-link:hover {
+  color: #333;
+  text-decoration: underline;
+}

@@ -170,8 +170,8 @@ format:
     fontsize: 1.1em
     code-overflow: wrap
     theme:
-      light: minty
-      dark: darkly
+      light: [lux, theme-light.scss]
+      dark: [superhero, theme-dark.scss]
     css: styles.css
     toc: true
     page-layout: full
