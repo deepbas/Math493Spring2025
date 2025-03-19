@@ -3,8 +3,8 @@ title: "Activity9"
 format: 
   live-html:
     theme:
-      light: minty
-      dark: darkly  
+      light: [lux, theme-light.scss]
+      dark: [superhero, theme-dark.scss]
 engine: knitr
 toc: true
 webr:
