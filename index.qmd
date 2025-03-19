@@ -1,5 +1,6 @@
 ---
 title: "Math 493: Spring 2025"
+subtitle: "Advanced Topics in Statistics: Applied Time Series"
 ---
 
 Welcome to the world of applied time series!
