@@ -24,7 +24,7 @@ message: false
 
 ```{r}
 #| echo: false
-# Time Series Essentials, install if needed!
+# Time Series Essentials
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
 library(fpp3)         # Tidy time series dataseta
@@ -35,6 +35,7 @@ library(quantmod)     # Financial data retrieval
 library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
+source("setup.R")
 ```
 
 

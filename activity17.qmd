@@ -39,6 +39,7 @@ library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 library(gridExtra)
 library(vars)
+source("setup.R")
 ```
 
 

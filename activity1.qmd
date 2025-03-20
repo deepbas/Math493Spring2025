@@ -10,7 +10,6 @@ toc: true
 ---
 
 {{< include _extensions/r-wasm/live/_knitr.qmd >}}
-{{< include setup.R >}}
 
 ```{r}
 #| echo: false
@@ -25,6 +24,7 @@ library(quantmod)     # Financial data retrieval
 library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
+select <- dplyr::select
 ```
 
 
@@ -100,8 +100,8 @@ google %>%
   autoplot(Volume)                                  # <2>
 ```
 
-- Convert the Google dataset into a tsibble.
-- Plot the trading volume over time using `autoplot()`.
+1. Convert the Google dataset into a tsibble.
+2. Plot the trading volume over time using `autoplot()`.
 
 ### Example: Global Temperature Data
 

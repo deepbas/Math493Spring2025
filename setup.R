@@ -15,4 +15,5 @@ library(tidyquant)
 library(quantmod)
 library(purrr)
 library(tidyverse)
+select <- dplyr::select
 suppressWarnings(library(quantmod))

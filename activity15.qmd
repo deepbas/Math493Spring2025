@@ -40,8 +40,8 @@ library(vars)
 library(lmtest)
 library(GGally)
 select <- dplyr::select
+source("setup.R")
 ```
-
 
 
 ## Oil Prices Analysis: Brent, WTI & Impulse Response Function
