@@ -478,10 +478,7 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#setup.r" id="toc-setup.r" class="nav-link active" data-scroll-target="#setup.r">setup.R</a></li>
-  <li><a href="#load-required-libraries" id="toc-load-required-libraries" class="nav-link" data-scroll-target="#load-required-libraries">Load required libraries</a>
-  <ul class="collapse">
-  <li><a href="#correlation-covariance-and-partial-correlation-in-time-series" id="toc-correlation-covariance-and-partial-correlation-in-time-series" class="nav-link" data-scroll-target="#correlation-covariance-and-partial-correlation-in-time-series">Correlation, Covariance, and Partial Correlation in Time Series</a>
+  <li><a href="#correlation-covariance-and-partial-correlation-in-time-series" id="toc-correlation-covariance-and-partial-correlation-in-time-series" class="nav-link active" data-scroll-target="#correlation-covariance-and-partial-correlation-in-time-series">Correlation, Covariance, and Partial Correlation in Time Series</a>
   <ul class="collapse">
   <li><a href="#covariance" id="toc-covariance" class="nav-link" data-scroll-target="#covariance">Covariance</a></li>
   <li><a href="#correlation" id="toc-correlation" class="nav-link" data-scroll-target="#correlation">Correlation</a></li>
@@ -489,7 +486,6 @@ window.Quarto = {
   </ul></li>
   <li><a href="#applied-example-using-fpp3-data" id="toc-applied-example-using-fpp3-data" class="nav-link" data-scroll-target="#applied-example-using-fpp3-data">Applied Example Using <code>fpp3</code> Data</a></li>
   <li><a href="#lab-activity-recreate-the-above-analysis-using-the-class-activity-template-and-answer-the-following-question" id="toc-lab-activity-recreate-the-above-analysis-using-the-class-activity-template-and-answer-the-following-question" class="nav-link" data-scroll-target="#lab-activity-recreate-the-above-analysis-using-the-class-activity-template-and-answer-the-following-question">Lab Activity: Recreate the above analysis using the class activity template and answer the following question:</a></li>
-  </ul></li>
   </ul>
 </nav>
     </div>
@@ -515,12 +511,6 @@ window.Quarto = {
 </header>
 
 
-<section id="setup.r" class="level1">
-<h1>setup.R</h1>
-</section>
-<section id="load-required-libraries" class="level1">
-<h1>Load required libraries</h1>
-<p>library(dplyr) library(ggplot2) library(fpp3) library(patchwork) library(tsibbledata) library(urca) library(astsa) library(gridExtra) library(vars) library(fable) library(feasts) library(tidyquant) library(quantmod) library(purrr) library(tidyverse) suppressWarnings(library(quantmod))</p>
 <section id="correlation-covariance-and-partial-correlation-in-time-series" class="level2">
 <h2 class="anchored" data-anchor-id="correlation-covariance-and-partial-correlation-in-time-series">Correlation, Covariance, and Partial Correlation in Time Series</h2>
 <p>In time series analysis, understanding relationships between different variables is crucial. Three fundamental statistical concepts that help capture these relationships are <strong>covariance</strong>, <strong>correlation</strong>, and <strong>partial correlation</strong>.</p>
@@ -560,15 +550,15 @@ window.Quarto = {
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 38%">
+<col style="width: 26%">
 <col style="width: 4%">
 <col style="width: 4%">
-<col style="width: 10%">
+<col style="width: 12%">
 <col style="width: 9%">
+<col style="width: 11%">
 <col style="width: 8%">
-<col style="width: 7%">
-<col style="width: 7%">
-<col style="width: 9%">
+<col style="width: 8%">
+<col style="width: 10%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -585,114 +575,114 @@ window.Quarto = {
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">East Asia &amp; Pacific</td>
-<td style="text-align: left;">EAS</td>
-<td style="text-align: right;">1974</td>
-<td style="text-align: right;">8.530253e+11</td>
-<td style="text-align: right;">0.5846877</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">17.72514</td>
-<td style="text-align: right;">16.32664</td>
-<td style="text-align: right;">1415128313</td>
+<td style="text-align: left;">Bulgaria</td>
+<td style="text-align: left;">BGR</td>
+<td style="text-align: right;">1989</td>
+<td style="text-align: right;">2.198844e+10</td>
+<td style="text-align: right;">-3.289882</td>
+<td style="text-align: right;">0.0285353</td>
+<td style="text-align: right;">48.15838</td>
+<td style="text-align: right;">46.42059</td>
+<td style="text-align: right;">8876972</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Armenia</td>
-<td style="text-align: left;">ARM</td>
+<td style="text-align: left;">Vietnam</td>
+<td style="text-align: left;">VNM</td>
+<td style="text-align: right;">1989</td>
+<td style="text-align: right;">6.293305e+09</td>
+<td style="text-align: right;">7.364513</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">34.05510</td>
+<td style="text-align: right;">23.84936</td>
+<td style="text-align: right;">66757402</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Eritrea</td>
+<td style="text-align: left;">ERI</td>
 <td style="text-align: right;">1970</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: right;">2525065</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">IBRD only</td>
-<td style="text-align: left;">IBD</td>
-<td style="text-align: right;">2004</td>
-<td style="text-align: right;">8.009386e+12</td>
-<td style="text-align: right;">7.6782241</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">28.85888</td>
-<td style="text-align: right;">31.22662</td>
-<td style="text-align: right;">4166120812</td>
+<td style="text-align: right;">1811878</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Europe &amp; Central Asia (excluding high income)</td>
-<td style="text-align: left;">ECA</td>
-<td style="text-align: right;">1960</td>
+<td style="text-align: left;">Montenegro</td>
+<td style="text-align: left;">MNE</td>
+<td style="text-align: right;">1986</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: right;">274947938</td>
+<td style="text-align: right;">607711</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Belarus</td>
-<td style="text-align: left;">BLR</td>
-<td style="text-align: right;">1963</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">8437232</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;">Myanmar</td>
-<td style="text-align: left;">MMR</td>
+<td style="text-align: left;">Early-demographic dividend</td>
+<td style="text-align: left;">EAR</td>
 <td style="text-align: right;">1980</td>
+<td style="text-align: right;">1.295812e+12</td>
+<td style="text-align: right;">1.803696</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: right;">7.9385381</td>
-<td style="text-align: right;">0.5675632</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">33369712</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;">Bangladesh</td>
-<td style="text-align: left;">BGD</td>
-<td style="text-align: right;">1966</td>
-<td style="text-align: right;">6.439688e+09</td>
-<td style="text-align: right;">2.5668120</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">12.65182</td>
-<td style="text-align: right;">10.28428</td>
-<td style="text-align: right;">57672990</td>
+<td style="text-align: right;">20.25058</td>
+<td style="text-align: right;">19.89883</td>
+<td style="text-align: right;">1592673530</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Turkmenistan</td>
-<td style="text-align: left;">TKM</td>
-<td style="text-align: right;">2016</td>
-<td style="text-align: right;">3.618000e+10</td>
-<td style="text-align: right;">6.2000000</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">39.88391</td>
-<td style="text-align: right;">22.14404</td>
-<td style="text-align: right;">5662544</td>
+<td style="text-align: left;">Turkey</td>
+<td style="text-align: left;">TUR</td>
+<td style="text-align: right;">1996</td>
+<td style="text-align: right;">1.814756e+11</td>
+<td style="text-align: right;">7.379664</td>
+<td style="text-align: right;">2.3521196</td>
+<td style="text-align: right;">27.82666</td>
+<td style="text-align: right;">21.54266</td>
+<td style="text-align: right;">59423208</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">Arab World</td>
-<td style="text-align: left;">ARB</td>
-<td style="text-align: right;">1999</td>
-<td style="text-align: right;">6.440507e+11</td>
-<td style="text-align: right;">1.8510394</td>
-<td style="text-align: right;">NA</td>
-<td style="text-align: right;">30.00493</td>
-<td style="text-align: right;">36.33495</td>
-<td style="text-align: right;">277962869</td>
+<td style="text-align: left;">Eswatini</td>
+<td style="text-align: left;">SWZ</td>
+<td style="text-align: right;">2013</td>
+<td style="text-align: right;">4.560713e+09</td>
+<td style="text-align: right;">6.421044</td>
+<td style="text-align: right;">122.0904025</td>
+<td style="text-align: right;">52.82540</td>
+<td style="text-align: right;">46.65123</td>
+<td style="text-align: right;">1271456</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">United Arab Emirates</td>
-<td style="text-align: left;">ARE</td>
-<td style="text-align: right;">1982</td>
-<td style="text-align: right;">4.662272e+10</td>
-<td style="text-align: right;">-6.7193162</td>
+<td style="text-align: left;">Bhutan</td>
+<td style="text-align: left;">BTN</td>
+<td style="text-align: right;">2009</td>
+<td style="text-align: right;">1.264758e+09</td>
+<td style="text-align: right;">6.657224</td>
+<td style="text-align: right;">93.4261763</td>
+<td style="text-align: right;">62.20415</td>
+<td style="text-align: right;">44.70198</td>
+<td style="text-align: right;">714458</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">New Zealand</td>
+<td style="text-align: left;">NZL</td>
+<td style="text-align: right;">1996</td>
+<td style="text-align: right;">7.014084e+10</td>
+<td style="text-align: right;">3.357955</td>
+<td style="text-align: right;">73.3126885</td>
+<td style="text-align: right;">26.76729</td>
+<td style="text-align: right;">28.34888</td>
+<td style="text-align: right;">3732000</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Macedonia, FYR</td>
+<td style="text-align: left;">MKD</td>
+<td style="text-align: right;">1989</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
 <td style="text-align: right;">NA</td>
-<td style="text-align: right;">1189545</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">NA</td>
+<td style="text-align: right;">1996870</td>
 </tr>
 </tbody>
 </table>
@@ -855,7 +845,6 @@ eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xIiwiaW5saW5lIjpmYWxzZSwibWV0
 <script type="vfs-file">
 W10=
 </script>
-</section>
 </section>
 
 </main> <!-- /main -->
