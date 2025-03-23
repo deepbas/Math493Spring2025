@@ -12,4 +12,177 @@ toc: true
 {{< include _extensions/r-wasm/live/_knitr.qmd >}}
 
 
+```{r}
+#| echo: false
+# Time Series Essentials, install if needed!
+library(feasts)       # Feature extraction & decomposition
+library(fable)        # Forecasting models (ARIMA, ETS, etc.)
+library(fpp3)         # Tidy time series dataseta
+library(astsa)        # Applied statistical TS methods from textbook
+library(tseries)      # Unit root tests & TS diagnostics
+library(tsibbledata)  # Curated TS datasets
+library(quantmod)     # Financial data retrieval
+library(tidyquant)    # Financial analysis in tidyverse
+library(purrr)        # Functional programming for TS pipelines
+library(readr)        # Efficient data import
+```
+
+## Introduction to State-space Models  
+
+### 1. Core Concept: The Hidden Layer of Time Series
+
+**Why State-Space?** ARIMA models directly relate past observations to present values. State-space models add a hidden layer that evolves independently:
+
+**Simple Weather Example**  
+
+- *Observed:* Daily temperature ($y_t$)  
+- *Hidden State:* Atmospheric pressure system ($x_t$)  
+- *Relationship:*  
+  Pressure evolves: $x_t = 0.9x_{t-1} + \text{weather\_disturbance}$  
+  We observe: $y_t = x_t + \text{thermometer\_error}$  
+
+**Model Equations**  
+
+State Transition:  
+
+$$x_t = \phi x_{t-1} + w_t \quad (\text{Memory factor } \phi, \text{ system noise } w_t)$$  
+
+Observation Process:  
+
+$$y_t = x_t + v_t \quad (\text{Measurement noise } v_t)$$  
+
+### 2. Retail Inventory Analysis
+
+```{webr}
+us_retail <- us_employment %>%
+  filter(Series_ID == "CEU0800000001") %>% 
+  mutate(Employed = Employed/1e3)  # Thousands of employees
+
+# Fit basic state-space model
+fit <- us_retail %>%
+  model(ETS(Employed ~ error("A") + trend("Ad") + season("N"))) 
+
+# Model output
+fit %>% report()
+
+# Extract hidden components
+components(fit) %>% autoplot()
+```
+
+**Interpretation**:  
+
+- *Level*: Long-term employment capacity  
+- *Trend*: Damped growth pattern (Ad = additive damped)  
+- *Noise*: Irregular fluctuations ($v_t$ in our equations)
+
+**State Transition Equations**:  
+
+- **Level**:  
+
+  $$
+  l_t = l_{t-1} + \phi b_{t-1} + \alpha \epsilon_t \quad \Rightarrow \quad l_t = l_{t-1} + 0.98b_{t-1} + 0.9999\epsilon_t
+  $$  
+  
+- **Damped Trend**:  
+
+  $$
+  b_t = \phi b_{t-1} + \beta \epsilon_t \quad \Rightarrow \quad b_t = 0.98b_{t-1} + 0.0162\epsilon_t
+  $$  
+
+**Observation Equation**:  
+
+$$
+y_t = l_{t-1} + \phi b_{t-1} + \epsilon_t \quad \Rightarrow \quad y_t = l_{t-1} + 0.98b_{t-1} + \epsilon_t
+$$  
+
+
+### 3. Activity: Employment Dynamics
+
+**Step 1 - Model Setup**  
+
+```{webr}
+employment_model <- us_retail %>%
+  model(SSM = ETS(Employed ~ error("A") + trend("Ad")))
+employment_model %>% report()
+```
+
+**Step 2 - Extract States**  
+
+```{webr}
+hidden_states <- components(employment_model) %>%
+  select(Month, level, slope) %>% 
+  tidyr::drop_na()
+```
+
+**Step 3 - Equation Translation**  
+
+Based on the `ETS(A,Ad,A)` model output with parameters:  
+
+- **α** = 0.6488 (level smoothing)  
+- **β** = 0.1251 (trend smoothing)  
+- **φ** = 0.9794 (damping factor)  
+- **γ** = 0.3298 (seasonal smoothing)  
+
+#### **State Transition Equations**
+
+1. **Level**:  
+   $l_t = l_{t-1} + \phi b_{t-1} + \alpha \epsilon_t$  
+   $\Rightarrow l_t = l_{t-1} + 0.9794b_{t-1} + 0.6488\epsilon_t$  
+
+2. **Damped Trend**:  
+   $b_t = \phi b_{t-1} + \beta \epsilon_t'$  
+   $\Rightarrow b_t = 0.9794b_{t-1} + 0.1251\epsilon_t'$  
+
+3. **Seasonal Component**:  
+   $s_t = s_{t-m} + \gamma \epsilon_t''$  
+   $\Rightarrow s_t = s_{t-12} + 0.3298\epsilon_t''$ *(monthly seasonality: $m = 12$)*  
+
+#### **Observation Equation**  
+
+$y_t = l_{t-1} + \phi b_{t-1} + s_{t-m} + v_t$  
+$\Rightarrow y_t = l_{t-1} + 0.9794b_{t-1} + s_{t-12} + v_t$  
+
+
+### 4. Activity 
+
+**Problem 1**: Fit damped trend model to `US_employment`  
+
+```{webr}
+# your r-code
+
+```
+
+<!--
+
+```{r}
+solution <- us_employment %>%
+  filter(Series_ID == "CEU0800000001") %>%
+  model(ETS(Employed ~ error("A") + trend("Ad")))
+```
+
+-->
+
+**Problem 2**: Perform a residual diagnostics vs ARIMA  
+
+```{webr}
+# your r-code
+
+
+```
+
+<!--
+
+```{r}
+# State-space residuals
+solution %>% residuals() %>% 
+  gg_tsdisplay(.resid)
+
+# Compare with ARIMA
+us_employment %>%
+  filter(Series_ID == "CEU0800000001") %>%
+  model(ARIMA(Employed)) %>% 
+  gg_tsresiduals()
+```
+
+-->
 

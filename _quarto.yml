@@ -83,10 +83,10 @@ website:
             href: activity27.html
           - text: "Activity 28"
             href: activity28.html
-      # - section: "Week 8"
-      #   contents:
-      #     - text: "Activity 29"
-      #       href: activity29.html
+      - section: "Week 8"
+        contents:
+          - text: "Activity 29"
+            href: activity29.html
       #     - text: "Activity 30"
       #       href: activity30.html
       #     - text: "Activity 31"
