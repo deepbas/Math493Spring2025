@@ -110,7 +110,7 @@ employment_model %>% report()
 
 ```{webr}
 hidden_states <- components(employment_model) %>%
-  select(Month, level, slope) %>% 
+  dplyr::select(Month, level, slope) %>% 
   tidyr::drop_na()
 ```
 
