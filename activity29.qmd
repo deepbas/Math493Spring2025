@@ -147,32 +147,18 @@ $\Rightarrow y_t = l_{t-1} + 0.9794b_{t-1} + s_{t-12} + v_t$
 
 **Problem 1**: Fit damped trend model to `US_employment`  
 
+
 ```{webr}
-# your r-code
-
-```
-
-<!--
-
-```{r}
 solution <- us_employment %>%
   filter(Series_ID == "CEU0800000001") %>%
   model(ETS(Employed ~ error("A") + trend("Ad")))
 ```
 
--->
 
 **Problem 2**: Perform a residual diagnostics vs ARIMA  
 
+
 ```{webr}
-# your r-code
-
-
-```
-
-<!--
-
-```{r}
 # State-space residuals
 solution %>% residuals() %>% 
   gg_tsdisplay(.resid)
@@ -184,5 +170,4 @@ us_employment %>%
   gg_tsresiduals()
 ```
 
--->
 

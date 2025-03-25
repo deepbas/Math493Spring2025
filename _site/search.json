@@ -421,7 +421,7 @@
     "href": "activity29.html",
     "title": "Activity29",
     "section": "",
-    "text": "Why State-Space? ARIMA models directly relate past observations to present values. State-space models add a hidden layer that evolves independently:\nSimple Weather Example\n\nObserved: Daily temperature (\\(y_t\\))\n\nHidden State: Atmospheric pressure system (\\(x_t\\))\n\nRelationship:\nPressure evolves: \\(x_t = 0.9x_{t-1} + \\text{weather\\_disturbance}\\)\nWe observe: \\(y_t = x_t + \\text{thermometer\\_error}\\)\n\nModel Equations\nState Transition:\n\\[x_t = \\phi x_{t-1} + w_t \\quad (\\text{Memory factor } \\phi, \\text{ system noise } w_t)\\]\nObservation Process:\n\\[y_t = x_t + v_t \\quad (\\text{Measurement noise } v_t)\\]\n\n\n\n\n\n\n\n\n\n\n\nInterpretation:\n\nLevel: Long-term employment capacity\n\nTrend: Damped growth pattern (Ad = additive damped)\n\nNoise: Irregular fluctuations (\\(v_t\\) in our equations)\n\nState Transition Equations:\n\nLevel:\n\\[\nl_t = l_{t-1} + \\phi b_{t-1} + \\alpha \\epsilon_t \\quad \\Rightarrow \\quad l_t = l_{t-1} + 0.98b_{t-1} + 0.9999\\epsilon_t\n\\]\nDamped Trend:\n\\[\nb_t = \\phi b_{t-1} + \\beta \\epsilon_t \\quad \\Rightarrow \\quad b_t = 0.98b_{t-1} + 0.0162\\epsilon_t\n\\]\n\nObservation Equation:\n\\[\ny_t = l_{t-1} + \\phi b_{t-1} + \\epsilon_t \\quad \\Rightarrow \\quad y_t = l_{t-1} + 0.98b_{t-1} + \\epsilon_t\n\\]\n\n\n\nStep 1 - Model Setup\n\n\n\n\n\n\n\n\nStep 2 - Extract States\n\n\n\n\n\n\n\n\nStep 3 - Equation Translation\nBased on the ETS(A,Ad,A) model output with parameters:\n\nα = 0.6488 (level smoothing)\n\nβ = 0.1251 (trend smoothing)\n\nφ = 0.9794 (damping factor)\n\nγ = 0.3298 (seasonal smoothing)\n\n\n\n\nLevel:\n\\(l_t = l_{t-1} + \\phi b_{t-1} + \\alpha \\epsilon_t\\)\n\\(\\Rightarrow l_t = l_{t-1} + 0.9794b_{t-1} + 0.6488\\epsilon_t\\)\nDamped Trend:\n\\(b_t = \\phi b_{t-1} + \\beta \\epsilon_t'\\)\n\\(\\Rightarrow b_t = 0.9794b_{t-1} + 0.1251\\epsilon_t'\\)\nSeasonal Component:\n\\(s_t = s_{t-m} + \\gamma \\epsilon_t''\\)\n\\(\\Rightarrow s_t = s_{t-12} + 0.3298\\epsilon_t''\\) (monthly seasonality: \\(m = 12\\))\n\n\n\n\n\\(y_t = l_{t-1} + \\phi b_{t-1} + s_{t-m} + v_t\\)\n\\(\\Rightarrow y_t = l_{t-1} + 0.9794b_{t-1} + s_{t-12} + v_t\\)\n\n\n\n\nProblem 1: Fit damped trend model to US_employment\n\n\n\n\n\n\n\n\n\nProblem 2: Perform a residual diagnostics vs ARIMA",
+    "text": "Why State-Space? ARIMA models directly relate past observations to present values. State-space models add a hidden layer that evolves independently:\nSimple Weather Example\n\nObserved: Daily temperature (\\(y_t\\))\n\nHidden State: Atmospheric pressure system (\\(x_t\\))\n\nRelationship:\nPressure evolves: \\(x_t = 0.9x_{t-1} + \\text{weather\\_disturbance}\\)\nWe observe: \\(y_t = x_t + \\text{thermometer\\_error}\\)\n\nModel Equations\nState Transition:\n\\[x_t = \\phi x_{t-1} + w_t \\quad (\\text{Memory factor } \\phi, \\text{ system noise } w_t)\\]\nObservation Process:\n\\[y_t = x_t + v_t \\quad (\\text{Measurement noise } v_t)\\]\n\n\n\n\n\n\n\n\n\n\n\nInterpretation:\n\nLevel: Long-term employment capacity\n\nTrend: Damped growth pattern (Ad = additive damped)\n\nNoise: Irregular fluctuations (\\(v_t\\) in our equations)\n\nState Transition Equations:\n\nLevel:\n\\[\nl_t = l_{t-1} + \\phi b_{t-1} + \\alpha \\epsilon_t \\quad \\Rightarrow \\quad l_t = l_{t-1} + 0.98b_{t-1} + 0.9999\\epsilon_t\n\\]\nDamped Trend:\n\\[\nb_t = \\phi b_{t-1} + \\beta \\epsilon_t \\quad \\Rightarrow \\quad b_t = 0.98b_{t-1} + 0.0162\\epsilon_t\n\\]\n\nObservation Equation:\n\\[\ny_t = l_{t-1} + \\phi b_{t-1} + \\epsilon_t \\quad \\Rightarrow \\quad y_t = l_{t-1} + 0.98b_{t-1} + \\epsilon_t\n\\]\n\n\n\nStep 1 - Model Setup\n\n\n\n\n\n\n\n\nStep 2 - Extract States\n\n\n\n\n\n\n\n\nStep 3 - Equation Translation\nBased on the ETS(A,Ad,A) model output with parameters:\n\nα = 0.6488 (level smoothing)\n\nβ = 0.1251 (trend smoothing)\n\nφ = 0.9794 (damping factor)\n\nγ = 0.3298 (seasonal smoothing)\n\n\n\n\nLevel:\n\\(l_t = l_{t-1} + \\phi b_{t-1} + \\alpha \\epsilon_t\\)\n\\(\\Rightarrow l_t = l_{t-1} + 0.9794b_{t-1} + 0.6488\\epsilon_t\\)\nDamped Trend:\n\\(b_t = \\phi b_{t-1} + \\beta \\epsilon_t'\\)\n\\(\\Rightarrow b_t = 0.9794b_{t-1} + 0.1251\\epsilon_t'\\)\nSeasonal Component:\n\\(s_t = s_{t-m} + \\gamma \\epsilon_t''\\)\n\\(\\Rightarrow s_t = s_{t-12} + 0.3298\\epsilon_t''\\) (monthly seasonality: \\(m = 12\\))\n\n\n\n\n\\(y_t = l_{t-1} + \\phi b_{t-1} + s_{t-m} + v_t\\)\n\\(\\Rightarrow y_t = l_{t-1} + 0.9794b_{t-1} + s_{t-12} + v_t\\)\n\n\n\n\nProblem 1: Fit damped trend model to US_employment\n\n\n\n\n\n\n\n\nProblem 2: Perform a residual diagnostics vs ARIMA",
     "crumbs": [
       "Week 8",
       "Activity 29"
@@ -432,7 +432,7 @@
     "href": "activity29.html#introduction-to-state-space-models",
     "title": "Activity29",
     "section": "",
-    "text": "Why State-Space? ARIMA models directly relate past observations to present values. State-space models add a hidden layer that evolves independently:\nSimple Weather Example\n\nObserved: Daily temperature (\\(y_t\\))\n\nHidden State: Atmospheric pressure system (\\(x_t\\))\n\nRelationship:\nPressure evolves: \\(x_t = 0.9x_{t-1} + \\text{weather\\_disturbance}\\)\nWe observe: \\(y_t = x_t + \\text{thermometer\\_error}\\)\n\nModel Equations\nState Transition:\n\\[x_t = \\phi x_{t-1} + w_t \\quad (\\text{Memory factor } \\phi, \\text{ system noise } w_t)\\]\nObservation Process:\n\\[y_t = x_t + v_t \\quad (\\text{Measurement noise } v_t)\\]\n\n\n\n\n\n\n\n\n\n\n\nInterpretation:\n\nLevel: Long-term employment capacity\n\nTrend: Damped growth pattern (Ad = additive damped)\n\nNoise: Irregular fluctuations (\\(v_t\\) in our equations)\n\nState Transition Equations:\n\nLevel:\n\\[\nl_t = l_{t-1} + \\phi b_{t-1} + \\alpha \\epsilon_t \\quad \\Rightarrow \\quad l_t = l_{t-1} + 0.98b_{t-1} + 0.9999\\epsilon_t\n\\]\nDamped Trend:\n\\[\nb_t = \\phi b_{t-1} + \\beta \\epsilon_t \\quad \\Rightarrow \\quad b_t = 0.98b_{t-1} + 0.0162\\epsilon_t\n\\]\n\nObservation Equation:\n\\[\ny_t = l_{t-1} + \\phi b_{t-1} + \\epsilon_t \\quad \\Rightarrow \\quad y_t = l_{t-1} + 0.98b_{t-1} + \\epsilon_t\n\\]\n\n\n\nStep 1 - Model Setup\n\n\n\n\n\n\n\n\nStep 2 - Extract States\n\n\n\n\n\n\n\n\nStep 3 - Equation Translation\nBased on the ETS(A,Ad,A) model output with parameters:\n\nα = 0.6488 (level smoothing)\n\nβ = 0.1251 (trend smoothing)\n\nφ = 0.9794 (damping factor)\n\nγ = 0.3298 (seasonal smoothing)\n\n\n\n\nLevel:\n\\(l_t = l_{t-1} + \\phi b_{t-1} + \\alpha \\epsilon_t\\)\n\\(\\Rightarrow l_t = l_{t-1} + 0.9794b_{t-1} + 0.6488\\epsilon_t\\)\nDamped Trend:\n\\(b_t = \\phi b_{t-1} + \\beta \\epsilon_t'\\)\n\\(\\Rightarrow b_t = 0.9794b_{t-1} + 0.1251\\epsilon_t'\\)\nSeasonal Component:\n\\(s_t = s_{t-m} + \\gamma \\epsilon_t''\\)\n\\(\\Rightarrow s_t = s_{t-12} + 0.3298\\epsilon_t''\\) (monthly seasonality: \\(m = 12\\))\n\n\n\n\n\\(y_t = l_{t-1} + \\phi b_{t-1} + s_{t-m} + v_t\\)\n\\(\\Rightarrow y_t = l_{t-1} + 0.9794b_{t-1} + s_{t-12} + v_t\\)\n\n\n\n\nProblem 1: Fit damped trend model to US_employment\n\n\n\n\n\n\n\n\n\nProblem 2: Perform a residual diagnostics vs ARIMA",
+    "text": "Why State-Space? ARIMA models directly relate past observations to present values. State-space models add a hidden layer that evolves independently:\nSimple Weather Example\n\nObserved: Daily temperature (\\(y_t\\))\n\nHidden State: Atmospheric pressure system (\\(x_t\\))\n\nRelationship:\nPressure evolves: \\(x_t = 0.9x_{t-1} + \\text{weather\\_disturbance}\\)\nWe observe: \\(y_t = x_t + \\text{thermometer\\_error}\\)\n\nModel Equations\nState Transition:\n\\[x_t = \\phi x_{t-1} + w_t \\quad (\\text{Memory factor } \\phi, \\text{ system noise } w_t)\\]\nObservation Process:\n\\[y_t = x_t + v_t \\quad (\\text{Measurement noise } v_t)\\]\n\n\n\n\n\n\n\n\n\n\n\nInterpretation:\n\nLevel: Long-term employment capacity\n\nTrend: Damped growth pattern (Ad = additive damped)\n\nNoise: Irregular fluctuations (\\(v_t\\) in our equations)\n\nState Transition Equations:\n\nLevel:\n\\[\nl_t = l_{t-1} + \\phi b_{t-1} + \\alpha \\epsilon_t \\quad \\Rightarrow \\quad l_t = l_{t-1} + 0.98b_{t-1} + 0.9999\\epsilon_t\n\\]\nDamped Trend:\n\\[\nb_t = \\phi b_{t-1} + \\beta \\epsilon_t \\quad \\Rightarrow \\quad b_t = 0.98b_{t-1} + 0.0162\\epsilon_t\n\\]\n\nObservation Equation:\n\\[\ny_t = l_{t-1} + \\phi b_{t-1} + \\epsilon_t \\quad \\Rightarrow \\quad y_t = l_{t-1} + 0.98b_{t-1} + \\epsilon_t\n\\]\n\n\n\nStep 1 - Model Setup\n\n\n\n\n\n\n\n\nStep 2 - Extract States\n\n\n\n\n\n\n\n\nStep 3 - Equation Translation\nBased on the ETS(A,Ad,A) model output with parameters:\n\nα = 0.6488 (level smoothing)\n\nβ = 0.1251 (trend smoothing)\n\nφ = 0.9794 (damping factor)\n\nγ = 0.3298 (seasonal smoothing)\n\n\n\n\nLevel:\n\\(l_t = l_{t-1} + \\phi b_{t-1} + \\alpha \\epsilon_t\\)\n\\(\\Rightarrow l_t = l_{t-1} + 0.9794b_{t-1} + 0.6488\\epsilon_t\\)\nDamped Trend:\n\\(b_t = \\phi b_{t-1} + \\beta \\epsilon_t'\\)\n\\(\\Rightarrow b_t = 0.9794b_{t-1} + 0.1251\\epsilon_t'\\)\nSeasonal Component:\n\\(s_t = s_{t-m} + \\gamma \\epsilon_t''\\)\n\\(\\Rightarrow s_t = s_{t-12} + 0.3298\\epsilon_t''\\) (monthly seasonality: \\(m = 12\\))\n\n\n\n\n\\(y_t = l_{t-1} + \\phi b_{t-1} + s_{t-m} + v_t\\)\n\\(\\Rightarrow y_t = l_{t-1} + 0.9794b_{t-1} + s_{t-12} + v_t\\)\n\n\n\n\nProblem 1: Fit damped trend model to US_employment\n\n\n\n\n\n\n\n\nProblem 2: Perform a residual diagnostics vs ARIMA",
     "crumbs": [
       "Week 8",
       "Activity 29"
@@ -633,36 +633,102 @@
     ]
   },
   {
-    "objectID": "activity16.html",
-    "href": "activity16.html",
-    "title": "Activity16",
+    "objectID": "activity3.html",
+    "href": "activity3.html",
+    "title": "Activity3",
     "section": "",
-    "text": "Investigate whether changes in COVID-19 vaccination numbers help predict changes in confirmed cases using a Granger causality test.\n\n# Retrieve COVID-19 data for the United States and prepare a tsibble\ncovid_data &lt;- covid19(verbose = FALSE) %&gt;% \n  filter(administrative_area_level_1 == \"United States\") %&gt;% \n  mutate(date = ymd(date)) %&gt;% \n  as_tsibble(index = date) %&gt;% \n  select(date, confirmed, vaccines) %&gt;% \n  mutate(vaccines = as.integer(vaccines)) %&gt;% \n  drop_na()\n\n\n# Compute daily changes in confirmed cases and vaccinations\ncovid_data &lt;- covid_data %&gt;% \n  mutate(dConfirmed = difference(confirmed),\n         dVacc = difference(vaccines)) %&gt;% \n  drop_na()\n\n\n# Plot daily changes in confirmed cases and vaccinations\ncovid_data %&gt;% \n  autoplot(vars(dConfirmed, dVacc)) +\n  labs(title = \"Daily Changes: Confirmed Cases & Vaccinations\", x = \"Date\")\n\n\n\n\n\n\n\n\n\n\n\nThe Granger causality test checks whether past values of one variable (here, dVacc) provide statistically significant information for predicting another variable (dConfirmed).\nImplications and Uses:\n\nA significant result (p-value &lt; 0.05) suggests that changes in vaccinations Granger-cause changes in confirmed cases.\nThis does not imply true causality, but indicates that past vaccination data improves forecast accuracy for confirmed cases.\nSuch insights can help inform public health policies by highlighting the predictive value of vaccination trends.\n\nP-value Interpretation:\n\np &lt; 0.05: Reject the null hypothesis. Past vaccination changes significantly improve prediction of confirmed cases.\np ≥ 0.05: Fail to reject the null hypothesis. Vaccination changes do not add significant predictive power.\n\n\n\n\n\n# Test if changes in vaccinations (dVacc) Granger-cause changes in confirmed cases (dConfirmed) using a lag of 1.\nmodel_full &lt;- lm(dConfirmed ~ lag(dVacc, 1), data = covid_data)\nmodel_restricted &lt;- lm(dConfirmed ~ 1, data = covid_data)\nF_stat &lt;- ((deviance(model_restricted) - deviance(model_full)) / 1) / \n          (deviance(model_full) / (nrow(covid_data) - 2 - 1))\ndf1 &lt;- 1\ndf2 &lt;- nrow(covid_data) - 2 - 1\np_value &lt;- pf(F_stat, df1, df2, lower.tail = FALSE)\np_value\n\n[1] 0.260462",
+    "text": "Autocorrelation, also known as serial correlation, measures the correlation of a time series with its own past and future values. Mathematically, the autocorrelation function (ACF) at lag \\(k\\) for a time series \\(\\{X_t\\}\\) is defined as:\n\\[\n\\rho_k = \\frac{\\text{Cov}(X_t, X_{t-k})}{\\sqrt{\\text{Var}(X_t) \\text{Var}(X_{t-k})}}\n\\]\nwhere \\(\\rho_k\\) measures the linear relationship between values \\(k\\) time periods apart.\n\nPositive autocorrelation at lag \\(k\\): high values tend to follow high values and low values tend to follow low values after \\(k\\) periods.\nNegative autocorrelation at lag \\(k\\): high values tend to follow low values and vice versa.\nNo autocorrelation: the series values \\(k\\) periods apart are uncorrelated, suggesting randomness at that lag.",
     "crumbs": [
-      "Week 4",
-      "Activity 16"
+      "Week 1",
+      "Activity 3"
     ]
   },
   {
-    "objectID": "activity16.html#covid-data-analysis-and-granger-causality-test",
-    "href": "activity16.html#covid-data-analysis-and-granger-causality-test",
-    "title": "Activity16",
+    "objectID": "activity3.html#autocorrelation-in-time-series",
+    "href": "activity3.html#autocorrelation-in-time-series",
+    "title": "Activity3",
     "section": "",
-    "text": "Investigate whether changes in COVID-19 vaccination numbers help predict changes in confirmed cases using a Granger causality test.\n\n# Retrieve COVID-19 data for the United States and prepare a tsibble\ncovid_data &lt;- covid19(verbose = FALSE) %&gt;% \n  filter(administrative_area_level_1 == \"United States\") %&gt;% \n  mutate(date = ymd(date)) %&gt;% \n  as_tsibble(index = date) %&gt;% \n  select(date, confirmed, vaccines) %&gt;% \n  mutate(vaccines = as.integer(vaccines)) %&gt;% \n  drop_na()\n\n\n# Compute daily changes in confirmed cases and vaccinations\ncovid_data &lt;- covid_data %&gt;% \n  mutate(dConfirmed = difference(confirmed),\n         dVacc = difference(vaccines)) %&gt;% \n  drop_na()\n\n\n# Plot daily changes in confirmed cases and vaccinations\ncovid_data %&gt;% \n  autoplot(vars(dConfirmed, dVacc)) +\n  labs(title = \"Daily Changes: Confirmed Cases & Vaccinations\", x = \"Date\")\n\n\n\n\n\n\n\n\n\n\n\nThe Granger causality test checks whether past values of one variable (here, dVacc) provide statistically significant information for predicting another variable (dConfirmed).\nImplications and Uses:\n\nA significant result (p-value &lt; 0.05) suggests that changes in vaccinations Granger-cause changes in confirmed cases.\nThis does not imply true causality, but indicates that past vaccination data improves forecast accuracy for confirmed cases.\nSuch insights can help inform public health policies by highlighting the predictive value of vaccination trends.\n\nP-value Interpretation:\n\np &lt; 0.05: Reject the null hypothesis. Past vaccination changes significantly improve prediction of confirmed cases.\np ≥ 0.05: Fail to reject the null hypothesis. Vaccination changes do not add significant predictive power.\n\n\n\n\n\n# Test if changes in vaccinations (dVacc) Granger-cause changes in confirmed cases (dConfirmed) using a lag of 1.\nmodel_full &lt;- lm(dConfirmed ~ lag(dVacc, 1), data = covid_data)\nmodel_restricted &lt;- lm(dConfirmed ~ 1, data = covid_data)\nF_stat &lt;- ((deviance(model_restricted) - deviance(model_full)) / 1) / \n          (deviance(model_full) / (nrow(covid_data) - 2 - 1))\ndf1 &lt;- 1\ndf2 &lt;- nrow(covid_data) - 2 - 1\np_value &lt;- pf(F_stat, df1, df2, lower.tail = FALSE)\np_value\n\n[1] 0.260462",
+    "text": "Autocorrelation, also known as serial correlation, measures the correlation of a time series with its own past and future values. Mathematically, the autocorrelation function (ACF) at lag \\(k\\) for a time series \\(\\{X_t\\}\\) is defined as:\n\\[\n\\rho_k = \\frac{\\text{Cov}(X_t, X_{t-k})}{\\sqrt{\\text{Var}(X_t) \\text{Var}(X_{t-k})}}\n\\]\nwhere \\(\\rho_k\\) measures the linear relationship between values \\(k\\) time periods apart.\n\nPositive autocorrelation at lag \\(k\\): high values tend to follow high values and low values tend to follow low values after \\(k\\) periods.\nNegative autocorrelation at lag \\(k\\): high values tend to follow low values and vice versa.\nNo autocorrelation: the series values \\(k\\) periods apart are uncorrelated, suggesting randomness at that lag.",
     "crumbs": [
-      "Week 4",
-      "Activity 16"
+      "Week 1",
+      "Activity 3"
     ]
   },
   {
-    "objectID": "activity16.html#lab-activity-exploring-granger-causality-with-different-lags",
-    "href": "activity16.html#lab-activity-exploring-granger-causality-with-different-lags",
-    "title": "Activity16",
-    "section": "Lab Activity: Exploring Granger Causality with Different Lags",
-    "text": "Lab Activity: Exploring Granger Causality with Different Lags\nTask: Using the covid_data, perform Granger causality tests with lag orders 1, 2, 3, 5, and 10.\nFor each lag, compute the p-value to assess whether lagged vaccination changes improve the prediction of confirmed cases. Answer the following:\n\nHow do the p-values change with different lag orders?\nWhich lag order appears most appropriate for capturing the predictive relationship?\n\nWrite a brief discussion on how these findings might inform public health policy.",
+    "objectID": "activity3.html#partial-autocorrelation-in-time-series",
+    "href": "activity3.html#partial-autocorrelation-in-time-series",
+    "title": "Activity3",
+    "section": "Partial Autocorrelation in Time Series",
+    "text": "Partial Autocorrelation in Time Series\nPartial autocorrelation measures the correlation between a time series and its lagged values, after removing the influence of intermediate lags. In other words, it quantifies the direct relationship between \\(X_t\\) and \\(X_{t-k}\\), controlling for the effects of \\(X_{t-1}, X_{t-2}, \\dots, X_{t-k+1}\\). Mathematically, the partial autocorrelation function (PACF) at lag \\(k\\) for a time series \\(\\{X_t\\}\\) is defined as:\n\\[\n\\phi_{kk} = \\text{Corr}(X_t, X_{t-k} \\mid X_{t-1}, X_{t-2}, \\dots, X_{t-k+1})\n\\]\nwhere \\(\\phi_{kk}\\) represents the partial autocorrelation at lag \\(k\\).\n\nInterpretation of PACF:\n\nA significant partial autocorrelation at lag \\(k\\) suggests a direct relationship between \\(X_t\\) and \\(X_{t-k}\\), independent of the intermediate lags.\nA non-significant partial autocorrelation indicates that the relationship between \\(X_t\\) and \\(X_{t-k}\\) is fully explained by the intermediate lags.\n\nComparison with ACF:\n\nWhile the ACF measures the total correlation between \\(X_t\\) and \\(X_{t-k}\\), the PACF isolates the direct correlation, making it a more precise tool for model identification.\n\n\n\nPractical Illustration with Real Data\nWe will use real datasets from the fpp3 package to compute and visualize autocorrelation. The following code snippets demonstrate how to plot the ACF and PACF for a time series, providing insights into its internal structure.\n\nlibrary(fpp3)\n\naus_airpassengers %&gt;%\n  ACF(Passengers) %&gt;%             # Calculate autocorrelations for the Passengers series\n  autoplot() +                    # Plot the ACF\n  labs(title = \"ACF of Australian Air Passengers\", y = \"ACF\", x = \"Lag\")\n\n\n\n\n\n\n\n# Example 2: Partial Autocorrelation of Australian Air Passengers\naus_airpassengers %&gt;%\n  PACF(Passengers) %&gt;%            # Calculate partial autocorrelations for the Passengers series\n  autoplot() +                    # Plot the PACF\n  labs(title = \"PACF of Australian Air Passengers\", y = \"PACF\", x = \"Lag\")",
     "crumbs": [
-      "Week 4",
-      "Activity 16"
+      "Week 1",
+      "Activity 3"
+    ]
+  },
+  {
+    "objectID": "activity3.html#white-noise",
+    "href": "activity3.html#white-noise",
+    "title": "Activity3",
+    "section": "White Noise",
+    "text": "White Noise\n\nWhite Noise\n\nNo autocorrelation: \\(\\mathbb{E}[X_t X_{t-k}] = 0, \\quad \\forall k \\neq 0\\)\n\nConstant variance: \\(\\operatorname{Var}(X_t) = \\sigma^2\\)\n\nThe white noise process is defined as:\n\\[\nX_t = \\varepsilon_t, \\quad \\varepsilon_t \\stackrel{iid}{\\sim} \\mathcal{N}(0, \\sigma^2)\n\\]\n\n\n# White Noise Simulation\nwn &lt;- tsibble(time = 1:500, y = rnorm(500), index = time)\n\n# Visualize and test for autocorrelation\nwn %&gt;% autoplot(y) + ggtitle(\"White Noise Process\")\n\n\n\n\n\n\n\nwn %&gt;% ACF(y) %&gt;% autoplot()\n\n\n\n\n\n\n\nwn %&gt;% features(y, ljung_box, lag = 10)  # Should retain H₀ (no autocorrelation)\n\n# A tibble: 1 × 2\n  lb_stat lb_pvalue\n    &lt;dbl&gt;     &lt;dbl&gt;\n1    7.71     0.658\n\n\n\nPortmanteau (Ljung-Box) Test\n\nNull hypothesis (\\(H_0\\)): No autocorrelation up to lag \\(h\\)\n\nTest statistic:\n\\[\nQ = n(n+2) \\sum_{k=1}^{h} \\frac{\\hat{\\rho}_k^2}{n-k} \\sim \\chi^2_h\n\\]\n\n\n\nwn %&gt;% features(y, ljung_box, lag = 10)  # p &gt; 0.05 ⇒ retain H₀ (white noise)\n\n# A tibble: 1 × 2\n  lb_stat lb_pvalue\n    &lt;dbl&gt;     &lt;dbl&gt;\n1    7.71     0.658\n\n\n\nPractical Verification\n\nSimulate contaminated white noise to test robustness:\n\n\n\ncontaminated_wn &lt;- wn %&gt;% \n mutate(y = y + 0.3*lag(y, 5) %&gt;% replace_na(0))\n\n\nVisualize and test the contaminated series:\n\n\ncontaminated_wn %&gt;% \n ACF(y) %&gt;% \n autoplot() + \n ggtitle(\"ACF of Contaminated Series\")\n\n\n\n\n\n\n\ncontaminated_wn %&gt;% \n features(y, ljung_box, lag = 10)  # p &lt; 0.05 ⇒ reject H₀\n\n# A tibble: 1 × 2\n  lb_stat  lb_pvalue\n    &lt;dbl&gt;      &lt;dbl&gt;\n1    44.7 0.00000251\n\n\n\nLab Activity: White Noise Series, ACF, and Portmanteau Test\n\nSimulate a White Noise Series\nGenerate a white noise series of length \\(n = 500\\) using the equation: \\[\nX_t = \\varepsilon_t, \\quad \\varepsilon_t \\stackrel{iid}{\\sim} \\mathcal{N}(0, 1)\n\\] Plot the series.\nPlot the ACF\nCompute and plot the autocorrelation function (ACF) of the white noise series. Interpret the results.\nContaminate the Series\nIntroduce contamination into the white noise series by adding a lagged component: \\[\nY_t = X_t + 0.4 \\cdot X_{t-3}\n\\] Replace missing values with 0. Plot the contaminated series.\nPlot the ACF of the Contaminated Series\nCompute and plot the ACF of the contaminated series. Compare it with the ACF of the original white noise series.\nPerform the Portmanteau (Ljung-Box) Test\n\nApply the Ljung-Box test to the original white noise series. Interpret the results.\nApply the Ljung-Box test to the contaminated series. Interpret the results.",
+    "crumbs": [
+      "Week 1",
+      "Activity 3"
+    ]
+  },
+  {
+    "objectID": "activity27.html",
+    "href": "activity27.html",
+    "title": "Activity27",
+    "section": "",
+    "text": "📌 No Activity\n\n📝 In-Class Midterm",
+    "crumbs": [
+      "Week 7",
+      "Activity 27"
+    ]
+  },
+  {
+    "objectID": "activity6.html#lab-activity",
+    "href": "activity6.html#lab-activity",
+    "title": "Activity6",
+    "section": "Lab Activity",
+    "text": "Lab Activity\nRepeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results.\nSolution:\n\n# Step 1: Get NVIDIA (NVDA) stock data\nnvda &lt;- tq_get(\"NVDA\", \n               from = \"2010-01-01\", \n               to = \"2023-01-01\",\n               get = \"stock.prices\") %&gt;%\n  select(date, adjusted) %&gt;%  # Use adjusted closing prices\n  rename(price = adjusted) %&gt;% \n  as_tsibble(index = date)  # Convert to tsibble with date index\n\n# Step 2: Plot the NVIDIA stock price series\nautoplot(nvda, price) + \n  labs(title = \"NVIDIA (NVDA) Stock Price Series\", \n       x = \"Date\", \n       y = \"Adjusted Closing Price\")\n\n\n\n\n\n\n\n# Step 3: Perform ADF test on the original series\nadf_test_nvda &lt;- adf.test(nvda$price)\nadf_test_nvda\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  nvda$price\nDickey-Fuller = -2.3584, Lag order = 14, p-value = 0.4266\nalternative hypothesis: stationary\n\n# Step 4: Perform KPSS test on the original series\nkpss_test_nvda &lt;- nvda %&gt;%\n  features(price, unitroot_kpss)\nkpss_test_nvda\n\n# A tibble: 1 × 2\n  kpss_stat kpss_pvalue\n      &lt;dbl&gt;       &lt;dbl&gt;\n1      22.2        0.01\n\n# Step 5: Difference the series to achieve stationarity\ndiff_nvda &lt;- nvda %&gt;% mutate(price = difference(price))\n\n# Step 6: Plot the differenced series\nautoplot(diff_nvda, price) + \n  labs(title = \"Differenced NVIDIA (NVDA) Stock Price Series\", \n       x = \"Date\", \n       y = \"Differenced Price\")\n\n\n\n\n\n\n\n# Step 7: Perform ADF test on the differenced series\nadf_test_diff_nvda &lt;- adf.test(na.omit(diff_nvda$price))\nadf_test_diff_nvda\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  na.omit(diff_nvda$price)\nDickey-Fuller = -14.601, Lag order = 14, p-value = 0.01\nalternative hypothesis: stationary\n\n# Step 8: Perform KPSS test on the differenced series\nkpss_test_diff_nvda &lt;- diff_nvda %&gt;%\n  features(price, unitroot_kpss)\nkpss_test_diff_nvda\n\n# A tibble: 1 × 2\n  kpss_stat kpss_pvalue\n      &lt;dbl&gt;       &lt;dbl&gt;\n1    0.0934         0.1",
+    "crumbs": [
+      "Week 2",
+      "Activity 6"
+    ]
+  },
+  {
+    "objectID": "activity21.html",
+    "href": "activity21.html",
+    "title": "Activity21",
+    "section": "",
+    "text": "Define AR(\\(p\\)): \\(Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\epsilon_t\\), \\(\\epsilon_t \\sim WN(0,\\sigma^2)\\)\nAR(p) Properties:\n\nCaptures temporal dependence through lagged terms\nPACF cuts off after lag \\(p\\)\nRequires stationarity for reliable inference\nUnit root non-stationarity occurs when characteristic equation \\(1 - \\phi_1 z - \\cdots - \\phi_p z^p = 0\\) has roots on unit circle\n\n\n\n\n\n\n\n\n\n\n\nlibrary(fable)\nset.seed(123)\nar_data &lt;- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %&gt;% \n  as_tsibble(index = time)\n\nar_data %&gt;% \n  gg_tsdisplay(y, plot_type = c(\"scatter\")) + # ACF/PACF\n  labs(title = \"AR(2) Process: φ₁=0.7, φ₂=-0.2\")\n\n\n\n\n\n\n\n\nModel Fitting & Diagnostics\n\nfit_ar &lt;- ar_data %&gt;% \n  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification\n\nreport(fit_ar) # Check coefficients & σ²\n\nSeries: y \nModel: ARIMA(2,0,0) \n\nCoefficients:\n         ar1      ar2\n      0.6757  -0.1576\ns.e.  0.0990   0.1002\n\nsigma^2 estimated as 0.8167:  log likelihood=-130.99\nAIC=267.99   AICc=268.24   BIC=275.8\n\nfit_ar %&gt;% residuals() %&gt;% gg_tsdisplay(plot_type = c(\"scatter\")) # Residual diagnostics\n\n\n\n\n\n\n\n\n\n\n\nFrom the global_economy dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):\n\n\n\n\n\n\n\n\n\n\nExploratory Analysis & Stationarity\n\nVisualize Series:\n\n\n\n\n\n\n\n\n\n\nStationarity Assessment:\n\n\n\n\n\n\n\n\n\nModel Fitting & Forecasting\n\nFit AR Model:\n\n\n\n\n\n\n\n\n\n\nResidual Diagnostics:\n\n\n\n\n\n\n\n\n\n\nForecasting:\n\n\n\n\n\n\n\n\n\n\n\n\n1. Data Preparation & Visualization\n\n\n\n\n\n\n\n\n2. Order Identification\nDetermine appropriate AR order through PACF:\n\n\n\n\n\n\n\n\n3. Model Comparison\nFit competing specifications and evaluate:\n\n\n\n\n\n\n\n\n4. Forecasting & Policy Implications\nUsing the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:",
+    "crumbs": [
+      "Week 6",
+      "Activity 21"
+    ]
+  },
+  {
+    "objectID": "activity21.html#time-series-nature-stationarity",
+    "href": "activity21.html#time-series-nature-stationarity",
+    "title": "Activity21",
+    "section": "",
+    "text": "Define AR(\\(p\\)): \\(Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\epsilon_t\\), \\(\\epsilon_t \\sim WN(0,\\sigma^2)\\)\nAR(p) Properties:\n\nCaptures temporal dependence through lagged terms\nPACF cuts off after lag \\(p\\)\nRequires stationarity for reliable inference\nUnit root non-stationarity occurs when characteristic equation \\(1 - \\phi_1 z - \\cdots - \\phi_p z^p = 0\\) has roots on unit circle\n\n\n\n\n\n\n\n\n\n\n\nlibrary(fable)\nset.seed(123)\nar_data &lt;- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %&gt;% \n  as_tsibble(index = time)\n\nar_data %&gt;% \n  gg_tsdisplay(y, plot_type = c(\"scatter\")) + # ACF/PACF\n  labs(title = \"AR(2) Process: φ₁=0.7, φ₂=-0.2\")\n\n\n\n\n\n\n\n\nModel Fitting & Diagnostics\n\nfit_ar &lt;- ar_data %&gt;% \n  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification\n\nreport(fit_ar) # Check coefficients & σ²\n\nSeries: y \nModel: ARIMA(2,0,0) \n\nCoefficients:\n         ar1      ar2\n      0.6757  -0.1576\ns.e.  0.0990   0.1002\n\nsigma^2 estimated as 0.8167:  log likelihood=-130.99\nAIC=267.99   AICc=268.24   BIC=275.8\n\nfit_ar %&gt;% residuals() %&gt;% gg_tsdisplay(plot_type = c(\"scatter\")) # Residual diagnostics",
+    "crumbs": [
+      "Week 6",
+      "Activity 21"
+    ]
+  },
+  {
+    "objectID": "activity21.html#real-world-process-us-consumption",
+    "href": "activity21.html#real-world-process-us-consumption",
+    "title": "Activity21",
+    "section": "",
+    "text": "From the global_economy dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):\n\n\n\n\n\n\n\n\n\n\nExploratory Analysis & Stationarity\n\nVisualize Series:\n\n\n\n\n\n\n\n\n\n\nStationarity Assessment:\n\n\n\n\n\n\n\n\n\nModel Fitting & Forecasting\n\nFit AR Model:\n\n\n\n\n\n\n\n\n\n\nResidual Diagnostics:\n\n\n\n\n\n\n\n\n\n\nForecasting:\n\n\n\n\n\n\n\n\n\n\n\n\n1. Data Preparation & Visualization\n\n\n\n\n\n\n\n\n2. Order Identification\nDetermine appropriate AR order through PACF:\n\n\n\n\n\n\n\n\n3. Model Comparison\nFit competing specifications and evaluate:\n\n\n\n\n\n\n\n\n4. Forecasting & Policy Implications\nUsing the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:",
+    "crumbs": [
+      "Week 6",
+      "Activity 21"
     ]
   },
   {
@@ -710,102 +776,91 @@
     ]
   },
   {
-    "objectID": "activity21.html",
-    "href": "activity21.html",
-    "title": "Activity21",
+    "objectID": "activity16.html",
+    "href": "activity16.html",
+    "title": "Activity16",
     "section": "",
-    "text": "Define AR(\\(p\\)): \\(Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\epsilon_t\\), \\(\\epsilon_t \\sim WN(0,\\sigma^2)\\)\nAR(p) Properties:\n\nCaptures temporal dependence through lagged terms\nPACF cuts off after lag \\(p\\)\nRequires stationarity for reliable inference\nUnit root non-stationarity occurs when characteristic equation \\(1 - \\phi_1 z - \\cdots - \\phi_p z^p = 0\\) has roots on unit circle\n\n\n\n\n\n\n\n\n\n\n\nlibrary(fable)\nset.seed(123)\nar_data &lt;- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %&gt;% \n  as_tsibble(index = time)\n\nar_data %&gt;% \n  gg_tsdisplay(y, plot_type = c(\"scatter\")) + # ACF/PACF\n  labs(title = \"AR(2) Process: φ₁=0.7, φ₂=-0.2\")\n\n\n\n\n\n\n\n\nModel Fitting & Diagnostics\n\nfit_ar &lt;- ar_data %&gt;% \n  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification\n\nreport(fit_ar) # Check coefficients & σ²\n\nSeries: y \nModel: ARIMA(2,0,0) \n\nCoefficients:\n         ar1      ar2\n      0.6757  -0.1576\ns.e.  0.0990   0.1002\n\nsigma^2 estimated as 0.8167:  log likelihood=-130.99\nAIC=267.99   AICc=268.24   BIC=275.8\n\nfit_ar %&gt;% residuals() %&gt;% gg_tsdisplay(plot_type = c(\"scatter\")) # Residual diagnostics\n\n\n\n\n\n\n\n\n\n\n\nFrom the global_economy dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):\n\n\n\n\n\n\n\n\n\n\nExploratory Analysis & Stationarity\n\nVisualize Series:\n\n\n\n\n\n\n\n\n\n\nStationarity Assessment:\n\n\n\n\n\n\n\n\n\nModel Fitting & Forecasting\n\nFit AR Model:\n\n\n\n\n\n\n\n\n\n\nResidual Diagnostics:\n\n\n\n\n\n\n\n\n\n\nForecasting:\n\n\n\n\n\n\n\n\n\n\n\n\n1. Data Preparation & Visualization\n\n\n\n\n\n\n\n\n2. Order Identification\nDetermine appropriate AR order through PACF:\n\n\n\n\n\n\n\n\n3. Model Comparison\nFit competing specifications and evaluate:\n\n\n\n\n\n\n\n\n4. Forecasting & Policy Implications\nUsing the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:",
+    "text": "Investigate whether changes in COVID-19 vaccination numbers help predict changes in confirmed cases using a Granger causality test.\n\n# Retrieve COVID-19 data for the United States and prepare a tsibble\ncovid_data &lt;- covid19(verbose = FALSE) %&gt;% \n  filter(administrative_area_level_1 == \"United States\") %&gt;% \n  mutate(date = ymd(date)) %&gt;% \n  as_tsibble(index = date) %&gt;% \n  select(date, confirmed, vaccines) %&gt;% \n  mutate(vaccines = as.integer(vaccines)) %&gt;% \n  drop_na()\n\n\n# Compute daily changes in confirmed cases and vaccinations\ncovid_data &lt;- covid_data %&gt;% \n  mutate(dConfirmed = difference(confirmed),\n         dVacc = difference(vaccines)) %&gt;% \n  drop_na()\n\n\n# Plot daily changes in confirmed cases and vaccinations\ncovid_data %&gt;% \n  autoplot(vars(dConfirmed, dVacc)) +\n  labs(title = \"Daily Changes: Confirmed Cases & Vaccinations\", x = \"Date\")\n\n\n\n\n\n\n\n\n\n\n\nThe Granger causality test checks whether past values of one variable (here, dVacc) provide statistically significant information for predicting another variable (dConfirmed).\nImplications and Uses:\n\nA significant result (p-value &lt; 0.05) suggests that changes in vaccinations Granger-cause changes in confirmed cases.\nThis does not imply true causality, but indicates that past vaccination data improves forecast accuracy for confirmed cases.\nSuch insights can help inform public health policies by highlighting the predictive value of vaccination trends.\n\nP-value Interpretation:\n\np &lt; 0.05: Reject the null hypothesis. Past vaccination changes significantly improve prediction of confirmed cases.\np ≥ 0.05: Fail to reject the null hypothesis. Vaccination changes do not add significant predictive power.\n\n\n\n\n\n# Test if changes in vaccinations (dVacc) Granger-cause changes in confirmed cases (dConfirmed) using a lag of 1.\nmodel_full &lt;- lm(dConfirmed ~ lag(dVacc, 1), data = covid_data)\nmodel_restricted &lt;- lm(dConfirmed ~ 1, data = covid_data)\nF_stat &lt;- ((deviance(model_restricted) - deviance(model_full)) / 1) / \n          (deviance(model_full) / (nrow(covid_data) - 2 - 1))\ndf1 &lt;- 1\ndf2 &lt;- nrow(covid_data) - 2 - 1\np_value &lt;- pf(F_stat, df1, df2, lower.tail = FALSE)\np_value\n\n[1] 0.260462",
     "crumbs": [
-      "Week 6",
-      "Activity 21"
+      "Week 4",
+      "Activity 16"
     ]
   },
   {
-    "objectID": "activity21.html#time-series-nature-stationarity",
-    "href": "activity21.html#time-series-nature-stationarity",
-    "title": "Activity21",
+    "objectID": "activity16.html#covid-data-analysis-and-granger-causality-test",
+    "href": "activity16.html#covid-data-analysis-and-granger-causality-test",
+    "title": "Activity16",
     "section": "",
-    "text": "Define AR(\\(p\\)): \\(Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\epsilon_t\\), \\(\\epsilon_t \\sim WN(0,\\sigma^2)\\)\nAR(p) Properties:\n\nCaptures temporal dependence through lagged terms\nPACF cuts off after lag \\(p\\)\nRequires stationarity for reliable inference\nUnit root non-stationarity occurs when characteristic equation \\(1 - \\phi_1 z - \\cdots - \\phi_p z^p = 0\\) has roots on unit circle\n\n\n\n\n\n\n\n\n\n\n\nlibrary(fable)\nset.seed(123)\nar_data &lt;- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %&gt;% \n  as_tsibble(index = time)\n\nar_data %&gt;% \n  gg_tsdisplay(y, plot_type = c(\"scatter\")) + # ACF/PACF\n  labs(title = \"AR(2) Process: φ₁=0.7, φ₂=-0.2\")\n\n\n\n\n\n\n\n\nModel Fitting & Diagnostics\n\nfit_ar &lt;- ar_data %&gt;% \n  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification\n\nreport(fit_ar) # Check coefficients & σ²\n\nSeries: y \nModel: ARIMA(2,0,0) \n\nCoefficients:\n         ar1      ar2\n      0.6757  -0.1576\ns.e.  0.0990   0.1002\n\nsigma^2 estimated as 0.8167:  log likelihood=-130.99\nAIC=267.99   AICc=268.24   BIC=275.8\n\nfit_ar %&gt;% residuals() %&gt;% gg_tsdisplay(plot_type = c(\"scatter\")) # Residual diagnostics",
+    "text": "Investigate whether changes in COVID-19 vaccination numbers help predict changes in confirmed cases using a Granger causality test.\n\n# Retrieve COVID-19 data for the United States and prepare a tsibble\ncovid_data &lt;- covid19(verbose = FALSE) %&gt;% \n  filter(administrative_area_level_1 == \"United States\") %&gt;% \n  mutate(date = ymd(date)) %&gt;% \n  as_tsibble(index = date) %&gt;% \n  select(date, confirmed, vaccines) %&gt;% \n  mutate(vaccines = as.integer(vaccines)) %&gt;% \n  drop_na()\n\n\n# Compute daily changes in confirmed cases and vaccinations\ncovid_data &lt;- covid_data %&gt;% \n  mutate(dConfirmed = difference(confirmed),\n         dVacc = difference(vaccines)) %&gt;% \n  drop_na()\n\n\n# Plot daily changes in confirmed cases and vaccinations\ncovid_data %&gt;% \n  autoplot(vars(dConfirmed, dVacc)) +\n  labs(title = \"Daily Changes: Confirmed Cases & Vaccinations\", x = \"Date\")\n\n\n\n\n\n\n\n\n\n\n\nThe Granger causality test checks whether past values of one variable (here, dVacc) provide statistically significant information for predicting another variable (dConfirmed).\nImplications and Uses:\n\nA significant result (p-value &lt; 0.05) suggests that changes in vaccinations Granger-cause changes in confirmed cases.\nThis does not imply true causality, but indicates that past vaccination data improves forecast accuracy for confirmed cases.\nSuch insights can help inform public health policies by highlighting the predictive value of vaccination trends.\n\nP-value Interpretation:\n\np &lt; 0.05: Reject the null hypothesis. Past vaccination changes significantly improve prediction of confirmed cases.\np ≥ 0.05: Fail to reject the null hypothesis. Vaccination changes do not add significant predictive power.\n\n\n\n\n\n# Test if changes in vaccinations (dVacc) Granger-cause changes in confirmed cases (dConfirmed) using a lag of 1.\nmodel_full &lt;- lm(dConfirmed ~ lag(dVacc, 1), data = covid_data)\nmodel_restricted &lt;- lm(dConfirmed ~ 1, data = covid_data)\nF_stat &lt;- ((deviance(model_restricted) - deviance(model_full)) / 1) / \n          (deviance(model_full) / (nrow(covid_data) - 2 - 1))\ndf1 &lt;- 1\ndf2 &lt;- nrow(covid_data) - 2 - 1\np_value &lt;- pf(F_stat, df1, df2, lower.tail = FALSE)\np_value\n\n[1] 0.260462",
     "crumbs": [
-      "Week 6",
-      "Activity 21"
+      "Week 4",
+      "Activity 16"
     ]
   },
   {
-    "objectID": "activity21.html#real-world-process-us-consumption",
-    "href": "activity21.html#real-world-process-us-consumption",
-    "title": "Activity21",
+    "objectID": "activity16.html#lab-activity-exploring-granger-causality-with-different-lags",
+    "href": "activity16.html#lab-activity-exploring-granger-causality-with-different-lags",
+    "title": "Activity16",
+    "section": "Lab Activity: Exploring Granger Causality with Different Lags",
+    "text": "Lab Activity: Exploring Granger Causality with Different Lags\nTask: Using the covid_data, perform Granger causality tests with lag orders 1, 2, 3, 5, and 10.\nFor each lag, compute the p-value to assess whether lagged vaccination changes improve the prediction of confirmed cases. Answer the following:\n\nHow do the p-values change with different lag orders?\nWhich lag order appears most appropriate for capturing the predictive relationship?\n\nWrite a brief discussion on how these findings might inform public health policy.",
+    "crumbs": [
+      "Week 4",
+      "Activity 16"
+    ]
+  },
+  {
+    "objectID": "activity30.html",
+    "href": "activity30.html",
+    "title": "Activity30",
     "section": "",
-    "text": "From the global_economy dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):\n\n\n\n\n\n\n\n\n\n\nExploratory Analysis & Stationarity\n\nVisualize Series:\n\n\n\n\n\n\n\n\n\n\nStationarity Assessment:\n\n\n\n\n\n\n\n\n\nModel Fitting & Forecasting\n\nFit AR Model:\n\n\n\n\n\n\n\n\n\n\nResidual Diagnostics:\n\n\n\n\n\n\n\n\n\n\nForecasting:\n\n\n\n\n\n\n\n\n\n\n\n\n1. Data Preparation & Visualization\n\n\n\n\n\n\n\n\n2. Order Identification\nDetermine appropriate AR order through PACF:\n\n\n\n\n\n\n\n\n3. Model Comparison\nFit competing specifications and evaluate:\n\n\n\n\n\n\n\n\n4. Forecasting & Policy Implications\nUsing the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:",
+    "text": "Why ETS? The ETS framework explicitly models three core components—level, trend, and seasonality—using a recursive structure. This differs from ARIMA, which typically uses differencing to remove trend or seasonality.\n\nLevel (\\(l_t\\)): Baseline value\n\nTrend (\\(b_t\\)): Persistent upward/downward movement\n\nSeason (\\(s_t\\)): Regular repeating pattern\n\n\n\nFor an Additive error, trend, and seasonality model, often denoted ETS(A,A,A):\n\\[\n\\begin{align}\ny_t &= l_{t-1} + b_{t-1} + s_{t-m} + \\epsilon_t, \\\\\nl_t &= l_{t-1} + b_{t-1} + \\alpha \\epsilon_t, \\\\\nb_t &= b_{t-1} + \\beta \\epsilon_t, \\\\\ns_t &= s_{t-m} + \\gamma \\epsilon_t,\n\\end{align}\n\\]\nwhere \\(m\\) is the seasonal period (e.g., \\(m=12\\) for monthly data, \\(m=4\\) for quarterly), and \\(\\alpha, \\beta, \\gamma\\) are smoothing parameters. A small \\(\\beta\\) indicates a very slow‐changing trend, while a small \\(\\gamma\\) indicates very stable seasonality.\nKey Differences from ARIMA\n\nETS: Trend/seasonality are explicitly updated.\n\nARIMA: Trend/seasonality are removed by differencing.\n\nETS: Weighted averages via smoothing.\n\nARIMA: Linear combinations of past values and errors.",
     "crumbs": [
-      "Week 6",
-      "Activity 21"
+      "Week 8",
+      "Activity 30"
     ]
   },
   {
-    "objectID": "activity6.html#lab-activity",
-    "href": "activity6.html#lab-activity",
-    "title": "Activity6",
-    "section": "Lab Activity",
-    "text": "Lab Activity\nRepeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results.\nSolution:\n\n# Step 1: Get NVIDIA (NVDA) stock data\nnvda &lt;- tq_get(\"NVDA\", \n               from = \"2010-01-01\", \n               to = \"2023-01-01\",\n               get = \"stock.prices\") %&gt;%\n  select(date, adjusted) %&gt;%  # Use adjusted closing prices\n  rename(price = adjusted) %&gt;% \n  as_tsibble(index = date)  # Convert to tsibble with date index\n\n# Step 2: Plot the NVIDIA stock price series\nautoplot(nvda, price) + \n  labs(title = \"NVIDIA (NVDA) Stock Price Series\", \n       x = \"Date\", \n       y = \"Adjusted Closing Price\")\n\n\n\n\n\n\n\n# Step 3: Perform ADF test on the original series\nadf_test_nvda &lt;- adf.test(nvda$price)\nadf_test_nvda\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  nvda$price\nDickey-Fuller = -2.3584, Lag order = 14, p-value = 0.4266\nalternative hypothesis: stationary\n\n# Step 4: Perform KPSS test on the original series\nkpss_test_nvda &lt;- nvda %&gt;%\n  features(price, unitroot_kpss)\nkpss_test_nvda\n\n# A tibble: 1 × 2\n  kpss_stat kpss_pvalue\n      &lt;dbl&gt;       &lt;dbl&gt;\n1      22.2        0.01\n\n# Step 5: Difference the series to achieve stationarity\ndiff_nvda &lt;- nvda %&gt;% mutate(price = difference(price))\n\n# Step 6: Plot the differenced series\nautoplot(diff_nvda, price) + \n  labs(title = \"Differenced NVIDIA (NVDA) Stock Price Series\", \n       x = \"Date\", \n       y = \"Differenced Price\")\n\n\n\n\n\n\n\n# Step 7: Perform ADF test on the differenced series\nadf_test_diff_nvda &lt;- adf.test(na.omit(diff_nvda$price))\nadf_test_diff_nvda\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  na.omit(diff_nvda$price)\nDickey-Fuller = -14.601, Lag order = 14, p-value = 0.01\nalternative hypothesis: stationary\n\n# Step 8: Perform KPSS test on the differenced series\nkpss_test_diff_nvda &lt;- diff_nvda %&gt;%\n  features(price, unitroot_kpss)\nkpss_test_diff_nvda\n\n# A tibble: 1 × 2\n  kpss_stat kpss_pvalue\n      &lt;dbl&gt;       &lt;dbl&gt;\n1    0.0934         0.1",
-    "crumbs": [
-      "Week 2",
-      "Activity 6"
-    ]
-  },
-  {
-    "objectID": "activity27.html",
-    "href": "activity27.html",
-    "title": "Activity27",
+    "objectID": "activity30.html#core-concept-time-series-anatomy-with-ets",
+    "href": "activity30.html#core-concept-time-series-anatomy-with-ets",
+    "title": "Activity30",
     "section": "",
-    "text": "📌 No Activity\n\n📝 In-Class Midterm",
+    "text": "Why ETS? The ETS framework explicitly models three core components—level, trend, and seasonality—using a recursive structure. This differs from ARIMA, which typically uses differencing to remove trend or seasonality.\n\nLevel (\\(l_t\\)): Baseline value\n\nTrend (\\(b_t\\)): Persistent upward/downward movement\n\nSeason (\\(s_t\\)): Regular repeating pattern\n\n\n\nFor an Additive error, trend, and seasonality model, often denoted ETS(A,A,A):\n\\[\n\\begin{align}\ny_t &= l_{t-1} + b_{t-1} + s_{t-m} + \\epsilon_t, \\\\\nl_t &= l_{t-1} + b_{t-1} + \\alpha \\epsilon_t, \\\\\nb_t &= b_{t-1} + \\beta \\epsilon_t, \\\\\ns_t &= s_{t-m} + \\gamma \\epsilon_t,\n\\end{align}\n\\]\nwhere \\(m\\) is the seasonal period (e.g., \\(m=12\\) for monthly data, \\(m=4\\) for quarterly), and \\(\\alpha, \\beta, \\gamma\\) are smoothing parameters. A small \\(\\beta\\) indicates a very slow‐changing trend, while a small \\(\\gamma\\) indicates very stable seasonality.\nKey Differences from ARIMA\n\nETS: Trend/seasonality are explicitly updated.\n\nARIMA: Trend/seasonality are removed by differencing.\n\nETS: Weighted averages via smoothing.\n\nARIMA: Linear combinations of past values and errors.",
     "crumbs": [
-      "Week 7",
-      "Activity 27"
+      "Week 8",
+      "Activity 30"
     ]
   },
   {
-    "objectID": "activity3.html",
-    "href": "activity3.html",
-    "title": "Activity3",
-    "section": "",
-    "text": "Autocorrelation, also known as serial correlation, measures the correlation of a time series with its own past and future values. Mathematically, the autocorrelation function (ACF) at lag \\(k\\) for a time series \\(\\{X_t\\}\\) is defined as:\n\\[\n\\rho_k = \\frac{\\text{Cov}(X_t, X_{t-k})}{\\sqrt{\\text{Var}(X_t) \\text{Var}(X_{t-k})}}\n\\]\nwhere \\(\\rho_k\\) measures the linear relationship between values \\(k\\) time periods apart.\n\nPositive autocorrelation at lag \\(k\\): high values tend to follow high values and low values tend to follow low values after \\(k\\) periods.\nNegative autocorrelation at lag \\(k\\): high values tend to follow low values and vice versa.\nNo autocorrelation: the series values \\(k\\) periods apart are uncorrelated, suggesting randomness at that lag.",
+    "objectID": "activity30.html#extended-example-tourism-demand-in-sydney",
+    "href": "activity30.html#extended-example-tourism-demand-in-sydney",
+    "title": "Activity30",
+    "section": "2. Extended Example: Tourism Demand in Sydney",
+    "text": "2. Extended Example: Tourism Demand in Sydney\nBelow is a quick demonstration of fitting an ETS model to tourism data in Sydney. We use R’s fpp3 package, which provides convenient time series functions.",
     "crumbs": [
-      "Week 1",
-      "Activity 3"
+      "Week 8",
+      "Activity 30"
     ]
   },
   {
-    "objectID": "activity3.html#autocorrelation-in-time-series",
-    "href": "activity3.html#autocorrelation-in-time-series",
-    "title": "Activity3",
-    "section": "",
-    "text": "Autocorrelation, also known as serial correlation, measures the correlation of a time series with its own past and future values. Mathematically, the autocorrelation function (ACF) at lag \\(k\\) for a time series \\(\\{X_t\\}\\) is defined as:\n\\[\n\\rho_k = \\frac{\\text{Cov}(X_t, X_{t-k})}{\\sqrt{\\text{Var}(X_t) \\text{Var}(X_{t-k})}}\n\\]\nwhere \\(\\rho_k\\) measures the linear relationship between values \\(k\\) time periods apart.\n\nPositive autocorrelation at lag \\(k\\): high values tend to follow high values and low values tend to follow low values after \\(k\\) periods.\nNegative autocorrelation at lag \\(k\\): high values tend to follow low values and vice versa.\nNo autocorrelation: the series values \\(k\\) periods apart are uncorrelated, suggesting randomness at that lag.",
+    "objectID": "activity30.html#activity-us-gdp-forecasting",
+    "href": "activity30.html#activity-us-gdp-forecasting",
+    "title": "Activity30",
+    "section": "3. Activity: US GDP Forecasting",
+    "text": "3. Activity: US GDP Forecasting\nHere, we illustrate how to scale GDP by dividing by billions and compare ETS vs. ARIMA approaches in a fair manner. We also consider more sophisticated ETS variants (e.g., damped trend).\n\n3.1 Data Preparation & Scaling\n\n\n\n\n\n\n\n\nWe now have a GDP_billions column that is easier to interpret than raw GDP (which can be in the trillions).\n\n\n3.2 Simple ETS vs. ARIMA\nModel A: Simple Exponential Smoothing (SES)\nThis model handles level only (no trend, no seasonality). In ETS notation: ETS(A,N,N).\n\n\n\n\n\n\n\n\nModel B: ARIMA\nWe compare it with a simple differenced ARIMA(0,1,1). That is:\n\\[\ny_t \\;=\\; y_{t-1} \\;+\\; \\epsilon_t \\;+\\; \\theta\\,\\epsilon_{t-1}.\n\\]\n\n\n\n\n\n\n\n\n\n\n3.3 More Sophisticated ETS Models\nTo capture trend, we might consider a damped trend approach, e.g. ETS(A,Ad,N), where:\n\\[\nb_t = \\phi\\,b_{t-1} + \\beta \\epsilon_t, \\quad 0 &lt; \\phi &lt; 1.\n\\]\nThis damping factor \\(\\phi\\) shrinks the trend over time, preventing runaway forecasts.",
     "crumbs": [
-      "Week 1",
-      "Activity 3"
+      "Week 8",
+      "Activity 30"
     ]
   },
   {
-    "objectID": "activity3.html#partial-autocorrelation-in-time-series",
-    "href": "activity3.html#partial-autocorrelation-in-time-series",
-    "title": "Activity3",
-    "section": "Partial Autocorrelation in Time Series",
-    "text": "Partial Autocorrelation in Time Series\nPartial autocorrelation measures the correlation between a time series and its lagged values, after removing the influence of intermediate lags. In other words, it quantifies the direct relationship between \\(X_t\\) and \\(X_{t-k}\\), controlling for the effects of \\(X_{t-1}, X_{t-2}, \\dots, X_{t-k+1}\\). Mathematically, the partial autocorrelation function (PACF) at lag \\(k\\) for a time series \\(\\{X_t\\}\\) is defined as:\n\\[\n\\phi_{kk} = \\text{Corr}(X_t, X_{t-k} \\mid X_{t-1}, X_{t-2}, \\dots, X_{t-k+1})\n\\]\nwhere \\(\\phi_{kk}\\) represents the partial autocorrelation at lag \\(k\\).\n\nInterpretation of PACF:\n\nA significant partial autocorrelation at lag \\(k\\) suggests a direct relationship between \\(X_t\\) and \\(X_{t-k}\\), independent of the intermediate lags.\nA non-significant partial autocorrelation indicates that the relationship between \\(X_t\\) and \\(X_{t-k}\\) is fully explained by the intermediate lags.\n\nComparison with ACF:\n\nWhile the ACF measures the total correlation between \\(X_t\\) and \\(X_{t-k}\\), the PACF isolates the direct correlation, making it a more precise tool for model identification.\n\n\n\nPractical Illustration with Real Data\nWe will use real datasets from the fpp3 package to compute and visualize autocorrelation. The following code snippets demonstrate how to plot the ACF and PACF for a time series, providing insights into its internal structure.\n\nlibrary(fpp3)\n\naus_airpassengers %&gt;%\n  ACF(Passengers) %&gt;%             # Calculate autocorrelations for the Passengers series\n  autoplot() +                    # Plot the ACF\n  labs(title = \"ACF of Australian Air Passengers\", y = \"ACF\", x = \"Lag\")\n\n\n\n\n\n\n\n# Example 2: Partial Autocorrelation of Australian Air Passengers\naus_airpassengers %&gt;%\n  PACF(Passengers) %&gt;%            # Calculate partial autocorrelations for the Passengers series\n  autoplot() +                    # Plot the PACF\n  labs(title = \"PACF of Australian Air Passengers\", y = \"PACF\", x = \"Lag\")",
+    "objectID": "activity30.html#lab-activities",
+    "href": "activity30.html#lab-activities",
+    "title": "Activity30",
+    "section": "Lab Activities",
+    "text": "Lab Activities\n\nActivity 1: Simple Exponential Smoothing (SES)\n\nFit an ETS(A,N,N) model to US GDP (in billions).\n\nExtract the smoothing parameter \\(\\alpha\\).\n\nInterpret what \\(\\alpha\\) implies about how quickly the model reacts to new data.\n\n\n\n\nActivity 2: ARIMA with Automatic Selection\n\nUse ARIMA(GDP_billions) with default auto‐selection.\n\nCompare the chosen order \\((p,d,q)\\) with a manually specified ARIMA(0,2,2).\n\nPlot the forecasts to see which better captures the data trend.\n\n\n\n\n\nActivity 3: Damped Trend ETS\n\nFit an ETS(A,Ad,N) model.\n\nInspect the damping parameter \\(\\phi\\).\n\nIf \\(\\phi\\) is close to 1, interpret how that affects the forecast horizon.\n\n\n\n\n\nActivity 4: Forecast Accuracy Comparison\n\nGenerate 8‐year forecasts with each model (SES, ARIMA, Damped ETS).\n\nCompare the accuracy metrics (RMSE, MAE, MAPE).\n\nConclude which model best fits US GDP data in billions.",
     "crumbs": [
-      "Week 1",
-      "Activity 3"
-    ]
-  },
-  {
-    "objectID": "activity3.html#white-noise",
-    "href": "activity3.html#white-noise",
-    "title": "Activity3",
-    "section": "White Noise",
-    "text": "White Noise\n\nWhite Noise\n\nNo autocorrelation: \\(\\mathbb{E}[X_t X_{t-k}] = 0, \\quad \\forall k \\neq 0\\)\n\nConstant variance: \\(\\operatorname{Var}(X_t) = \\sigma^2\\)\n\nThe white noise process is defined as:\n\\[\nX_t = \\varepsilon_t, \\quad \\varepsilon_t \\stackrel{iid}{\\sim} \\mathcal{N}(0, \\sigma^2)\n\\]\n\n\n# White Noise Simulation\nwn &lt;- tsibble(time = 1:500, y = rnorm(500), index = time)\n\n# Visualize and test for autocorrelation\nwn %&gt;% autoplot(y) + ggtitle(\"White Noise Process\")\n\n\n\n\n\n\n\nwn %&gt;% ACF(y) %&gt;% autoplot()\n\n\n\n\n\n\n\nwn %&gt;% features(y, ljung_box, lag = 10)  # Should retain H₀ (no autocorrelation)\n\n# A tibble: 1 × 2\n  lb_stat lb_pvalue\n    &lt;dbl&gt;     &lt;dbl&gt;\n1    7.71     0.658\n\n\n\nPortmanteau (Ljung-Box) Test\n\nNull hypothesis (\\(H_0\\)): No autocorrelation up to lag \\(h\\)\n\nTest statistic:\n\\[\nQ = n(n+2) \\sum_{k=1}^{h} \\frac{\\hat{\\rho}_k^2}{n-k} \\sim \\chi^2_h\n\\]\n\n\n\nwn %&gt;% features(y, ljung_box, lag = 10)  # p &gt; 0.05 ⇒ retain H₀ (white noise)\n\n# A tibble: 1 × 2\n  lb_stat lb_pvalue\n    &lt;dbl&gt;     &lt;dbl&gt;\n1    7.71     0.658\n\n\n\nPractical Verification\n\nSimulate contaminated white noise to test robustness:\n\n\n\ncontaminated_wn &lt;- wn %&gt;% \n mutate(y = y + 0.3*lag(y, 5) %&gt;% replace_na(0))\n\n\nVisualize and test the contaminated series:\n\n\ncontaminated_wn %&gt;% \n ACF(y) %&gt;% \n autoplot() + \n ggtitle(\"ACF of Contaminated Series\")\n\n\n\n\n\n\n\ncontaminated_wn %&gt;% \n features(y, ljung_box, lag = 10)  # p &lt; 0.05 ⇒ reject H₀\n\n# A tibble: 1 × 2\n  lb_stat  lb_pvalue\n    &lt;dbl&gt;      &lt;dbl&gt;\n1    44.7 0.00000251\n\n\n\nLab Activity: White Noise Series, ACF, and Portmanteau Test\n\nSimulate a White Noise Series\nGenerate a white noise series of length \\(n = 500\\) using the equation: \\[\nX_t = \\varepsilon_t, \\quad \\varepsilon_t \\stackrel{iid}{\\sim} \\mathcal{N}(0, 1)\n\\] Plot the series.\nPlot the ACF\nCompute and plot the autocorrelation function (ACF) of the white noise series. Interpret the results.\nContaminate the Series\nIntroduce contamination into the white noise series by adding a lagged component: \\[\nY_t = X_t + 0.4 \\cdot X_{t-3}\n\\] Replace missing values with 0. Plot the contaminated series.\nPlot the ACF of the Contaminated Series\nCompute and plot the ACF of the contaminated series. Compare it with the ACF of the original white noise series.\nPerform the Portmanteau (Ljung-Box) Test\n\nApply the Ljung-Box test to the original white noise series. Interpret the results.\nApply the Ljung-Box test to the contaminated series. Interpret the results.",
-    "crumbs": [
-      "Week 1",
-      "Activity 3"
+      "Week 8",
+      "Activity 30"
     ]
   },
   {

@@ -87,8 +87,8 @@ website:
         contents:
           - text: "Activity 29"
             href: activity29.html
-      #     - text: "Activity 30"
-      #       href: activity30.html
+          - text: "Activity 30"
+            href: activity30.html
       #     - text: "Activity 31"
       #       href: activity31.html
       #     - text: "Activity 32"

@@ -415,6 +415,12 @@ window.Quarto = {
  <span class="menu-text">Activity 29</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./activity30.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Activity 30</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -614,22 +620,10 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiaGlkZGVuX3N0YXRlcyA8LSBj
 
 </div>
 <script type="webr-4-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyB5b3VyIHItY29kZSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoic29sdXRpb24gPC0gdXNfZW1wbG95bWVudCAlPiVcbiAgZmlsdGVyKFNlcmllc19JRCA9PSBcIkNFVTA4MDAwMDAwMDFcIikgJT4lXG4gIG1vZGVsKEVUUyhFbXBsb3llZCB+IGVycm9yKFwiQVwiKSArIHRyZW5kKFwiQWRcIikpKSJ9
 </script>
 </div>
 </div>
-<!--
-
-::: {.cell}
-
-```{.r .cell-code}
-solution <- us_employment %>%
-  filter(Series_ID == "CEU0800000001") %>%
-  model(ETS(Employed ~ error("A") + trend("Ad")))
-```
-:::
-
--->
 <p><strong>Problem 2</strong>: Perform a residual diagnostics vs ARIMA</p>
 <div class="cell">
 <div>
@@ -637,38 +631,10 @@ solution <- us_employment %>%
 
 </div>
 <script type="webr-5-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyB5b3VyIHItY29kZSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBTdGF0ZS1zcGFjZSByZXNpZHVhbHNcbnNvbHV0aW9uICU+JSByZXNpZHVhbHMoKSAlPiUgXG4gIGdnX3RzZGlzcGxheSgucmVzaWQpXG5cbiMgQ29tcGFyZSB3aXRoIEFSSU1BXG51c19lbXBsb3ltZW50ICU+JVxuICBmaWx0ZXIoU2VyaWVzX0lEID09IFwiQ0VVMDgwMDAwMDAwMVwiKSAlPiVcbiAgbW9kZWwoQVJJTUEoRW1wbG95ZWQpKSAlPiUgXG4gIGdnX3RzcmVzaWR1YWxzKCkifQ==
 </script>
 </div>
 </div>
-<!--
-
-::: {.cell}
-
-```{.r .cell-code}
-# State-space residuals
-solution %>% residuals() %>% 
-  gg_tsdisplay(.resid)
-```
-
-::: {.cell-output-display}
-![](activity29_files/figure-html/unnamed-chunk-9-1.png){width=672}
-:::
-
-```{.r .cell-code}
-# Compare with ARIMA
-us_employment %>%
-  filter(Series_ID == "CEU0800000001") %>%
-  model(ARIMA(Employed)) %>% 
-  gg_tsresiduals()
-```
-
-::: {.cell-output-display}
-![](activity29_files/figure-html/unnamed-chunk-9-2.png){width=672}
-:::
-:::
-
--->
 
 
 <script type="webr-data">
