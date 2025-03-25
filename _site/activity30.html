@@ -671,7 +671,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGFtcGVkX2V0cyA8LSB1c19l
 <summary>**Answer**</summary>
 
 ::: {.cell}
-```euxxko
+```kmqqbw
 ses_model <- us_economy %>%
   model(
     SES = ETS(GDP_billions ~ error("A") + trend("N") + season("N"))
@@ -701,7 +701,7 @@ If $\alpha=0.25$, for example, the model places 25% weight on the newest observa
 <summary>**Answer**</summary>
 
 ::: {.cell}
-```euxxko
+```kmqqbw
 auto_model <- us_economy %>%
   model(AUTO = fable::ARIMA(GDP_billions))
 report(auto_model)
@@ -740,7 +740,7 @@ fc_manual %>% autoplot(us_economy)
 <summary>**Answer**</summary>
 
 ::: {.cell}
-```euxxko
+```kmqqbw
 damped_model <- us_economy %>%
   model(DAMPED = ETS(GDP_billions ~ error("A") + trend("Ad") + season("N")))
 report(damped_model)
@@ -767,7 +767,7 @@ A $\phi$ near 1 implies only mild damping, so the trend remains strong over time
 <summary>**Answer**</summary>
 
 ::: {.cell}
-```euxxko
+```kmqqbw
 # Example approach
 models <- us_economy %>%
   stretch_tsibble(.init=30, .step=1) %>%
