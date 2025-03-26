@@ -59,7 +59,7 @@ where $m$ is the seasonal period (e.g., $m=12$ for monthly data, $m=4$ for quart
 
 ## 2. Extended Example: Tourism Demand in Sydney
 
-Below is a quick demonstration of fitting an **ETS** model to tourism data in Sydney. We use R’s `fpp3` package, which provides convenient time series functions.
+Below is a quick demonstration of fitting an **ETS** model to tourism data in Sydney. 
 
 ```{webr}
 # Filter holiday-related data in the Sydney 
@@ -97,13 +97,13 @@ s_t \;=\; s_{t-m}\;+\;\gamma\,\frac{\,y_t - \bigl(l_{t-1} + s_{t-m}\bigr)\,}{\,l
 $$
 
 4. **Initial States**  
-\[
+$$
 l_0 = 576.999,\quad
 s_0 = -17.45333,\quad
 s_{-1} = -26.15747,\quad
 s_{-2} = -19.0155,\quad
 s_{-3} = 62.6263.
-\]
+$$
 
 -->
 
