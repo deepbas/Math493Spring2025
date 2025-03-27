@@ -1,0 +1,282 @@
+---
+title: "Activity31"
+format: 
+  live-html:
+    theme:
+      light: [lux, theme-light.scss]
+      dark: [superhero, theme-dark.scss] 
+engine: knitr
+toc: true
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+
+```{r}
+#| echo: false
+# Time Series Essentials, install if needed!
+library(feasts)       # Feature extraction & decomposition
+library(fable)        # Forecasting models (ARIMA, ETS, etc.)
+library(fpp3)         # Tidy time series dataseta
+library(astsa)        # Applied statistical TS methods from textbook
+library(tseries)      # Unit root tests & TS diagnostics
+library(tsibbledata)  # Curated TS datasets
+library(quantmod)     # Financial data retrieval
+library(tidyquant)    # Financial analysis in tidyverse
+library(purrr)        # Functional programming for TS pipelines
+library(readr)        # Efficient data import
+```
+
+Today, we’ll review the structure of ETS models, derive the forecasting equations, and then explore specific variants including ETS(M,N,A), ETS(M,A,A), ETS(A,Ad,A), and ETS(A,A,M). 
+
+Last class, we calculated the equations,
+
+$$
+\begin{align}
+y_t &= (\ell_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
+\ell_t &= \ell_{t-1}+\alpha\,(\ell_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
+s_t &= s_{t-m}+\gamma\,(\ell_{t-1}+s_{t-m})\,\varepsilon_t,
+\end{align}
+$$
+
+for the ETS(M,N,A) case and
+
+$$
+\begin{align}
+y_t &= (\ell_{t-1}+b_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
+\ell_t &= \ell_{t-1}+b_{t-1}+\alpha\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
+b_t &= b_{t-1}+\beta\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
+s_t &= s_{t-m}+\gamma\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,
+\end{align}
+$$
+
+for the ETS(M,A,A) case.
+
+### Derivation Outline
+
+1. **Observation Equation & Error Definition**
+
+   The model starts with
+
+   $$
+   y_t = \mu_t\,(1+\varepsilon_t)
+   $$
+   
+   where the forecast is 
+   
+$$\mu_t = \ell_{t-1}+s_{t-m}\quad \text{(or } \ell_{t-1}+b_{t-1}+s_{t-m}\quad\text{for ETS(M,A,A))},$$
+   
+   so that
+
+   $$
+   \varepsilon_t = \frac{y_t}{\mu_t}-1.
+   $$
+
+2. **State Updates**
+
+   In a multiplicative-error model the updates use the forecast scale:
+
+   - **Level update:**
+     
+     $$
+     \ell_t = \ell_{t-1}+\alpha\,\mu_t\,\varepsilon_t.
+     $$
+     
+   - **Seasonal update (no trend version):**
+     
+     $$
+     s_t = s_{t-m}+\gamma\,\mu_t\,\varepsilon_t.
+     $$
+     
+   - **For the ETS(M,A,A) model**, the trend (or slope) is updated similarly:
+     
+     $$
+     b_t = b_{t-1}+\beta\,\mu_t\,\varepsilon_t.
+     $$
+
+3. **Verification by Recursion**
+
+   Suppose the state at time $t-1$ is known. Then:
+   
+   - The forecast is $\mu_t = \ell_{t-1}+s_{t-m}$ (or $\ell_{t-1}+b_{t-1}+s_{t-m}$).
+   - The error is computed as 
+     
+     $$
+     \varepsilon_t = \frac{y_t}{\mu_t}-1,
+     $$
+     
+     so that by substitution
+   
+     $$
+     y_t-\mu_t=\mu_t\,\varepsilon_t.
+     $$
+     
+   - Therefore, the level update becomes
+     
+     $$
+     \ell_t = \ell_{t-1}+\alpha\,(y_t-\mu_t),
+     $$
+     
+     and similarly for the seasonal and trend updates. This recursive structure ensures that any deviation of the observation from the forecast is proportionally fed back into the states—*scaled* by the forecast level. 
+
+
+## 1. Recursive Updating Equations Summary
+
+- **Step 1:** Compute the forecast $\mu_t$ based on current state components.
+- **Step 2:** Calculate the error $\varepsilon_t$ (multiplicative or additive).
+- **Step 3:** Update state components (level, trend, seasonal) using the error and smoothing parameters.
+- **Step 4:** Repeat for each new observation.
+
+
+## 2. Deriving the ETS(M,N,A) Model
+
+### 2.1 Model Structure
+
+For ETS(M,N,A) (multiplicative error, no trend, additive seasonality), the equations are:
+
+$$
+\begin{align}
+y_t &= (\ell_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
+\ell_t &= \ell_{t-1}+\alpha\,(\ell_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
+s_t &= s_{t-m}+\gamma\,(\ell_{t-1}+s_{t-m})\,\varepsilon_t,
+\end{align}
+$$
+
+where:
+
+- $y_t$ is the observed value at time $t$.
+- $\ell_{t-1}$ is the level component.
+- $s_{t-m}$ is the seasonal component (with period $m$).
+- $\varepsilon_t$ is the multiplicative error, defined as 
+  $$
+  \varepsilon_t = \frac{y_t}{\ell_{t-1}+s_{t-m}}-1.
+  $$
+- $\alpha$ and $\gamma$ are the smoothing parameters.
+
+### 2.2 Interpretation
+
+- **Observation Equation:** The forecast is given by the sum of the level and seasonal component, scaled by the multiplicative error.
+- **Level Update:** The level is adjusted by the error scaled by the current forecast.
+- **Seasonal Update:** The seasonal component is updated similarly, ensuring seasonal effects propagate correctly.
+
+
+## 3. ETS(M,A,A) Model
+
+### 3.1 Model Structure
+
+For ETS(M,A,A) (multiplicative error, additive trend, additive seasonality), an additional trend component $b_{t-1}$ is introduced:
+
+$$
+\begin{align}
+y_t &= (\ell_{t-1}+b_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
+\ell_t &= \ell_{t-1}+b_{t-1}+\alpha\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
+b_t &= b_{t-1}+\beta\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
+s_t &= s_{t-m}+\gamma\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t.
+\end{align}
+$$
+
+### 3.2 Interpretation
+
+- **Trend Component:** The term $b_{t-1}$ represents the additive trend.
+- **Trend Update:** The trend is adjusted with its own smoothing parameter $\beta$.
+- The observation and seasonal equations are similar to ETS(M,N,A) but include the trend in the forecast.
+
+
+## 4. Exploring Other Combinations
+
+### 4.1 ETS(A,Ad,A) Model
+
+The ETS(A,Ad,A) model uses an **additive error**, an **additive damped trend**, and **additive seasonality**. Its equations can be written as:
+
+$$
+\begin{align}
+y_t &= \ell_{t-1}+ \phi d_{t-1}+ s_{t-m}+\varepsilon_t,\\[1mm]
+\ell_t &= \ell_{t-1} + \phi d_{t-1} + \alpha \varepsilon_t, \\
+d_t &= \phi d_{t-1} + \beta \varepsilon_t, \\
+s_t &= s_{t-m} + \gamma \varepsilon_t,
+\end{align}
+$$
+
+where:
+
+- $\varepsilon_t$ is an additive error.
+- $d_{t-1}$ represents the trend component.
+- $\phi$ is the damping parameter, $0 < \phi < 1$, that reduces the trend effect over time.
+
+### 4.2 ETS(A,A,M) Model
+
+For the ETS(A,A,M) model, the seasonal component enters multiplicatively while both the error and trend are additive:
+
+$$
+\begin{align}
+y_t &= (\ell_{t-1}+b_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
+\ell_t &= \ell_{t-1}+b_{t-1}+\alpha\,\varepsilon_t,\\[1mm]
+b_t &= b_{t-1}+\beta\,\varepsilon_t,\\[1mm]
+s_t &= s_{t-m}\,(1+\gamma\,\varepsilon_t).
+\end{align}
+$$
+
+### 4.3 Key Points in Model Variations
+
+- **Error Type:** Whether the error is additive or multiplicative will affect how deviations are incorporated into the state updates.
+- **Trend Component:** The presence (or absence) of a trend (additive or damped) changes the update equations. In a damped trend, the damping parameter $\phi$ moderates the trend's influence.
+- **Seasonal Component:** Additive seasonality adds or subtracts a fixed amount, while multiplicative seasonality scales the forecast.
+
+
+## 5. Fitting ETS Models with Tidyverts
+
+The **Tidyverts** framework in R (which includes packages such as `fable` and `tsibble`) provides a streamlined approach to fitting ETS models. Below is an example workflow.
+
+### **Sunspot Activity Dataset (1749-2023)**  
+
+
+```{webr}
+# Convert classic ts object to tsibble
+sunspots <- as_tsibble(sunspot.month) %>%
+  rename(spots = value, year_month = index) 
+
+sunspots %>% autoplot(spots) +
+  labs(title = "Monthly Sunspot Numbers Since 1749",
+       subtitle = "11-year solar cycles visible",
+       y = "Sunspot Count")
+```
+
+
+### ETS Analysis Code
+
+```{webr}
+# Fit models accounting for long cycles
+sun_fits <- sunspots %>%
+  model(
+    ETS_MNA = ETS(spots ~ error("M") + trend("N") + season("A")),
+    ETS_MAA = ETS(spots ~ error("M") + trend("A") + season("A")),
+    ETS_AAdA = ETS(spots ~ error("A") + trend("Ad") + season("A")),
+    ETS_AAM = ETS(spots ~ error("A") + trend("A") + season("M")),
+    ETS_auto = ETS(spots)
+  )
+
+# Compare performance 
+glance(sun_fits) %>% arrange(AICc)
+
+sun_fits %>% dplyr::select(ETS_MNA) %>% report() #ETS_MNA
+sun_fits %>% dplyr::select(ETS_MAA) %>% report() #ETS_MAA
+sun_fits %>% dplyr::select(ETS_AAdA) %>% report() #ETS_AAdA
+sun_fits %>% dplyr::select(ETS_AAM) %>% report() #ETS_AAM
+sun_fits %>% dplyr::select(ETS_auto) %>% report() #ETS_AAM
+```
+
+
+### Diagnostics & Forecasting
+
+```{webr}
+# Residual analysis for best model
+sun_fits %>% dplyr::select(ETS_AAdA) %>% gg_tsresiduals()
+
+# 15-year forecast showing damped trend
+sun_fits %>% dplyr::select(ETS_AAdA) %>%
+  forecast(h = 10) %>%  
+  autoplot(sunspots %>% tail(n=50)) +
+  labs(title = "Sunspot Activity Forecast with Damped Trend")
+```
+
+
