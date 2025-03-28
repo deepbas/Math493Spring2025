@@ -461,7 +461,7 @@
     "href": "activity30.html#lab-activities",
     "title": "Activity30",
     "section": "Lab Activities",
-    "text": "Lab Activities\n\nActivity 1: Simple Exponential Smoothing (SES)\n\nFit an ETS(A,N,N) model to US GDP (in billions).\n\nExtract the smoothing parameter \\(\\alpha\\).\n\nInterpret what \\(\\alpha\\) implies about how quickly the model reacts to new data.\n\n\n\n\nActivity 2: ARIMA with Automatic Selection\n\nUse ARIMA(GDP_billions) with default auto‐selection.\n\nCompare the chosen order \\((p,d,q)\\) with a manually specified ARIMA(0,2,2).\n\nPlot the forecasts to see which better captures the data trend.\n\n\n\n\n\nActivity 3: Damped Trend ETS\n\nFit an ETS(A,Ad,N) model.\n\nInspect the damping parameter \\(\\phi\\).\n\nIf \\(\\phi\\) is close to 1, interpret how that affects the forecast horizon.\n\n\n\n\n\nActivity 4: Forecast Accuracy Comparison\n\nGenerate 8‐year forecasts with each model (SES, ARIMA, Damped ETS).\n\nCompare the accuracy metrics (RMSE, MAE, MAPE).\n\nConclude which model best fits US GDP data in billions.",
+    "text": "Lab Activities\n\nActivity 1: Simple Exponential Smoothing (SES)\n\nFit an ETS(A,N,N) model to US GDP (in billions).\n\nExtract the smoothing parameter \\(\\alpha\\).\n\nInterpret what \\(\\alpha\\) implies about how quickly the model reacts to new data.\n\n\n\nAnswer\n\n\n\n\n\n\n\n\n\nIf \\(\\alpha=0.25\\), for example, the model places 25% weight on the newest observation and 75% on the previous level estimate.\n\n\n\nActivity 2: ARIMA with Automatic Selection\n\nUse ARIMA(GDP_billions) with default auto‐selection.\n\nCompare the chosen order \\((p,d,q)\\) with a manually specified ARIMA(0,2,2).\n\nPlot the forecasts to see which better captures the data trend.\n\n\n\nAnswer\n\n\n\n\n\n\n\n\n\n\n\n\n\nActivity 3: Damped Trend ETS\n\nFit an ETS(A,Ad,N) model.\n\nInspect the damping parameter \\(\\phi\\).\n\nIf \\(\\phi\\) is close to 1, interpret how that affects the forecast horizon.\n\n\n\nAnswer\n\n\n\n\n\n\n\n\n\nA \\(\\phi\\) near 1 implies only mild damping, so the trend remains strong over time. A \\(\\phi\\) near 0.8 or 0.9 indicates the trend will gradually flatten.\n\n\n\n\nActivity 4: Forecast Accuracy Comparison\n\nGenerate 8‐year forecasts with each model (SES, ARIMA, Damped ETS).\n\nCompare the accuracy metrics (RMSE, MAE, MAPE).\n\nConclude which model best fits US GDP data in billions.\n\n\n\nAnswer",
     "crumbs": [
       "Week 8",
       "Activity 30"
@@ -498,6 +498,61 @@
     "crumbs": [
       "Week 4",
       "Activity 16"
+    ]
+  },
+  {
+    "objectID": "activity27.html",
+    "href": "activity27.html",
+    "title": "Activity27",
+    "section": "",
+    "text": "📌 No Activity\n\n📝 In-Class Midterm",
+    "crumbs": [
+      "Week 7",
+      "Activity 27"
+    ]
+  },
+  {
+    "objectID": "activity6.html#lab-activity",
+    "href": "activity6.html#lab-activity",
+    "title": "Activity6",
+    "section": "Lab Activity",
+    "text": "Lab Activity\nRepeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results.\nSolution:\n\n# Step 1: Get NVIDIA (NVDA) stock data\nnvda &lt;- tq_get(\"NVDA\", \n               from = \"2010-01-01\", \n               to = \"2023-01-01\",\n               get = \"stock.prices\") %&gt;%\n  select(date, adjusted) %&gt;%  # Use adjusted closing prices\n  rename(price = adjusted) %&gt;% \n  as_tsibble(index = date)  # Convert to tsibble with date index\n\n# Step 2: Plot the NVIDIA stock price series\nautoplot(nvda, price) + \n  labs(title = \"NVIDIA (NVDA) Stock Price Series\", \n       x = \"Date\", \n       y = \"Adjusted Closing Price\")\n\n\n\n\n\n\n\n# Step 3: Perform ADF test on the original series\nadf_test_nvda &lt;- adf.test(nvda$price)\nadf_test_nvda\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  nvda$price\nDickey-Fuller = -2.3584, Lag order = 14, p-value = 0.4266\nalternative hypothesis: stationary\n\n# Step 4: Perform KPSS test on the original series\nkpss_test_nvda &lt;- nvda %&gt;%\n  features(price, unitroot_kpss)\nkpss_test_nvda\n\n# A tibble: 1 × 2\n  kpss_stat kpss_pvalue\n      &lt;dbl&gt;       &lt;dbl&gt;\n1      22.2        0.01\n\n# Step 5: Difference the series to achieve stationarity\ndiff_nvda &lt;- nvda %&gt;% mutate(price = difference(price))\n\n# Step 6: Plot the differenced series\nautoplot(diff_nvda, price) + \n  labs(title = \"Differenced NVIDIA (NVDA) Stock Price Series\", \n       x = \"Date\", \n       y = \"Differenced Price\")\n\n\n\n\n\n\n\n# Step 7: Perform ADF test on the differenced series\nadf_test_diff_nvda &lt;- adf.test(na.omit(diff_nvda$price))\nadf_test_diff_nvda\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  na.omit(diff_nvda$price)\nDickey-Fuller = -14.601, Lag order = 14, p-value = 0.01\nalternative hypothesis: stationary\n\n# Step 8: Perform KPSS test on the differenced series\nkpss_test_diff_nvda &lt;- diff_nvda %&gt;%\n  features(price, unitroot_kpss)\nkpss_test_diff_nvda\n\n# A tibble: 1 × 2\n  kpss_stat kpss_pvalue\n      &lt;dbl&gt;       &lt;dbl&gt;\n1    0.0934         0.1",
+    "crumbs": [
+      "Week 2",
+      "Activity 6"
+    ]
+  },
+  {
+    "objectID": "activity21.html",
+    "href": "activity21.html",
+    "title": "Activity21",
+    "section": "",
+    "text": "Define AR(\\(p\\)): \\(Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\epsilon_t\\), \\(\\epsilon_t \\sim WN(0,\\sigma^2)\\)\nAR(p) Properties:\n\nCaptures temporal dependence through lagged terms\nPACF cuts off after lag \\(p\\)\nRequires stationarity for reliable inference\nUnit root non-stationarity occurs when characteristic equation \\(1 - \\phi_1 z - \\cdots - \\phi_p z^p = 0\\) has roots on unit circle\n\n\n\n\n\n\n\n\n\n\n\nlibrary(fable)\nset.seed(123)\nar_data &lt;- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %&gt;% \n  as_tsibble(index = time)\n\nar_data %&gt;% \n  gg_tsdisplay(y, plot_type = c(\"scatter\")) + # ACF/PACF\n  labs(title = \"AR(2) Process: φ₁=0.7, φ₂=-0.2\")\n\n\n\n\n\n\n\n\nModel Fitting & Diagnostics\n\nfit_ar &lt;- ar_data %&gt;% \n  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification\n\nreport(fit_ar) # Check coefficients & σ²\n\nSeries: y \nModel: ARIMA(2,0,0) \n\nCoefficients:\n         ar1      ar2\n      0.6757  -0.1576\ns.e.  0.0990   0.1002\n\nsigma^2 estimated as 0.8167:  log likelihood=-130.99\nAIC=267.99   AICc=268.24   BIC=275.8\n\nfit_ar %&gt;% residuals() %&gt;% gg_tsdisplay(plot_type = c(\"scatter\")) # Residual diagnostics\n\n\n\n\n\n\n\n\n\n\n\nFrom the global_economy dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):\n\n\n\n\n\n\n\n\n\n\nExploratory Analysis & Stationarity\n\nVisualize Series:\n\n\n\n\n\n\n\n\n\n\nStationarity Assessment:\n\n\n\n\n\n\n\n\n\nModel Fitting & Forecasting\n\nFit AR Model:\n\n\n\n\n\n\n\n\n\n\nResidual Diagnostics:\n\n\n\n\n\n\n\n\n\n\nForecasting:\n\n\n\n\n\n\n\n\n\n\n\n\n1. Data Preparation & Visualization\n\n\n\n\n\n\n\n\n2. Order Identification\nDetermine appropriate AR order through PACF:\n\n\n\n\n\n\n\n\n3. Model Comparison\nFit competing specifications and evaluate:\n\n\n\n\n\n\n\n\n4. Forecasting & Policy Implications\nUsing the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:",
+    "crumbs": [
+      "Week 6",
+      "Activity 21"
+    ]
+  },
+  {
+    "objectID": "activity21.html#time-series-nature-stationarity",
+    "href": "activity21.html#time-series-nature-stationarity",
+    "title": "Activity21",
+    "section": "",
+    "text": "Define AR(\\(p\\)): \\(Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\epsilon_t\\), \\(\\epsilon_t \\sim WN(0,\\sigma^2)\\)\nAR(p) Properties:\n\nCaptures temporal dependence through lagged terms\nPACF cuts off after lag \\(p\\)\nRequires stationarity for reliable inference\nUnit root non-stationarity occurs when characteristic equation \\(1 - \\phi_1 z - \\cdots - \\phi_p z^p = 0\\) has roots on unit circle\n\n\n\n\n\n\n\n\n\n\n\nlibrary(fable)\nset.seed(123)\nar_data &lt;- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %&gt;% \n  as_tsibble(index = time)\n\nar_data %&gt;% \n  gg_tsdisplay(y, plot_type = c(\"scatter\")) + # ACF/PACF\n  labs(title = \"AR(2) Process: φ₁=0.7, φ₂=-0.2\")\n\n\n\n\n\n\n\n\nModel Fitting & Diagnostics\n\nfit_ar &lt;- ar_data %&gt;% \n  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification\n\nreport(fit_ar) # Check coefficients & σ²\n\nSeries: y \nModel: ARIMA(2,0,0) \n\nCoefficients:\n         ar1      ar2\n      0.6757  -0.1576\ns.e.  0.0990   0.1002\n\nsigma^2 estimated as 0.8167:  log likelihood=-130.99\nAIC=267.99   AICc=268.24   BIC=275.8\n\nfit_ar %&gt;% residuals() %&gt;% gg_tsdisplay(plot_type = c(\"scatter\")) # Residual diagnostics",
+    "crumbs": [
+      "Week 6",
+      "Activity 21"
+    ]
+  },
+  {
+    "objectID": "activity21.html#real-world-process-us-consumption",
+    "href": "activity21.html#real-world-process-us-consumption",
+    "title": "Activity21",
+    "section": "",
+    "text": "From the global_economy dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):\n\n\n\n\n\n\n\n\n\n\nExploratory Analysis & Stationarity\n\nVisualize Series:\n\n\n\n\n\n\n\n\n\n\nStationarity Assessment:\n\n\n\n\n\n\n\n\n\nModel Fitting & Forecasting\n\nFit AR Model:\n\n\n\n\n\n\n\n\n\n\nResidual Diagnostics:\n\n\n\n\n\n\n\n\n\n\nForecasting:\n\n\n\n\n\n\n\n\n\n\n\n\n1. Data Preparation & Visualization\n\n\n\n\n\n\n\n\n2. Order Identification\nDetermine appropriate AR order through PACF:\n\n\n\n\n\n\n\n\n3. Model Comparison\nFit competing specifications and evaluate:\n\n\n\n\n\n\n\n\n4. Forecasting & Policy Implications\nUsing the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:",
+    "crumbs": [
+      "Week 6",
+      "Activity 21"
     ]
   },
   {
@@ -545,58 +600,102 @@
     ]
   },
   {
-    "objectID": "activity21.html",
-    "href": "activity21.html",
-    "title": "Activity21",
+    "objectID": "activity32.html",
+    "href": "activity32.html",
+    "title": "Activity32",
     "section": "",
-    "text": "Define AR(\\(p\\)): \\(Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\epsilon_t\\), \\(\\epsilon_t \\sim WN(0,\\sigma^2)\\)\nAR(p) Properties:\n\nCaptures temporal dependence through lagged terms\nPACF cuts off after lag \\(p\\)\nRequires stationarity for reliable inference\nUnit root non-stationarity occurs when characteristic equation \\(1 - \\phi_1 z - \\cdots - \\phi_p z^p = 0\\) has roots on unit circle\n\n\n\n\n\n\n\n\n\n\n\nlibrary(fable)\nset.seed(123)\nar_data &lt;- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %&gt;% \n  as_tsibble(index = time)\n\nar_data %&gt;% \n  gg_tsdisplay(y, plot_type = c(\"scatter\")) + # ACF/PACF\n  labs(title = \"AR(2) Process: φ₁=0.7, φ₂=-0.2\")\n\n\n\n\n\n\n\n\nModel Fitting & Diagnostics\n\nfit_ar &lt;- ar_data %&gt;% \n  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification\n\nreport(fit_ar) # Check coefficients & σ²\n\nSeries: y \nModel: ARIMA(2,0,0) \n\nCoefficients:\n         ar1      ar2\n      0.6757  -0.1576\ns.e.  0.0990   0.1002\n\nsigma^2 estimated as 0.8167:  log likelihood=-130.99\nAIC=267.99   AICc=268.24   BIC=275.8\n\nfit_ar %&gt;% residuals() %&gt;% gg_tsdisplay(plot_type = c(\"scatter\")) # Residual diagnostics\n\n\n\n\n\n\n\n\n\n\n\nFrom the global_economy dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):\n\n\n\n\n\n\n\n\n\n\nExploratory Analysis & Stationarity\n\nVisualize Series:\n\n\n\n\n\n\n\n\n\n\nStationarity Assessment:\n\n\n\n\n\n\n\n\n\nModel Fitting & Forecasting\n\nFit AR Model:\n\n\n\n\n\n\n\n\n\n\nResidual Diagnostics:\n\n\n\n\n\n\n\n\n\n\nForecasting:\n\n\n\n\n\n\n\n\n\n\n\n\n1. Data Preparation & Visualization\n\n\n\n\n\n\n\n\n2. Order Identification\nDetermine appropriate AR order through PACF:\n\n\n\n\n\n\n\n\n3. Model Comparison\nFit competing specifications and evaluate:\n\n\n\n\n\n\n\n\n4. Forecasting & Policy Implications\nUsing the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:",
+    "text": "# Prepare data with proper time index\ncement &lt;- aus_production %&gt;%\n  select(Quarter, Cement) %&gt;%\n  as_tsibble(index = Quarter)\n\n# Split into train/test sets\ntrain &lt;- cement %&gt;% filter(year(Quarter) &lt; 2005)\ntest &lt;- cement %&gt;% filter(year(Quarter) &gt;= 2005)",
     "crumbs": [
-      "Week 6",
-      "Activity 21"
+      "Week 8",
+      "Activity 32"
     ]
   },
   {
-    "objectID": "activity21.html#time-series-nature-stationarity",
-    "href": "activity21.html#time-series-nature-stationarity",
-    "title": "Activity21",
-    "section": "",
-    "text": "Define AR(\\(p\\)): \\(Y_t = \\phi_1 Y_{t-1} + \\dots + \\phi_p Y_{t-p} + \\epsilon_t\\), \\(\\epsilon_t \\sim WN(0,\\sigma^2)\\)\nAR(p) Properties:\n\nCaptures temporal dependence through lagged terms\nPACF cuts off after lag \\(p\\)\nRequires stationarity for reliable inference\nUnit root non-stationarity occurs when characteristic equation \\(1 - \\phi_1 z - \\cdots - \\phi_p z^p = 0\\) has roots on unit circle\n\n\n\n\n\n\n\n\n\n\n\nlibrary(fable)\nset.seed(123)\nar_data &lt;- tibble(time = 1:100, y = arima.sim(model = list(ar = c(0.7, -0.2)), n = 100)) %&gt;% \n  as_tsibble(index = time)\n\nar_data %&gt;% \n  gg_tsdisplay(y, plot_type = c(\"scatter\")) + # ACF/PACF\n  labs(title = \"AR(2) Process: φ₁=0.7, φ₂=-0.2\")\n\n\n\n\n\n\n\n\nModel Fitting & Diagnostics\n\nfit_ar &lt;- ar_data %&gt;% \n  model(ARIMA(y ~ pdq(2,0,0))) # Explicit AR specification\n\nreport(fit_ar) # Check coefficients & σ²\n\nSeries: y \nModel: ARIMA(2,0,0) \n\nCoefficients:\n         ar1      ar2\n      0.6757  -0.1576\ns.e.  0.0990   0.1002\n\nsigma^2 estimated as 0.8167:  log likelihood=-130.99\nAIC=267.99   AICc=268.24   BIC=275.8\n\nfit_ar %&gt;% residuals() %&gt;% gg_tsdisplay(plot_type = c(\"scatter\")) # Residual diagnostics",
+    "objectID": "activity32.html#fitting-comparable-ets-models",
+    "href": "activity32.html#fitting-comparable-ets-models",
+    "title": "Activity32",
+    "section": "Fitting Comparable ETS Models",
+    "text": "Fitting Comparable ETS Models\nLet’s compare three ETS specifications:\n\nSimple exponential smoothing (no trend/seasonality)\nHolt’s linear trend method\nHolt-Winters seasonal method\n\n\nets_models &lt;- train %&gt;%\n  model(\n    Simple = ETS(Cement ~ error(\"A\") + trend(\"N\") + season(\"N\")),\n    Holt = ETS(Cement ~ error(\"A\") + trend(\"A\") + season(\"N\")),\n    HW = ETS(Cement ~ error(\"A\") + trend(\"A\") + season(\"A\")),\n    HWM = ETS(Cement ~ error(\"A\") + trend(\"A\") + season(\"M\")),\n    HWMM = ETS(Cement ~ error(\"A\") + trend(\"M\") + season(\"M\"))\n  )",
     "crumbs": [
-      "Week 6",
-      "Activity 21"
+      "Week 8",
+      "Activity 32"
     ]
   },
   {
-    "objectID": "activity21.html#real-world-process-us-consumption",
-    "href": "activity21.html#real-world-process-us-consumption",
-    "title": "Activity21",
-    "section": "",
-    "text": "From the global_economy dataset (Ch. 5 of text), we’ll analyze quarterly percentage changes in personal consumption expenditures (stationary series):\n\n\n\n\n\n\n\n\n\n\nExploratory Analysis & Stationarity\n\nVisualize Series:\n\n\n\n\n\n\n\n\n\n\nStationarity Assessment:\n\n\n\n\n\n\n\n\n\nModel Fitting & Forecasting\n\nFit AR Model:\n\n\n\n\n\n\n\n\n\n\nResidual Diagnostics:\n\n\n\n\n\n\n\n\n\n\nForecasting:\n\n\n\n\n\n\n\n\n\n\n\n\n1. Data Preparation & Visualization\n\n\n\n\n\n\n\n\n2. Order Identification\nDetermine appropriate AR order through PACF:\n\n\n\n\n\n\n\n\n3. Model Comparison\nFit competing specifications and evaluate:\n\n\n\n\n\n\n\n\n4. Forecasting & Policy Implications\nUsing the best model, generate forecasts up-to 10 time points into the future and interpret economic meaning:",
+    "objectID": "activity32.html#forecast-evaluation-framework",
+    "href": "activity32.html#forecast-evaluation-framework",
+    "title": "Activity32",
+    "section": "Forecast Evaluation Framework",
+    "text": "Forecast Evaluation Framework\nWe’ll evaluate using multiple metrics:\n\nMSE: Mean Squared Error (penalizes large errors)\nMAE: Mean Absolute Error (more robust)\nMAPE: Mean Absolute Percentage Error (scale-independent)\nMASE: Mean Absolute Scaled Error (relative to naive forecast)\n\n\n# Generate forecasts\nfc &lt;- ets_models %&gt;% forecast(h = \"5 years\")\nfc %&gt;% tail()\n\n# A fable: 6 x 4 [1Q]\n# Key:     .model [1]\n  .model Quarter       Cement .mean\n  &lt;chr&gt;    &lt;qtr&gt;       &lt;dist&gt; &lt;dbl&gt;\n1 HWMM   2008 Q3 sample[5000] 2443.\n2 HWMM   2008 Q4 sample[5000] 2426.\n3 HWMM   2009 Q1 sample[5000] 2144.\n4 HWMM   2009 Q2 sample[5000] 2405.\n5 HWMM   2009 Q3 sample[5000] 2501.\n6 HWMM   2009 Q4 sample[5000] 2485.\n\n# Calculate accuracy metrics\naccuracy_results &lt;- fc %&gt;%\n  accuracy(cement) %&gt;%\n  select(.model, RMSE, MAE, MAPE, MASE) %&gt;%\n  arrange(MASE)\n\naccuracy_table &lt;- fc %&gt;%\n  accuracy(test, measures = list(\n    MAE = MAE,\n    MSE = MSE,\n    MAPE = MAPE,\n    CRPS = CRPS,\n    ACF = ACF1\n  ))\n\naccuracy_results %&gt;% inner_join(accuracy_table)\n\n# A tibble: 5 × 9\n  .model  RMSE   MAE  MAPE  MASE .type    MSE  CRPS   ACF\n  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 HWMM    150.  128.  5.45  1.31 Test  22470.  84.6 0.630\n2 HW      156.  130.  5.49  1.34 Test  24244.  89.6 0.407\n3 HWM     158.  133.  5.57  1.37 Test  24961.  91.0 0.517\n4 Holt    197.  171.  7.41  1.76 Test  38713. 116.  0.145\n5 Simple  236.  201.  8.44  2.07 Test  55896. 141.  0.102",
     "crumbs": [
-      "Week 6",
-      "Activity 21"
+      "Week 8",
+      "Activity 32"
     ]
   },
   {
-    "objectID": "activity6.html#lab-activity",
-    "href": "activity6.html#lab-activity",
-    "title": "Activity6",
-    "section": "Lab Activity",
-    "text": "Lab Activity\nRepeat the stationarity and unit root analysis (using ADF and KPSS tests) for NVIDIA (NVDA) stock prices from 2010-01-01 to 2023-01-01. Apply differencing or other transformations as needed to achieve stationarity, and interpret the results.\nSolution:\n\n# Step 1: Get NVIDIA (NVDA) stock data\nnvda &lt;- tq_get(\"NVDA\", \n               from = \"2010-01-01\", \n               to = \"2023-01-01\",\n               get = \"stock.prices\") %&gt;%\n  select(date, adjusted) %&gt;%  # Use adjusted closing prices\n  rename(price = adjusted) %&gt;% \n  as_tsibble(index = date)  # Convert to tsibble with date index\n\n# Step 2: Plot the NVIDIA stock price series\nautoplot(nvda, price) + \n  labs(title = \"NVIDIA (NVDA) Stock Price Series\", \n       x = \"Date\", \n       y = \"Adjusted Closing Price\")\n\n\n\n\n\n\n\n# Step 3: Perform ADF test on the original series\nadf_test_nvda &lt;- adf.test(nvda$price)\nadf_test_nvda\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  nvda$price\nDickey-Fuller = -2.3584, Lag order = 14, p-value = 0.4266\nalternative hypothesis: stationary\n\n# Step 4: Perform KPSS test on the original series\nkpss_test_nvda &lt;- nvda %&gt;%\n  features(price, unitroot_kpss)\nkpss_test_nvda\n\n# A tibble: 1 × 2\n  kpss_stat kpss_pvalue\n      &lt;dbl&gt;       &lt;dbl&gt;\n1      22.2        0.01\n\n# Step 5: Difference the series to achieve stationarity\ndiff_nvda &lt;- nvda %&gt;% mutate(price = difference(price))\n\n# Step 6: Plot the differenced series\nautoplot(diff_nvda, price) + \n  labs(title = \"Differenced NVIDIA (NVDA) Stock Price Series\", \n       x = \"Date\", \n       y = \"Differenced Price\")\n\n\n\n\n\n\n\n# Step 7: Perform ADF test on the differenced series\nadf_test_diff_nvda &lt;- adf.test(na.omit(diff_nvda$price))\nadf_test_diff_nvda\n\n\n    Augmented Dickey-Fuller Test\n\ndata:  na.omit(diff_nvda$price)\nDickey-Fuller = -14.601, Lag order = 14, p-value = 0.01\nalternative hypothesis: stationary\n\n# Step 8: Perform KPSS test on the differenced series\nkpss_test_diff_nvda &lt;- diff_nvda %&gt;%\n  features(price, unitroot_kpss)\nkpss_test_diff_nvda\n\n# A tibble: 1 × 2\n  kpss_stat kpss_pvalue\n      &lt;dbl&gt;       &lt;dbl&gt;\n1    0.0934         0.1",
+    "objectID": "activity32.html#interpreting-the-results",
+    "href": "activity32.html#interpreting-the-results",
+    "title": "Activity32",
+    "section": "Interpreting the Results",
+    "text": "Interpreting the Results\nKey insights:\n\nThe Holt-Winters model performs best across all metrics\nMAPE suggests about 5.7% average forecast error\nMASE of 0.71 means our forecasts are 29% better than naive",
     "crumbs": [
-      "Week 2",
-      "Activity 6"
+      "Week 8",
+      "Activity 32"
     ]
   },
   {
-    "objectID": "activity27.html",
-    "href": "activity27.html",
-    "title": "Activity27",
-    "section": "",
-    "text": "📌 No Activity\n\n📝 In-Class Midterm",
+    "objectID": "activity32.html#visual-verification",
+    "href": "activity32.html#visual-verification",
+    "title": "Activity32",
+    "section": "Visual Verification",
+    "text": "Visual Verification\n\nautoplot(fc, level = NULL) +\n  autolayer(cement, color = \"black\", alpha = 0.3) +\n  labs(title = \"ETS Model Forecast Comparison\",\n       subtitle = \"Holt-Winters shows closest fit to actual data\",\n       y = \"Cement Production\")",
     "crumbs": [
-      "Week 7",
-      "Activity 27"
+      "Week 8",
+      "Activity 32"
+    ]
+  },
+  {
+    "objectID": "activity32.html#model-diagnostics",
+    "href": "activity32.html#model-diagnostics",
+    "title": "Activity32",
+    "section": "Model Diagnostics",
+    "text": "Model Diagnostics\nWe should also check residuals:\n\nets_models %&gt;% \n  select(HWMM) %&gt;% \n  gg_tsresiduals() +\n  labs(title = \"Holt-Winters Residual Diagnostics\")",
+    "crumbs": [
+      "Week 8",
+      "Activity 32"
+    ]
+  },
+  {
+    "objectID": "activity32.html#practical-recommendations",
+    "href": "activity32.html#practical-recommendations",
+    "title": "Activity32",
+    "section": "Practical Recommendations",
+    "text": "Practical Recommendations\n\nFor inventory planning: Use Holt-Winters due to lowest MASE\nWhen extreme errors costly: Focus on RMSE which penalizes large misses\nFor executive reporting: MAPE provides intuitive percentage interpretation",
+    "crumbs": [
+      "Week 8",
+      "Activity 32"
+    ]
+  },
+  {
+    "objectID": "activity32.html#lab-activities",
+    "href": "activity32.html#lab-activities",
+    "title": "Activity32",
+    "section": "Lab Activities",
+    "text": "Lab Activities\nHere’s the refined version with complete activities, achievable metrics, and improved prompts:",
+    "crumbs": [
+      "Week 8",
+      "Activity 32"
+    ]
+  },
+  {
+    "objectID": "activity32.html#lab-activities-revised",
+    "href": "activity32.html#lab-activities-revised",
+    "title": "Activity32",
+    "section": "Lab Activities (Revised)",
+    "text": "Lab Activities (Revised)\n\nActivity 1: Comparing ETS and ARIMA Fundamentals\nFit an ETS(A,N,N) and ARIMA(0,1,1) model, then compare their residuals\nPart A: Fit both models and compare their accuracy using MASE and RMSE\nPart B: Analyze residual diagnostics to determine which model handles autocorrelation better\n\nPrompt: “Which model shows better residual properties for supply chain forecasting? Justify using ACF plots and Ljung-Box test statistics.”\n\n\n\nActivity 2: Transformation Impact Analysis\nPart A: Implement Box-Cox transformation on the Holt-Winters model using \\(\\lambda = 0.2\\) Part B: (Optional) Evaluate if transformation improves forecast interval coverage at 95% level\n\nPrompt: “Does variance stabilization help maintain prediction interval reliability during demand spikes?\n\n\n\nActivity 3: Ensemble Forecasting Strategy\nPart A: Create equal-weighted average of ETS and ARIMA forecasts\nPart B: Verify if ensemble reduces mean error\n\nPrompt: “When would an ensemble be particularly valuable for cement production planning? Consider both average and worst-case performance.”",
+    "crumbs": [
+      "Week 8",
+      "Activity 32"
     ]
   },
   {

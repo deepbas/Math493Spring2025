@@ -91,8 +91,8 @@ website:
             href: activity30.html
           - text: "Activity 31"
             href: activity31.html
-      #     - text: "Activity 32"
-      #       href: activity32.html
+          - text: "Activity 32"
+            href: activity32.html
       # - section: "Week 9"
       #   contents:
       #     - text: "Activity 33"

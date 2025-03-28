@@ -178,7 +178,7 @@ damped_ets %>% report()
 2. Extract the smoothing parameter $\alpha$.  
 3. Interpret what $\alpha$ implies about how quickly the model reacts to new data.
 
-<!--
+
 <details>
 <summary>**Answer**</summary>
 
@@ -194,7 +194,7 @@ report(ses_model)
 If $\alpha=0.25$, for example, the model places 25% weight on the newest observation and 75% on the previous level estimate.
 </details>
 
--->
+
 
 ### **Activity 2**: ARIMA with Automatic Selection  
 
@@ -202,7 +202,7 @@ If $\alpha=0.25$, for example, the model places 25% weight on the newest observa
 2. Compare the chosen order $(p,d,q)$ with a manually specified ARIMA(0,2,2).  
 3. Plot the forecasts to see which better captures the data trend.
 
-<!--
+
 
 <details>
 <summary>**Answer**</summary>
@@ -227,7 +227,7 @@ fc_manual %>% autoplot(us_economy)
 
 </details>
 
--->
+
 
 ---
 
@@ -237,7 +237,7 @@ fc_manual %>% autoplot(us_economy)
 2. Inspect the damping parameter $\phi$.  
 3. If $\phi$ is close to 1, interpret how that affects the forecast horizon.
 
-<!--
+
 
 <details>
 <summary>**Answer**</summary>
@@ -251,7 +251,7 @@ report(damped_model)
 A $\phi$ near 1 implies only mild damping, so the trend remains strong over time. A $\phi$ near 0.8 or 0.9 indicates the trend will gradually flatten.
 </details>
 
--->
+
 
 ---
 
@@ -261,7 +261,7 @@ A $\phi$ near 1 implies only mild damping, so the trend remains strong over time
 2. Compare the accuracy metrics (RMSE, MAE, MAPE).  
 3. Conclude which model best fits US GDP data in billions.
 
-<!--
+
 <details>
 <summary>**Answer**</summary>
 
@@ -281,6 +281,6 @@ accuracy(fc, us_economy)
 
 </details>
 
--->
+
 
 

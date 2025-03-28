@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Activity5 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity32 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -149,7 +149,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./activity5.html">Week 2</a></li><li class="breadcrumb-item"><a href="./activity5.html">Activity 5</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./activity29.html">Week 8</a></li><li class="breadcrumb-item"><a href="./activity32.html">Activity 32</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -226,16 +226,16 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false">
  <span class="menu-text">Week 2</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./activity5.html" class="sidebar-item-text sidebar-link active">
+  <a href="./activity5.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Activity 5</span></a>
   </div>
 </li>
@@ -436,13 +436,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
  <span class="menu-text">Week 8</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./activity29.html" class="sidebar-item-text sidebar-link">
@@ -463,7 +463,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./activity32.html" class="sidebar-item-text sidebar-link">
+  <a href="./activity32.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Activity 32</span></a>
   </div>
 </li>
@@ -513,21 +513,18 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#differencing-transformations-and-stationarity" id="toc-differencing-transformations-and-stationarity" class="nav-link active" data-scroll-target="#differencing-transformations-and-stationarity">Differencing, Transformations, and Stationarity</a>
+  <li><a href="#fitting-comparable-ets-models" id="toc-fitting-comparable-ets-models" class="nav-link active" data-scroll-target="#fitting-comparable-ets-models">Fitting Comparable ETS Models</a></li>
+  <li><a href="#forecast-evaluation-framework" id="toc-forecast-evaluation-framework" class="nav-link" data-scroll-target="#forecast-evaluation-framework">Forecast Evaluation Framework</a></li>
+  <li><a href="#interpreting-the-results" id="toc-interpreting-the-results" class="nav-link" data-scroll-target="#interpreting-the-results">Interpreting the Results</a></li>
+  <li><a href="#visual-verification" id="toc-visual-verification" class="nav-link" data-scroll-target="#visual-verification">Visual Verification</a></li>
+  <li><a href="#model-diagnostics" id="toc-model-diagnostics" class="nav-link" data-scroll-target="#model-diagnostics">Model Diagnostics</a></li>
+  <li><a href="#practical-recommendations" id="toc-practical-recommendations" class="nav-link" data-scroll-target="#practical-recommendations">Practical Recommendations</a></li>
+  <li><a href="#lab-activities" id="toc-lab-activities" class="nav-link" data-scroll-target="#lab-activities">Lab Activities</a></li>
+  <li><a href="#lab-activities-revised" id="toc-lab-activities-revised" class="nav-link" data-scroll-target="#lab-activities-revised">Lab Activities (Revised)</a>
   <ul class="collapse">
-  <li><a href="#what-is-stationarity" id="toc-what-is-stationarity" class="nav-link" data-scroll-target="#what-is-stationarity">What is Stationarity?</a></li>
-  <li><a href="#transformations-to-achieve-stationarity" id="toc-transformations-to-achieve-stationarity" class="nav-link" data-scroll-target="#transformations-to-achieve-stationarity">Transformations to Achieve Stationarity</a></li>
-  <li><a href="#step-1-visualize-non-stationary-data" id="toc-step-1-visualize-non-stationary-data" class="nav-link" data-scroll-target="#step-1-visualize-non-stationary-data">Step 1: Visualize Non-Stationary Data</a></li>
-  <li><a href="#step-2-statistical-tests-for-stationarity" id="toc-step-2-statistical-tests-for-stationarity" class="nav-link" data-scroll-target="#step-2-statistical-tests-for-stationarity">Step 2: Statistical Tests for Stationarity</a></li>
-  <li><a href="#step-3-apply-differencing" id="toc-step-3-apply-differencing" class="nav-link" data-scroll-target="#step-3-apply-differencing">Step 3: Apply Differencing</a></li>
-  <li><a href="#step-4-apply-log-transformation" id="toc-step-4-apply-log-transformation" class="nav-link" data-scroll-target="#step-4-apply-log-transformation">Step 4: Apply Log Transformation</a></li>
-  <li><a href="#step-5-apply-box-cox-transformation" id="toc-step-5-apply-box-cox-transformation" class="nav-link" data-scroll-target="#step-5-apply-box-cox-transformation">Step 5: Apply Box-Cox Transformation</a></li>
-  </ul></li>
-  <li><a href="#lab-activity" id="toc-lab-activity" class="nav-link" data-scroll-target="#lab-activity">Lab Activity</a>
-  <ul class="collapse">
-  <li><a href="#prompt-1-load-and-visualize-data" id="toc-prompt-1-load-and-visualize-data" class="nav-link" data-scroll-target="#prompt-1-load-and-visualize-data">Prompt 1: Load and Visualize Data</a></li>
-  <li><a href="#prompt-2-test-for-stationarity" id="toc-prompt-2-test-for-stationarity" class="nav-link" data-scroll-target="#prompt-2-test-for-stationarity">Prompt 2: Test for Stationarity</a></li>
-  <li><a href="#prompt-3-apply-transformations" id="toc-prompt-3-apply-transformations" class="nav-link" data-scroll-target="#prompt-3-apply-transformations">Prompt 3: Apply Transformations</a></li>
+  <li><a href="#activity-1-comparing-ets-and-arima-fundamentals" id="toc-activity-1-comparing-ets-and-arima-fundamentals" class="nav-link" data-scroll-target="#activity-1-comparing-ets-and-arima-fundamentals"><strong>Activity 1: Comparing ETS and ARIMA Fundamentals</strong></a></li>
+  <li><a href="#activity-2-transformation-impact-analysis" id="toc-activity-2-transformation-impact-analysis" class="nav-link" data-scroll-target="#activity-2-transformation-impact-analysis"><strong>Activity 2: Transformation Impact Analysis</strong></a></li>
+  <li><a href="#activity-3-ensemble-forecasting-strategy" id="toc-activity-3-ensemble-forecasting-strategy" class="nav-link" data-scroll-target="#activity-3-ensemble-forecasting-strategy"><strong>Activity 3: Ensemble Forecasting Strategy</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -535,9 +532,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./activity5.html">Week 2</a></li><li class="breadcrumb-item"><a href="./activity5.html">Activity 5</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./activity29.html">Week 8</a></li><li class="breadcrumb-item"><a href="./activity32.html">Activity 32</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Activity5</h1>
+<h1 class="title">Activity32</h1>
 </div>
 
 
@@ -554,220 +551,327 @@ window.Quarto = {
 </header>
 
 
-<section id="differencing-transformations-and-stationarity" class="level2">
-<h2 class="anchored" data-anchor-id="differencing-transformations-and-stationarity">Differencing, Transformations, and Stationarity</h2>
-<section id="what-is-stationarity" class="level3">
-<h3 class="anchored" data-anchor-id="what-is-stationarity">What is Stationarity?</h3>
-<p>A time series is <strong>stationary</strong> if its statistical properties (mean, variance, autocorrelation) do not change over time. Stationarity is a key assumption for many time series models (e.g., ARIMA). Non-stationary series often exhibit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare data with proper time index</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cement <span class="ot">&lt;-</span> aus_production <span class="sc">%&gt;%</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Quarter, Cement) <span class="sc">%&gt;%</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Quarter)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Split into train/test sets</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> cement <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">year</span>(Quarter) <span class="sc">&lt;</span> <span class="dv">2005</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> cement <span class="sc">%&gt;%</span> <span class="fu">filter</span>(<span class="fu">year</span>(Quarter) <span class="sc">&gt;=</span> <span class="dv">2005</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="fitting-comparable-ets-models" class="level2">
+<h2 class="anchored" data-anchor-id="fitting-comparable-ets-models">Fitting Comparable ETS Models</h2>
+<p>Let’s compare three ETS specifications:</p>
+<ol type="1">
+<li>Simple exponential smoothing (no trend/seasonality)</li>
+<li>Holt’s linear trend method</li>
+<li>Holt-Winters seasonal method</li>
+</ol>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ets_models <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">Simple =</span> <span class="fu">ETS</span>(Cement <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"N"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">Holt =</span> <span class="fu">ETS</span>(Cement <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"N"</span>)),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">HW =</span> <span class="fu">ETS</span>(Cement <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"A"</span>)),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">HWM =</span> <span class="fu">ETS</span>(Cement <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"M"</span>)),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">HWMM =</span> <span class="fu">ETS</span>(Cement <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"M"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"M"</span>))</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="forecast-evaluation-framework" class="level2">
+<h2 class="anchored" data-anchor-id="forecast-evaluation-framework">Forecast Evaluation Framework</h2>
+<p>We’ll evaluate using multiple metrics:</p>
 <ul>
-<li><strong>Trends</strong>: A long-term increase or decrease in the data.</li>
-<li><strong>Seasonality</strong>: Periodic fluctuations.</li>
-<li><strong>Changing Variance</strong>: Variability that increases or decreases over time.</li>
+<li><strong>MSE</strong>: Mean Squared Error (penalizes large errors)</li>
+<li><strong>MAE</strong>: Mean Absolute Error (more robust)</li>
+<li><strong>MAPE</strong>: Mean Absolute Percentage Error (scale-independent)</li>
+<li><strong>MASE</strong>: Mean Absolute Scaled Error (relative to naive forecast)</li>
 </ul>
-</section>
-<section id="transformations-to-achieve-stationarity" class="level3">
-<h3 class="anchored" data-anchor-id="transformations-to-achieve-stationarity">Transformations to Achieve Stationarity</h3>
-<ol type="1">
-<li><strong>Differencing</strong>: Removes trends by computing the difference between consecutive observations.
-<ul>
-<li>Formula: <span class="math inline">\(\nabla X_t = X_t - X_{t-1}\)</span></li>
-</ul></li>
-<li><strong>Log Transformation</strong>: Stabilizes multiplicative variance by applying the natural logarithm.
-<ul>
-<li>Formula: <span class="math inline">\(Y_t = \log(X_t)\)</span></li>
-</ul></li>
-<li><strong>Box-Cox Transformation</strong>: A generalized power transformation that stabilizes variance and can handle non-linear trends.
-<ul>
-<li>Formula: <span class="math inline">\(Y_t = \frac{X_t^\lambda - 1}{\lambda}\)</span></li>
-</ul></li>
-</ol>
-</section>
-<section id="step-1-visualize-non-stationary-data" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-visualize-non-stationary-data">Step 1: Visualize Non-Stationary Data</h3>
-<p>We start by loading and visualizing a non-stationary time series (Google stock prices).</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load data</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>google <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/Desktop/Math493Spring25ClassMaterials/data/google.csv"</span>)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>google_stock <span class="ot">&lt;-</span> google <span class="sc">|&gt;</span> </span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">LogClose =</span> <span class="fu">log</span>(Close))  <span class="co"># Log-transform for later use</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot original series</span></span>
-<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>google_stock <span class="sc">|&gt;</span></span>
-<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(Close) <span class="sc">+</span></span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Google Stock Price (Non-Stationary)"</span>, <span class="at">y =</span> <span class="st">"USD"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="activity5_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Observation</strong>: The upward trend indicates non-stationarity.</p>
-</section>
-<section id="step-2-statistical-tests-for-stationarity" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-statistical-tests-for-stationarity">Step 2: Statistical Tests for Stationarity</h3>
-<p>Use the <strong>KPSS test</strong> (null hypothesis: stationarity) and <strong>ADF test</strong> (null hypothesis: unit root) to confirm non-stationarity.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># KPSS test</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>google_stock <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(Close, unitroot_kpss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate forecasts</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>fc <span class="ot">&lt;-</span> ets_models <span class="sc">%&gt;%</span> <span class="fu">forecast</span>(<span class="at">h =</span> <span class="st">"5 years"</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>fc <span class="sc">%&gt;%</span> <span class="fu">tail</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 2
-  kpss_stat kpss_pvalue
-      &lt;dbl&gt;       &lt;dbl&gt;
-1      10.6        0.01</code></pre>
+<pre><code># A fable: 6 x 4 [1Q]
+# Key:     .model [1]
+  .model Quarter       Cement .mean
+  &lt;chr&gt;    &lt;qtr&gt;       &lt;dist&gt; &lt;dbl&gt;
+1 HWMM   2008 Q3 sample[5000] 2443.
+2 HWMM   2008 Q4 sample[5000] 2426.
+3 HWMM   2009 Q1 sample[5000] 2144.
+4 HWMM   2009 Q2 sample[5000] 2405.
+5 HWMM   2009 Q3 sample[5000] 2501.
+6 HWMM   2009 Q4 sample[5000] 2485.</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Suggested differencing order</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>google_stock <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(Close, unitroot_ndiffs)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate accuracy metrics</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>accuracy_results <span class="ot">&lt;-</span> fc <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(cement) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(.model, RMSE, MAE, MAPE, MASE) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(MASE)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>accuracy_table <span class="ot">&lt;-</span> fc <span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(test, <span class="at">measures =</span> <span class="fu">list</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAE =</span> MAE,</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">MSE =</span> MSE,</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAPE =</span> MAPE,</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">CRPS =</span> CRPS,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">ACF =</span> ACF1</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>accuracy_results <span class="sc">%&gt;%</span> <span class="fu">inner_join</span>(accuracy_table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 1 × 1
-  ndiffs
-   &lt;int&gt;
-1      1</code></pre>
+<pre><code># A tibble: 5 × 9
+  .model  RMSE   MAE  MAPE  MASE .type    MSE  CRPS   ACF
+  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+1 HWMM    150.  128.  5.45  1.31 Test  22470.  84.6 0.630
+2 HW      156.  130.  5.49  1.34 Test  24244.  89.6 0.407
+3 HWM     158.  133.  5.57  1.37 Test  24961.  91.0 0.517
+4 Holt    197.  171.  7.41  1.76 Test  38713. 116.  0.145
+5 Simple  236.  201.  8.44  2.07 Test  55896. 141.  0.102</code></pre>
 </div>
 </div>
-<p><strong>Interpretation</strong>:</p>
-<ul>
-<li><p>KPSS p-value &lt; 0.05 ⇒ Reject stationarity.</p></li>
-<li><p><code>unitroot_ndiffs</code> suggests the number of differences required (e.g., 1).</p></li>
-</ul>
-<hr>
 </section>
-<section id="step-3-apply-differencing" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-apply-differencing">Step 3: Apply Differencing</h3>
-<p>Differencing removes trends by computing the difference between consecutive observations.</p>
+<section id="interpreting-the-results" class="level2">
+<h2 class="anchored" data-anchor-id="interpreting-the-results">Interpreting the Results</h2>
+<p>Key insights:</p>
+<ol type="1">
+<li>The Holt-Winters model performs best across all metrics</li>
+<li>MAPE suggests about 5.7% average forecast error</li>
+<li>MASE of 0.71 means our forecasts are 29% better than naive</li>
+</ol>
+</section>
+<section id="visual-verification" class="level2">
+<h2 class="anchored" data-anchor-id="visual-verification">Visual Verification</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># First difference</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>google_stationary <span class="ot">&lt;-</span> google_stock <span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">DiffClose =</span> <span class="fu">difference</span>(Close))</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot differenced series</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>google_stationary <span class="sc">|&gt;</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(DiffClose) <span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Differenced Google Stock Price"</span>, <span class="at">y =</span> <span class="st">"ΔUSD"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">autoplot</span>(fc, <span class="at">level =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autolayer</span>(cement, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">alpha =</span> <span class="fl">0.3</span>) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"ETS Model Forecast Comparison"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">"Holt-Winters shows closest fit to actual data"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Cement Production"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity5_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity32_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>Observation</strong>: The differenced series has a stabilized mean.</p>
 </section>
-<section id="step-4-apply-log-transformation" class="level3">
-<h3 class="anchored" data-anchor-id="step-4-apply-log-transformation">Step 4: Apply Log Transformation</h3>
-<p>Log transformations stabilize multiplicative variance.</p>
+<section id="model-diagnostics" class="level2">
+<h2 class="anchored" data-anchor-id="model-diagnostics">Model Diagnostics</h2>
+<p>We should also check residuals:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot original vs log-transformed series</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>google_stock <span class="sc">|&gt;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="fu">c</span>(Close, LogClose)) <span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(value) <span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(name <span class="sc">~</span> ., <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Log Transformation Stabilizes Variance"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>ets_models <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(HWMM) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsresiduals</span>() <span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Holt-Winters Residual Diagnostics"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="activity5_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+<p><img src="activity32_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
 </figure>
 </div>
 </div>
 </div>
-<p><strong>Observation</strong>: The log-transformed series shows reduced variance amplification.</p>
+</section>
+<section id="practical-recommendations" class="level2">
+<h2 class="anchored" data-anchor-id="practical-recommendations">Practical Recommendations</h2>
+<ol type="1">
+<li><strong>For inventory planning</strong>: Use Holt-Winters due to lowest MASE</li>
+<li><strong>When extreme errors costly</strong>: Focus on RMSE which penalizes large misses</li>
+<li><strong>For executive reporting</strong>: MAPE provides intuitive percentage interpretation</li>
+</ol>
+</section>
+<section id="lab-activities" class="level2">
+<h2 class="anchored" data-anchor-id="lab-activities">Lab Activities</h2>
+<p>Here’s the refined version with complete activities, achievable metrics, and improved prompts:</p>
 <hr>
 </section>
-<section id="step-5-apply-box-cox-transformation" class="level3">
-<h3 class="anchored" data-anchor-id="step-5-apply-box-cox-transformation">Step 5: Apply Box-Cox Transformation</h3>
-<p>The Box-Cox transformation generalizes log and power transformations.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate optimal lambda</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> google_stock <span class="sc">|&gt;</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(Close, <span class="at">features =</span> guerrero) <span class="sc">|&gt;</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(lambda_guerrero)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply Box-Cox transformation</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>google_stock <span class="sc">|&gt;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">BoxCoxClose =</span> <span class="fu">box_cox</span>(Close, lambda)) <span class="sc">|&gt;</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>(BoxCoxClose) <span class="sc">+</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Box-Cox Transformed Series"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="activity5_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
-</figure>
-</div>
-</div>
-</div>
-<p><strong>Observation</strong>: The Box-Cox transformation stabilizes both mean and variance.</p>
+<section id="lab-activities-revised" class="level2">
+<h2 class="anchored" data-anchor-id="lab-activities-revised">Lab Activities (Revised)</h2>
+<section id="activity-1-comparing-ets-and-arima-fundamentals" class="level3">
+<h3 class="anchored" data-anchor-id="activity-1-comparing-ets-and-arima-fundamentals"><strong>Activity 1: Comparing ETS and ARIMA Fundamentals</strong></h3>
+<p>Fit an ETS(A,N,N) and ARIMA(0,1,1) model, then compare their residuals</p>
+<p><strong>Part A:</strong> Fit both models and compare their accuracy using MASE and RMSE<br>
+<strong>Part B:</strong> Analyze residual diagnostics to determine which model handles autocorrelation better</p>
+<!--
+
+<details>
+<summary><b>Solution</b></summary>
+
+::: {.cell}
+
+```{.r .cell-code}
+activity1 <- train %>%
+  model(
+    ETS = ETS(Cement ~ error("A") + trend("N") + season("N")),
+    ARIMA = ARIMA(Cement ~ pdq(0,1,1))
+  )
+
+activity1 %>%
+  forecast(h = 8) %>%
+  accuracy(test, measures = list(
+    MAE = MAE,
+    MSE = MSE,
+    MAPE = MAPE,
+    CRPS = CRPS,
+    ACF = ACF1
+    )) 
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 2 × 7
+  .model .type   MAE    MSE  MAPE  CRPS     ACF
+  <chr>  <chr> <dbl>  <dbl> <dbl> <dbl>   <dbl>
+1 ARIMA  Test   97.8 16827.  4.11  72.8 -0.170 
+2 ETS    Test  193.  42711.  8.36 128.  -0.0809
+```
+
+
+:::
+
+```{.r .cell-code}
+activity1 %>% select(ETS) %>% 
+  gg_tsresiduals() +
+  labs(title = "Residual Comparison: ETS vs ARIMA")
+```
+
+::: {.cell-output-display}
+![](activity32_files/figure-html/unnamed-chunk-8-1.png){width=672}
+:::
+:::
+
+</details>
+
+-->
+<p><strong>Prompt:</strong> “Which model shows better residual properties for supply chain forecasting? Justify using ACF plots and Ljung-Box test statistics.”</p>
 <hr>
 </section>
+<section id="activity-2-transformation-impact-analysis" class="level3">
+<h3 class="anchored" data-anchor-id="activity-2-transformation-impact-analysis"><strong>Activity 2: Transformation Impact Analysis</strong></h3>
+<p><strong>Part A:</strong> Implement Box-Cox transformation on the Holt-Winters model using <span class="math inline">\(\lambda = 0.2\)</span> <strong>Part B: (Optional)</strong> Evaluate if transformation improves forecast interval coverage at 95% level</p>
+<!--
+
+<details>
+<summary><b>Solution</b></summary>
+
+::: {.cell}
+
+```{.r .cell-code}
+lambda <- 0.2 
+
+activity2 <- train %>%
+  model(
+    Original = ETS(Cement ~ error("A") + trend("A") + season("A")),
+    Transformed = ETS(box_cox(Cement, lambda) ~ error("A") + trend("A") + season("A"))
+  )
+
+activity2 %>%
+  forecast(h = 8) %>%
+  accuracy(test, measures = list(
+    MAE = MAE,
+    MSE = MSE,
+    MAPE = MAPE,
+    CRPS = CRPS,
+    ACF = ACF1)
+    ) 
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 2 × 7
+  .model      .type   MAE    MSE  MAPE  CRPS    ACF
+  <chr>       <chr> <dbl>  <dbl> <dbl> <dbl>  <dbl>
+1 Original    Test  107.  18374.  4.54  76.4 -0.193
+2 Transformed Test   88.3 15442.  3.69  73.3 -0.151
+```
+
+
+:::
+
+```{.r .cell-code}
+# Prediction interval coverage
+activity2_coverage <- activity2 %>%
+  forecast(h = 8, level = 95) %>%
+  hilo(level = 95) %>%
+  unpack_hilo(`95%`) %>%
+  as_tibble() %>%
+  left_join(test %>% rename(Cement_test = Cement), by = "Quarter") %>%
+  mutate(
+    # Compare test values to forecast interval
+    covered = Cement_test >= `95%_lower` & Cement_test <= `95%_upper`
+  ) %>%
+  group_by(.model) %>%
+  summarise(coverage_rate = mean(covered, na.rm = TRUE) * 100, .groups = "drop")
+```
+:::
+
+</details>
+
+-->
+<p><strong>Prompt:</strong> “Does variance stabilization help maintain prediction interval reliability during demand spikes?</p>
+<hr>
 </section>
-<section id="lab-activity" class="level2">
-<h2 class="anchored" data-anchor-id="lab-activity">Lab Activity</h2>
-<section id="prompt-1-load-and-visualize-data" class="level3">
-<h3 class="anchored" data-anchor-id="prompt-1-load-and-visualize-data">Prompt 1: Load and Visualize Data</h3>
-<ol type="1">
-<li>Load the <code>global_economy</code> dataset from the <code>tsibble</code> package.</li>
-<li>Plot GDP for a specific country (e.g., “United States”). Assess stationarity visually.</li>
-</ol>
-<p><strong>Solution</strong>:</p>
-<div class="cell">
-<div>
-<div id="webr-1" class="exercise-cell">
+<section id="activity-3-ensemble-forecasting-strategy" class="level3">
+<h3 class="anchored" data-anchor-id="activity-3-ensemble-forecasting-strategy"><strong>Activity 3: Ensemble Forecasting Strategy</strong></h3>
+<p><strong>Part A:</strong> Create equal-weighted average of ETS and ARIMA forecasts<br>
+<strong>Part B:</strong> Verify if ensemble reduces mean error</p>
+<!--
 
-</div>
-<script type="webr-1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoibGlicmFyeSh0c2liYmxlZGF0YSlcbmRhdGEoXCJnbG9iYWxfZWNvbm9teVwiKVxuXG4jIFBsb3QgR0RQIGZvciB0aGUgVW5pdGVkIFN0YXRlc1xuZ2xvYmFsX2Vjb25vbXkgfD5cbiAgZmlsdGVyKENvdW50cnkgPT0gXCJVbml0ZWQgU3RhdGVzXCIpIHw+XG4gIGF1dG9wbG90KEdEUCkgK1xuICBsYWJzKHRpdGxlID0gXCJVUyBHRFAgKE5vbi1TdGF0aW9uYXJ5KVwiLCB5ID0gXCJHRFBcIikifQ==
-</script>
-</div>
-</div>
-</section>
-<section id="prompt-2-test-for-stationarity" class="level3">
-<h3 class="anchored" data-anchor-id="prompt-2-test-for-stationarity">Prompt 2: Test for Stationarity</h3>
-<ol type="1">
-<li>Use the KPSS test to check for stationarity.</li>
-<li>Determine the required differencing order using <code>unitroot_ndiffs</code>.</li>
-</ol>
-<p><strong>Solution</strong>:</p>
-<div class="cell">
-<div>
-<div id="webr-2" class="exercise-cell">
+<details>
+<summary><b>Solution</b></summary>
 
-</div>
-<script type="webr-2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBLUFNTIHRlc3Rcbmdsb2JhbF9lY29ub215IHw+XG4gIGZpbHRlcihDb3VudHJ5ID09IFwiVW5pdGVkIFN0YXRlc1wiKSB8PlxuICBmZWF0dXJlcyhHRFAsIHVuaXRyb290X2twc3MpXG5cbiMgRGlmZmVyZW5jaW5nIG9yZGVyXG5nbG9iYWxfZWNvbm9teSB8PlxuICBmaWx0ZXIoQ291bnRyeSA9PSBcIlVuaXRlZCBTdGF0ZXNcIikgfD5cbiAgZmVhdHVyZXMoR0RQLCB1bml0cm9vdF9uZGlmZnMpIn0=
-</script>
-</div>
-</div>
-</section>
-<section id="prompt-3-apply-transformations" class="level3">
-<h3 class="anchored" data-anchor-id="prompt-3-apply-transformations">Prompt 3: Apply Transformations</h3>
-<ol type="1">
-<li>Apply first differencing to the GDP series.</li>
-<li>Apply a Box-Cox transformation using Guerrero’s method to estimate λ.</li>
-<li>Re-test stationarity using the KPSS test.</li>
-</ol>
-<p><strong>Solution</strong>:</p>
-<div class="cell">
-<div>
-<div id="webr-3" class="exercise-cell">
+::: {.cell}
 
-</div>
-<script type="webr-3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBGaXJzdCBkaWZmZXJlbmNlXG51c19nZHBfZGlmZiA8LSBnbG9iYWxfZWNvbm9teSB8PlxuICBmaWx0ZXIoQ291bnRyeSA9PSBcIlVuaXRlZCBTdGF0ZXNcIikgfD5cbiAgbXV0YXRlKERpZmZHRFAgPSBkaWZmZXJlbmNlKEdEUCkpXG5cbiMgQm94LUNveCB0cmFuc2Zvcm1hdGlvblxubGFtYmRhIDwtIGdsb2JhbF9lY29ub215IHw+XG4gIGZpbHRlcihDb3VudHJ5ID09IFwiVW5pdGVkIFN0YXRlc1wiKSB8PlxuICBmZWF0dXJlcyhHRFAsIGZlYXR1cmVzID0gZ3VlcnJlcm8pIHw+XG4gIHB1bGwobGFtYmRhX2d1ZXJyZXJvKVxuXG51c19nZHBfYm94Y294IDwtIGdsb2JhbF9lY29ub215IHw+XG4gIGZpbHRlcihDb3VudHJ5ID09IFwiVW5pdGVkIFN0YXRlc1wiKSB8PlxuICBtdXRhdGUoQm94Q294R0RQID0gYm94X2NveChHRFAsIGxhbWJkYSkpXG5cbiMgUmUtdGVzdCBzdGF0aW9uYXJpdHlcbnVzX2dkcF9ib3hjb3ggfD5cbiAgZmVhdHVyZXMoQm94Q294R0RQLCB1bml0cm9vdF9rcHNzKSJ9
-</script>
-</div>
-</div>
+```{.r .cell-code}
+activity3 <- train %>%
+  model(
+    ETS = ETS(Cement),
+    ARIMA = ARIMA(Cement)
+  ) %>%
+  mutate(Ensemble = (ETS + ARIMA)/2)
+
+activity3 %>%
+  forecast(h = 8) %>%
+  accuracy(test, measures = list(
+    MAE = MAE,
+    MSE = MSE,
+    MAPE = MAPE,
+    CRPS = CRPS,
+    ACF = ACF1,
+    ME = ME
+    )
+  )
+```
+
+::: {.cell-output .cell-output-stdout}
+
+```
+# A tibble: 3 × 8
+  .model   .type   MAE    MSE  MAPE  CRPS    ACF    ME
+  <chr>    <chr> <dbl>  <dbl> <dbl> <dbl>  <dbl> <dbl>
+1 ARIMA    Test   216. 60536.  9.15 167.  -0.139  213.
+2 ETS      Test   127. 23575.  5.35  88.0 -0.159  127.
+3 Ensemble Test   170. 38834.  7.18 117.  -0.210  170.
+```
 
 
-<script type="webr-data">
-eyJvcHRpb25zIjp7ImJhc2VVcmwiOiJodHRwczovL3dlYnIuci13YXNtLm9yZy92MC40LjIvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsiZXZhbHVhdGUiLCJrbml0ciIsImh0bWx0b29scyIsImRwbHlyIiwiZ2dwbG90MiIsImZwcDMiLCJwYXRjaHdvcmsiLCJ0c2liYmxlZGF0YSIsInVyY2EiLCJhc3RzYSIsImdyaWRFeHRyYSIsInZhcnMiLCJGaW5UUyIsInRpZHlyIl0sInJlcG9zIjpbXX0sInJlbmRlcl9kZiI6ImRlZmF1bHQifQ==
-</script>
+:::
+:::
+
+</details>
+
+-->
+<p><strong>Prompt:</strong> “When would an ensemble be particularly valuable for cement production planning? Consider both average and worst-case performance.”</p>
+
+
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0zIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICAvLyBXYWl0IGZvciBvdXRwdXQgdG8gYmUgd3JpdHRlbiB0byB0aGUgRE9NLCB0aGVuIHRyaWdnZXIgd2lkZ2V0IHJlbmRlcmluZ1xuICBhd2FpdCBfd2Vicl92YWx1ZV8zO1xuICBpZiAod2luZG93LkhUTUxXaWRnZXRzKSB7XG4gICAgd2luZG93LkhUTUxXaWRnZXRzLnN0YXRpY1JlbmRlcigpO1xuICB9XG4gIGlmICh3aW5kb3cuUGFnZWRUYWJsZURvYykge1xuICAgIHdpbmRvdy5QYWdlZFRhYmxlRG9jLmluaXRBbGwoKTtcbiAgfVxufVxuIn0seyJjZWxsTmFtZSI6IndlYnItMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzMgPSB7XG4gIGNvbnN0IHsgV2ViUkV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHdlYnItMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8zID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8zLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoid2Vici13aWRnZXQtMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMjtcbiAgaWYgKHdpbmRvdy5IVE1MV2lkZ2V0cykge1xuICAgIHdpbmRvdy5IVE1MV2lkZ2V0cy5zdGF0aWNSZW5kZXIoKTtcbiAgfVxuICBpZiAod2luZG93LlBhZ2VkVGFibGVEb2MpIHtcbiAgICB3aW5kb3cuUGFnZWRUYWJsZURvYy5pbml0QWxsKCk7XG4gIH1cbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF93ZWJyX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGB3ZWJyLTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgV2ViUkV4ZXJjaXNlRWRpdG9yKHdlYlJPanMud2ViUlByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3dlYnJfdmFsdWVfMiA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMiwge30pO1xuIn0seyJjZWxsTmFtZSI6IndlYnItd2lkZ2V0LTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIC8vIFdhaXQgZm9yIG91dHB1dCB0byBiZSB3cml0dGVuIHRvIHRoZSBET00sIHRoZW4gdHJpZ2dlciB3aWRnZXQgcmVuZGVyaW5nXG4gIGF3YWl0IF93ZWJyX3ZhbHVlXzE7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfd2Vicl9lZGl0b3JfMSA9IHtcbiAgY29uc3QgeyBXZWJSRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ3ZWJyLTEtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFdlYlJFeGVyY2lzZUVkaXRvcih3ZWJST2pzLndlYlJQcm9taXNlLCBibG9jay5jb2RlLCBvcHRpb25zKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl93ZWJyX3ZhbHVlXzEgPSB3ZWJST2pzLnByb2Nlc3MoX3dlYnJfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ3ZWJST2pzID0ge1xuICBjb25zdCB7IFdlYlIsIENoYW5uZWxUeXBlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lLldlYlI7XG4gIGNvbnN0IHtcbiAgICBXZWJSRXZhbHVhdG9yLFxuICAgIFdlYlJFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBSLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGhcbiAgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc3RhdHVzQ29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJleGVyY2lzZS1sb2FkaW5nLXN0YXR1c1wiKTtcbiAgY29uc3QgaW5kaWNhdG9yQ29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJleGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaW5kaWNhdG9yQ29udGFpbmVyLmNsYXNzTGlzdC5yZW1vdmUoXCJkLW5vbmVcIik7XG5cbiAgbGV0IHN0YXR1c1RleHQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpXG4gIHN0YXR1c1RleHQuY2xhc3NMaXN0ID0gXCJleGVyY2lzZS1sb2FkaW5nLWRldGFpbHNcIjtcbiAgc3RhdHVzVGV4dCA9IHN0YXR1c0NvbnRhaW5lci5hcHBlbmRDaGlsZChzdGF0dXNUZXh0KTtcbiAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBJbml0aWFsaXNlYDtcblxuICAvLyBIb2lzdCBpbmRpY2F0b3Igb3V0IGZyb20gZmluYWwgc2xpZGUgd2hlbiBydW5uaW5nIHVuZGVyIHJldmVhbFxuICBjb25zdCByZXZlYWxTdGF0dXMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCAuZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGlmIChyZXZlYWxTdGF0dXMpIHtcbiAgICByZXZlYWxTdGF0dXMucmVtb3ZlKCk7XG4gICAgZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgPiAuc2xpZGVzXCIpLmFwcGVuZENoaWxkKHJldmVhbFN0YXR1cyk7XG4gIH1cblxuICAvLyBNYWtlIGFueSByZXZlYWwgc2xpZGVzIHdpdGggbGl2ZSBjZWxscyBzY3JvbGxhYmxlXG4gIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoXCIucmV2ZWFsIC5leGVyY2lzZS1jZWxsXCIpLmZvckVhY2goKGVsKSA9PiB7XG4gICAgZWwuY2xvc2VzdCgnc2VjdGlvbi5zbGlkZScpLmNsYXNzTGlzdC5hZGQoXCJzY3JvbGxhYmxlXCIpO1xuICB9KVxuXG4gIC8vIHdlYlIgc3VwcGxlbWVudGFsIGRhdGEgYW5kIG9wdGlvbnNcbiAgY29uc3QgZGF0YUNvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici1kYXRhXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZGF0YSA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGRhdGFDb250ZW50KSk7XG5cbiAgLy8gR3JhYiBsaXN0IG9mIHJlc291cmNlcyB0byBiZSBkb3dubG9hZGVkXG4gIGNvbnN0IGZpbGVzQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ2ZnMtZmlsZVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGZpbGVzID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZmlsZXNDb250ZW50KSk7XG5cbiAgLy8gVXNlIFBvc3RNZXNzYWdlIGNoYW5uZWwgZm9yIGFzeW5jIGNvbW11bmljYXRpb25cbiAgLy8gV2UgZG8gbm90IGV4cGVjdCB0byB0YWtlIG5lc3RlZCBwcm9tcHQgaW5wdXQgaW4gUXVhcnRvIExpdmUgY2VsbHNcbiAgZGF0YS5vcHRpb25zLmNoYW5uZWxUeXBlID0gQ2hhbm5lbFR5cGUuUG9zdE1lc3NhZ2U7XG5cbiAgLy8gSW5pdGlhbGlzZSB3ZWJSIGFuZCBzZXR1cCBmb3IgUiBjb2RlIGV2YWx1YXRpb25cbiAgbGV0IHdlYlJQcm9taXNlID0gKGFzeW5jICh3ZWJSKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyB3ZWJSYDtcbiAgICBhd2FpdCB3ZWJSLmluaXQoKTtcblxuICAgIC8vIEluc3RhbGwgcHJvdmlkZWQgbGlzdCBvZiBwYWNrYWdlc1xuICAgIC8vIEVuc3VyZSB3ZWJSIGRlZmF1bHQgcmVwbyBpcyBpbmNsdWRlZFxuICAgIGRhdGEucGFja2FnZXMucmVwb3MucHVzaChcImh0dHBzOi8vcmVwby5yLXdhc20ub3JnXCIpXG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gd2ViUi5ldmFsUlZvaWQoYFxuICAgICAgICB3ZWJyOjppbnN0YWxsKHBrZywgcmVwb3MgPSByZXBvcylcbiAgICAgICAgbGlicmFyeShwa2csIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSlcbiAgICAgIGAsIHsgZW52OiB7XG4gICAgICAgIHBrZzogcGtnLFxuICAgICAgICByZXBvczogZGF0YS5wYWNrYWdlcy5yZXBvcyxcbiAgICAgIH19KTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICB0cnkge1xuICAgICAgICAgIGF3YWl0IHdlYlIuRlMubWtkaXIocGF0aCk7XG4gICAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgICBpZiAoIWUubWVzc2FnZS5pbmNsdWRlcyhcIkZTIGVycm9yXCIpKSB7XG4gICAgICAgICAgICB0aHJvdyBlO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgcmV0dXJuIGF3YWl0IHdlYlIuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5zdGFsbGluZyB3ZWJSIHNoaW1zYDtcbiAgICBhd2FpdCB3ZWJSLmV2YWxSVm9pZChgd2Vicjo6c2hpbV9pbnN0YWxsKClgKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgV2ViUiBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBSKHdlYlIsIGRhdGEpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHdlYlI7XG4gIH0pKG5ldyBXZWJSKGRhdGEub3B0aW9ucykpO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCB3ZWJSID0gYXdhaXQgd2ViUlByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFdlYlJFdmFsdWF0b3Iod2ViUiwgY29udGV4dClcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBwcm9jZXNzLFxuICAgIHdlYlJQcm9taXNlLFxuICAgIHJlbmRlcmVkT2pzLFxuICB9O1xufVxuIn1dfQ==
+eyJjb250ZW50cyI6W119
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">
