@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-99.9.9">
+<meta name="generator" content="quarto-1.5.56">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,18 +64,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/quarto.js"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-86b21ad6495d6ba00571807d4e9909c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-b167100507321148c0eef69d191afecb.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -519,8 +518,7 @@ window.Quarto = {
   <li><a href="#visual-verification" id="toc-visual-verification" class="nav-link" data-scroll-target="#visual-verification">Visual Verification</a></li>
   <li><a href="#model-diagnostics" id="toc-model-diagnostics" class="nav-link" data-scroll-target="#model-diagnostics">Model Diagnostics</a></li>
   <li><a href="#practical-recommendations" id="toc-practical-recommendations" class="nav-link" data-scroll-target="#practical-recommendations">Practical Recommendations</a></li>
-  <li><a href="#lab-activities" id="toc-lab-activities" class="nav-link" data-scroll-target="#lab-activities">Lab Activities</a></li>
-  <li><a href="#lab-activities-revised" id="toc-lab-activities-revised" class="nav-link" data-scroll-target="#lab-activities-revised">Lab Activities (Revised)</a>
+  <li><a href="#lab-activities" id="toc-lab-activities" class="nav-link" data-scroll-target="#lab-activities">Lab Activities</a>
   <ul class="collapse">
   <li><a href="#activity-1-comparing-ets-and-arima-fundamentals" id="toc-activity-1-comparing-ets-and-arima-fundamentals" class="nav-link" data-scroll-target="#activity-1-comparing-ets-and-arima-fundamentals"><strong>Activity 1: Comparing ETS and ARIMA Fundamentals</strong></a></li>
   <li><a href="#activity-2-transformation-impact-analysis" id="toc-activity-2-transformation-impact-analysis" class="nav-link" data-scroll-target="#activity-2-transformation-impact-analysis"><strong>Activity 2: Transformation Impact Analysis</strong></a></li>
@@ -563,7 +561,7 @@ window.Quarto = {
 </div>
 <section id="fitting-comparable-ets-models" class="level2">
 <h2 class="anchored" data-anchor-id="fitting-comparable-ets-models">Fitting Comparable ETS Models</h2>
-<p>Let’s compare three ETS specifications:</p>
+<p>Let’s compare some ETS specifications including:</p>
 <ol type="1">
 <li>Simple exponential smoothing (no trend/seasonality)</li>
 <li>Holt’s linear trend method</li>
@@ -598,12 +596,12 @@ window.Quarto = {
 # Key:     .model [1]
   .model Quarter       Cement .mean
   &lt;chr&gt;    &lt;qtr&gt;       &lt;dist&gt; &lt;dbl&gt;
-1 HWMM   2008 Q3 sample[5000] 2443.
-2 HWMM   2008 Q4 sample[5000] 2426.
-3 HWMM   2009 Q1 sample[5000] 2144.
-4 HWMM   2009 Q2 sample[5000] 2405.
-5 HWMM   2009 Q3 sample[5000] 2501.
-6 HWMM   2009 Q4 sample[5000] 2485.</code></pre>
+1 HWMM   2008 Q3 sample[5000] 2438.
+2 HWMM   2008 Q4 sample[5000] 2423.
+3 HWMM   2009 Q1 sample[5000] 2140.
+4 HWMM   2009 Q2 sample[5000] 2402.
+5 HWMM   2009 Q3 sample[5000] 2498.
+6 HWMM   2009 Q4 sample[5000] 2483.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate accuracy metrics</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>accuracy_results <span class="ot">&lt;-</span> fc <span class="sc">%&gt;%</span></span>
@@ -625,9 +623,9 @@ window.Quarto = {
 <pre><code># A tibble: 5 × 9
   .model  RMSE   MAE  MAPE  MASE .type    MSE  CRPS   ACF
   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 HWMM    150.  128.  5.45  1.31 Test  22470.  84.6 0.630
+1 HWMM    150.  128.  5.47  1.32 Test  22595.  84.5 0.627
 2 HW      156.  130.  5.49  1.34 Test  24244.  89.6 0.407
-3 HWM     158.  133.  5.57  1.37 Test  24961.  91.0 0.517
+3 HWM     159.  133.  5.60  1.37 Test  25154.  91.1 0.523
 4 Holt    197.  171.  7.41  1.76 Test  38713. 116.  0.145
 5 Simple  236.  201.  8.44  2.07 Test  55896. 141.  0.102</code></pre>
 </div>
@@ -686,11 +684,6 @@ window.Quarto = {
 </section>
 <section id="lab-activities" class="level2">
 <h2 class="anchored" data-anchor-id="lab-activities">Lab Activities</h2>
-<p>Here’s the refined version with complete activities, achievable metrics, and improved prompts:</p>
-<hr>
-</section>
-<section id="lab-activities-revised" class="level2">
-<h2 class="anchored" data-anchor-id="lab-activities-revised">Lab Activities (Revised)</h2>
 <section id="activity-1-comparing-ets-and-arima-fundamentals" class="level3">
 <h3 class="anchored" data-anchor-id="activity-1-comparing-ets-and-arima-fundamentals"><strong>Activity 1: Comparing ETS and ARIMA Fundamentals</strong></h3>
 <p>Fit an ETS(A,N,N) and ARIMA(0,1,1) model, then compare their residuals</p>
@@ -700,6 +693,8 @@ window.Quarto = {
 
 <details>
 <summary><b>Solution</b></summary>
+
+
 
 ::: {.cell}
 
@@ -745,6 +740,8 @@ activity1 %>% select(ETS) %>%
 :::
 :::
 
+
+
 </details>
 
 -->
@@ -758,6 +755,8 @@ activity1 %>% select(ETS) %>%
 
 <details>
 <summary><b>Solution</b></summary>
+
+
 
 ::: {.cell}
 
@@ -811,6 +810,8 @@ activity2_coverage <- activity2 %>%
 ```
 :::
 
+
+
 </details>
 
 -->
@@ -825,6 +826,8 @@ activity2_coverage <- activity2 %>%
 
 <details>
 <summary><b>Solution</b></summary>
+
+
 
 ::: {.cell}
 
@@ -863,6 +866,8 @@ activity3 %>%
 
 :::
 :::
+
+
 
 </details>
 
@@ -1125,6 +1130,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1235,6 +1242,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
+      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

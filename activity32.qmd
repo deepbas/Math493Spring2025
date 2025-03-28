@@ -40,7 +40,7 @@ test <- cement %>% filter(year(Quarter) >= 2005)
 
 ## Fitting Comparable ETS Models
 
-Let's compare three ETS specifications:
+Let's compare some ETS specifications including:
 
 1. Simple exponential smoothing (no trend/seasonality)
 2. Holt's linear trend method
@@ -127,12 +127,6 @@ ets_models %>%
 3. **For executive reporting**: MAPE provides intuitive percentage interpretation
 
 ## Lab Activities
-
-Here's the refined version with complete activities, achievable metrics, and improved prompts:
-
----
-
-## Lab Activities (Revised)
 
 ### **Activity 1: Comparing ETS and ARIMA Fundamentals**
 
