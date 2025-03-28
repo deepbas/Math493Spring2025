@@ -515,18 +515,7 @@
     "href": "activity32.html#forecast-evaluation-framework",
     "title": "Activity32",
     "section": "Forecast Evaluation Framework",
-    "text": "Forecast Evaluation Framework\nWe’ll evaluate using multiple metrics:\n\nMSE: Mean Squared Error (penalizes large errors)\nMAE: Mean Absolute Error (more robust)\nMAPE: Mean Absolute Percentage Error (scale-independent)\nMASE: Mean Absolute Scaled Error (relative to naive forecast)\n\n\n# Generate forecasts\nfc &lt;- ets_models %&gt;% forecast(h = \"5 years\")\nfc %&gt;% tail()\n\n# A fable: 6 x 4 [1Q]\n# Key:     .model [1]\n  .model Quarter       Cement .mean\n  &lt;chr&gt;    &lt;qtr&gt;       &lt;dist&gt; &lt;dbl&gt;\n1 HWMM   2008 Q3 sample[5000] 2438.\n2 HWMM   2008 Q4 sample[5000] 2423.\n3 HWMM   2009 Q1 sample[5000] 2140.\n4 HWMM   2009 Q2 sample[5000] 2402.\n5 HWMM   2009 Q3 sample[5000] 2498.\n6 HWMM   2009 Q4 sample[5000] 2483.\n\n# Calculate accuracy metrics\naccuracy_results &lt;- fc %&gt;%\n  accuracy(cement) %&gt;%\n  select(.model, RMSE, MAE, MAPE, MASE) %&gt;%\n  arrange(MASE)\n\naccuracy_table &lt;- fc %&gt;%\n  accuracy(test, measures = list(\n    MAE = MAE,\n    MSE = MSE,\n    MAPE = MAPE,\n    CRPS = CRPS,\n    ACF = ACF1\n  ))\n\naccuracy_results %&gt;% inner_join(accuracy_table)\n\n# A tibble: 5 × 9\n  .model  RMSE   MAE  MAPE  MASE .type    MSE  CRPS   ACF\n  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 HWMM    150.  128.  5.47  1.32 Test  22595.  84.5 0.627\n2 HW      156.  130.  5.49  1.34 Test  24244.  89.6 0.407\n3 HWM     159.  133.  5.60  1.37 Test  25154.  91.1 0.523\n4 Holt    197.  171.  7.41  1.76 Test  38713. 116.  0.145\n5 Simple  236.  201.  8.44  2.07 Test  55896. 141.  0.102",
-    "crumbs": [
-      "Week 8",
-      "Activity 32"
-    ]
-  },
-  {
-    "objectID": "activity32.html#interpreting-the-results",
-    "href": "activity32.html#interpreting-the-results",
-    "title": "Activity32",
-    "section": "Interpreting the Results",
-    "text": "Interpreting the Results\nKey insights:\n\nThe Holt-Winters model performs best across all metrics\nMAPE suggests about 5.7% average forecast error\nMASE of 0.71 means our forecasts are 29% better than naive",
+    "text": "Forecast Evaluation Framework\nWe’ll evaluate using multiple metrics:\n\nMSE: Mean Squared Error (penalizes large errors)\nMAE: Mean Absolute Error (more robust)\nMAPE: Mean Absolute Percentage Error (scale-independent)\nMASE: Mean Absolute Scaled Error (relative to naive forecast)\n\n\n# Generate forecasts\nfc &lt;- ets_models %&gt;% forecast(h = \"5 years\")\nfc %&gt;% tail()\n\n# A fable: 6 x 4 [1Q]\n# Key:     .model [1]\n  .model Quarter       Cement .mean\n  &lt;chr&gt;    &lt;qtr&gt;       &lt;dist&gt; &lt;dbl&gt;\n1 HWMM   2008 Q3 sample[5000] 2440.\n2 HWMM   2008 Q4 sample[5000] 2425.\n3 HWMM   2009 Q1 sample[5000] 2142.\n4 HWMM   2009 Q2 sample[5000] 2404.\n5 HWMM   2009 Q3 sample[5000] 2502.\n6 HWMM   2009 Q4 sample[5000] 2486.\n\n# Calculate accuracy metrics\naccuracy_results &lt;- fc %&gt;%\n  accuracy(cement) %&gt;%\n  select(.model, RMSE, MAE, MAPE, MASE) %&gt;%\n  arrange(MASE)\n\naccuracy_table &lt;- fc %&gt;%\n  accuracy(test, measures = list(\n    MAE = MAE,\n    MSE = MSE,\n    MAPE = MAPE,\n    CRPS = CRPS,\n    ACF = ACF1\n  ))\n\naccuracy_results %&gt;% inner_join(accuracy_table)\n\n# A tibble: 5 × 9\n  .model  RMSE   MAE  MAPE  MASE .type    MSE  CRPS   ACF\n  &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;\n1 HWMM    151.  128.  5.48  1.32 Test  22663.  85.0 0.630\n2 HW      156.  130.  5.49  1.34 Test  24244.  89.6 0.407\n3 HWM     158.  132.  5.56  1.36 Test  24856.  90.7 0.517\n4 Holt    197.  171.  7.41  1.76 Test  38713. 116.  0.145\n5 Simple  236.  201.  8.44  2.07 Test  55896. 141.  0.102",
     "crumbs": [
       "Week 8",
       "Activity 32"
@@ -555,22 +544,11 @@
     ]
   },
   {
-    "objectID": "activity32.html#practical-recommendations",
-    "href": "activity32.html#practical-recommendations",
-    "title": "Activity32",
-    "section": "Practical Recommendations",
-    "text": "Practical Recommendations\n\nFor inventory planning: Use Holt-Winters due to lowest MASE\nWhen extreme errors costly: Focus on RMSE which penalizes large misses\nFor executive reporting: MAPE provides intuitive percentage interpretation",
-    "crumbs": [
-      "Week 8",
-      "Activity 32"
-    ]
-  },
-  {
     "objectID": "activity32.html#lab-activities",
     "href": "activity32.html#lab-activities",
     "title": "Activity32",
     "section": "Lab Activities",
-    "text": "Lab Activities\n\nActivity 1: Comparing ETS and ARIMA Fundamentals\nFit an ETS(A,N,N) and ARIMA(0,1,1) model, then compare their residuals\nPart A: Fit both models and compare their accuracy using MASE and RMSE\nPart B: Analyze residual diagnostics to determine which model handles autocorrelation better\n\nPrompt: “Which model shows better residual properties for supply chain forecasting? Justify using ACF plots and Ljung-Box test statistics.”\n\n\n\nActivity 2: Transformation Impact Analysis\nPart A: Implement Box-Cox transformation on the Holt-Winters model using \\(\\lambda = 0.2\\) Part B: (Optional) Evaluate if transformation improves forecast interval coverage at 95% level\n\nPrompt: “Does variance stabilization help maintain prediction interval reliability during demand spikes?\n\n\n\nActivity 3: Ensemble Forecasting Strategy\nPart A: Create equal-weighted average of ETS and ARIMA forecasts\nPart B: Verify if ensemble reduces mean error\n\nPrompt: “When would an ensemble be particularly valuable for cement production planning? Consider both average and worst-case performance.”",
+    "text": "Lab Activities\n\nActivity 1: Comparing ETS and ARIMA Fundamentals\nFit an ETS(A,N,M) and ARIMA(0,1,1) model, then compare their residuals\nPart A: Fit both models and compare their accuracy using MASE and RMSE\nPart B: Analyze residual diagnostics to determine which model handles autocorrelation better\n\nPrompt: “Which model shows better residual properties for supply chain forecasting? Justify using ACF plots and Ljung-Box test statistics.”\n\n\n\nActivity 2: Transformation Impact Analysis\nPart A: Implement Box-Cox transformation on the Holt-Winters model using \\(\\lambda = 0.2\\) Part B: (Optional) Evaluate if transformation improves forecast interval coverage at 95% level\n\nPrompt: “Does variance stabilization help maintain prediction interval reliability during demand spikes?\n\n\n\nActivity 3: Ensemble Forecasting Strategy\nPart A: Create equal-weighted average of ETS and ARIMA forecasts\nPart B: Verify if ensemble reduces mean error\n\nPrompt: “When would an ensemble be particularly valuable for cement production planning? Consider both average and worst-case performance.”",
     "crumbs": [
       "Week 8",
       "Activity 32"

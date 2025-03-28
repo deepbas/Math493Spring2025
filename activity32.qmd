@@ -87,16 +87,7 @@ accuracy_table <- fc %>%
   ))
 
 accuracy_results %>% inner_join(accuracy_table)
-
 ```
-
-## Interpreting the Results
-
-Key insights:
-
-1. The Holt-Winters model performs best across all metrics
-2. MAPE suggests about 5.7% average forecast error
-3. MASE of 0.71 means our forecasts are 29% better than naive
 
 ## Visual Verification
 
@@ -120,17 +111,12 @@ ets_models %>%
   labs(title = "Holt-Winters Residual Diagnostics")
 ```
 
-## Practical Recommendations
-
-1. **For inventory planning**: Use Holt-Winters due to lowest MASE
-2. **When extreme errors costly**: Focus on RMSE which penalizes large misses
-3. **For executive reporting**: MAPE provides intuitive percentage interpretation
 
 ## Lab Activities
 
 ### **Activity 1: Comparing ETS and ARIMA Fundamentals**
 
-Fit an ETS(A,N,N) and ARIMA(0,1,1) model, then compare their residuals
+Fit an ETS(A,N,M) and ARIMA(0,1,1) model, then compare their residuals
 
 **Part A:** Fit both models and compare their accuracy using MASE and RMSE  
 **Part B:** Analyze residual diagnostics to determine which model handles autocorrelation better  
@@ -143,7 +129,7 @@ Fit an ETS(A,N,N) and ARIMA(0,1,1) model, then compare their residuals
 ```{r}
 activity1 <- train %>%
   model(
-    ETS = ETS(Cement ~ error("A") + trend("N") + season("N")),
+    ETS = ETS(Cement ~ error("A") + trend("N") + season("M")),
     ARIMA = ARIMA(Cement ~ pdq(0,1,1))
   )
 

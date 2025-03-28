@@ -514,10 +514,8 @@ window.Quarto = {
   <ul>
   <li><a href="#fitting-comparable-ets-models" id="toc-fitting-comparable-ets-models" class="nav-link active" data-scroll-target="#fitting-comparable-ets-models">Fitting Comparable ETS Models</a></li>
   <li><a href="#forecast-evaluation-framework" id="toc-forecast-evaluation-framework" class="nav-link" data-scroll-target="#forecast-evaluation-framework">Forecast Evaluation Framework</a></li>
-  <li><a href="#interpreting-the-results" id="toc-interpreting-the-results" class="nav-link" data-scroll-target="#interpreting-the-results">Interpreting the Results</a></li>
   <li><a href="#visual-verification" id="toc-visual-verification" class="nav-link" data-scroll-target="#visual-verification">Visual Verification</a></li>
   <li><a href="#model-diagnostics" id="toc-model-diagnostics" class="nav-link" data-scroll-target="#model-diagnostics">Model Diagnostics</a></li>
-  <li><a href="#practical-recommendations" id="toc-practical-recommendations" class="nav-link" data-scroll-target="#practical-recommendations">Practical Recommendations</a></li>
   <li><a href="#lab-activities" id="toc-lab-activities" class="nav-link" data-scroll-target="#lab-activities">Lab Activities</a>
   <ul class="collapse">
   <li><a href="#activity-1-comparing-ets-and-arima-fundamentals" id="toc-activity-1-comparing-ets-and-arima-fundamentals" class="nav-link" data-scroll-target="#activity-1-comparing-ets-and-arima-fundamentals"><strong>Activity 1: Comparing ETS and ARIMA Fundamentals</strong></a></li>
@@ -596,12 +594,12 @@ window.Quarto = {
 # Key:     .model [1]
   .model Quarter       Cement .mean
   &lt;chr&gt;    &lt;qtr&gt;       &lt;dist&gt; &lt;dbl&gt;
-1 HWMM   2008 Q3 sample[5000] 2438.
-2 HWMM   2008 Q4 sample[5000] 2423.
-3 HWMM   2009 Q1 sample[5000] 2140.
-4 HWMM   2009 Q2 sample[5000] 2402.
-5 HWMM   2009 Q3 sample[5000] 2498.
-6 HWMM   2009 Q4 sample[5000] 2483.</code></pre>
+1 HWMM   2008 Q3 sample[5000] 2440.
+2 HWMM   2008 Q4 sample[5000] 2425.
+3 HWMM   2009 Q1 sample[5000] 2142.
+4 HWMM   2009 Q2 sample[5000] 2404.
+5 HWMM   2009 Q3 sample[5000] 2502.
+6 HWMM   2009 Q4 sample[5000] 2486.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate accuracy metrics</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>accuracy_results <span class="ot">&lt;-</span> fc <span class="sc">%&gt;%</span></span>
@@ -623,22 +621,13 @@ window.Quarto = {
 <pre><code># A tibble: 5 × 9
   .model  RMSE   MAE  MAPE  MASE .type    MSE  CRPS   ACF
   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 HWMM    150.  128.  5.47  1.32 Test  22595.  84.5 0.627
+1 HWMM    151.  128.  5.48  1.32 Test  22663.  85.0 0.630
 2 HW      156.  130.  5.49  1.34 Test  24244.  89.6 0.407
-3 HWM     159.  133.  5.60  1.37 Test  25154.  91.1 0.523
+3 HWM     158.  132.  5.56  1.36 Test  24856.  90.7 0.517
 4 Holt    197.  171.  7.41  1.76 Test  38713. 116.  0.145
 5 Simple  236.  201.  8.44  2.07 Test  55896. 141.  0.102</code></pre>
 </div>
 </div>
-</section>
-<section id="interpreting-the-results" class="level2">
-<h2 class="anchored" data-anchor-id="interpreting-the-results">Interpreting the Results</h2>
-<p>Key insights:</p>
-<ol type="1">
-<li>The Holt-Winters model performs best across all metrics</li>
-<li>MAPE suggests about 5.7% average forecast error</li>
-<li>MASE of 0.71 means our forecasts are 29% better than naive</li>
-</ol>
 </section>
 <section id="visual-verification" class="level2">
 <h2 class="anchored" data-anchor-id="visual-verification">Visual Verification</h2>
@@ -674,19 +663,11 @@ window.Quarto = {
 </div>
 </div>
 </section>
-<section id="practical-recommendations" class="level2">
-<h2 class="anchored" data-anchor-id="practical-recommendations">Practical Recommendations</h2>
-<ol type="1">
-<li><strong>For inventory planning</strong>: Use Holt-Winters due to lowest MASE</li>
-<li><strong>When extreme errors costly</strong>: Focus on RMSE which penalizes large misses</li>
-<li><strong>For executive reporting</strong>: MAPE provides intuitive percentage interpretation</li>
-</ol>
-</section>
 <section id="lab-activities" class="level2">
 <h2 class="anchored" data-anchor-id="lab-activities">Lab Activities</h2>
 <section id="activity-1-comparing-ets-and-arima-fundamentals" class="level3">
 <h3 class="anchored" data-anchor-id="activity-1-comparing-ets-and-arima-fundamentals"><strong>Activity 1: Comparing ETS and ARIMA Fundamentals</strong></h3>
-<p>Fit an ETS(A,N,N) and ARIMA(0,1,1) model, then compare their residuals</p>
+<p>Fit an ETS(A,N,M) and ARIMA(0,1,1) model, then compare their residuals</p>
 <p><strong>Part A:</strong> Fit both models and compare their accuracy using MASE and RMSE<br>
 <strong>Part B:</strong> Analyze residual diagnostics to determine which model handles autocorrelation better</p>
 <!--
@@ -701,7 +682,7 @@ window.Quarto = {
 ```{.r .cell-code}
 activity1 <- train %>%
   model(
-    ETS = ETS(Cement ~ error("A") + trend("N") + season("N")),
+    ETS = ETS(Cement ~ error("A") + trend("N") + season("M")),
     ARIMA = ARIMA(Cement ~ pdq(0,1,1))
   )
 
@@ -720,10 +701,10 @@ activity1 %>%
 
 ```
 # A tibble: 2 × 7
-  .model .type   MAE    MSE  MAPE  CRPS     ACF
-  <chr>  <chr> <dbl>  <dbl> <dbl> <dbl>   <dbl>
-1 ARIMA  Test   97.8 16827.  4.11  72.8 -0.170 
-2 ETS    Test  193.  42711.  8.36 128.  -0.0809
+  .model .type   MAE    MSE  MAPE  CRPS    ACF
+  <chr>  <chr> <dbl>  <dbl> <dbl> <dbl>  <dbl>
+1 ARIMA  Test   97.8 16827.  4.11  72.8 -0.170
+2 ETS    Test  169.  36801.  7.19 115.  -0.178
 ```
 
 
