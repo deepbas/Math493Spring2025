@@ -114,14 +114,11 @@ ets_models %>%
 
 ## Lab Activities
 
-### **Activity 1: Comparing ETS and ARIMA Fundamentals**
-
-Fit an ETS(A,N,M) and ARIMA(0,1,1) model, then compare their residuals
+Fit an ETS(A,A,M) and ARIMA(0,1,1) model, then compare their residuals
 
 **Part A:** Fit both models and compare their accuracy using MASE and RMSE  
 **Part B:** Analyze residual diagnostics to determine which model handles autocorrelation better  
 
-<!--
 
 <details>
 <summary><b>Solution</b></summary>
@@ -129,8 +126,8 @@ Fit an ETS(A,N,M) and ARIMA(0,1,1) model, then compare their residuals
 ```{r}
 activity1 <- train %>%
   model(
-    ETS = ETS(Cement ~ error("A") + trend("N") + season("M")),
-    ARIMA = ARIMA(Cement ~ pdq(0,1,1))
+    ETS = ETS(Cement ~ error("A") + trend("A") + season("M")),
+    ARIMA = ARIMA(Cement ~ pdq(0,1,1) + PDQ(0,0,0))
   )
 
 activity1 %>%
@@ -144,15 +141,18 @@ activity1 %>%
     )) 
 
 activity1 %>% select(ETS) %>% 
-  gg_tsresiduals() +
-  labs(title = "Residual Comparison: ETS vs ARIMA")
+  gg_tsresiduals()
+
+activity1 %>% select(ARIMA) %>% 
+  gg_tsresiduals()
+
+activity1 %>% select(ETS) %>% augment() %>% 
+  features(.resid, ~ljung_box(.x, lag = 20))
 ```
 
-</details>
-
--->
 
 **Prompt:** "Which model shows better residual properties for supply chain forecasting? Justify using ACF plots and Ljung-Box test statistics."
+
 
 ---
 
@@ -161,7 +161,6 @@ activity1 %>% select(ETS) %>%
 **Part A:** Implement Box-Cox transformation on the Holt-Winters model using $\lambda = 0.2$
 **Part B: (Optional)** Evaluate if transformation improves forecast interval coverage at 95% level  
 
-<!--
 
 <details>
 <summary><b>Solution</b></summary>
@@ -199,22 +198,21 @@ activity2_coverage <- activity2 %>%
   ) %>%
   group_by(.model) %>%
   summarise(coverage_rate = mean(covered, na.rm = TRUE) * 100, .groups = "drop")
+
+activity2_coverage
 ```
 
 </details>
 
--->
 
 **Prompt:** "Does variance stabilization help maintain prediction interval reliability during demand spikes? 
 
----
 
 ### **Activity 3: Ensemble Forecasting Strategy**
 
 **Part A:** Create equal-weighted average of ETS and ARIMA forecasts  
 **Part B:** Verify if ensemble reduces mean error  
 
-<!--
 
 <details>
 <summary><b>Solution</b></summary>
@@ -242,7 +240,5 @@ activity3 %>%
 
 </details>
 
--->
 
 **Prompt:** "When would an ensemble be particularly valuable for cement production planning? Consider both average and worst-case performance."
-

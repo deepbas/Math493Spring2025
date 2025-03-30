@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.5.56">
+<meta name="generator" content="quarto-99.9.9">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -64,17 +64,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-search/fuse.min.js"></script>
 <script src="site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="site_libs/quarto-html/popper.min.js"></script>
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-494121dfa8658343c03537e94414993d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-a0649ace7b9e9e15dfb5fe311d767a49.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-86b21ad6495d6ba00571807d4e9909c8.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-b167100507321148c0eef69d191afecb.min.css" rel="prefetch" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script src="site_libs/quarto-contrib/live-runtime/live-runtime.js" type="module"></script>
 <link href="site_libs/quarto-contrib/live-runtime/live-runtime.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -518,7 +519,6 @@ window.Quarto = {
   <li><a href="#model-diagnostics" id="toc-model-diagnostics" class="nav-link" data-scroll-target="#model-diagnostics">Model Diagnostics</a></li>
   <li><a href="#lab-activities" id="toc-lab-activities" class="nav-link" data-scroll-target="#lab-activities">Lab Activities</a>
   <ul class="collapse">
-  <li><a href="#activity-1-comparing-ets-and-arima-fundamentals" id="toc-activity-1-comparing-ets-and-arima-fundamentals" class="nav-link" data-scroll-target="#activity-1-comparing-ets-and-arima-fundamentals"><strong>Activity 1: Comparing ETS and ARIMA Fundamentals</strong></a></li>
   <li><a href="#activity-2-transformation-impact-analysis" id="toc-activity-2-transformation-impact-analysis" class="nav-link" data-scroll-target="#activity-2-transformation-impact-analysis"><strong>Activity 2: Transformation Impact Analysis</strong></a></li>
   <li><a href="#activity-3-ensemble-forecasting-strategy" id="toc-activity-3-ensemble-forecasting-strategy" class="nav-link" data-scroll-target="#activity-3-ensemble-forecasting-strategy"><strong>Activity 3: Ensemble Forecasting Strategy</strong></a></li>
   </ul></li>
@@ -594,12 +594,12 @@ window.Quarto = {
 # Key:     .model [1]
   .model Quarter       Cement .mean
   &lt;chr&gt;    &lt;qtr&gt;       &lt;dist&gt; &lt;dbl&gt;
-1 HWMM   2008 Q3 sample[5000] 2440.
-2 HWMM   2008 Q4 sample[5000] 2425.
-3 HWMM   2009 Q1 sample[5000] 2142.
-4 HWMM   2009 Q2 sample[5000] 2404.
+1 HWMM   2008 Q3 sample[5000] 2444.
+2 HWMM   2008 Q4 sample[5000] 2429.
+3 HWMM   2009 Q1 sample[5000] 2145.
+4 HWMM   2009 Q2 sample[5000] 2407.
 5 HWMM   2009 Q3 sample[5000] 2502.
-6 HWMM   2009 Q4 sample[5000] 2486.</code></pre>
+6 HWMM   2009 Q4 sample[5000] 2485.</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate accuracy metrics</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>accuracy_results <span class="ot">&lt;-</span> fc <span class="sc">%&gt;%</span></span>
@@ -621,9 +621,9 @@ window.Quarto = {
 <pre><code># A tibble: 5 × 9
   .model  RMSE   MAE  MAPE  MASE .type    MSE  CRPS   ACF
   &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-1 HWMM    151.  128.  5.48  1.32 Test  22663.  85.0 0.630
+1 HWMM    149.  127.  5.41  1.31 Test  22326.  84.1 0.630
 2 HW      156.  130.  5.49  1.34 Test  24244.  89.6 0.407
-3 HWM     158.  132.  5.56  1.36 Test  24856.  90.7 0.517
+3 HWM     157.  131.  5.52  1.35 Test  24747.  90.1 0.509
 4 Holt    197.  171.  7.41  1.76 Test  38713. 116.  0.145
 5 Simple  236.  201.  8.44  2.07 Test  55896. 141.  0.102</code></pre>
 </div>
@@ -665,194 +665,160 @@ window.Quarto = {
 </section>
 <section id="lab-activities" class="level2">
 <h2 class="anchored" data-anchor-id="lab-activities">Lab Activities</h2>
-<section id="activity-1-comparing-ets-and-arima-fundamentals" class="level3">
-<h3 class="anchored" data-anchor-id="activity-1-comparing-ets-and-arima-fundamentals"><strong>Activity 1: Comparing ETS and ARIMA Fundamentals</strong></h3>
-<p>Fit an ETS(A,N,M) and ARIMA(0,1,1) model, then compare their residuals</p>
+<p>Fit an ETS(A,A,M) and ARIMA(0,1,1) model, then compare their residuals</p>
 <p><strong>Part A:</strong> Fit both models and compare their accuracy using MASE and RMSE<br>
 <strong>Part B:</strong> Analyze residual diagnostics to determine which model handles autocorrelation better</p>
-<!--
-
 <details>
-<summary><b>Solution</b></summary>
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-activity1 <- train %>%
-  model(
-    ETS = ETS(Cement ~ error("A") + trend("N") + season("M")),
-    ARIMA = ARIMA(Cement ~ pdq(0,1,1))
-  )
-
-activity1 %>%
-  forecast(h = 8) %>%
-  accuracy(test, measures = list(
-    MAE = MAE,
-    MSE = MSE,
-    MAPE = MAPE,
-    CRPS = CRPS,
-    ACF = ACF1
-    )) 
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 2 × 7
-  .model .type   MAE    MSE  MAPE  CRPS    ACF
-  <chr>  <chr> <dbl>  <dbl> <dbl> <dbl>  <dbl>
-1 ARIMA  Test   97.8 16827.  4.11  72.8 -0.170
-2 ETS    Test  169.  36801.  7.19 115.  -0.178
-```
-
-
-:::
-
-```{.r .cell-code}
-activity1 %>% select(ETS) %>% 
-  gg_tsresiduals() +
-  labs(title = "Residual Comparison: ETS vs ARIMA")
-```
-
-::: {.cell-output-display}
-![](activity32_files/figure-html/unnamed-chunk-8-1.png){width=672}
-:::
-:::
-
-
-
-</details>
-
--->
+<summary>
+<b>Solution</b>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>activity1 <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ETS =</span> <span class="fu">ETS</span>(Cement <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"M"</span>)),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ARIMA =</span> <span class="fu">ARIMA</span>(Cement <span class="sc">~</span> <span class="fu">pdq</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">1</span>) <span class="sc">+</span> <span class="fu">PDQ</span>(<span class="dv">0</span>,<span class="dv">0</span>,<span class="dv">0</span>))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>activity1 <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(test, <span class="at">measures =</span> <span class="fu">list</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAE =</span> MAE,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">MSE =</span> MSE,</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAPE =</span> MAPE,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">CRPS =</span> CRPS,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">ACF =</span> ACF1</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>    )) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
+  .model .type   MAE    MSE  MAPE  CRPS     ACF
+  &lt;chr&gt;  &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+1 ARIMA  Test   164. 32673.  7.21 111.  -0.0973
+2 ETS    Test   104. 20272.  4.32  78.5 -0.186 </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>activity1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(ETS) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsresiduals</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="activity32_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>activity1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(ARIMA) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gg_tsresiduals</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="activity32_files/figure-html/unnamed-chunk-8-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>activity1 <span class="sc">%&gt;%</span> <span class="fu">select</span>(ETS) <span class="sc">%&gt;%</span> <span class="fu">augment</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(.resid, <span class="sc">~</span><span class="fu">ljung_box</span>(.x, <span class="at">lag =</span> <span class="dv">20</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 3
+  .model lb_stat  lb_pvalue
+  &lt;chr&gt;    &lt;dbl&gt;      &lt;dbl&gt;
+1 ETS       60.6 0.00000573</code></pre>
+</div>
+</div>
 <p><strong>Prompt:</strong> “Which model shows better residual properties for supply chain forecasting? Justify using ACF plots and Ljung-Box test statistics.”</p>
 <hr>
-</section>
 <section id="activity-2-transformation-impact-analysis" class="level3">
 <h3 class="anchored" data-anchor-id="activity-2-transformation-impact-analysis"><strong>Activity 2: Transformation Impact Analysis</strong></h3>
 <p><strong>Part A:</strong> Implement Box-Cox transformation on the Holt-Winters model using <span class="math inline">\(\lambda = 0.2\)</span> <strong>Part B: (Optional)</strong> Evaluate if transformation improves forecast interval coverage at 95% level</p>
-<!--
-
 <details>
-<summary><b>Solution</b></summary>
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-lambda <- 0.2 
-
-activity2 <- train %>%
-  model(
-    Original = ETS(Cement ~ error("A") + trend("A") + season("A")),
-    Transformed = ETS(box_cox(Cement, lambda) ~ error("A") + trend("A") + season("A"))
-  )
-
-activity2 %>%
-  forecast(h = 8) %>%
-  accuracy(test, measures = list(
-    MAE = MAE,
-    MSE = MSE,
-    MAPE = MAPE,
-    CRPS = CRPS,
-    ACF = ACF1)
-    ) 
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 2 × 7
+<summary>
+<b>Solution</b>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>lambda <span class="ot">&lt;-</span> <span class="fl">0.2</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>activity2 <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">Original =</span> <span class="fu">ETS</span>(Cement <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"A"</span>)),</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Transformed =</span> <span class="fu">ETS</span>(<span class="fu">box_cox</span>(Cement, lambda) <span class="sc">~</span> <span class="fu">error</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">trend</span>(<span class="st">"A"</span>) <span class="sc">+</span> <span class="fu">season</span>(<span class="st">"A"</span>))</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>activity2 <span class="sc">%&gt;%</span></span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(test, <span class="at">measures =</span> <span class="fu">list</span>(</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAE =</span> MAE,</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">MSE =</span> MSE,</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAPE =</span> MAPE,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">CRPS =</span> CRPS,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">ACF =</span> ACF1)</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 7
   .model      .type   MAE    MSE  MAPE  CRPS    ACF
-  <chr>       <chr> <dbl>  <dbl> <dbl> <dbl>  <dbl>
+  &lt;chr&gt;       &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;
 1 Original    Test  107.  18374.  4.54  76.4 -0.193
-2 Transformed Test   88.3 15442.  3.69  73.3 -0.151
-```
-
-
-:::
-
-```{.r .cell-code}
-# Prediction interval coverage
-activity2_coverage <- activity2 %>%
-  forecast(h = 8, level = 95) %>%
-  hilo(level = 95) %>%
-  unpack_hilo(`95%`) %>%
-  as_tibble() %>%
-  left_join(test %>% rename(Cement_test = Cement), by = "Quarter") %>%
-  mutate(
-    # Compare test values to forecast interval
-    covered = Cement_test >= `95%_lower` & Cement_test <= `95%_upper`
-  ) %>%
-  group_by(.model) %>%
-  summarise(coverage_rate = mean(covered, na.rm = TRUE) * 100, .groups = "drop")
-```
-:::
-
-
-
+2 Transformed Test   88.3 15442.  3.69  73.3 -0.151</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prediction interval coverage</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>activity2_coverage <span class="ot">&lt;-</span> activity2 <span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">8</span>, <span class="at">level =</span> <span class="dv">95</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hilo</span>(<span class="at">level =</span> <span class="dv">95</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">unpack_hilo</span>(<span class="st">`</span><span class="at">95%</span><span class="st">`</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(test <span class="sc">%&gt;%</span> <span class="fu">rename</span>(<span class="at">Cement_test =</span> Cement), <span class="at">by =</span> <span class="st">"Quarter"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compare test values to forecast interval</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">covered =</span> Cement_test <span class="sc">&gt;=</span> <span class="st">`</span><span class="at">95%_lower</span><span class="st">`</span> <span class="sc">&amp;</span> Cement_test <span class="sc">&lt;=</span> <span class="st">`</span><span class="at">95%_upper</span><span class="st">`</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(.model) <span class="sc">%&gt;%</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">coverage_rate =</span> <span class="fu">mean</span>(covered, <span class="at">na.rm =</span> <span class="cn">TRUE</span>) <span class="sc">*</span> <span class="dv">100</span>, <span class="at">.groups =</span> <span class="st">"drop"</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>activity2_coverage</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 2 × 2
+  .model      coverage_rate
+  &lt;chr&gt;               &lt;dbl&gt;
+1 Original             87.5
+2 Transformed          87.5</code></pre>
+</div>
+</div>
 </details>
-
--->
 <p><strong>Prompt:</strong> “Does variance stabilization help maintain prediction interval reliability during demand spikes?</p>
-<hr>
 </section>
 <section id="activity-3-ensemble-forecasting-strategy" class="level3">
 <h3 class="anchored" data-anchor-id="activity-3-ensemble-forecasting-strategy"><strong>Activity 3: Ensemble Forecasting Strategy</strong></h3>
 <p><strong>Part A:</strong> Create equal-weighted average of ETS and ARIMA forecasts<br>
 <strong>Part B:</strong> Verify if ensemble reduces mean error</p>
-<!--
-
 <details>
-<summary><b>Solution</b></summary>
-
-
-
-::: {.cell}
-
-```{.r .cell-code}
-activity3 <- train %>%
-  model(
-    ETS = ETS(Cement),
-    ARIMA = ARIMA(Cement)
-  ) %>%
-  mutate(Ensemble = (ETS + ARIMA)/2)
-
-activity3 %>%
-  forecast(h = 8) %>%
-  accuracy(test, measures = list(
-    MAE = MAE,
-    MSE = MSE,
-    MAPE = MAPE,
-    CRPS = CRPS,
-    ACF = ACF1,
-    ME = ME
-    )
-  )
-```
-
-::: {.cell-output .cell-output-stdout}
-
-```
-# A tibble: 3 × 8
+<summary>
+<b>Solution</b>
+</summary>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>activity3 <span class="ot">&lt;-</span> train <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">ETS =</span> <span class="fu">ETS</span>(Cement),</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">ARIMA =</span> <span class="fu">ARIMA</span>(Cement)</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Ensemble =</span> (ETS <span class="sc">+</span> ARIMA)<span class="sc">/</span><span class="dv">2</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>activity3 <span class="sc">%&gt;%</span></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">forecast</span>(<span class="at">h =</span> <span class="dv">8</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">accuracy</span>(test, <span class="at">measures =</span> <span class="fu">list</span>(</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAE =</span> MAE,</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">MSE =</span> MSE,</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">MAPE =</span> MAPE,</span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">CRPS =</span> CRPS,</span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">ACF =</span> ACF1,</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">ME =</span> ME</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 3 × 8
   .model   .type   MAE    MSE  MAPE  CRPS    ACF    ME
-  <chr>    <chr> <dbl>  <dbl> <dbl> <dbl>  <dbl> <dbl>
+  &lt;chr&gt;    &lt;chr&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;
 1 ARIMA    Test   216. 60536.  9.15 167.  -0.139  213.
 2 ETS      Test   127. 23575.  5.35  88.0 -0.159  127.
-3 Ensemble Test   170. 38834.  7.18 117.  -0.210  170.
-```
-
-
-:::
-:::
-
-
-
+3 Ensemble Test   170. 38834.  7.18 117.  -0.210  170.</code></pre>
+</div>
+</div>
 </details>
-
--->
 <p><strong>Prompt:</strong> “When would an ensemble be particularly valuable for cement production planning? Consider both average and worst-case performance.”</p>
 
 
@@ -871,7 +837,7 @@ eyJjb250ZW50cyI6W119
 W10=
 </script>
 </section>
-</section>
+</details></section>
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
@@ -1111,8 +1077,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   });
   clipboard.on('success', onCopySuccess);
   if (window.document.getElementById('quarto-embedded-source-code-modal')) {
-    // For code content inside modals, clipBoardJS needs to be initialized with a container option
-    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
     const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
       text: getTextToCopy,
       container: window.document.getElementById('quarto-embedded-source-code-modal')
@@ -1223,7 +1187,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       if (window.Quarto?.typesetMath) {
         window.Quarto.typesetMath(note);
       }
-      // TODO in 1.5, we should make sure this works without a callout special case
       if (note.classList.contains("callout")) {
         return note.outerHTML;
       } else {

@@ -191,10 +191,6 @@ ses_model <- us_economy %>%
 report(ses_model)
 ```
 
-If $\alpha=0.25$, for example, the model places 25% weight on the newest observation and 75% on the previous level estimate.
-</details>
-
-
 
 ### **Activity 2**: ARIMA with Automatic Selection  
 
@@ -248,7 +244,6 @@ damped_model <- us_economy %>%
 report(damped_model)
 ```
 
-A $\phi$ near 1 implies only mild damping, so the trend remains strong over time. A $\phi$ near 0.8 or 0.9 indicates the trend will gradually flatten.
 </details>
 
 
