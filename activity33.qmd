@@ -1,0 +1,271 @@
+---
+title: "Activity33"
+format: 
+  live-html:
+    theme:
+      light: [lux, theme-light.scss]
+      dark: [superhero, theme-dark.scss] 
+engine: knitr
+toc: true
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+```{r}
+#| echo: false
+# Time Series Essentials, install if needed!
+library(feasts)       # Feature extraction & decomposition
+library(fable)        # Forecasting models (ARIMA, ETS, etc.)
+library(fpp3)         # Tidy time series dataseta
+library(astsa)        # Applied statistical TS methods from textbook
+library(tseries)      # Unit root tests & TS diagnostics
+library(tsibbledata)  # Curated TS datasets
+library(quantmod)     # Financial data retrieval
+library(tidyquant)    # Financial analysis in tidyverse
+library(purrr)        # Functional programming for TS pipelines
+library(readr)        # Efficient data import
+```
+
+
+## Ensemble Forecasting
+
+Ensemble forecasting combines predictions from multiple models to average out individual biases and reduce variance. This approach is particularly useful when data may exhibit regime uncertainty or when different models capture complementary features of the series.
+
+**Key Equation:**  
+
+$$
+\begin{align}
+\hat{y}_t^{Ensemble} &= \frac{1}{m}\sum_{i=1}^m \hat{y}_t^{(i)}
+\end{align}
+$$  
+
+where $m$ is the number of models.
+
+---
+
+## Australian Cement Production Example
+
+We use the **aus_production** dataset focusing on Australian cement production. The code below loads the data, builds two models (ETS and ARIMA), and forms a simple average ensemble.
+
+```{webr}
+# Load Australian cement production data
+cement <- aus_production %>%
+  select(Quarter, Cement) %>%
+  as_tsibble(index = Quarter)
+
+# Build individual models and form an ensemble
+cement_ensemble <- cement %>% 
+  model(
+    ETS = ETS(Cement),
+    ARIMA = ARIMA(Cement)
+  ) %>%
+  mutate(Ensemble = (ETS + ARIMA) / 2)
+
+# Forecast for the next 4 years (16 quarters)
+fc_cement <- cement_ensemble %>% forecast(h = "4 years")
+fc_cement
+```
+
+---
+
+## Exploring Ensemble Forecasts with Simulations
+
+The **generate()** function is useful for simulating multiple future scenarios (Monte Carlo simulations). This can help explore forecast uncertainty and the range of possible outcomes.
+
+```{webr}
+# Generate 100 simulated future paths over the next 4 years
+simulations <- cement_ensemble %>% 
+  generate(h = "4 years", times = 100)
+
+sim_df <- as_tibble(simulations)
+
+forecast_plot <- ggplot() +
+  # 1. Future simulations colored by model
+  geom_line(
+    data = sim_df,
+    aes(x = Quarter, y = .sim, group = .rep, color = .model),
+    alpha = 0.6, linewidth = 0.5
+  ) +
+  scale_color_manual(
+    values = c("ETS" = "black",  # Orange
+               "ARIMA" = "red", # Blue
+               "Ensemble" = "green"), # Green
+    name = "Model Type"
+  ) +
+  
+  # 2. Historical Data (Thick Black Line)
+  geom_line(
+    data = cement,
+    aes(x = Quarter, y = Cement),
+    color = "black", linewidth = 1.2
+  ) +
+  
+  # 3. Median Forecast (Dashed Red)
+  geom_line(
+    data = sim_df %>% 
+      group_by(Quarter) %>% 
+      summarise(Median = median(.sim)),
+    aes(x = Quarter, y = Median),
+    color = "blue", linetype = "dashed", linewidth = 1.2
+  ) +
+  
+  # 4. Legend positioning and theme
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position = "top",
+    legend.justification = "center",
+    legend.box.spacing = unit(0.2, "cm")
+  )
+
+forecast_plot
+
+forecast_start <- min(sim_df$Quarter)  # First forecast quarter
+
+
+# Final plot with zoom
+forecast_plot +
+  coord_cartesian(xlim = c(forecast_start - 16, forecast_start + 16)) +
+  labs(
+    title = "Cement Production Forecasts by Model Type",
+    subtitle = "Black: Historical Data | Red Dashed: Overall Median Forecast",
+    y = "Production (Million Tonnes)", x = "Quarter"
+  )
+
+```
+
+*Further Exploration Prompts:*  
+
+- Experiment with different ensemble weights (e.g., weighted average instead of simple average).  
+- Compare forecast accuracy using measures like MAE or CRPS by splitting your data into training and test sets.  
+- Use residual analysis (e.g., with `gg_tsresiduals()`) to check for model adequacy.
+
+---
+
+## Lab Activity: Sydney Tourism Ensemble Models
+
+This guided activity explores forecasting for Sydney tourism using the **tourism** dataset. Follow these steps and review the prompts to deepen your understanding:
+
+1. **Data Preparation & Model Building:**  
+
+   Filter the tourism data for Sydney (holiday purpose) and build three models: two ETS variants and an ARIMA model.
+
+```{webr}
+sydney <-  tourism %>%  
+ filter(Region == "Sydney", Purpose == "Holiday")
+
+sydney_models <- sydney %>%  
+ model(  
+   ETS_ANA = ETS(Trips ~ error("A") + trend("N") + season("A")),  
+   ETS_AAA = ETS(Trips ~ error("A") + trend("A") + season("A")),  
+   ARIMA = ARIMA(Trips)
+ )
+```
+
+2. **Model Comparison:**  
+
+   Compare the information criteria (e.g., AICc, BIC) and residual variance to decide on the best model.
+
+<!--
+
+```{webr}
+model_stats <- glance(sydney_models) %>%  
+ select(.model, AICc, BIC, sigma2)
+model_stats
+```
+
+-->
+
+3. **Simulating Future Scenarios:**  
+
+   Use the **generate()** function to simulate 100 future paths over 12 months. Examine the range of forecasts.
+
+<!--
+
+```{webr}
+simulations <- sydney_models %>% 
+  generate(h = "4 years", times = 100)
+
+sim_df <- as_tibble(simulations)
+
+forecast_plot <- ggplot() +
+  # Future simulations (100 unique colors)
+  geom_line(
+    data = sim_df,
+    aes(x = Quarter, y = .sim, group = .rep, color = .rep),
+    alpha = 0.6, linewidth = 0.5
+  ) +
+  scale_color_viridis_d(
+    option = "plasma",  # Color palette
+    guide = "none"      # Hide legend for 100 colors
+  ) +
+  
+  # 2. Historical Data (Thick Black Line)
+  geom_line(
+    data = sydney,
+    aes(x = Quarter, y = Trips),
+    color = "black", linewidth = 1.2
+  ) +
+  
+  # 3. Median Forecast (Dashed Red)
+  geom_line(
+    data = sim_df %>% 
+      group_by(Quarter) %>% 
+      summarise(Median = median(.sim)),
+    aes(x = Quarter, y = Median),
+    color = "red", linetype = "dashed", linewidth = 1.2
+  )
+
+# 4. Smart Zoom Window
+forecast_start <- min(sim_df$Quarter)  # First forecast quarter
+
+
+# 5. Final Plot with Zoom
+forecast_plot +
+ coord_cartesian(xlim = c(forecast_start - 16, forecast_start + 16)) +
+  labs(
+    title = "Overnight Trips: Historical Context & 100 Forecast Paths",
+    subtitle = "Black: Historical Data | Red Dashed: Median Forecast",
+    y = "Trips (Thousands)", x = "Quarter"
+  ) +
+  theme_minimal(base_size = 13)
+```
+
+-->
+
+*Further Exploration:*  
+
+- **Prompt 1:** How do the different model specifications (ETS_ANA vs. ETS_AAA) impact the forecast uncertainty?  
+
+<!--
+
+The **ETS_AAA** model (additive trend) will likely show wider forecast intervals than **ETS_ANA** (no trend) because trend uncertainty compounds over time. The ensemble averages these uncertainties, resulting in intermediate variance. Code output (via `sigma2`) confirms which model has higher residual variance, directly affecting prediction intervals.
+
+-->
+
+- **Prompt 2:** Try adjusting the forecast horizon or the number of simulation paths; what changes do you observe in the distribution of outcomes?  
+
+<!--
+
+Increasing the horizon (e.g., `h = 24` months) amplifies divergence in simulated paths due to accumulating errors. More paths (e.g., `times = 500`) better approximate the forecast distribution but don’t fundamentally alter its spread. Try modifying these parameters in the code to observe changes.
+
+-->
+
+- **Prompt 3:** Experiment with combining models using different weights and compare the ensemble’s performance with that of individual models.  
+
+<!--
+
+If, for example, the **ARIMA** model has the lowest AICc (check `model_stats` output), assigning it a higher weight (e.g., $0.7 \cdot \text{ARIMA} + 0.15 \cdot \text{ETS\_AAA} + 0.15 \cdot \text{ETS\_ANA}$) may outperform the simple average. Validate using CRPS on a test set.
+
+-->
+
+- **Prompt 4:** Perform a residual analysis on each model to detect potential structural breaks or model inadequacies.
+
+<!--
+
+Use `gg_tsresiduals(sydney_models)` to check for:  
+- Autocorrelation (significant spikes in ACF → poor fit)  
+- Non-normality (histogram skew → invalid prediction intervals)  
+- Heteroscedasticity (changing variance → consider transformations) 
+
+-->
+
