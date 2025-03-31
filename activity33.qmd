@@ -57,7 +57,7 @@ cement <- aus_production %>%
 cement_ensemble <- cement %>% 
   model(
     ETS = ETS(Cement),
-    fable::ARIMA = ARIMA(Cement)
+    ARIMA = fable::ARIMA(Cement)
   ) %>%
   mutate(Ensemble = (ETS + ARIMA) / 2)
 
