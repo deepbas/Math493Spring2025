@@ -50,14 +50,14 @@ We use the **aus_production** dataset focusing on Australian cement production. 
 ```{webr}
 # Load Australian cement production data
 cement <- aus_production %>%
-  select(Quarter, Cement) %>%
+  dplyr::select(Quarter, Cement) %>%
   as_tsibble(index = Quarter)
 
 # Build individual models and form an ensemble
 cement_ensemble <- cement %>% 
   model(
     ETS = ETS(Cement),
-    ARIMA = ARIMA(Cement)
+    fable::ARIMA = ARIMA(Cement)
   ) %>%
   mutate(Ensemble = (ETS + ARIMA) / 2)
 
@@ -151,13 +151,13 @@ This guided activity explores forecasting for Sydney tourism using the **tourism
 
 ```{webr}
 sydney <-  tourism %>%  
- filter(Region == "Sydney", Purpose == "Holiday")
+ dplyr::filter(Region == "Sydney", Purpose == "Holiday")
 
 sydney_models <- sydney %>%  
  model(  
    ETS_ANA = ETS(Trips ~ error("A") + trend("N") + season("A")),  
    ETS_AAA = ETS(Trips ~ error("A") + trend("A") + season("A")),  
-   ARIMA = ARIMA(Trips)
+   ARIMA = fable::ARIMA(Trips)
  )
 ```
 
