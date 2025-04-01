@@ -165,7 +165,7 @@ sydney_models <- sydney %>%
 
    Compare the information criteria (e.g., AICc, BIC) and residual variance to decide on the best model.
 
-<!--
+
 
 ```{webr}
 model_stats <- glance(sydney_models) %>%  
@@ -173,13 +173,13 @@ model_stats <- glance(sydney_models) %>%
 model_stats
 ```
 
--->
+
 
 3. **Simulating Future Scenarios:**  
 
    Use the **generate()** function to simulate 100 future paths over 12 months. Examine the range of forecasts.
 
-<!--
+
 
 ```{webr}
 simulations <- sydney_models %>% 
@@ -230,7 +230,7 @@ forecast_plot +
   theme_minimal(base_size = 13)
 ```
 
--->
+
 
 *Further Exploration:*  
 
