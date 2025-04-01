@@ -27,7 +27,7 @@ library(readr)        # Efficient data import
 ```
 
 
-```{r}
+```{webr}
 # Prepare data with proper time index
 cement <- aus_production %>%
   select(Quarter, Cement) %>%
@@ -46,7 +46,7 @@ Let's compare some ETS specifications including:
 2. Holt's linear trend method
 3. Holt-Winters seasonal method
 
-```{r}
+```{webr}
 ets_models <- train %>%
   model(
     Simple = ETS(Cement ~ error("A") + trend("N") + season("N")),
@@ -66,7 +66,7 @@ We'll evaluate using multiple metrics:
 - **MAPE**: Mean Absolute Percentage Error (scale-independent)
 - **MASE**: Mean Absolute Scaled Error (relative to naive forecast)
 
-```{r}
+```{webr}
 # Generate forecasts
 fc <- ets_models %>% forecast(h = "5 years")
 fc %>% tail()
@@ -91,7 +91,7 @@ accuracy_results %>% inner_join(accuracy_table)
 
 ## Visual Verification
 
-```{r}
+```{webr}
 autoplot(fc, level = NULL) +
   autolayer(cement, color = "black", alpha = 0.3) +
   labs(title = "ETS Model Forecast Comparison",
@@ -104,7 +104,7 @@ autoplot(fc, level = NULL) +
 
 We should also check residuals:
 
-```{r}
+```{webr}
 ets_models %>% 
   select(HWMM) %>% 
   gg_tsresiduals() +
@@ -123,7 +123,7 @@ Fit an ETS(A,A,M) and ARIMA(0,1,1) model, then compare their residuals
 <details>
 <summary><b>Solution</b></summary>
 
-```{r}
+```{webr}
 activity1 <- train %>%
   model(
     ETS = ETS(Cement ~ error("A") + trend("A") + season("M")),
@@ -150,6 +150,7 @@ activity1 %>% select(ETS) %>% augment() %>%
   features(.resid, ~ljung_box(.x, lag = 20))
 ```
 
+</details>
 
 **Prompt:** "Which model shows better residual properties for supply chain forecasting? Justify using ACF plots and Ljung-Box test statistics."
 
@@ -165,7 +166,7 @@ activity1 %>% select(ETS) %>% augment() %>%
 <details>
 <summary><b>Solution</b></summary>
 
-```{r}
+```{webr}
 lambda <- 0.2 
 
 activity2 <- train %>%
@@ -217,7 +218,7 @@ activity2_coverage
 <details>
 <summary><b>Solution</b></summary>
 
-```{r}
+```{webr}
 activity3 <- train %>%
   model(
     ETS = ETS(Cement),
