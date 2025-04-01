@@ -245,7 +245,7 @@ sim_uncertainty
 ```
 
 
-The **ETS_AAA** model (additive trend) will show wider forecast intervals than **ETS_ANA** (no trend) because trend uncertainty compounds over time. The ensemble averages these uncertainties, resulting in low variance. 
+The **ETS_AAA** model (additive trend) shows wider forecast intervals than **ETS_ANA** (no trend) because trend uncertainty compounds over time. The ensemble averages these uncertainties, resulting in low variance. 
 
 
 - **Prompt 2:** Try adjusting the forecast horizon or the number of simulation paths; what changes do you observe in the distribution of outcomes?  
@@ -341,7 +341,7 @@ accuracy_table <- fc %>%
 )
 
 # combined metrics
-accuracy_table %>% left_join(fc %>% accuracy(sydney))
+accuracy_table %>% left_join(fc %>% accuracy(sydney)) %>% knitr::kable()
 ```
 
 
