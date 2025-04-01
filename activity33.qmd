@@ -169,7 +169,7 @@ sydney_models <- sydney %>%
 
 ```{webr}
 model_stats <- glance(sydney_models) %>%  
- select(.model, AICc, BIC, sigma2)
+ dplyr::select(.model, AICc, BIC, sigma2)
 model_stats
 ```
 
@@ -348,11 +348,11 @@ accuracy_table %>% left_join(fc %>% accuracy(sydney))
 - **Prompt 4:** Perform a residual analysis on each model to detect potential structural breaks or model inadequacies.
 
 ```{webr}
-gg_tsresiduals(sydney_models %>% select(ETS_ANA))
-gg_tsresiduals(sydney_models %>% select(ETS_AAA))
-gg_tsresiduals(sydney_models %>% select(ARIMA))
-gg_tsresiduals(sydney_models %>% select(ETS_WAVE))
-gg_tsresiduals(sydney_models %>% select(ETS_Ensemble))
+gg_tsresiduals(sydney_models %>% dplyr::select(ETS_ANA))
+gg_tsresiduals(sydney_models %>% dplyr::select(ETS_AAA))
+gg_tsresiduals(sydney_models %>% dplyr::select(ARIMA))
+gg_tsresiduals(sydney_models %>% dplyr::select(ETS_WAVE))
+gg_tsresiduals(sydney_models %>% dplyr::select(ETS_Ensemble))
 ```
 
 ## Need to check for:
