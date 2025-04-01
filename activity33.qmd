@@ -174,11 +174,9 @@ model_stats
 ```
 
 
-
 3. **Simulating Future Scenarios:**  
 
    Use the **generate()** function to simulate 100 future paths over 12 months. Examine the range of forecasts.
-
 
 
 ```{webr}
@@ -230,42 +228,136 @@ forecast_plot +
   theme_minimal(base_size = 13)
 ```
 
-
-
 *Further Exploration:*  
 
 - **Prompt 1:** How do the different model specifications (ETS_ANA vs. ETS_AAA) impact the forecast uncertainty?  
 
-<!--
+```{webr}
+sim_uncertainty <- simulations %>% as_tibble() %>% 
+  group_by(.model) %>%
+  summarise(
+    sd = sd(.sim),
+    lower_95 = quantile(.sim, 0.025),
+    upper_95 = quantile(.sim, 0.975),
+    width = abs(upper_95 - lower_95)
+  )
+sim_uncertainty
+```
 
-The **ETS_AAA** model (additive trend) will likely show wider forecast intervals than **ETS_ANA** (no trend) because trend uncertainty compounds over time. The ensemble averages these uncertainties, resulting in intermediate variance. Code output (via `sigma2`) confirms which model has higher residual variance, directly affecting prediction intervals.
 
--->
+The **ETS_AAA** model (additive trend) will show wider forecast intervals than **ETS_ANA** (no trend) because trend uncertainty compounds over time. The ensemble averages these uncertainties, resulting in low variance. 
+
 
 - **Prompt 2:** Try adjusting the forecast horizon or the number of simulation paths; what changes do you observe in the distribution of outcomes?  
 
-<!--
 
-Increasing the horizon (e.g., `h = 24` months) amplifies divergence in simulated paths due to accumulating errors. More paths (e.g., `times = 500`) better approximate the forecast distribution but don’t fundamentally alter its spread. Try modifying these parameters in the code to observe changes.
+```{webr}
+# simulate future scenarios
+simulations <- sydney_models %>% 
+  generate(h = "16 years", times = 500) # (future horizon, # Monte-Carlo Simulations)
 
--->
+sim_df <- as_tibble(simulations)
+
+forecast_plot <- ggplot() +
+  # 1. Future simulations colored by model
+  geom_line(
+    data = sim_df,
+    aes(x = Quarter, y = .sim, group = .rep, color = .model),
+    alpha = 0.6, linewidth = 0.5
+  ) +
+  scale_color_manual(
+    values = c("ETS_ANA" = "black",  # Orange
+               "ARIMA" = "red", # Blue
+               "ETS_AAA" = "green"), # Green
+    name = "Model Type"
+  ) +
+  
+  # 2. Historical Data (Thick Black Line)
+  geom_line(
+    data = sydney,
+    aes(x = Quarter, y = Trips),
+    color = "black", linewidth = 1.2
+  ) +
+  
+  # 3. Median Forecast (Dashed Red)
+  geom_line(
+    data = sim_df %>% 
+      group_by(Quarter) %>% 
+      summarise(Median = median(.sim)),
+    aes(x = Quarter, y = Median),
+    color = "blue", linetype = "dashed", linewidth = 1.2
+  ) +
+  
+  # 4. Legend positioning and theme
+  theme_minimal(base_size = 13) +
+  theme(
+    legend.position = "top",
+    legend.justification = "center",
+    legend.box.spacing = unit(0.2, "cm")
+  )
+
+forecast_plot
+
+forecast_start <- min(sim_df$Quarter)  # First forecast quarter
+
+
+# Final plot with zoom
+forecast_plot +
+  coord_cartesian(xlim = c(forecast_start - 16, forecast_start + 4*16)) +
+  labs(
+    title = "Number of Trips Forecasts by Model Type",
+    subtitle = "Black: Historical Data | Red Dashed: Overall Median Forecast",
+    y = "Trips (in Thousands)", x = "Quarter"
+  )
+```
+
+
+
+Increasing the horizon amplifies divergence in simulated paths due to accumulating errors. More paths (e.g., `times = 500`) better approximate the forecast distribution but don’t fundamentally alter its spread. 
+
 
 - **Prompt 3:** Experiment with combining models using different weights and compare the ensemble’s performance with that of individual models.  
 
-<!--
+```{webr}
+train <- sydney %>% filter(year(Quarter) < 2012)
+test <- sydney %>% filter(year(Quarter) >= 2012)
 
-If, for example, the **ARIMA** model has the lowest AICc (check `model_stats` output), assigning it a higher weight (e.g., $0.7 \cdot \text{ARIMA} + 0.15 \cdot \text{ETS\_AAA} + 0.15 \cdot \text{ETS\_ANA}$) may outperform the simple average. Validate using CRPS on a test set.
+sydney_models <- train %>%  
+ model(  
+   ETS_ANA = ETS(Trips ~ error("A") + trend("N") + season("A")),  
+   ETS_AAA = ETS(Trips ~ error("A") + trend("A") + season("A")),  
+   ARIMA = fable::ARIMA(Trips)
+ ) %>% 
+  mutate(ETS_WAVE = 0.6*ARIMA + 0.35*ETS_ANA + 0.05*ETS_AAA,
+         ETS_Ensemble = (ARIMA + ETS_ANA + ETS_AAA)/3)
 
--->
+fc <- sydney_models %>% forecast(h = "2 years") 
+
+accuracy_table <- fc %>% 
+  accuracy(test, measures = list(
+    CRPS = CRPS,
+    MAE = MAE
+    )
+)
+
+# combined metrics
+accuracy_table %>% left_join(fc %>% accuracy(sydney))
+```
+
 
 - **Prompt 4:** Perform a residual analysis on each model to detect potential structural breaks or model inadequacies.
 
-<!--
+```{webr}
+gg_tsresiduals(sydney_models %>% select(ETS_ANA))
+gg_tsresiduals(sydney_models %>% select(ETS_AAA))
+gg_tsresiduals(sydney_models %>% select(ARIMA))
+gg_tsresiduals(sydney_models %>% select(ETS_WAVE))
+gg_tsresiduals(sydney_models %>% select(ETS_Ensemble))
+```
 
-Use `gg_tsresiduals(sydney_models)` to check for:  
+## Need to check for:
+
 - Autocorrelation (significant spikes in ACF → poor fit)  
 - Non-normality (histogram skew → invalid prediction intervals)  
 - Heteroscedasticity (changing variance → consider transformations) 
-
--->
 
