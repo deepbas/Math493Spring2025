@@ -30,7 +30,7 @@ library(readr)        # Efficient data import
 ```{webr}
 # Prepare data with proper time index
 cement <- aus_production %>%
-  select(Quarter, Cement) %>%
+  dplyr::select(Quarter, Cement) %>%
   as_tsibble(index = Quarter)
 
 # Split into train/test sets
@@ -74,7 +74,7 @@ fc %>% tail()
 # Calculate accuracy metrics
 accuracy_results <- fc %>%
   accuracy(cement) %>%
-  select(.model, RMSE, MAE, MAPE, MASE) %>%
+  dplyr::select(.model, RMSE, MAE, MAPE, MASE) %>%
   arrange(MASE)
 
 accuracy_table <- fc %>%
@@ -106,7 +106,7 @@ We should also check residuals:
 
 ```{webr}
 ets_models %>% 
-  select(HWMM) %>% 
+  dplyr::select(HWMM) %>% 
   gg_tsresiduals() +
   labs(title = "Holt-Winters Residual Diagnostics")
 ```
@@ -140,13 +140,13 @@ activity1 %>%
     ACF = ACF1
     )) 
 
-activity1 %>% select(ETS) %>% 
+activity1 %>% dplyr::select(ETS) %>% 
   gg_tsresiduals()
 
-activity1 %>% select(ARIMA) %>% 
+activity1 %>% dplyr::select(ARIMA) %>% 
   gg_tsresiduals()
 
-activity1 %>% select(ETS) %>% augment() %>% 
+activity1 %>% dplyr::select(ETS) %>% augment() %>% 
   features(.resid, ~ljung_box(.x, lag = 20))
 ```
 
