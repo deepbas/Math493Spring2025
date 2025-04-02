@@ -7,21 +7,6 @@ format:
       dark: [superhero, theme-dark.scss] 
 engine: knitr
 toc: true
-webr:
-  packages:
-    - dplyr
-    - ggplot2
-    - fpp3
-    - patchwork
-    - tsibbledata
-    - urca
-    - astsa
-    - gridExtra
-    - vars
-    - FinTS
-    - tidyr
-    - tseries
-    - tsDyn
 ---
 
 {{< include _extensions/r-wasm/live/_knitr.qmd >}}
@@ -35,8 +20,6 @@ library(fpp3)         # Tidy time series dataseta
 library(astsa)        # Applied statistical TS methods from textbook
 library(tseries)      # Unit root tests & TS diagnostics
 library(tsibbledata)  # Curated TS datasets
-library(quantmod)     # Financial data retrieval
-library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 library(vars)
@@ -55,7 +38,7 @@ select <- dplyr::select
 - Ensure alignment in timestamps (`drop_na()`)
 
 
-```{webr}
+```{r}
 energy_series <- vic_elec %>%
   filter_index(~ "2014-12-31") %>%
   dplyr::select(Time, Demand, Temperature) %>%
@@ -65,7 +48,7 @@ energy_series <- vic_elec %>%
 
 **Step 1 - Baseline ETS Model**  
 
-```{webr}
+```{r}
 # 1. ETS for Demand (non-seasonal)
 demand_ets <- energy_series %>% model(ETS(Demand))
 demand_ets_fc <- demand_ets %>% 
@@ -85,7 +68,7 @@ The first model uses ETS (Error-Trend-Seasonal) for demand alone. This is limite
 
 **Step 2 - ARIMAX with Temperature**  
 
-```{webr}
+```{r}
 # 2. ARIMAX with temperature forecasts
 # First forecast temperature
 temp_ets <- energy_series %>% model(ETS(Temperature))
@@ -144,7 +127,7 @@ $$\text{VarForecast}_t = \text{LastObs} + \sum \text{DifferencedForecasts}_t$$
 - ARIMAX: Better with good temp forecasts  
 - VAR: Best for short-term co-movements, no external forecast needed
 
-```{webr}
+```{r}
 # 3. VAR with tsDyn implementation
 var_data <- energy_series %>% as_tibble() %>% 
   select(Demand, Temperature) %>%
@@ -171,7 +154,7 @@ combined_fc <- bind_rows(
 ```
 
 
-```{webr}
+```{r}
 # Plot with accurate comparisons
 ggplot() +
   geom_line(data = energy_series %>% tail(2016),  # Last 2 weeks
