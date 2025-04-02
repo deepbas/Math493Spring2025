@@ -27,3 +27,4 @@ library(quantmod)     # Financial data retrieval
 library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
+library(tsDyn)

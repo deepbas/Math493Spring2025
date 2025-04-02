@@ -7,6 +7,21 @@ format:
       dark: [superhero, theme-dark.scss] 
 engine: knitr
 toc: true
+webr:
+  packages:
+    - dplyr
+    - ggplot2
+    - fpp3
+    - patchwork
+    - tsibbledata
+    - urca
+    - astsa
+    - gridExtra
+    - vars
+    - FinTS
+    - tidyr
+    - tseries
+    - tsDyn
 ---
 
 {{< include _extensions/r-wasm/live/_knitr.qmd >}}
@@ -25,8 +40,9 @@ library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 library(vars)
-library(tsDyn)
 library(tseries)
+library(tsDyn)
+
 select <- dplyr::select
 ```
 
@@ -135,7 +151,7 @@ var_data <- energy_series %>% as_tibble() %>%
   mutate(across(everything(), difference)) %>% 
   tidyr::drop_na()
 
-var_model <- lineVar(var_data, lag = 48)
+var_model <- tsDyn::lineVar(var_data, lag = 48)
 var_fc <- predict(var_model, n.ahead = 336)
 
 # Align VAR forecasts with original scale
