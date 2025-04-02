@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Activity31 – Math 493: Advanced Topics in Statistics</title>
+<title>Activity34 – Math 493: Advanced Topics in Statistics</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -115,7 +115,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./activity29.html">Week 8</a></li><li class="breadcrumb-item"><a href="./activity31.html">Activity 31</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./activity33.html">Week 9</a></li><li class="breadcrumb-item"><a href="./activity34.html">Activity 34</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -402,13 +402,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true">
+            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false">
  <span class="menu-text">Week 8</span></a>
-          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="true" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-8" role="navigation" aria-expanded="false" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 show">  
+      <ul id="quarto-sidebar-section-8" class="collapse list-unstyled sidebar-section depth1 ">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./activity29.html" class="sidebar-item-text sidebar-link">
@@ -423,7 +423,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./activity31.html" class="sidebar-item-text sidebar-link active">
+  <a href="./activity31.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Activity 31</span></a>
   </div>
 </li>
@@ -437,13 +437,13 @@ window.Quarto = {
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true">
  <span class="menu-text">Week 9</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-9" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-9" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./activity33.html" class="sidebar-item-text sidebar-link">
@@ -452,7 +452,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="./activity34.html" class="sidebar-item-text sidebar-link">
+  <a href="./activity34.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Activity 34</span></a>
   </div>
 </li>
@@ -502,29 +502,9 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#derivation-outline" id="toc-derivation-outline" class="nav-link active" data-scroll-target="#derivation-outline">Derivation Outline</a></li>
-  <li><a href="#recursive-updating-equations-summary" id="toc-recursive-updating-equations-summary" class="nav-link" data-scroll-target="#recursive-updating-equations-summary">1. Recursive Updating Equations Summary</a></li>
-  <li><a href="#deriving-the-etsmna-model" id="toc-deriving-the-etsmna-model" class="nav-link" data-scroll-target="#deriving-the-etsmna-model">2. Deriving the ETS(M,N,A) Model</a>
+  <li><a href="#extending-ets-models-with-predictors" id="toc-extending-ets-models-with-predictors" class="nav-link active" data-scroll-target="#extending-ets-models-with-predictors"><strong>Extending ETS Models with Predictors</strong></a>
   <ul class="collapse">
-  <li><a href="#model-structure" id="toc-model-structure" class="nav-link" data-scroll-target="#model-structure">2.1 Model Structure</a></li>
-  <li><a href="#interpretation" id="toc-interpretation" class="nav-link" data-scroll-target="#interpretation">2.2 Interpretation</a></li>
-  </ul></li>
-  <li><a href="#etsmaa-model" id="toc-etsmaa-model" class="nav-link" data-scroll-target="#etsmaa-model">3. ETS(M,A,A) Model</a>
-  <ul class="collapse">
-  <li><a href="#model-structure-1" id="toc-model-structure-1" class="nav-link" data-scroll-target="#model-structure-1">3.1 Model Structure</a></li>
-  <li><a href="#interpretation-1" id="toc-interpretation-1" class="nav-link" data-scroll-target="#interpretation-1">3.2 Interpretation</a></li>
-  </ul></li>
-  <li><a href="#exploring-other-combinations" id="toc-exploring-other-combinations" class="nav-link" data-scroll-target="#exploring-other-combinations">4. Exploring Other Combinations</a>
-  <ul class="collapse">
-  <li><a href="#etsaada-model" id="toc-etsaada-model" class="nav-link" data-scroll-target="#etsaada-model">4.1 ETS(A,Ad,A) Model</a></li>
-  <li><a href="#etsaam-model" id="toc-etsaam-model" class="nav-link" data-scroll-target="#etsaam-model">4.2 ETS(A,A,M) Model</a></li>
-  <li><a href="#key-points-in-model-variations" id="toc-key-points-in-model-variations" class="nav-link" data-scroll-target="#key-points-in-model-variations">4.3 Key Points in Model Variations</a></li>
-  </ul></li>
-  <li><a href="#fitting-ets-models-with-tidyverts" id="toc-fitting-ets-models-with-tidyverts" class="nav-link" data-scroll-target="#fitting-ets-models-with-tidyverts">5. Fitting ETS Models with Tidyverts</a>
-  <ul class="collapse">
-  <li><a href="#sunspot-activity-dataset-1749-2023" id="toc-sunspot-activity-dataset-1749-2023" class="nav-link" data-scroll-target="#sunspot-activity-dataset-1749-2023"><strong>Sunspot Activity Dataset (1749-2023)</strong></a></li>
-  <li><a href="#ets-analysis-code" id="toc-ets-analysis-code" class="nav-link" data-scroll-target="#ets-analysis-code">ETS Analysis Code</a></li>
-  <li><a href="#diagnostics-forecasting" id="toc-diagnostics-forecasting" class="nav-link" data-scroll-target="#diagnostics-forecasting">Diagnostics &amp; Forecasting</a></li>
+  <li><a href="#part-2-why-var-models-shine-for-short-term" id="toc-part-2-why-var-models-shine-for-short-term" class="nav-link" data-scroll-target="#part-2-why-var-models-shine-for-short-term"><strong>Part 2: Why VAR Models Shine for Short-Term</strong></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -532,9 +512,9 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./activity29.html">Week 8</a></li><li class="breadcrumb-item"><a href="./activity31.html">Activity 31</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./activity33.html">Week 9</a></li><li class="breadcrumb-item"><a href="./activity34.html">Activity 34</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Activity31</h1>
+<h1 class="title">Activity34</h1>
 </div>
 
 
@@ -551,220 +531,94 @@ window.Quarto = {
 </header>
 
 
-<p>Today, we’ll review the structure of ETS models, derive the forecasting equations, and then explore specific variants including ETS(M,N,A), ETS(M,A,A), ETS(A,Ad,A), and ETS(A,A,M).</p>
-<p>Last class, we calculated the equations,</p>
-<p><span class="math display">\[
-\begin{align}
-y_t &amp;= (\ell_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
-\ell_t &amp;= \ell_{t-1}+\alpha\,(\ell_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
-s_t &amp;= s_{t-m}+\gamma\,(\ell_{t-1}+s_{t-m})\,\varepsilon_t,
-\end{align}
-\]</span></p>
-<p>for the ETS(M,N,A) case and</p>
-<p><span class="math display">\[
-\begin{align}
-y_t &amp;= (\ell_{t-1}+b_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
-\ell_t &amp;= \ell_{t-1}+b_{t-1}+\alpha\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
-b_t &amp;= b_{t-1}+\beta\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
-s_t &amp;= s_{t-m}+\gamma\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,
-\end{align}
-\]</span></p>
-<p>for the ETS(M,A,A) case.</p>
-<section id="derivation-outline" class="level3">
-<h3 class="anchored" data-anchor-id="derivation-outline">Derivation Outline</h3>
-<ol type="1">
-<li><p><strong>Observation Equation &amp; Error Definition</strong></p>
-<p>The model starts with</p>
-<p><span class="math display">\[
-y_t = \mu_t\,(1+\varepsilon_t)
-\]</span></p>
-<p>where the forecast is</p></li>
-</ol>
-<p><span class="math display">\[\mu_t = \ell_{t-1}+s_{t-m}\quad \text{(or } \ell_{t-1}+b_{t-1}+s_{t-m}\quad\text{for ETS(M,A,A))},\]</span></p>
-<p>so that</p>
-<p><span class="math display">\[
-   \varepsilon_t = \frac{y_t}{\mu_t}-1.
-   \]</span></p>
-<ol start="2" type="1">
-<li><p><strong>State Updates</strong></p>
-<p>In a multiplicative-error model the updates use the forecast scale:</p>
+<section id="extending-ets-models-with-predictors" class="level2">
+<h2 class="anchored" data-anchor-id="extending-ets-models-with-predictors"><strong>Extending ETS Models with Predictors</strong></h2>
+<p><strong>Data Prep</strong></p>
 <ul>
-<li><p><strong>Level update:</strong></p>
-<p><span class="math display">\[
-\ell_t = \ell_{t-1}+\alpha\,\mu_t\,\varepsilon_t.
-\]</span></p></li>
-<li><p><strong>Seasonal update (no trend version):</strong></p>
-<p><span class="math display">\[
-s_t = s_{t-m}+\gamma\,\mu_t\,\varepsilon_t.
-\]</span></p></li>
-<li><p><strong>For the ETS(M,A,A) model</strong>, the trend (or slope) is updated similarly:</p>
-<p><span class="math display">\[
-b_t = b_{t-1}+\beta\,\mu_t\,\varepsilon_t.
-\]</span></p></li>
-</ul></li>
-<li><p><strong>Verification by Recursion</strong></p>
-<p>Suppose the state at time <span class="math inline">\(t-1\)</span> is known. Then:</p>
-<ul>
-<li><p>The forecast is <span class="math inline">\(\mu_t = \ell_{t-1}+s_{t-m}\)</span> (or <span class="math inline">\(\ell_{t-1}+b_{t-1}+s_{t-m}\)</span>).</p></li>
-<li><p>The error is computed as</p>
-<p><span class="math display">\[
-\varepsilon_t = \frac{y_t}{\mu_t}-1,
-\]</span></p>
-<p>so that by substitution</p>
-<p><span class="math display">\[
-y_t-\mu_t=\mu_t\,\varepsilon_t.
-\]</span></p></li>
-<li><p>Therefore, the level update becomes</p>
-<p><span class="math display">\[
-\ell_t = \ell_{t-1}+\alpha\,(y_t-\mu_t),
-\]</span></p>
-<p>and similarly for the seasonal and trend updates. This recursive structure ensures that any deviation of the observation from the forecast is proportionally fed back into the states—<em>scaled</em> by the forecast level.</p></li>
-</ul></li>
-</ol>
-</section>
-<section id="recursive-updating-equations-summary" class="level2">
-<h2 class="anchored" data-anchor-id="recursive-updating-equations-summary">1. Recursive Updating Equations Summary</h2>
-<ul>
-<li><strong>Step 1:</strong> Compute the forecast <span class="math inline">\(\mu_t\)</span> based on current state components.</li>
-<li><strong>Step 2:</strong> Calculate the error <span class="math inline">\(\varepsilon_t\)</span> (multiplicative or additive).</li>
-<li><strong>Step 3:</strong> Update state components (level, trend, seasonal) using the error and smoothing parameters.</li>
-<li><strong>Step 4:</strong> Repeat for each new observation.</li>
+<li>Use historical energy demand + temperature<br>
+</li>
+<li>Ensure alignment in timestamps (<code>drop_na()</code>)</li>
 </ul>
-</section>
-<section id="deriving-the-etsmna-model" class="level2">
-<h2 class="anchored" data-anchor-id="deriving-the-etsmna-model">2. Deriving the ETS(M,N,A) Model</h2>
-<section id="model-structure" class="level3">
-<h3 class="anchored" data-anchor-id="model-structure">2.1 Model Structure</h3>
-<p>For ETS(M,N,A) (multiplicative error, no trend, additive seasonality), the equations are:</p>
-<p><span class="math display">\[
-\begin{align}
-y_t &amp;= (\ell_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
-\ell_t &amp;= \ell_{t-1}+\alpha\,(\ell_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
-s_t &amp;= s_{t-m}+\gamma\,(\ell_{t-1}+s_{t-m})\,\varepsilon_t,
-\end{align}
-\]</span></p>
-<p>where:</p>
-<ul>
-<li><span class="math inline">\(y_t\)</span> is the observed value at time <span class="math inline">\(t\)</span>.</li>
-<li><span class="math inline">\(\ell_{t-1}\)</span> is the level component.</li>
-<li><span class="math inline">\(s_{t-m}\)</span> is the seasonal component (with period <span class="math inline">\(m\)</span>).</li>
-<li><span class="math inline">\(\varepsilon_t\)</span> is the multiplicative error, defined as <span class="math display">\[
-\varepsilon_t = \frac{y_t}{\ell_{t-1}+s_{t-m}}-1.
-\]</span></li>
-<li><span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\gamma\)</span> are the smoothing parameters.</li>
-</ul>
-</section>
-<section id="interpretation" class="level3">
-<h3 class="anchored" data-anchor-id="interpretation">2.2 Interpretation</h3>
-<ul>
-<li><strong>Observation Equation:</strong> The forecast is given by the sum of the level and seasonal component, scaled by the multiplicative error.</li>
-<li><strong>Level Update:</strong> The level is adjusted by the error scaled by the current forecast.</li>
-<li><strong>Seasonal Update:</strong> The seasonal component is updated similarly, ensuring seasonal effects propagate correctly.</li>
-</ul>
-</section>
-</section>
-<section id="etsmaa-model" class="level2">
-<h2 class="anchored" data-anchor-id="etsmaa-model">3. ETS(M,A,A) Model</h2>
-<section id="model-structure-1" class="level3">
-<h3 class="anchored" data-anchor-id="model-structure-1">3.1 Model Structure</h3>
-<p>For ETS(M,A,A) (multiplicative error, additive trend, additive seasonality), an additional trend component <span class="math inline">\(b_{t-1}\)</span> is introduced:</p>
-<p><span class="math display">\[
-\begin{align}
-y_t &amp;= (\ell_{t-1}+b_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
-\ell_t &amp;= \ell_{t-1}+b_{t-1}+\alpha\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
-b_t &amp;= b_{t-1}+\beta\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t,\\[1mm]
-s_t &amp;= s_{t-m}+\gamma\,(\ell_{t-1}+b_{t-1}+s_{t-m})\,\varepsilon_t.
-\end{align}
-\]</span></p>
-</section>
-<section id="interpretation-1" class="level3">
-<h3 class="anchored" data-anchor-id="interpretation-1">3.2 Interpretation</h3>
-<ul>
-<li><strong>Trend Component:</strong> The term <span class="math inline">\(b_{t-1}\)</span> represents the additive trend.</li>
-<li><strong>Trend Update:</strong> The trend is adjusted with its own smoothing parameter <span class="math inline">\(\beta\)</span>.</li>
-<li>The observation and seasonal equations are similar to ETS(M,N,A) but include the trend in the forecast.</li>
-</ul>
-</section>
-</section>
-<section id="exploring-other-combinations" class="level2">
-<h2 class="anchored" data-anchor-id="exploring-other-combinations">4. Exploring Other Combinations</h2>
-<section id="etsaada-model" class="level3">
-<h3 class="anchored" data-anchor-id="etsaada-model">4.1 ETS(A,Ad,A) Model</h3>
-<p>The ETS(A,Ad,A) model uses an <strong>additive error</strong>, an <strong>additive damped trend</strong>, and <strong>additive seasonality</strong>. Its equations can be written as:</p>
-<p><span class="math display">\[
-\begin{align}
-y_t &amp;= \ell_{t-1}+ \phi d_{t-1}+ s_{t-m}+\varepsilon_t,\\[1mm]
-\ell_t &amp;= \ell_{t-1} + \phi d_{t-1} + \alpha \varepsilon_t, \\
-d_t &amp;= \phi d_{t-1} + \beta \varepsilon_t, \\
-s_t &amp;= s_{t-m} + \gamma \varepsilon_t,
-\end{align}
-\]</span></p>
-<p>where:</p>
-<ul>
-<li><span class="math inline">\(\varepsilon_t\)</span> is an additive error.</li>
-<li><span class="math inline">\(d_{t-1}\)</span> represents the trend component.</li>
-<li><span class="math inline">\(\phi\)</span> is the damping parameter, <span class="math inline">\(0 &lt; \phi &lt; 1\)</span>, that reduces the trend effect over time.</li>
-</ul>
-</section>
-<section id="etsaam-model" class="level3">
-<h3 class="anchored" data-anchor-id="etsaam-model">4.2 ETS(A,A,M) Model</h3>
-<p>For the ETS(A,A,M) model, the seasonal component enters multiplicatively while both the error and trend are additive:</p>
-<p><span class="math display">\[
-\begin{align}
-y_t &amp;= (\ell_{t-1}+b_{t-1}+s_{t-m})(1+\varepsilon_t),\\[1mm]
-\ell_t &amp;= \ell_{t-1}+b_{t-1}+\alpha\,\varepsilon_t,\\[1mm]
-b_t &amp;= b_{t-1}+\beta\,\varepsilon_t,\\[1mm]
-s_t &amp;= s_{t-m}\,(1+\gamma\,\varepsilon_t).
-\end{align}
-\]</span></p>
-</section>
-<section id="key-points-in-model-variations" class="level3">
-<h3 class="anchored" data-anchor-id="key-points-in-model-variations">4.3 Key Points in Model Variations</h3>
-<ul>
-<li><strong>Error Type:</strong> Whether the error is additive or multiplicative will affect how deviations are incorporated into the state updates.</li>
-<li><strong>Trend Component:</strong> The presence (or absence) of a trend (additive or damped) changes the update equations. In a damped trend, the damping parameter <span class="math inline">\(\phi\)</span> moderates the trend’s influence.</li>
-<li><strong>Seasonal Component:</strong> Additive seasonality adds or subtracts a fixed amount, while multiplicative seasonality scales the forecast.</li>
-</ul>
-</section>
-</section>
-<section id="fitting-ets-models-with-tidyverts" class="level2">
-<h2 class="anchored" data-anchor-id="fitting-ets-models-with-tidyverts">5. Fitting ETS Models with Tidyverts</h2>
-<p>The <strong>Tidyverts</strong> framework in R (which includes packages such as <code>fable</code> and <code>tsibble</code>) provides a streamlined approach to fitting ETS models. Below is an example workflow.</p>
-<section id="sunspot-activity-dataset-1749-2023" class="level3">
-<h3 class="anchored" data-anchor-id="sunspot-activity-dataset-1749-2023"><strong>Sunspot Activity Dataset (1749-2023)</strong></h3>
 <div class="cell">
 <div>
 <div id="webr-1" class="exercise-cell">
 
 </div>
 <script type="webr-1-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBDb252ZXJ0IGNsYXNzaWMgdHMgb2JqZWN0IHRvIHRzaWJibGVcbnN1bnNwb3RzIDwtIGFzX3RzaWJibGUoc3Vuc3BvdC5tb250aCkgJT4lXG4gIHJlbmFtZShzcG90cyA9IHZhbHVlLCB5ZWFyX21vbnRoID0gaW5kZXgpIFxuXG5zdW5zcG90cyAlPiUgYXV0b3Bsb3Qoc3BvdHMpICtcbiAgbGFicyh0aXRsZSA9IFwiTW9udGhseSBTdW5zcG90IE51bWJlcnMgU2luY2UgMTc0OVwiLFxuICAgICAgIHN1YnRpdGxlID0gXCIxMS15ZWFyIHNvbGFyIGN5Y2xlcyB2aXNpYmxlXCIsXG4gICAgICAgeSA9IFwiU3Vuc3BvdCBDb3VudFwiKSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZW5lcmd5X3NlcmllcyA8LSB2aWNfZWxlYyAlPiVcbiAgZmlsdGVyX2luZGV4KH4gXCIyMDE0LTEyLTMxXCIpICU+JVxuICBzZWxlY3QoVGltZSwgRGVtYW5kLCBUZW1wZXJhdHVyZSkgJT4lXG4gIGRyb3BfbmEoKSJ9
 </script>
 </div>
 </div>
-</section>
-<section id="ets-analysis-code" class="level3">
-<h3 class="anchored" data-anchor-id="ets-analysis-code">ETS Analysis Code</h3>
+<p><strong>Step 1 - Baseline ETS Model</strong></p>
 <div class="cell">
 <div>
 <div id="webr-2" class="exercise-cell">
 
 </div>
 <script type="webr-2-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBGaXQgbW9kZWxzIGFjY291bnRpbmcgZm9yIGxvbmcgY3ljbGVzXG5zdW5fZml0cyA8LSBzdW5zcG90cyAlPiVcbiAgbW9kZWwoXG4gICAgRVRTX01OQSA9IEVUUyhzcG90cyB+IGVycm9yKFwiTVwiKSArIHRyZW5kKFwiTlwiKSArIHNlYXNvbihcIkFcIikpLFxuICAgIEVUU19NQUEgPSBFVFMoc3BvdHMgfiBlcnJvcihcIk1cIikgKyB0cmVuZChcIkFcIikgKyBzZWFzb24oXCJBXCIpKSxcbiAgICBFVFNfQUFkQSA9IEVUUyhzcG90cyB+IGVycm9yKFwiQVwiKSArIHRyZW5kKFwiQWRcIikgKyBzZWFzb24oXCJBXCIpKSxcbiAgICBFVFNfQUFNID0gRVRTKHNwb3RzIH4gZXJyb3IoXCJBXCIpICsgdHJlbmQoXCJBXCIpICsgc2Vhc29uKFwiTVwiKSksXG4gICAgRVRTX2F1dG8gPSBFVFMoc3BvdHMpXG4gIClcblxuIyBDb21wYXJlIHBlcmZvcm1hbmNlIFxuZ2xhbmNlKHN1bl9maXRzKSAlPiUgYXJyYW5nZShBSUNjKVxuXG5zdW5fZml0cyAlPiUgZHBseXI6OnNlbGVjdChFVFNfTU5BKSAlPiUgcmVwb3J0KCkgI0VUU19NTkFcbnN1bl9maXRzICU+JSBkcGx5cjo6c2VsZWN0KEVUU19NQUEpICU+JSByZXBvcnQoKSAjRVRTX01BQVxuc3VuX2ZpdHMgJT4lIGRwbHlyOjpzZWxlY3QoRVRTX0FBZEEpICU+JSByZXBvcnQoKSAjRVRTX0FBZEFcbnN1bl9maXRzICU+JSBkcGx5cjo6c2VsZWN0KEVUU19BQU0pICU+JSByZXBvcnQoKSAjRVRTX0FBTVxuc3VuX2ZpdHMgJT4lIGRwbHlyOjpzZWxlY3QoRVRTX2F1dG8pICU+JSByZXBvcnQoKSAjRVRTX0FBTSJ9
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyAxLiBFVFMgZm9yIERlbWFuZCAobm9uLXNlYXNvbmFsKVxuZGVtYW5kX2V0cyA8LSBlbmVyZ3lfc2VyaWVzICU+JSBtb2RlbChFVFMoRGVtYW5kKSlcbmRlbWFuZF9ldHNfZmMgPC0gZGVtYW5kX2V0cyAlPiUgXG4gIGZvcmVjYXN0KGggPSBcIjEgd2Vla1wiKSAlPiUgXG4gIGFzX3RpYmJsZSgpICU+JSBcbiAgcmVuYW1lKG1lYW4gPSAubWVhbikgJT4lIFxuICBtdXRhdGUoTW9kZWwgPSBcIkVUU1wiKSJ9
 </script>
 </div>
 </div>
-</section>
-<section id="diagnostics-forecasting" class="level3">
-<h3 class="anchored" data-anchor-id="diagnostics-forecasting">Diagnostics &amp; Forecasting</h3>
+<p><span class="math display">\[\text{Demand}_t = \text{Level}_{t-1} + \text{Error}_t\]</span></p>
+<p>The first model uses ETS (Error-Trend-Seasonal) for demand alone. This is limited because:</p>
+<ul>
+<li>Ignores temperature (known predictor)</li>
+<li>Assumes patterns are purely endogenous</li>
+</ul>
+<p><strong>Step 2 - ARIMAX with Temperature</strong></p>
 <div class="cell">
 <div>
 <div id="webr-3" class="exercise-cell">
 
 </div>
 <script type="webr-3-contents">
-eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBSZXNpZHVhbCBhbmFseXNpcyBmb3IgYmVzdCBtb2RlbFxuc3VuX2ZpdHMgJT4lIGRwbHlyOjpzZWxlY3QoRVRTX0FBZEEpICU+JSBnZ190c3Jlc2lkdWFscygpXG5cbiMgMTUteWVhciBmb3JlY2FzdCBzaG93aW5nIGRhbXBlZCB0cmVuZFxuc3VuX2ZpdHMgJT4lIGRwbHlyOjpzZWxlY3QoRVRTX0FBZEEpICU+JVxuICBmb3JlY2FzdChoID0gMTApICU+JSAgXG4gIGF1dG9wbG90KHN1bnNwb3RzICU+JSB0YWlsKG49NTApKSArXG4gIGxhYnModGl0bGUgPSBcIlN1bnNwb3QgQWN0aXZpdHkgRm9yZWNhc3Qgd2l0aCBEYW1wZWQgVHJlbmRcIikifQ==
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyAyLiBBUklNQVggd2l0aCBQUk9QRVIgdGVtcGVyYXR1cmUgZm9yZWNhc3RzXG4jIEZpcnN0IGZvcmVjYXN0IHRlbXBlcmF0dXJlXG50ZW1wX2V0cyA8LSBlbmVyZ3lfc2VyaWVzICU+JSBtb2RlbChFVFMoVGVtcGVyYXR1cmUpKVxudGVtcF9mYyA8LSB0ZW1wX2V0cyAlPiUgXG4gIGZvcmVjYXN0KGggPSBcIjEgd2Vla1wiKSAlPiUgXG4gIGFzX3RpYmJsZSgpICU+JSBcbiAgc2VsZWN0KFRpbWUsIFRlbXBlcmF0dXJlID0gLm1lYW4pIn0=
+</script>
+</div>
+</div>
+<p><span class="math display">\[\text{Demand}_t = \phi_1 \text{Demand}_{t-1} + \beta \text{Temperature}_t + \epsilon_t\]</span></p>
+<p>Improvement: Adds temperature as exogenous predictor.<br>
+<em>But requires temperature forecasts</em> - introduces error propagation if temperature predictions are poor.</p>
+<hr>
+<section id="part-2-why-var-models-shine-for-short-term" class="level3">
+<h3 class="anchored" data-anchor-id="part-2-why-var-models-shine-for-short-term"><strong>Part 2: Why VAR Models Shine for Short-Term</strong></h3>
+<p><strong>Vector Autoregression (VAR)</strong></p>
+<p><span class="math display">\[\begin{cases}
+\text{Demand}_t = \alpha_1 + \sum_{i=1}^p \phi_{1i}\text{Demand}_{t-i} + \sum_{i=1}^p \psi_{1i}\text{Temp}_{t-i} \\
+\text{Temp}_t = \alpha_2 + \sum_{i=1}^p \phi_{2i}\text{Demand}_{t-i} + \sum_{i=1}^p \psi_{2i}\text{Temp}_{t-i}
+\end{cases}\]</span></p>
+<p><strong>Key Advantages</strong></p>
+<ol type="1">
+<li>Handles <em>bidirectional relationships</em> (temperature ↔︎ demand)</li>
+<li>Captures <em>lagged cross-effects</em><br>
+</li>
+<li>Better for short-term forecasts where system inertia matters</li>
+</ol>
+<hr>
+<p><strong>3. Critical Implementation Details</strong></p>
+<ul>
+<li><em>Differencing</em>: Makes series stationary for VAR (<code>difference()</code>)</li>
+<li><em>Lag choice</em>: 48 lags = 24hr periodicity (half-hourly data)</li>
+<li><em>Forecast alignment</em>:</li>
+</ul>
+<p><span class="math display">\[\text{VarForecast}_t = \text{LastObs} + \sum \text{DifferencedForecasts}_t\]</span></p>
+<p>(Reverse the differencing through cumulative sums)</p>
+<p><strong>4. Comparison</strong></p>
+<ul>
+<li>ETS: Good baseline but misses covariates<br>
+</li>
+<li>ARIMAX: Better with good temp forecasts<br>
+</li>
+<li>VAR: Best for short-term co-movements, no external forecast needed</li>
+</ul>
+<div class="cell">
+<div>
+<div id="webr-4" class="exercise-cell">
+
+</div>
+<script type="webr-4-contents">
+eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiZGVtYW5kX2RyIDwtIGVuZXJneV9zZXJpZXMgJT4lIG1vZGVsKEFSSU1BKERlbWFuZCB+IFRlbXBlcmF0dXJlKSlcbmRlbWFuZF9kcl9mYyA8LSBkZW1hbmRfZHIgJT4lIFxuICBmb3JlY2FzdChuZXdfZGF0YSA9IHRlbXBfZmMgJT4lIGFzX3RzaWJibGUoaW5kZXggPSBUaW1lKSkgJT4lIFxuICBhc190aWJibGUoKSAlPiUgXG4gIHJlbmFtZShtZWFuID0gLm1lYW4pICU+JSBcbiAgbXV0YXRlKE1vZGVsID0gXCJBUklNQVhcIilcblxuIyAzLiBWQVIgd2l0aCBwcm9wZXIgdHNEeW4gaW1wbGVtZW50YXRpb25cbnZhcl9kYXRhIDwtIGVuZXJneV9zZXJpZXMgJT4lIGFzX3RpYmJsZSgpICU+JSBcbiAgc2VsZWN0KERlbWFuZCwgVGVtcGVyYXR1cmUpICU+JVxuICBtdXRhdGUoYWNyb3NzKGV2ZXJ5dGhpbmcoKSwgZGlmZmVyZW5jZSkpICU+JSBcbiAgdGlkeXI6OmRyb3BfbmEoKVxuXG52YXJfbW9kZWwgPC0gbGluZVZhcih2YXJfZGF0YSwgbGFnID0gNDgpXG52YXJfZmMgPC0gcHJlZGljdCh2YXJfbW9kZWwsIG4uYWhlYWQgPSAzMzYpXG5cbiMgQWxpZ24gVkFSIGZvcmVjYXN0cyB3aXRoIG9yaWdpbmFsIHNjYWxlXG5sYXN0X29icyA8LSB0YWlsKGVuZXJneV9zZXJpZXMsIDEpXG52YXJfZmNfZGVtYW5kIDwtIHRpYmJsZShcbiAgVGltZSA9IGRlbWFuZF9ldHNfZmMkVGltZSxcbiAgbWVhbiA9IGxhc3Rfb2JzJERlbWFuZCArIGN1bXN1bSh2YXJfZmNbLDFdKSxcbiAgTW9kZWwgPSBcIlZBUlwiXG4pXG5cbiMgQ29tYmluZSBmb3JlY2FzdHMgUFJPUEVSTFlcbmNvbWJpbmVkX2ZjIDwtIGJpbmRfcm93cyhcbiAgZGVtYW5kX2V0c19mYyAlPiUgc2VsZWN0KFRpbWUsIE1vZGVsLCBtZWFuKSxcbiAgZGVtYW5kX2RyX2ZjICU+JSBzZWxlY3QoVGltZSwgTW9kZWwsIG1lYW4pLFxuICB2YXJfZmNfZGVtYW5kXG4pXG5cbiMgUGxvdCB3aXRoIGFjY3VyYXRlIGNvbXBhcmlzb25zXG5nZ3Bsb3QoKSArXG4gIGdlb21fbGluZShkYXRhID0gZW5lcmd5X3NlcmllcyAlPiUgdGFpbCgyMDE2KSwgICMgTGFzdCAyIHdlZWtzXG4gICAgICAgICAgIGFlcyh4ID0gVGltZSwgeSA9IERlbWFuZCksIGNvbG9yID0gXCJncmF5NDBcIikgK1xuICBnZW9tX2xpbmUoZGF0YSA9IGNvbWJpbmVkX2ZjLCBcbiAgICAgICAgICAgYWVzKHggPSBUaW1lLCB5ID0gbWVhbiwgY29sb3IgPSBNb2RlbCksIGxpbmV3aWR0aCA9IDAuOCkgK1xuICBsYWJzKHRpdGxlID0gXCJFbGVjdHJpY2l0eSBEZW1hbmQgRm9yZWNhc3RzOiBUaHJlZSBNZXRob2RvbG9naWVzXCIsXG4gICAgICAgc3VidGl0bGUgPSBcIlVzaW5nIGFjdHVhbCB0ZW1wZXJhdHVyZSBmb3JlY2FzdHMgZm9yIEFSSU1BWFxcblZBUiB3aXRoIDQ4LWxhZyAoMjRoKSBkaWZmZXJlbmNlZCBtb2RlbFwiLFxuICAgICAgIHkgPSBcIkRlbWFuZCAoTVcpXCIpICtcbiAgdGhlbWVfbWluaW1hbCgpICtcbiAgc2NhbGVfY29sb3JfdmlyaWRpc19kKG9wdGlvbiA9IFwiSFwiKSJ9
 </script>
 </div>
 </div>
@@ -774,7 +628,7 @@ eyJhdHRyIjp7ImVkaXQiOnRydWUsImV2YWwiOnRydWV9LCJjb2RlIjoiIyBSZXNpZHVhbCBhbmFseXNp
 eyJvcHRpb25zIjp7ImJhc2VVcmwiOiJodHRwczovL3dlYnIuci13YXNtLm9yZy92MC40LjIvIn0sInBhY2thZ2VzIjp7InBrZ3MiOlsiZXZhbHVhdGUiLCJrbml0ciIsImh0bWx0b29scyIsImRwbHlyIiwiZ2dwbG90MiIsImZwcDMiLCJwYXRjaHdvcmsiLCJ0c2liYmxlZGF0YSIsInVyY2EiLCJhc3RzYSIsImdyaWRFeHRyYSIsInZhcnMiLCJGaW5UUyIsInRpZHlyIl0sInJlcG9zIjpbXX0sInJlbmRlcl9kZiI6ImRlZmF1bHQifQ==
 </script>
 <script type="ojs-module-contents">
-eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0zIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICAvLyBXYWl0IGZvciBvdXRwdXQgdG8gYmUgd3JpdHRlbiB0byB0aGUgRE9NLCB0aGVuIHRyaWdnZXIgd2lkZ2V0IHJlbmRlcmluZ1xuICBhd2FpdCBfd2Vicl92YWx1ZV8zO1xuICBpZiAod2luZG93LkhUTUxXaWRnZXRzKSB7XG4gICAgd2luZG93LkhUTUxXaWRnZXRzLnN0YXRpY1JlbmRlcigpO1xuICB9XG4gIGlmICh3aW5kb3cuUGFnZWRUYWJsZURvYykge1xuICAgIHdpbmRvdy5QYWdlZFRhYmxlRG9jLmluaXRBbGwoKTtcbiAgfVxufVxuIn0seyJjZWxsTmFtZSI6IndlYnItMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzMgPSB7XG4gIGNvbnN0IHsgV2ViUkV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici0zLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHdlYnItMy1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8zID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8zLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoid2Vici13aWRnZXQtMiIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMjtcbiAgaWYgKHdpbmRvdy5IVE1MV2lkZ2V0cykge1xuICAgIHdpbmRvdy5IVE1MV2lkZ2V0cy5zdGF0aWNSZW5kZXIoKTtcbiAgfVxuICBpZiAod2luZG93LlBhZ2VkVGFibGVEb2MpIHtcbiAgICB3aW5kb3cuUGFnZWRUYWJsZURvYy5pbml0QWxsKCk7XG4gIH1cbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF93ZWJyX2VkaXRvcl8yID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMi1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGB3ZWJyLTItY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgV2ViUkV4ZXJjaXNlRWRpdG9yKHdlYlJPanMud2ViUlByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3dlYnJfdmFsdWVfMiA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMiwge30pO1xuIn0seyJjZWxsTmFtZSI6IndlYnItd2lkZ2V0LTEiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIC8vIFdhaXQgZm9yIG91dHB1dCB0byBiZSB3cml0dGVuIHRvIHRoZSBET00sIHRoZW4gdHJpZ2dlciB3aWRnZXQgcmVuZGVyaW5nXG4gIGF3YWl0IF93ZWJyX3ZhbHVlXzE7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0xIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfd2Vicl9lZGl0b3JfMSA9IHtcbiAgY29uc3QgeyBXZWJSRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ3ZWJyLTEtY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0xLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFdlYlJFeGVyY2lzZUVkaXRvcih3ZWJST2pzLndlYlJQcm9taXNlLCBibG9jay5jb2RlLCBvcHRpb25zKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl93ZWJyX3ZhbHVlXzEgPSB3ZWJST2pzLnByb2Nlc3MoX3dlYnJfZWRpdG9yXzEsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXByZWx1ZGUiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ3ZWJST2pzID0ge1xuICBjb25zdCB7IFdlYlIsIENoYW5uZWxUeXBlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lLldlYlI7XG4gIGNvbnN0IHtcbiAgICBXZWJSRXZhbHVhdG9yLFxuICAgIFdlYlJFbnZpcm9ubWVudE1hbmFnZXIsXG4gICAgc2V0dXBSLFxuICAgIGI2NERlY29kZSxcbiAgICBjb2xsYXBzZVBhdGhcbiAgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG5cbiAgY29uc3Qgc3RhdHVzQ29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJleGVyY2lzZS1sb2FkaW5nLXN0YXR1c1wiKTtcbiAgY29uc3QgaW5kaWNhdG9yQ29udGFpbmVyID0gZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoXCJleGVyY2lzZS1sb2FkaW5nLWluZGljYXRvclwiKTtcbiAgaW5kaWNhdG9yQ29udGFpbmVyLmNsYXNzTGlzdC5yZW1vdmUoXCJkLW5vbmVcIik7XG5cbiAgbGV0IHN0YXR1c1RleHQgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KFwiZGl2XCIpXG4gIHN0YXR1c1RleHQuY2xhc3NMaXN0ID0gXCJleGVyY2lzZS1sb2FkaW5nLWRldGFpbHNcIjtcbiAgc3RhdHVzVGV4dCA9IHN0YXR1c0NvbnRhaW5lci5hcHBlbmRDaGlsZChzdGF0dXNUZXh0KTtcbiAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBJbml0aWFsaXNlYDtcblxuICAvLyBIb2lzdCBpbmRpY2F0b3Igb3V0IGZyb20gZmluYWwgc2xpZGUgd2hlbiBydW5uaW5nIHVuZGVyIHJldmVhbFxuICBjb25zdCByZXZlYWxTdGF0dXMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKFwiLnJldmVhbCAuZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGlmIChyZXZlYWxTdGF0dXMpIHtcbiAgICByZXZlYWxTdGF0dXMucmVtb3ZlKCk7XG4gICAgZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgPiAuc2xpZGVzXCIpLmFwcGVuZENoaWxkKHJldmVhbFN0YXR1cyk7XG4gIH1cblxuICAvLyBNYWtlIGFueSByZXZlYWwgc2xpZGVzIHdpdGggbGl2ZSBjZWxscyBzY3JvbGxhYmxlXG4gIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3JBbGwoXCIucmV2ZWFsIC5leGVyY2lzZS1jZWxsXCIpLmZvckVhY2goKGVsKSA9PiB7XG4gICAgZWwuY2xvc2VzdCgnc2VjdGlvbi5zbGlkZScpLmNsYXNzTGlzdC5hZGQoXCJzY3JvbGxhYmxlXCIpO1xuICB9KVxuXG4gIC8vIHdlYlIgc3VwcGxlbWVudGFsIGRhdGEgYW5kIG9wdGlvbnNcbiAgY29uc3QgZGF0YUNvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici1kYXRhXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgZGF0YSA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGRhdGFDb250ZW50KSk7XG5cbiAgLy8gR3JhYiBsaXN0IG9mIHJlc291cmNlcyB0byBiZSBkb3dubG9hZGVkXG4gIGNvbnN0IGZpbGVzQ29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ2ZnMtZmlsZVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGZpbGVzID0gSlNPTi5wYXJzZShiNjREZWNvZGUoZmlsZXNDb250ZW50KSk7XG5cbiAgLy8gVXNlIFBvc3RNZXNzYWdlIGNoYW5uZWwgZm9yIGFzeW5jIGNvbW11bmljYXRpb25cbiAgLy8gV2UgZG8gbm90IGV4cGVjdCB0byB0YWtlIG5lc3RlZCBwcm9tcHQgaW5wdXQgaW4gUXVhcnRvIExpdmUgY2VsbHNcbiAgZGF0YS5vcHRpb25zLmNoYW5uZWxUeXBlID0gQ2hhbm5lbFR5cGUuUG9zdE1lc3NhZ2U7XG5cbiAgLy8gSW5pdGlhbGlzZSB3ZWJSIGFuZCBzZXR1cCBmb3IgUiBjb2RlIGV2YWx1YXRpb25cbiAgbGV0IHdlYlJQcm9taXNlID0gKGFzeW5jICh3ZWJSKSA9PiB7XG4gICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyB3ZWJSYDtcbiAgICBhd2FpdCB3ZWJSLmluaXQoKTtcblxuICAgIC8vIEluc3RhbGwgcHJvdmlkZWQgbGlzdCBvZiBwYWNrYWdlc1xuICAgIC8vIEVuc3VyZSB3ZWJSIGRlZmF1bHQgcmVwbyBpcyBpbmNsdWRlZFxuICAgIGRhdGEucGFja2FnZXMucmVwb3MucHVzaChcImh0dHBzOi8vcmVwby5yLXdhc20ub3JnXCIpXG4gICAgYXdhaXQgZGF0YS5wYWNrYWdlcy5wa2dzLm1hcCgocGtnKSA9PiAoKSA9PiB7XG4gICAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYERvd25sb2FkaW5nIHBhY2thZ2U6ICR7cGtnfWA7XG4gICAgICByZXR1cm4gd2ViUi5ldmFsUlZvaWQoYFxuICAgICAgICB3ZWJyOjppbnN0YWxsKHBrZywgcmVwb3MgPSByZXBvcylcbiAgICAgICAgbGlicmFyeShwa2csIGNoYXJhY3Rlci5vbmx5ID0gVFJVRSlcbiAgICAgIGAsIHsgZW52OiB7XG4gICAgICAgIHBrZzogcGtnLFxuICAgICAgICByZXBvczogZGF0YS5wYWNrYWdlcy5yZXBvcyxcbiAgICAgIH19KTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIC8vIERvd25sb2FkIGFuZCBpbnN0YWxsIHJlc291cmNlc1xuICAgIGF3YWl0IGZpbGVzLm1hcCgoZmlsZSkgPT4gYXN5bmMgKCkgPT4ge1xuICAgICAgY29uc3QgbmFtZSA9IGZpbGUuc3Vic3RyaW5nKGZpbGUubGFzdEluZGV4T2YoJy8nKSArIDEpO1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyByZXNvdXJjZTogJHtuYW1lfWA7XG4gICAgICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGZpbGUpO1xuICAgICAgaWYgKCFyZXNwb25zZS5vaykge1xuICAgICAgICB0aHJvdyBuZXcgRXJyb3IoYENhbid0IGRvd25sb2FkIFxcYCR7ZmlsZX1cXGAuIEVycm9yICR7cmVzcG9uc2Uuc3RhdHVzfTogXCIke3Jlc3BvbnNlLnN0YXR1c1RleHR9XCIuYCk7XG4gICAgICB9XG4gICAgICBjb25zdCBkYXRhID0gYXdhaXQgcmVzcG9uc2UuYXJyYXlCdWZmZXIoKTtcblxuICAgICAgLy8gU3RvcmUgVVJMcyBpbiB0aGUgY3dkIHdpdGhvdXQgYW55IHN1YmRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGlmIChmaWxlLmluY2x1ZGVzKFwiOi8vXCIpKSB7XG4gICAgICAgIGZpbGUgPSBuYW1lO1xuICAgICAgfVxuXG4gICAgICAvLyBDb2xsYXBzZSBoaWdoZXIgZGlyZWN0b3J5IHN0cnVjdHVyZVxuICAgICAgZmlsZSA9IGNvbGxhcHNlUGF0aChmaWxlKTtcblxuICAgICAgLy8gQ3JlYXRlIGRpcmVjdG9yeSB0cmVlLCBpZ25vcmluZyBcImRpcmVjdG9yeSBleGlzdHNcIiBWRlMgZXJyb3JzXG4gICAgICBjb25zdCBwYXJ0cyA9IGZpbGUuc3BsaXQoJy8nKS5zbGljZSgwLCAtMSk7XG4gICAgICBsZXQgcGF0aCA9ICcnO1xuICAgICAgd2hpbGUgKHBhcnRzLmxlbmd0aCA+IDApIHtcbiAgICAgICAgcGF0aCArPSBwYXJ0cy5zaGlmdCgpICsgJy8nO1xuICAgICAgICB0cnkge1xuICAgICAgICAgIGF3YWl0IHdlYlIuRlMubWtkaXIocGF0aCk7XG4gICAgICAgIH0gY2F0Y2ggKGUpIHtcbiAgICAgICAgICBpZiAoIWUubWVzc2FnZS5pbmNsdWRlcyhcIkZTIGVycm9yXCIpKSB7XG4gICAgICAgICAgICB0aHJvdyBlO1xuICAgICAgICAgIH1cbiAgICAgICAgfVxuICAgICAgfVxuXG4gICAgICAvLyBXcml0ZSB0aGlzIGZpbGUgdG8gdGhlIFZGU1xuICAgICAgcmV0dXJuIGF3YWl0IHdlYlIuRlMud3JpdGVGaWxlKGZpbGUsIG5ldyBVaW50OEFycmF5KGRhdGEpKTtcbiAgICB9KS5yZWR1Y2UoKGN1ciwgbmV4dCkgPT4gY3VyLnRoZW4obmV4dCksIFByb21pc2UucmVzb2x2ZSgpKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5zdGFsbGluZyB3ZWJSIHNoaW1zYDtcbiAgICBhd2FpdCB3ZWJSLmV2YWxSVm9pZChgd2Vicjo6c2hpbV9pbnN0YWxsKClgKTtcblxuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgV2ViUiBlbnZpcm9ubWVudCBzZXR1cGA7XG4gICAgYXdhaXQgc2V0dXBSKHdlYlIsIGRhdGEpO1xuXG4gICAgc3RhdHVzVGV4dC5yZW1vdmUoKTtcbiAgICBpZiAoc3RhdHVzQ29udGFpbmVyLmNoaWxkcmVuLmxlbmd0aCA9PSAwKSB7XG4gICAgICBzdGF0dXNDb250YWluZXIucGFyZW50Tm9kZS5yZW1vdmUoKTtcbiAgICB9XG4gICAgcmV0dXJuIHdlYlI7XG4gIH0pKG5ldyBXZWJSKGRhdGEub3B0aW9ucykpO1xuXG4gIC8vIEtlZXAgdHJhY2sgb2YgaW5pdGlhbCBPSlMgYmxvY2sgcmVuZGVyXG4gIGNvbnN0IHJlbmRlcmVkT2pzID0ge307XG5cbiAgY29uc3QgcHJvY2VzcyA9IGFzeW5jIChjb250ZXh0LCBpbnB1dHMpID0+IHtcbiAgICBjb25zdCB3ZWJSID0gYXdhaXQgd2ViUlByb21pc2U7XG4gICAgY29uc3QgZXZhbHVhdG9yID0gbmV3IFdlYlJFdmFsdWF0b3Iod2ViUiwgY29udGV4dClcbiAgICBhd2FpdCBldmFsdWF0b3IucHJvY2VzcyhpbnB1dHMpO1xuICAgIHJldHVybiBldmFsdWF0b3IuY29udGFpbmVyO1xuICB9XG5cbiAgcmV0dXJuIHtcbiAgICBwcm9jZXNzLFxuICAgIHdlYlJQcm9taXNlLFxuICAgIHJlbmRlcmVkT2pzLFxuICB9O1xufVxuIn1dfQ==
+eyJjb250ZW50cyI6W3siY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC00IiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICAvLyBXYWl0IGZvciBvdXRwdXQgdG8gYmUgd3JpdHRlbiB0byB0aGUgRE9NLCB0aGVuIHRyaWdnZXIgd2lkZ2V0IHJlbmRlcmluZ1xuICBhd2FpdCBfd2Vicl92YWx1ZV80O1xuICBpZiAod2luZG93LkhUTUxXaWRnZXRzKSB7XG4gICAgd2luZG93LkhUTUxXaWRnZXRzLnN0YXRpY1JlbmRlcigpO1xuICB9XG4gIGlmICh3aW5kb3cuUGFnZWRUYWJsZURvYykge1xuICAgIHdpbmRvdy5QYWdlZFRhYmxlRG9jLmluaXRBbGwoKTtcbiAgfVxufVxuIn0seyJjZWxsTmFtZSI6IndlYnItNCIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzQgPSB7XG4gIGNvbnN0IHsgV2ViUkV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici00LWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHdlYnItNC1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV80ID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl80LCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoid2Vici13aWRnZXQtMyIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXRRdWlldCIsInNvdXJjZSI6IntcbiAgLy8gV2FpdCBmb3Igb3V0cHV0IHRvIGJlIHdyaXR0ZW4gdG8gdGhlIERPTSwgdGhlbiB0cmlnZ2VyIHdpZGdldCByZW5kZXJpbmdcbiAgYXdhaXQgX3dlYnJfdmFsdWVfMztcbiAgaWYgKHdpbmRvdy5IVE1MV2lkZ2V0cykge1xuICAgIHdpbmRvdy5IVE1MV2lkZ2V0cy5zdGF0aWNSZW5kZXIoKTtcbiAgfVxuICBpZiAod2luZG93LlBhZ2VkVGFibGVEb2MpIHtcbiAgICB3aW5kb3cuUGFnZWRUYWJsZURvYy5pbml0QWxsKCk7XG4gIH1cbn1cbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLTMiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0Iiwic291cmNlIjoidmlld29mIF93ZWJyX2VkaXRvcl8zID0ge1xuICBjb25zdCB7IFdlYlJFeGVyY2lzZUVkaXRvciwgYjY0RGVjb2RlIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuICBjb25zdCBzY3JpcHRDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItMy1jb250ZW50c1xcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGJsb2NrID0gSlNPTi5wYXJzZShiNjREZWNvZGUoc2NyaXB0Q29udGVudCkpO1xuXG4gIGNvbnN0IG9wdGlvbnMgPSBPYmplY3QuYXNzaWduKHsgaWQ6IGB3ZWJyLTMtY29udGVudHNgIH0sIGJsb2NrLmF0dHIpO1xuICBjb25zdCBlZGl0b3IgPSBuZXcgV2ViUkV4ZXJjaXNlRWRpdG9yKHdlYlJPanMud2ViUlByb21pc2UsIGJsb2NrLmNvZGUsIG9wdGlvbnMpO1xuXG4gIHJldHVybiBlZGl0b3IuY29udGFpbmVyO1xufVxuX3dlYnJfdmFsdWVfMyA9IHdlYlJPanMucHJvY2Vzcyhfd2Vicl9lZGl0b3JfMywge30pO1xuIn0seyJjZWxsTmFtZSI6IndlYnItd2lkZ2V0LTIiLCJpbmxpbmUiOmZhbHNlLCJtZXRob2ROYW1lIjoiaW50ZXJwcmV0UXVpZXQiLCJzb3VyY2UiOiJ7XG4gIC8vIFdhaXQgZm9yIG91dHB1dCB0byBiZSB3cml0dGVuIHRvIHRoZSBET00sIHRoZW4gdHJpZ2dlciB3aWRnZXQgcmVuZGVyaW5nXG4gIGF3YWl0IF93ZWJyX3ZhbHVlXzI7XG4gIGlmICh3aW5kb3cuSFRNTFdpZGdldHMpIHtcbiAgICB3aW5kb3cuSFRNTFdpZGdldHMuc3RhdGljUmVuZGVyKCk7XG4gIH1cbiAgaWYgKHdpbmRvdy5QYWdlZFRhYmxlRG9jKSB7XG4gICAgd2luZG93LlBhZ2VkVGFibGVEb2MuaW5pdEFsbCgpO1xuICB9XG59XG4ifSx7ImNlbGxOYW1lIjoid2Vici0yIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldCIsInNvdXJjZSI6InZpZXdvZiBfd2Vicl9lZGl0b3JfMiA9IHtcbiAgY29uc3QgeyBXZWJSRXhlcmNpc2VFZGl0b3IsIGI2NERlY29kZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZTtcbiAgY29uc3Qgc2NyaXB0Q29udGVudCA9IGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoYHNjcmlwdFt0eXBlPVxcXCJ3ZWJyLTItY29udGVudHNcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBibG9jayA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKHNjcmlwdENvbnRlbnQpKTtcblxuICBjb25zdCBvcHRpb25zID0gT2JqZWN0LmFzc2lnbih7IGlkOiBgd2Vici0yLWNvbnRlbnRzYCB9LCBibG9jay5hdHRyKTtcbiAgY29uc3QgZWRpdG9yID0gbmV3IFdlYlJFeGVyY2lzZUVkaXRvcih3ZWJST2pzLndlYlJQcm9taXNlLCBibG9jay5jb2RlLCBvcHRpb25zKTtcblxuICByZXR1cm4gZWRpdG9yLmNvbnRhaW5lcjtcbn1cbl93ZWJyX3ZhbHVlXzIgPSB3ZWJST2pzLnByb2Nlc3MoX3dlYnJfZWRpdG9yXzIsIHt9KTtcbiJ9LHsiY2VsbE5hbWUiOiJ3ZWJyLXdpZGdldC0xIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoie1xuICAvLyBXYWl0IGZvciBvdXRwdXQgdG8gYmUgd3JpdHRlbiB0byB0aGUgRE9NLCB0aGVuIHRyaWdnZXIgd2lkZ2V0IHJlbmRlcmluZ1xuICBhd2FpdCBfd2Vicl92YWx1ZV8xO1xuICBpZiAod2luZG93LkhUTUxXaWRnZXRzKSB7XG4gICAgd2luZG93LkhUTUxXaWRnZXRzLnN0YXRpY1JlbmRlcigpO1xuICB9XG4gIGlmICh3aW5kb3cuUGFnZWRUYWJsZURvYykge1xuICAgIHdpbmRvdy5QYWdlZFRhYmxlRG9jLmluaXRBbGwoKTtcbiAgfVxufVxuIn0seyJjZWxsTmFtZSI6IndlYnItMSIsImlubGluZSI6ZmFsc2UsIm1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJzb3VyY2UiOiJ2aWV3b2YgX3dlYnJfZWRpdG9yXzEgPSB7XG4gIGNvbnN0IHsgV2ViUkV4ZXJjaXNlRWRpdG9yLCBiNjREZWNvZGUgfSA9IHdpbmRvdy5fZXhlcmNpc2Vfb2pzX3J1bnRpbWU7XG4gIGNvbnN0IHNjcmlwdENvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwid2Vici0xLWNvbnRlbnRzXFxcIl1gKS50ZXh0Q29udGVudDtcbiAgY29uc3QgYmxvY2sgPSBKU09OLnBhcnNlKGI2NERlY29kZShzY3JpcHRDb250ZW50KSk7XG5cbiAgY29uc3Qgb3B0aW9ucyA9IE9iamVjdC5hc3NpZ24oeyBpZDogYHdlYnItMS1jb250ZW50c2AgfSwgYmxvY2suYXR0cik7XG4gIGNvbnN0IGVkaXRvciA9IG5ldyBXZWJSRXhlcmNpc2VFZGl0b3Iod2ViUk9qcy53ZWJSUHJvbWlzZSwgYmxvY2suY29kZSwgb3B0aW9ucyk7XG5cbiAgcmV0dXJuIGVkaXRvci5jb250YWluZXI7XG59XG5fd2Vicl92YWx1ZV8xID0gd2ViUk9qcy5wcm9jZXNzKF93ZWJyX2VkaXRvcl8xLCB7fSk7XG4ifSx7ImNlbGxOYW1lIjoid2Vici1wcmVsdWRlIiwiaW5saW5lIjpmYWxzZSwibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoid2ViUk9qcyA9IHtcbiAgY29uc3QgeyBXZWJSLCBDaGFubmVsVHlwZSB9ID0gd2luZG93Ll9leGVyY2lzZV9vanNfcnVudGltZS5XZWJSO1xuICBjb25zdCB7XG4gICAgV2ViUkV2YWx1YXRvcixcbiAgICBXZWJSRW52aXJvbm1lbnRNYW5hZ2VyLFxuICAgIHNldHVwUixcbiAgICBiNjREZWNvZGUsXG4gICAgY29sbGFwc2VQYXRoXG4gIH0gPSB3aW5kb3cuX2V4ZXJjaXNlX29qc19ydW50aW1lO1xuXG4gIGNvbnN0IHN0YXR1c0NvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1zdGF0dXNcIik7XG4gIGNvbnN0IGluZGljYXRvckNvbnRhaW5lciA9IGRvY3VtZW50LmdldEVsZW1lbnRCeUlkKFwiZXhlcmNpc2UtbG9hZGluZy1pbmRpY2F0b3JcIik7XG4gIGluZGljYXRvckNvbnRhaW5lci5jbGFzc0xpc3QucmVtb3ZlKFwiZC1ub25lXCIpO1xuXG4gIGxldCBzdGF0dXNUZXh0ID0gZG9jdW1lbnQuY3JlYXRlRWxlbWVudChcImRpdlwiKVxuICBzdGF0dXNUZXh0LmNsYXNzTGlzdCA9IFwiZXhlcmNpc2UtbG9hZGluZy1kZXRhaWxzXCI7XG4gIHN0YXR1c1RleHQgPSBzdGF0dXNDb250YWluZXIuYXBwZW5kQ2hpbGQoc3RhdHVzVGV4dCk7XG4gIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgSW5pdGlhbGlzZWA7XG5cbiAgLy8gSG9pc3QgaW5kaWNhdG9yIG91dCBmcm9tIGZpbmFsIHNsaWRlIHdoZW4gcnVubmluZyB1bmRlciByZXZlYWxcbiAgY29uc3QgcmV2ZWFsU3RhdHVzID0gZG9jdW1lbnQucXVlcnlTZWxlY3RvcihcIi5yZXZlYWwgLmV4ZXJjaXNlLWxvYWRpbmctaW5kaWNhdG9yXCIpO1xuICBpZiAocmV2ZWFsU3RhdHVzKSB7XG4gICAgcmV2ZWFsU3RhdHVzLnJlbW92ZSgpO1xuICAgIGRvY3VtZW50LnF1ZXJ5U2VsZWN0b3IoXCIucmV2ZWFsID4gLnNsaWRlc1wiKS5hcHBlbmRDaGlsZChyZXZlYWxTdGF0dXMpO1xuICB9XG5cbiAgLy8gTWFrZSBhbnkgcmV2ZWFsIHNsaWRlcyB3aXRoIGxpdmUgY2VsbHMgc2Nyb2xsYWJsZVxuICBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKFwiLnJldmVhbCAuZXhlcmNpc2UtY2VsbFwiKS5mb3JFYWNoKChlbCkgPT4ge1xuICAgIGVsLmNsb3Nlc3QoJ3NlY3Rpb24uc2xpZGUnKS5jbGFzc0xpc3QuYWRkKFwic2Nyb2xsYWJsZVwiKTtcbiAgfSlcblxuICAvLyB3ZWJSIHN1cHBsZW1lbnRhbCBkYXRhIGFuZCBvcHRpb25zXG4gIGNvbnN0IGRhdGFDb250ZW50ID0gZG9jdW1lbnQucXVlcnlTZWxlY3Rvcihgc2NyaXB0W3R5cGU9XFxcIndlYnItZGF0YVxcXCJdYCkudGV4dENvbnRlbnQ7XG4gIGNvbnN0IGRhdGEgPSBKU09OLnBhcnNlKGI2NERlY29kZShkYXRhQ29udGVudCkpO1xuXG4gIC8vIEdyYWIgbGlzdCBvZiByZXNvdXJjZXMgdG8gYmUgZG93bmxvYWRlZFxuICBjb25zdCBmaWxlc0NvbnRlbnQgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yKGBzY3JpcHRbdHlwZT1cXFwidmZzLWZpbGVcXFwiXWApLnRleHRDb250ZW50O1xuICBjb25zdCBmaWxlcyA9IEpTT04ucGFyc2UoYjY0RGVjb2RlKGZpbGVzQ29udGVudCkpO1xuXG4gIC8vIFVzZSBQb3N0TWVzc2FnZSBjaGFubmVsIGZvciBhc3luYyBjb21tdW5pY2F0aW9uXG4gIC8vIFdlIGRvIG5vdCBleHBlY3QgdG8gdGFrZSBuZXN0ZWQgcHJvbXB0IGlucHV0IGluIFF1YXJ0byBMaXZlIGNlbGxzXG4gIGRhdGEub3B0aW9ucy5jaGFubmVsVHlwZSA9IENoYW5uZWxUeXBlLlBvc3RNZXNzYWdlO1xuXG4gIC8vIEluaXRpYWxpc2Ugd2ViUiBhbmQgc2V0dXAgZm9yIFIgY29kZSBldmFsdWF0aW9uXG4gIGxldCB3ZWJSUHJvbWlzZSA9IChhc3luYyAod2ViUikgPT4ge1xuICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgd2ViUmA7XG4gICAgYXdhaXQgd2ViUi5pbml0KCk7XG5cbiAgICAvLyBJbnN0YWxsIHByb3ZpZGVkIGxpc3Qgb2YgcGFja2FnZXNcbiAgICAvLyBFbnN1cmUgd2ViUiBkZWZhdWx0IHJlcG8gaXMgaW5jbHVkZWRcbiAgICBkYXRhLnBhY2thZ2VzLnJlcG9zLnB1c2goXCJodHRwczovL3JlcG8uci13YXNtLm9yZ1wiKVxuICAgIGF3YWl0IGRhdGEucGFja2FnZXMucGtncy5tYXAoKHBrZykgPT4gKCkgPT4ge1xuICAgICAgc3RhdHVzVGV4dC50ZXh0Q29udGVudCA9IGBEb3dubG9hZGluZyBwYWNrYWdlOiAke3BrZ31gO1xuICAgICAgcmV0dXJuIHdlYlIuZXZhbFJWb2lkKGBcbiAgICAgICAgd2Vicjo6aW5zdGFsbChwa2csIHJlcG9zID0gcmVwb3MpXG4gICAgICAgIGxpYnJhcnkocGtnLCBjaGFyYWN0ZXIub25seSA9IFRSVUUpXG4gICAgICBgLCB7IGVudjoge1xuICAgICAgICBwa2c6IHBrZyxcbiAgICAgICAgcmVwb3M6IGRhdGEucGFja2FnZXMucmVwb3MsXG4gICAgICB9fSk7XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICAvLyBEb3dubG9hZCBhbmQgaW5zdGFsbCByZXNvdXJjZXNcbiAgICBhd2FpdCBmaWxlcy5tYXAoKGZpbGUpID0+IGFzeW5jICgpID0+IHtcbiAgICAgIGNvbnN0IG5hbWUgPSBmaWxlLnN1YnN0cmluZyhmaWxlLmxhc3RJbmRleE9mKCcvJykgKyAxKTtcbiAgICAgIHN0YXR1c1RleHQudGV4dENvbnRlbnQgPSBgRG93bmxvYWRpbmcgcmVzb3VyY2U6ICR7bmFtZX1gO1xuICAgICAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChmaWxlKTtcbiAgICAgIGlmICghcmVzcG9uc2Uub2spIHtcbiAgICAgICAgdGhyb3cgbmV3IEVycm9yKGBDYW4ndCBkb3dubG9hZCBcXGAke2ZpbGV9XFxgLiBFcnJvciAke3Jlc3BvbnNlLnN0YXR1c306IFwiJHtyZXNwb25zZS5zdGF0dXNUZXh0fVwiLmApO1xuICAgICAgfVxuICAgICAgY29uc3QgZGF0YSA9IGF3YWl0IHJlc3BvbnNlLmFycmF5QnVmZmVyKCk7XG5cbiAgICAgIC8vIFN0b3JlIFVSTHMgaW4gdGhlIGN3ZCB3aXRob3V0IGFueSBzdWJkaXJlY3Rvcnkgc3RydWN0dXJlXG4gICAgICBpZiAoZmlsZS5pbmNsdWRlcyhcIjovL1wiKSkge1xuICAgICAgICBmaWxlID0gbmFtZTtcbiAgICAgIH1cblxuICAgICAgLy8gQ29sbGFwc2UgaGlnaGVyIGRpcmVjdG9yeSBzdHJ1Y3R1cmVcbiAgICAgIGZpbGUgPSBjb2xsYXBzZVBhdGgoZmlsZSk7XG5cbiAgICAgIC8vIENyZWF0ZSBkaXJlY3RvcnkgdHJlZSwgaWdub3JpbmcgXCJkaXJlY3RvcnkgZXhpc3RzXCIgVkZTIGVycm9yc1xuICAgICAgY29uc3QgcGFydHMgPSBmaWxlLnNwbGl0KCcvJykuc2xpY2UoMCwgLTEpO1xuICAgICAgbGV0IHBhdGggPSAnJztcbiAgICAgIHdoaWxlIChwYXJ0cy5sZW5ndGggPiAwKSB7XG4gICAgICAgIHBhdGggKz0gcGFydHMuc2hpZnQoKSArICcvJztcbiAgICAgICAgdHJ5IHtcbiAgICAgICAgICBhd2FpdCB3ZWJSLkZTLm1rZGlyKHBhdGgpO1xuICAgICAgICB9IGNhdGNoIChlKSB7XG4gICAgICAgICAgaWYgKCFlLm1lc3NhZ2UuaW5jbHVkZXMoXCJGUyBlcnJvclwiKSkge1xuICAgICAgICAgICAgdGhyb3cgZTtcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIH1cblxuICAgICAgLy8gV3JpdGUgdGhpcyBmaWxlIHRvIHRoZSBWRlNcbiAgICAgIHJldHVybiBhd2FpdCB3ZWJSLkZTLndyaXRlRmlsZShmaWxlLCBuZXcgVWludDhBcnJheShkYXRhKSk7XG4gICAgfSkucmVkdWNlKChjdXIsIG5leHQpID0+IGN1ci50aGVuKG5leHQpLCBQcm9taXNlLnJlc29sdmUoKSk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYEluc3RhbGxpbmcgd2ViUiBzaGltc2A7XG4gICAgYXdhaXQgd2ViUi5ldmFsUlZvaWQoYHdlYnI6OnNoaW1faW5zdGFsbCgpYCk7XG5cbiAgICBzdGF0dXNUZXh0LnRleHRDb250ZW50ID0gYFdlYlIgZW52aXJvbm1lbnQgc2V0dXBgO1xuICAgIGF3YWl0IHNldHVwUih3ZWJSLCBkYXRhKTtcblxuICAgIHN0YXR1c1RleHQucmVtb3ZlKCk7XG4gICAgaWYgKHN0YXR1c0NvbnRhaW5lci5jaGlsZHJlbi5sZW5ndGggPT0gMCkge1xuICAgICAgc3RhdHVzQ29udGFpbmVyLnBhcmVudE5vZGUucmVtb3ZlKCk7XG4gICAgfVxuICAgIHJldHVybiB3ZWJSO1xuICB9KShuZXcgV2ViUihkYXRhLm9wdGlvbnMpKTtcblxuICAvLyBLZWVwIHRyYWNrIG9mIGluaXRpYWwgT0pTIGJsb2NrIHJlbmRlclxuICBjb25zdCByZW5kZXJlZE9qcyA9IHt9O1xuXG4gIGNvbnN0IHByb2Nlc3MgPSBhc3luYyAoY29udGV4dCwgaW5wdXRzKSA9PiB7XG4gICAgY29uc3Qgd2ViUiA9IGF3YWl0IHdlYlJQcm9taXNlO1xuICAgIGNvbnN0IGV2YWx1YXRvciA9IG5ldyBXZWJSRXZhbHVhdG9yKHdlYlIsIGNvbnRleHQpXG4gICAgYXdhaXQgZXZhbHVhdG9yLnByb2Nlc3MoaW5wdXRzKTtcbiAgICByZXR1cm4gZXZhbHVhdG9yLmNvbnRhaW5lcjtcbiAgfVxuXG4gIHJldHVybiB7XG4gICAgcHJvY2VzcyxcbiAgICB3ZWJSUHJvbWlzZSxcbiAgICByZW5kZXJlZE9qcyxcbiAgfTtcbn1cbiJ9XX0=
 </script>
 <div id="exercise-loading-indicator" class="exercise-loading-indicator d-none d-flex align-items-center gap-2">
 <div id="exercise-loading-status" class="d-flex gap-2">

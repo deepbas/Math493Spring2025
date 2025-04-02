@@ -97,8 +97,8 @@ website:
         contents:
           - text: "Activity 33"
             href: activity33.html
-      #     - text: "Activity 34"
-      #       href: activity34.html
+          - text: "Activity 34"
+            href: activity34.html
       #     - text: "Activity 35"
       #       href: activity35.html
       #     - text: "Activity 36"
