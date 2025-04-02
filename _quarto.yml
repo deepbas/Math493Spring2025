@@ -194,9 +194,7 @@ webr:
     - vars
     - FinTS
     - tidyr
-    - tseries
-    - tsDyn
-    
+
 filters:
   - shinylive
   - webr
