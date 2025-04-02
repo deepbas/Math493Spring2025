@@ -26,6 +26,7 @@ library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
 library(vars)
 library(tsDyn)
+library(tseries)
 select <- dplyr::select
 ```
 
@@ -41,7 +42,7 @@ select <- dplyr::select
 ```{webr}
 energy_series <- vic_elec %>%
   filter_index(~ "2014-12-31") %>%
-  select(Time, Demand, Temperature) %>%
+  dplyr::select(Time, Demand, Temperature) %>%
   drop_na()
 ```
 
@@ -69,13 +70,21 @@ The first model uses ETS (Error-Trend-Seasonal) for demand alone. This is limite
 **Step 2 - ARIMAX with Temperature**  
 
 ```{webr}
-# 2. ARIMAX with PROPER temperature forecasts
+# 2. ARIMAX with temperature forecasts
 # First forecast temperature
 temp_ets <- energy_series %>% model(ETS(Temperature))
 temp_fc <- temp_ets %>% 
   forecast(h = "1 week") %>% 
   as_tibble() %>% 
-  select(Time, Temperature = .mean)
+  dplyr::select(Time, Temperature = .mean)
+
+demand_dr <- energy_series %>% model(ARIMA(Demand ~ Temperature))
+
+demand_dr_fc <- demand_dr %>% 
+  forecast(new_data = temp_fc %>% as_tsibble(index = Time)) %>% 
+  as_tibble() %>% 
+  rename(mean = .mean) %>% 
+  mutate(Model = "ARIMAX")
 ```
 
 
@@ -120,14 +129,7 @@ $$\text{VarForecast}_t = \text{LastObs} + \sum \text{DifferencedForecasts}_t$$
 - VAR: Best for short-term co-movements, no external forecast needed
 
 ```{webr}
-demand_dr <- energy_series %>% model(ARIMA(Demand ~ Temperature))
-demand_dr_fc <- demand_dr %>% 
-  forecast(new_data = temp_fc %>% as_tsibble(index = Time)) %>% 
-  as_tibble() %>% 
-  rename(mean = .mean) %>% 
-  mutate(Model = "ARIMAX")
-
-# 3. VAR with proper tsDyn implementation
+# 3. VAR with tsDyn implementation
 var_data <- energy_series %>% as_tibble() %>% 
   select(Demand, Temperature) %>%
   mutate(across(everything(), difference)) %>% 
@@ -144,13 +146,16 @@ var_fc_demand <- tibble(
   Model = "VAR"
 )
 
-# Combine forecasts PROPERLY
+# Combine forecasts 
 combined_fc <- bind_rows(
   demand_ets_fc %>% select(Time, Model, mean),
   demand_dr_fc %>% select(Time, Model, mean),
   var_fc_demand
 )
+```
 
+
+```{webr}
 # Plot with accurate comparisons
 ggplot() +
   geom_line(data = energy_series %>% tail(2016),  # Last 2 weeks
