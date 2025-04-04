@@ -35,7 +35,7 @@ select <- dplyr::select
 
 ```{r}
 production_data <- aus_production %>%
-  select(Quarter, Beer, Gas, Electricity) %>%
+  dplyr::select(Quarter, Beer, Gas, Electricity) %>%
   drop_na() %>%
   mutate(across(c(Beer, Gas, Electricity), log))
 ```
@@ -59,7 +59,7 @@ production_data %>%
   ) +
   labs(title = "Production Trends with Suspected Structural Break")
 
-# 2. Formal breakpoint test
+# 2. Formal breakpoints test
 library(strucchange)
 bp_test <- Fstats(Beer ~ Gas + Electricity, data = production_data)
 break_date <- breakpoints(bp_test)$breakpoints %>%
@@ -115,8 +115,8 @@ data_pre_break <- production_data %>% filter(Quarter < break_date)
 data_post_break <- production_data %>% filter(Quarter >= break_date)
 
 # Fit ETS models for Beer production on each regime
-ets_pre <- data_pre_break %>% model(ETS(Beer))
-ets_post <- data_post_break %>% model(ETS(Beer))
+ets_pre <- data_pre_break %>% model(ETS(Gas))
+ets_post <- data_post_break %>% model(ETS(Gas))
 
 # Output summaries
 report(ets_pre)
@@ -124,5 +124,17 @@ report(ets_post)
 ```
 
 
+```{r}
+ets_pre %>%
+  components() %>% 
+  autoplot()
+```
+
+
+```{r}
+ets_post %>% 
+  components() %>% 
+  autoplot()
+```
 
 

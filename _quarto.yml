@@ -2,7 +2,6 @@ project:
   type: website
 output-dir: _site
 
-
 website:
   title: "Math 493: Advanced Topics in Statistics"
   sidebar:
@@ -99,10 +98,10 @@ website:
             href: activity33.html
           - text: "Activity 34"
             href: activity34.html
-      #     - text: "Activity 35"
-      #       href: activity35.html
-      #     - text: "Activity 36"
-      #       href: activity36.html
+          - text: "Activity 35"
+            href: activity35.html
+          - text: "Activity 36"
+            href: activity36.html
       # - section: "Week 10"
       #   contents:
       #     - text: "Activity 37"
