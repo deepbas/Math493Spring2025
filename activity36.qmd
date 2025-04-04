@@ -139,3 +139,6 @@ ets_post %>%
   autoplot()
 ```
 
+## Lab Activity: Do the same with the same `break_date` for `Gas` variable instead of the `Beer` variable.
+
+
