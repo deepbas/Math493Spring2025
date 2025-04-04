@@ -84,7 +84,9 @@ Incorporating the intervention variable as an external regressor.
 # Fit ARIMA model with intervention dummy using xreg()
 arima_model <- production_data %>%
   model(ARIMA(Beer ~ xreg(regime)))
+
 report(arima_model)
+arima_model %>% tidy() %>% filter(term == "regime")
 ```
 
 The underlying model is represented as
@@ -115,8 +117,8 @@ data_pre_break <- production_data %>% filter(Quarter < break_date)
 data_post_break <- production_data %>% filter(Quarter >= break_date)
 
 # Fit ETS models for Beer production on each regime
-ets_pre <- data_pre_break %>% model(ETS(Gas))
-ets_post <- data_post_break %>% model(ETS(Gas))
+ets_pre <- data_pre_break %>% model(ETS(Beer))
+ets_post <- data_post_break %>% model(ETS(Beer))
 
 # Output summaries
 report(ets_pre)

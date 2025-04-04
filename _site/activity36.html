@@ -630,7 +630,8 @@ window.Quarto = {
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit ARIMA model with intervention dummy using xreg()</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>arima_model <span class="ot">&lt;-</span> production_data <span class="sc">%&gt;%</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ARIMA</span>(Beer <span class="sc">~</span> <span class="fu">xreg</span>(regime)))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(arima_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(arima_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Series: Beer 
 Model: LM w/ ARIMA(3,0,1)(0,1,1)[4] errors 
@@ -642,6 +643,13 @@ s.e.  0.1396  0.0774  0.1078   0.1339   0.0541   0.0216
 
 sigma^2 estimated as 0.001226:  log likelihood=415.13
 AIC=-816.25   AICc=-815.71   BIC=-792.69</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>arima_model <span class="sc">%&gt;%</span> <span class="fu">tidy</span>() <span class="sc">%&gt;%</span> <span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"regime"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 1 × 6
+  .model                     term   estimate std.error statistic p.value
+  &lt;chr&gt;                      &lt;chr&gt;     &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+1 ARIMA(Beer ~ xreg(regime)) regime  -0.0156    0.0216    -0.724   0.470</code></pre>
 </div>
 </div>
 <p>The underlying model is represented as</p>
@@ -663,58 +671,57 @@ D_t =
 <h3 class="anchored" data-anchor-id="activity-3-ets-models-on-regime-split-data"><strong>Activity 3: ETS Models on Regime-Split Data</strong></h3>
 <p>Since ETS models do not natively accept exogenous regressors, we split the data into pre- and post-break regimes and fit separate ETS models.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data based on break_date</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>data_pre_break <span class="ot">&lt;-</span> production_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Quarter <span class="sc">&lt;</span> break_date)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>data_post_break <span class="ot">&lt;-</span> production_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Quarter <span class="sc">&gt;=</span> break_date)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit ETS models for Beer production on each regime</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>ets_pre <span class="ot">&lt;-</span> data_pre_break <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="fu">ETS</span>(Gas))</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>ets_post <span class="ot">&lt;-</span> data_post_break <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="fu">ETS</span>(Gas))</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output summaries</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(ets_pre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split the data based on break_date</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>data_pre_break <span class="ot">&lt;-</span> production_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Quarter <span class="sc">&lt;</span> break_date)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>data_post_break <span class="ot">&lt;-</span> production_data <span class="sc">%&gt;%</span> <span class="fu">filter</span>(Quarter <span class="sc">&gt;=</span> break_date)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit ETS models for Beer production on each regime</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>ets_pre <span class="ot">&lt;-</span> data_pre_break <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="fu">ETS</span>(Beer))</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>ets_post <span class="ot">&lt;-</span> data_post_break <span class="sc">%&gt;%</span> <span class="fu">model</span>(<span class="fu">ETS</span>(Beer))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Output summaries</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(ets_pre)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Series: Gas 
-Model: ETS(M,Ad,M) 
+<pre><code>Series: Beer 
+Model: ETS(A,A,A) 
   Smoothing parameters:
-    alpha = 0.01881967 
-    beta  = 0.0002899828 
-    gamma = 0.0001000133 
-    phi   = 0.9655274 
+    alpha = 0.09973697 
+    beta  = 0.03911698 
+    gamma = 0.0001004978 
 
   Initial states:
-     l[0]       b[0]      s[0]    s[-1]   s[-2]     s[-3]
- 1.738852 0.01357626 0.9695589 1.087424 1.04629 0.8967272
+     l[0]         b[0]      s[0]       s[-1]      s[-2]      s[-3]
+ 5.539214 0.0006337494 0.1727994 -0.07509174 -0.1381876 0.04047987
 
-  sigma^2:  7e-04
+  sigma^2:  0.0012
 
       AIC      AICc       BIC 
--90.56723 -84.92621 -71.44700 </code></pre>
+-132.8992 -128.3992 -115.6910 </code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(ets_post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(ets_post)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>Series: Gas 
-Model: ETS(A,Ad,A) 
+<pre><code>Series: Beer 
+Model: ETS(M,Ad,A) 
   Smoothing parameters:
-    alpha = 0.9259609 
-    beta  = 0.003951867 
-    gamma = 0.06488783 
-    phi   = 0.964834 
+    alpha = 0.2117282 
+    beta  = 0.003866127 
+    gamma = 0.1908595 
+    phi   = 0.9480641 
 
   Initial states:
-     l[0]      b[0]       s[0]      s[-1]       s[-2]    s[-3]
- 2.152093 0.1157745 0.04439275 -0.1586937 -0.05726503 0.171566
+    l[0]       b[0]       s[0]      s[-1]     s[-2]       s[-3]
+ 5.86103 0.01944297 -0.1056501 0.01861439 0.1619088 -0.07487303
 
-  sigma^2:  0.002
+  sigma^2:  0
 
       AIC      AICc       BIC 
--173.9162 -172.5149 -142.6765 </code></pre>
+-249.0023 -247.6010 -217.7627 </code></pre>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ets_pre <span class="sc">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>ets_pre <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -724,9 +731,9 @@ Model: ETS(A,Ad,A)
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ets_post <span class="sc">%&gt;%</span> </span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>ets_post <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
