@@ -1,0 +1,128 @@
+---
+title: "Activity36"
+format: 
+  live-html:
+    theme:
+      light: [lux, theme-light.scss]
+      dark: [superhero, theme-dark.scss] 
+engine: knitr
+toc: true
+---
+
+{{< include _extensions/r-wasm/live/_knitr.qmd >}}
+
+```{r}
+#| echo: false
+# Time Series Essentials, install if needed!
+library(feasts)       # Feature extraction & decomposition
+library(fable)        # Forecasting models (ARIMA, ETS, etc.)
+library(fpp3)         # Tidy time series dataseta
+library(astsa)        # Applied statistical TS methods from textbook
+library(tseries)      # Unit root tests & TS diagnostics
+library(tsibbledata)  # Curated TS datasets
+library(purrr)        # Functional programming for TS pipelines
+library(readr)        # Efficient data import
+library(vars)
+library(tseries)
+library(tsDyn)
+
+select <- dplyr::select
+```
+
+## **Extending to Multiple Variables with Structural Breaks**
+
+**Data Prep: Australian Production (Beer, Gas, Electricity)**
+
+```{r}
+production_data <- aus_production %>%
+  select(Quarter, Beer, Gas, Electricity) %>%
+  drop_na() %>%
+  mutate(across(c(Beer, Gas, Electricity), log))
+```
+
+
+### **Activity 1: Detecting Structural Breaks**  
+
+**Structural Break Detection**  
+
+Using Chow test and CUSUM for regime shifts:
+
+```{r}
+# 1. Visual break identification
+production_data %>%
+  pivot_longer(-Quarter) %>%
+  autoplot(value) + 
+  geom_vline(
+    xintercept = as.numeric(yearquarter("1968 Q3")),  
+    color = "firebrick", 
+    linetype = 2
+  ) +
+  labs(title = "Production Trends with Suspected Structural Break")
+
+# 2. Formal breakpoint test
+library(strucchange)
+bp_test <- Fstats(Beer ~ Gas + Electricity, data = production_data)
+break_date <- breakpoints(bp_test)$breakpoints %>%
+  production_data$Quarter[.]
+```
+
+**Handling Structural Breaks**  
+
+Create intervention dummy:
+
+```{r}
+# Create an intervention dummy: 0 before break, 1 after break
+production_data <- production_data %>%
+  mutate(regime = if_else(Quarter >= break_date, 1, 0))
+```
+
+### **Activity 2: ARIMA with an Intervention Dummy**
+
+Incorporating the intervention variable as an external regressor.
+
+```{r}
+# Fit ARIMA model with intervention dummy using xreg()
+arima_model <- production_data %>%
+  model(ARIMA(Beer ~ xreg(regime)))
+report(arima_model)
+```
+
+The underlying model is represented as
+
+$$
+\begin{align}
+y_t &= \mu + \sum_{i=1}^{p}\phi_i y_{t-i} + \sum_{j=1}^{q}\theta_j \epsilon_{t-j} + \beta D_t + \epsilon_t,
+\end{align}
+$$
+
+where $D_t$ is defined as
+
+$$
+D_t =
+\begin{cases}
+0, & t < \text{break date}, \\
+1, & t \geq \text{break date},
+\end{cases}
+$$
+
+### **Activity 3: ETS Models on Regime-Split Data**
+
+Since ETS models do not natively accept exogenous regressors, we split the data into pre- and post-break regimes and fit separate ETS models.
+
+```{r}
+# Split the data based on break_date
+data_pre_break <- production_data %>% filter(Quarter < break_date)
+data_post_break <- production_data %>% filter(Quarter >= break_date)
+
+# Fit ETS models for Beer production on each regime
+ets_pre <- data_pre_break %>% model(ETS(Beer))
+ets_post <- data_post_break %>% model(ETS(Beer))
+
+# Output summaries
+report(ets_pre)
+report(ets_post)
+```
+
+
+
+

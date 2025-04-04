@@ -1,0 +1,15 @@
+{
+  "hash": "0003ac6460ff22448ad2038f89056b14",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Activity40\"\nformat: \n  live-html:\n    theme:\n      light: [lux, theme-light.scss]\n      dark: [superhero, theme-dark.scss] \nengine: knitr\ntoc: true\n---\n\n::: {.cell}\n\n:::\n\n\n::: {.cell}\n\n:::\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

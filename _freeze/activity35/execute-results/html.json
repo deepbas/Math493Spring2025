@@ -1,0 +1,15 @@
+{
+  "hash": "f2c5153cd824e949fc41f3abd3d6f509",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Activity35\"\nformat: \n  live-html:\n    theme:\n      light: [lux, theme-light.scss]\n      dark: [superhero, theme-dark.scss] \nengine: knitr\ntoc: true\n---\n\n::: {.cell}\n\n:::\n\n\n::: {.cell}\n\n:::\n\n\n### 📌 No Activity  \n\n#### 📝 In-Class Quiz 2  ",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
