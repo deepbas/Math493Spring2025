@@ -32,11 +32,11 @@ select <- dplyr::select
 
 #### **Modeling Inflation Dynamics**  
 
-When modeling inflation ($\pi_t$) with GDP growth added to the framework, the relationship becomes:  
+Let's model inflation ($\pi_t$) with Unemployment, GDP growth, and CPI (lagged). The relationship can be written as:  
 $$\pi_t = \beta_0 + \beta_1 \text{Unemployment}_t + \beta_2 \text{CPI}_{t-1} + \beta_3 \text{GDP\_growth}_t + \epsilon_t$$  
-Here, GDP growth introduces another dimension of macroeconomic dynamics, as rising output ($\text{GDP\_growth}$) may signal demand-pull inflationary pressures, while unemployment ($\text{Unemployment}_t$) and lagged CPI ($\text{CPI}_{t-1}$) capture labor market slack and inertial price effects. However, structural breaks—such as shifts in productivity regimes, fiscal/monetary policy pivots, or global supply chain disruptions—can alter the **sign**, **magnitude**, or **significance** of these relationships over time.  
+There are a lot of dynamics as play here. GDP growth ($\text{GDP\_growth}$) may signal demand-pull inflationary pressures, while unemployment ($\text{Unemployment}_t$) and lagged CPI ($\text{CPI}_{t-1}$) capture labor market slack and inertial price effects. However, structural breaks—such as shifts in productivity regimes, fiscal/monetary policy pivots, or global supply chain disruptions—can alter the **sign**, **magnitude**, or **significance** of these relationships over time.  
 
-1. **Detect breaks in all coefficients**: Extend the Chow test to identify shifts in $\beta_1$ (unemployment’s impact), $\beta_2$ (CPI persistence), *and* $\beta_3$ (GDP growth sensitivity). For example, a break in $\beta_3$ might reflect a transition from a high-growth, high-inflation era to a stagflationary regime.  
+1. **Detect breaks in all coefficients**: Do a Chow test to identify shifts in $\beta_1$ (unemployment’s impact), $\beta_2$ (CPI persistence), *and* $\beta_3$ (GDP growth sensitivity). For example, a break in $\beta_3$ might reflect a transition from a high-growth, high-inflation era to a stagflationary regime.  
 2. **Segmented regression with regime-specific GDP effects**: Estimate $$Y_t = \beta_0^{(k)} + \beta_1^{(k)}\text{Unemployment}_t + \beta_2^{(k)}\text{CPI}_{t-1} + \beta_3^{(k)}\text{GDP\_growth}_t + \epsilon_t^{(k)}$$ for each regime $k$. This reveals whether GDP growth amplifies inflation in certain eras (e.g., post-recession recoveries) but not others (e.g., during secular stagnation).  
 3. **STL decomposition**: Separate the trend component of inflation to distinguish whether GDP-driven fluctuations are cyclical (e.g., business cycle upswings) or structural (e.g., sustained growth-inflation linkages post-break).  
 
@@ -78,7 +78,7 @@ combined_data <- us_gdp %>%
   drop_na()
 
 # View the combined data
-head(combined_data)
+head(combined_data) %>% knitr::kable()
 ```
 
 

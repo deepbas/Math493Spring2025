@@ -592,11 +592,11 @@ window.Quarto = {
 
 <section id="modeling-inflation-dynamics" class="level4">
 <h4 class="anchored" data-anchor-id="modeling-inflation-dynamics"><strong>Modeling Inflation Dynamics</strong></h4>
-<p>When modeling inflation (<span class="math inline">\(\pi_t\)</span>) with GDP growth added to the framework, the relationship becomes:<br>
+<p>Let’s model inflation (<span class="math inline">\(\pi_t\)</span>) with Unemployment, GDP growth, and CPI (lagged). The relationship can be written as:<br>
 <span class="math display">\[\pi_t = \beta_0 + \beta_1 \text{Unemployment}_t + \beta_2 \text{CPI}_{t-1} + \beta_3 \text{GDP\_growth}_t + \epsilon_t\]</span><br>
-Here, GDP growth introduces another dimension of macroeconomic dynamics, as rising output (<span class="math inline">\(\text{GDP\_growth}\)</span>) may signal demand-pull inflationary pressures, while unemployment (<span class="math inline">\(\text{Unemployment}_t\)</span>) and lagged CPI (<span class="math inline">\(\text{CPI}_{t-1}\)</span>) capture labor market slack and inertial price effects. However, structural breaks—such as shifts in productivity regimes, fiscal/monetary policy pivots, or global supply chain disruptions—can alter the <strong>sign</strong>, <strong>magnitude</strong>, or <strong>significance</strong> of these relationships over time.</p>
+There are a lot of dynamics as play here. GDP growth (<span class="math inline">\(\text{GDP\_growth}\)</span>) may signal demand-pull inflationary pressures, while unemployment (<span class="math inline">\(\text{Unemployment}_t\)</span>) and lagged CPI (<span class="math inline">\(\text{CPI}_{t-1}\)</span>) capture labor market slack and inertial price effects. However, structural breaks—such as shifts in productivity regimes, fiscal/monetary policy pivots, or global supply chain disruptions—can alter the <strong>sign</strong>, <strong>magnitude</strong>, or <strong>significance</strong> of these relationships over time.</p>
 <ol type="1">
-<li><strong>Detect breaks in all coefficients</strong>: Extend the Chow test to identify shifts in <span class="math inline">\(\beta_1\)</span> (unemployment’s impact), <span class="math inline">\(\beta_2\)</span> (CPI persistence), <em>and</em> <span class="math inline">\(\beta_3\)</span> (GDP growth sensitivity). For example, a break in <span class="math inline">\(\beta_3\)</span> might reflect a transition from a high-growth, high-inflation era to a stagflationary regime.<br>
+<li><strong>Detect breaks in all coefficients</strong>: Do a Chow test to identify shifts in <span class="math inline">\(\beta_1\)</span> (unemployment’s impact), <span class="math inline">\(\beta_2\)</span> (CPI persistence), <em>and</em> <span class="math inline">\(\beta_3\)</span> (GDP growth sensitivity). For example, a break in <span class="math inline">\(\beta_3\)</span> might reflect a transition from a high-growth, high-inflation era to a stagflationary regime.<br>
 </li>
 <li><strong>Segmented regression with regime-specific GDP effects</strong>: Estimate <span class="math display">\[Y_t = \beta_0^{(k)} + \beta_1^{(k)}\text{Unemployment}_t + \beta_2^{(k)}\text{CPI}_{t-1} + \beta_3^{(k)}\text{GDP\_growth}_t + \epsilon_t^{(k)}\]</span> for each regime <span class="math inline">\(k\)</span>. This reveals whether GDP growth amplifies inflation in certain eras (e.g., post-recession recoveries) but not others (e.g., during secular stagnation).<br>
 </li>
@@ -646,23 +646,92 @@ Here, GDP growth introduces another dimension of macroeconomic dynamics, as risi
 <span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
 <span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="co"># View the combined data</span></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(combined_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code># A tsibble: 6 x 7 [1D] &lt;UTC&gt;
-  Quarter date         GDP GDP_growth Unemployment   CPI inflation
-    &lt;qtr&gt; &lt;date&gt;     &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
-1 1948 Q2 1948-04-01  273.      2.57          3.67  24.0    0.914 
-2 1948 Q3 1948-07-01  279.      2.43          3.77  24.4    0.291 
-3 1948 Q4 1948-10-01  280.      0.419         3.83  24.2   -0.426 
-4 1949 Q1 1949-01-01  275.     -1.90          4.67  23.9   -0.194 
-5 1949 Q2 1949-04-01  271.     -1.34          5.87  23.9    0.0139
-6 1949 Q3 1949-07-01  273.      0.567         6.7   23.7   -0.236 </code></pre>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(combined_data) <span class="sc">%&gt;%</span> knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 11%">
+<col style="width: 15%">
+<col style="width: 18%">
+<col style="width: 12%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Quarter</th>
+<th style="text-align: left;">date</th>
+<th style="text-align: right;">GDP</th>
+<th style="text-align: right;">GDP_growth</th>
+<th style="text-align: right;">Unemployment</th>
+<th style="text-align: right;">CPI</th>
+<th style="text-align: right;">inflation</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1948 Q2</td>
+<td style="text-align: left;">1948-04-01</td>
+<td style="text-align: right;">272.567</td>
+<td style="text-align: right;">2.5682805</td>
+<td style="text-align: right;">3.666667</td>
+<td style="text-align: right;">23.99333</td>
+<td style="text-align: right;">0.9141472</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1948 Q3</td>
+<td style="text-align: left;">1948-07-01</td>
+<td style="text-align: right;">279.196</td>
+<td style="text-align: right;">2.4320626</td>
+<td style="text-align: right;">3.766667</td>
+<td style="text-align: right;">24.39667</td>
+<td style="text-align: right;">0.2905382</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1948 Q4</td>
+<td style="text-align: left;">1948-10-01</td>
+<td style="text-align: right;">280.366</td>
+<td style="text-align: right;">0.4190604</td>
+<td style="text-align: right;">3.833333</td>
+<td style="text-align: right;">24.17333</td>
+<td style="text-align: right;">-0.4258609</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1949 Q1</td>
+<td style="text-align: left;">1949-01-01</td>
+<td style="text-align: right;">275.034</td>
+<td style="text-align: right;">-1.9017998</td>
+<td style="text-align: right;">4.666667</td>
+<td style="text-align: right;">23.94333</td>
+<td style="text-align: right;">-0.1942711</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1949 Q2</td>
+<td style="text-align: left;">1949-04-01</td>
+<td style="text-align: right;">271.351</td>
+<td style="text-align: right;">-1.3391072</td>
+<td style="text-align: right;">5.866667</td>
+<td style="text-align: right;">23.91667</td>
+<td style="text-align: right;">0.0139470</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">1949 Q3</td>
+<td style="text-align: left;">1949-07-01</td>
+<td style="text-align: right;">272.889</td>
+<td style="text-align: right;">0.5667936</td>
+<td style="text-align: right;">6.700000</td>
+<td style="text-align: right;">23.71667</td>
+<td style="text-align: right;">-0.2362540</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chow test for structural breaks</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>break_test <span class="ot">&lt;-</span> <span class="fu">Fstats</span>(inflation <span class="sc">~</span> GDP_growth <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, <span class="at">data =</span> combined_data)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(break_test)  <span class="co"># Identify potential breakpoints</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Chow test for structural breaks</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>break_test <span class="ot">&lt;-</span> <span class="fu">Fstats</span>(inflation <span class="sc">~</span> GDP_growth <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, <span class="at">data =</span> combined_data)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(break_test)  <span class="co"># Identify potential breakpoints</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -670,43 +739,43 @@ Here, GDP growth introduces another dimension of macroeconomic dynamics, as risi
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate breakpoint date(s)</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>bp <span class="ot">&lt;-</span> <span class="fu">breakpoints</span>(inflation <span class="sc">~</span>  GDP_growth <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, <span class="at">data =</span> combined_data)</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>combined_data<span class="sc">$</span>Quarter[bp<span class="sc">$</span>breakpoints] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Estimate breakpoint date(s)</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>bp <span class="ot">&lt;-</span> <span class="fu">breakpoints</span>(inflation <span class="sc">~</span>  GDP_growth <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, <span class="at">data =</span> combined_data)</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>combined_data<span class="sc">$</span>Quarter[bp<span class="sc">$</span>breakpoints] </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>&lt;yearquarter[1]&gt;
 [1] "1981 Q3"
 # Year starts on: January</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit segmented regression</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>segmented_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(inflation <span class="sc">~</span> GDP_growth <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> combined_data, </span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">subset =</span> <span class="fu">breakpoints</span>(bp)<span class="sc">$</span>breakpoints)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit segmented regression</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>segmented_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(inflation <span class="sc">~</span> GDP_growth <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                      <span class="at">data =</span> combined_data, </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">subset =</span> <span class="fu">breakpoints</span>(bp)<span class="sc">$</span>breakpoints)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get breakpoint indices </span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>bp_indices <span class="ot">&lt;-</span> bp<span class="sc">$</span>breakpoints </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into segments</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>segments <span class="ot">&lt;-</span> <span class="fu">split</span>(combined_data, </span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">findInterval</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(combined_data), </span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">vec =</span> <span class="fu">c</span>(<span class="dv">0</span>, bp_indices, <span class="fu">nrow</span>(combined_data))))</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit models to each segment</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>segment_models <span class="ot">&lt;-</span> <span class="fu">lapply</span>(segments, <span class="cf">function</span>(df) {</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(inflation <span class="sc">~</span> GDP_growth <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, <span class="at">data =</span> df)</span>
-<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine residuals from all segments</span></span>
-<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>all_residuals <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(segment_models, residuals))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get breakpoint indices </span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>bp_indices <span class="ot">&lt;-</span> bp<span class="sc">$</span>breakpoints </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data into segments</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>segments <span class="ot">&lt;-</span> <span class="fu">split</span>(combined_data, </span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">findInterval</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(combined_data), </span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">vec =</span> <span class="fu">c</span>(<span class="dv">0</span>, bp_indices, <span class="fu">nrow</span>(combined_data))))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit models to each segment</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>segment_models <span class="ot">&lt;-</span> <span class="fu">lapply</span>(segments, <span class="cf">function</span>(df) {</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">lm</span>(inflation <span class="sc">~</span> GDP_growth <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, <span class="at">data =</span> df)</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine residuals from all segments</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>all_residuals <span class="ot">&lt;-</span> <span class="fu">unlist</span>(<span class="fu">lapply</span>(segment_models, residuals))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot segmented regressions</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(<span class="at">y =</span>inflation, <span class="at">x=</span>Quarter)) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> segments[[<span class="dv">1</span>]], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> segments[[<span class="dv">2</span>]], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"blue"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot segmented regressions</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(<span class="at">y =</span>inflation, <span class="at">x=</span>Quarter)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> segments[[<span class="dv">1</span>]], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">data =</span> segments[[<span class="dv">2</span>]], <span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"blue"</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -714,7 +783,7 @@ Here, GDP growth introduces another dimension of macroeconomic dynamics, as risi
 </figure>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Segmented Regression by Breakpoints"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Segmented Regression by Breakpoints"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$title
 [1] "Segmented Regression by Breakpoints"
@@ -724,12 +793,12 @@ attr(,"class")
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inflation analysis</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>combined_data <span class="sc">%&gt;%</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Quarter) <span class="sc">%&gt;%</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">STL</span>(inflation <span class="sc">~</span> <span class="fu">trend</span>() <span class="sc">+</span> <span class="fu">season</span>())) <span class="sc">%&gt;%</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Inflation Decomposition (STL)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Inflation analysis</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>combined_data <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Quarter) <span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">STL</span>(inflation <span class="sc">~</span> <span class="fu">trend</span>() <span class="sc">+</span> <span class="fu">season</span>())) <span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>() <span class="sc">+</span> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Inflation Decomposition (STL)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -739,7 +808,7 @@ attr(,"class")
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(segment_models, summary)  <span class="co"># Show coefficients for each regime</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lapply</span>(segment_models, summary)  <span class="co"># Show coefficients for each regime</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>$`1`
 
@@ -812,12 +881,12 @@ Residual standard error: NaN on 0 degrees of freedom</code></pre>
 <h4 class="anchored" data-anchor-id="parameter-stability-assessment"><strong>Parameter Stability Assessment</strong></h4>
 <p><strong>Q1: Test if the employment-inflation relationship remains stable using recursive residuals</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dynlm)</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>rolling_residuals <span class="ot">&lt;-</span> <span class="fu">efp</span>(inflation <span class="sc">~</span> GDP_growth  <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, <span class="at">data =</span> combined_data, <span class="at">type =</span> <span class="st">"Rec-CUSUM"</span>)</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot and interpret:</span></span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rolling_residuals)</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">1.358</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># 95% significance boundary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dynlm)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>rolling_residuals <span class="ot">&lt;-</span> <span class="fu">efp</span>(inflation <span class="sc">~</span> GDP_growth  <span class="sc">+</span> Unemployment <span class="sc">+</span> CPI, <span class="at">data =</span> combined_data, <span class="at">type =</span> <span class="st">"Rec-CUSUM"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot and interpret:</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(rolling_residuals)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a><span class="fu">abline</span>(<span class="at">h =</span> <span class="fl">1.358</span>, <span class="at">lty =</span> <span class="dv">2</span>)  <span class="co"># 95% significance boundary</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -833,14 +902,14 @@ Residual standard error: NaN on 0 degrees of freedom</code></pre>
 <h4 class="anchored" data-anchor-id="time-varying-volatility-analysis"><strong>Time-Varying Volatility Analysis</strong></h4>
 <p><strong>Q2: Model volatility changes using GARCH(1,1)</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rugarch)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>garch_spec <span class="ot">&lt;-</span> <span class="fu">ugarchspec</span>(<span class="at">variance.model =</span> <span class="fu">list</span>(<span class="at">model =</span> <span class="st">"sGARCH"</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)),</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean.model =</span> <span class="fu">list</span>(<span class="at">armaOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)))</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>garch_fit <span class="ot">&lt;-</span> <span class="fu">ugarchfit</span>(garch_spec, <span class="at">data =</span> combined_data<span class="sc">$</span>inflation)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot conditional volatility</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(garch_fit, <span class="at">which =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rugarch)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>garch_spec <span class="ot">&lt;-</span> <span class="fu">ugarchspec</span>(<span class="at">variance.model =</span> <span class="fu">list</span>(<span class="at">model =</span> <span class="st">"sGARCH"</span>, <span class="at">garchOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">mean.model =</span> <span class="fu">list</span>(<span class="at">armaOrder =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>)))</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>garch_fit <span class="ot">&lt;-</span> <span class="fu">ugarchfit</span>(garch_spec, <span class="at">data =</span> combined_data<span class="sc">$</span>inflation)</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot conditional volatility</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(garch_fit, <span class="at">which =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -855,20 +924,20 @@ Residual standard error: NaN on 0 degrees of freedom</code></pre>
 <h4 class="anchored" data-anchor-id="rolling-window-analysis"><strong>Rolling Window Analysis</strong></h4>
 <p><strong># Q3: Calculate 5-year rolling correlations</strong></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slider)</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> combined_data <span class="sc">%&gt;%</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rolling_cor =</span> <span class="fu">slide_dbl</span>(</span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.x =</span> <span class="fu">cur_data</span>(),</span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.f =</span> <span class="sc">~</span> <span class="fu">cor</span>(.x<span class="sc">$</span>inflation, .x<span class="sc">$</span>Unemployment),</span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">.before =</span> <span class="dv">60</span>  <span class="co"># 5-year window</span></span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize</span></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(Quarter, rolling_cor)) <span class="sc">+</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(slider)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>combined_data <span class="ot">&lt;-</span> combined_data <span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">rolling_cor =</span> <span class="fu">slide_dbl</span>(</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">.x =</span> <span class="fu">cur_data</span>(),</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">.f =</span> <span class="sc">~</span> <span class="fu">cor</span>(.x<span class="sc">$</span>inflation, .x<span class="sc">$</span>Unemployment),</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">.before =</span> <span class="dv">60</span>  <span class="co"># 5-year window</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize</span></span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(combined_data, <span class="fu">aes</span>(Quarter, rolling_cor)) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span> <span class="dv">0</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
