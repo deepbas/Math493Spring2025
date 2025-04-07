@@ -25,121 +25,185 @@ library(readr)        # Efficient data import
 library(vars)
 library(tseries)
 library(tsDyn)
-
+library(quantmod)
 select <- dplyr::select
 ```
 
 
+#### **Modeling Inflation Dynamics**  
 
-### **Extended VAR with Regimes**
+When modeling inflation ($\pi_t$) with GDP growth added to the framework, the relationship becomes:  
+$$\pi_t = \beta_0 + \beta_1 \text{Unemployment}_t + \beta_2 \text{CPI}_{t-1} + \beta_3 \text{GDP\_growth}_t + \epsilon_t$$  
+Here, GDP growth introduces another dimension of macroeconomic dynamics, as rising output ($\text{GDP\_growth}$) may signal demand-pull inflationary pressures, while unemployment ($\text{Unemployment}_t$) and lagged CPI ($\text{CPI}_{t-1}$) capture labor market slack and inertial price effects. However, structural breaks—such as shifts in productivity regimes, fiscal/monetary policy pivots, or global supply chain disruptions—can alter the **sign**, **magnitude**, or **significance** of these relationships over time.  
 
-**Data Prep: Australian Production (Beer, Gas, Electricity)**
+1. **Detect breaks in all coefficients**: Extend the Chow test to identify shifts in $\beta_1$ (unemployment’s impact), $\beta_2$ (CPI persistence), *and* $\beta_3$ (GDP growth sensitivity). For example, a break in $\beta_3$ might reflect a transition from a high-growth, high-inflation era to a stagflationary regime.  
+2. **Segmented regression with regime-specific GDP effects**: Estimate $$Y_t = \beta_0^{(k)} + \beta_1^{(k)}\text{Unemployment}_t + \beta_2^{(k)}\text{CPI}_{t-1} + \beta_3^{(k)}\text{GDP\_growth}_t + \epsilon_t^{(k)}$$ for each regime $k$. This reveals whether GDP growth amplifies inflation in certain eras (e.g., post-recession recoveries) but not others (e.g., during secular stagnation).  
+3. **STL decomposition**: Separate the trend component of inflation to distinguish whether GDP-driven fluctuations are cyclical (e.g., business cycle upswings) or structural (e.g., sustained growth-inflation linkages post-break).  
 
-```{r}
-production_data <- aus_production %>%
-  select(Quarter, Beer, Gas, Electricity) %>%
-  drop_na() %>%
-  mutate(across(c(Beer, Gas, Electricity), log))
 
-library(strucchange)
-bp_test <- Fstats(Beer ~ Gas + Electricity, data = production_data)
-break_date <- breakpoints(bp_test)$breakpoints %>%
-  production_data$Quarter[.]
-
-production_data <- production_data %>%
-  mutate(regime = if_else(Quarter >= break_date, "Post-1968", "Pre-1968"))
-```
-
-**Modified VAR Equations**  
-
-For three variables with regime dummy $D_t$:
-
-$$
-\begin{cases} 
-\text{Beer}_t = \alpha_1 + \phi_{11}(D_t)\text{Beer}_{t-1} + \phi_{12}(D_t)\text{Gas}_{t-1} + \phi_{13}(D_t)\text{Electricity}_{t-1} \\
-\text{Gas}_t = \alpha_2 + \phi_{21}(D_t)\text{Beer}_{t-1} + \phi_{22}(D_t)\text{Gas}_{t-1} + \phi_{23}(D_t)\text{Electricity}_{t-1} \\
-\text{Electricity}_t = \alpha_3 + \phi_{31}(D_t)\text{Beer}_{t-1} + \phi_{32}(D_t)\text{Gas}_{t-1} + \phi_{33}(D_t)\text{Electricity}_{t-1}
-\end{cases}
-$$
-
-**Implementation with tsDyn**  
-
-Threshold VAR that switches regimes:
 
 ```{r}
-library(tsDyn)
+getSymbols("CPIAUCSL", src = "FRED", auto.assign = TRUE)
 
-tvvar_data <- production_data %>% 
-  as_tibble() %>% 
-  select(-Quarter, -regime) %>%  # Remove time index and regime
-  mutate(across(everything(), difference)) %>%  
-  na.omit() %>%  # Proper NA handling
-  as.ts()  # Convert to time series object
+cpi_data <- tibble(date = index(CPIAUCSL), CPI = as.numeric(CPIAUCSL[,1])) %>%
+  arrange(date) %>%
+  mutate(inflation = 100 * (CPI / lag(CPI) - 1)) %>%
+  mutate(Quarter = yearquarter(date)) %>% 
+  as_tsibble(index = date) %>% 
+  index_by(Quarter) %>% 
+    summarize(CPI = mean(CPI),
+              inflation = mean(inflation))
 
-# Threshold VAR with 2 regimes
-tvar_model <- TVAR(tvvar_data, lag = 2, nthresh = 1, 
-                  trim = 0.15, thDelay = 1)
+# Get US unemployment (monthly)
+getSymbols("UNRATE", src = "FRED", auto.assign = TRUE)
+us_unemp <- data.frame(date = index(UNRATE), 
+                      Unemployment = as.numeric(UNRATE$UNRATE)) %>%
+  as_tsibble(index = date) %>% 
+  mutate(Quarter = yearquarter(date)) %>% 
+  index_by(Quarter) %>% 
+    summarize(Unemployment = mean(Unemployment))
+
+
+# Get US GDP (quarterly) and merge
+getSymbols("GDP", src = "FRED", auto.assign = TRUE)
+us_gdp <- data.frame(date = index(GDP), GDP = as.numeric(GDP$GDP)) %>%
+  as_tsibble(index = date) %>% 
+  mutate(Quarter = yearquarter(date))
+
+combined_data <- us_gdp %>% 
+  inner_join(us_unemp, by = "Quarter") %>% 
+  inner_join(cpi_data, by = "Quarter") %>% 
+  mutate(GDP_growth = 100 * (GDP / lag(GDP) - 1)) %>% 
+  dplyr::select(Quarter, date, GDP, GDP_growth, Unemployment, CPI, inflation) %>% 
+  drop_na()
+
+# View the combined data
+head(combined_data)
 ```
 
-**Key Enhancements**  
-
-1. **Regime-Specific Dynamics**: Coefficients change post-breakpoint  
-2. **Nonlinear Relationships**: Different lag structures in each era  
-3. **Error Correction**: Threshold cointegration between series  
-
-### **Model Comparison Framework**
 
 ```{r}
-# Use differenced data for ALL models
-tvvar_ts <- as.ts(tvvar_data)  # Time series object with Beer/Gas/Electricity
+# Chow test for structural breaks
+break_test <- Fstats(inflation ~ GDP_growth + Unemployment + CPI, data = combined_data)
+plot(break_test)  # Identify potential breakpoints
 
-# Baseline VAR
-var_base <- VAR(tvvar_ts, p = 2)
+# Estimate breakpoint date(s)
+bp <- breakpoints(inflation ~  GDP_growth + Unemployment + CPI, data = combined_data)
 
-# Forecast accuracy using DIFFERENCED data
-window <- tail(tvvar_ts, 12)  # Last 12 observations
+combined_data$Quarter[bp$breakpoints] 
 
-# Fable requires tsibble with time index
-tvvar_tsibble <- as_tsibble(tvvar_ts) %>% 
-  mutate(Quarter = production_data$Quarter[-1])  # Align with differenced data
-
-# Model comparison
-tvvar_ts %>%
-  stretch_tsibble(.init = nrow(.) - 12) %>%
-  model(
-    VAR = VAR(c(Beer, Gas, Electricity)),  # Correct fable syntax
-    ARIMAX = fable::ARIMA(Beer ~ Gas + Electricity)
-  ) %>%
-  forecast(h = 8) %>%
-  accuracy(tvvar_tsibble) %>%
-  select(.model, RMSE, MAE)
+# Fit segmented regression
+segmented_model <- lm(inflation ~ GDP_growth + Unemployment + CPI, 
+                      data = combined_data, 
+                      subset = breakpoints(bp)$breakpoints)
 ```
 
-**Interpretation of Results Table**  
-
-- TVAR shows 18% lower RMSE than VAR post-break  
-- ARIMAX performs worst due to unidirectional modeling  
-- Threshold effects account for 23% of electricity variance
-
-### **Why Structural Breaks Matter**
-
-
-1. **Forecast Reconciliation**:
-
-$$ \text{TVARForecast}_t = \begin{cases} 
-\hat{y}_t^{pre} & \text{if } D_t=0 \\
-\hat{y}_t^{post} & \text{if } D_t=1 
-\end{cases}$$
-
-2. **Impulse Responses**:
 
 ```{r}
-irf(tvar_model, impulse = "Gas", response = "Electricity") %>%
-  plot(main = "Regime-Dependent Energy Responses")
+# Get breakpoint indices 
+bp_indices <- bp$breakpoints 
+
+# Split data into segments
+segments <- split(combined_data, 
+                 findInterval(1:nrow(combined_data), 
+                              vec = c(0, bp_indices, nrow(combined_data))))
+
+# Fit models to each segment
+segment_models <- lapply(segments, function(df) {
+  lm(inflation ~ GDP_growth + Unemployment + CPI, data = df)
+})
+
+# Combine residuals from all segments
+all_residuals <- unlist(lapply(segment_models, residuals))
 ```
 
-**Key Insights**  
 
-- Post-1990: 1% gas increase → 0.8% electricity rise (was 0.2% pre-break)  
-- Pre-break beer ↔ electricity correlation: 0.4 → Post-break: -0.1  
-- Forecast intervals widen by 37% when ignoring structural breaks
+```{r}
+# Plot segmented regressions
+ggplot(combined_data, aes(y =inflation, x=Quarter)) +
+  geom_point() +
+  geom_smooth(data = segments[[1]], method = "lm", se = FALSE, color = "red") +
+  geom_smooth(data = segments[[2]], method = "lm", se = FALSE, color = "blue") 
+  labs(title = "Segmented Regression by Breakpoints")
+```
+
+
+```{r}
+# Inflation analysis
+combined_data %>%
+  as_tsibble(index = Quarter) %>%
+  model(STL(inflation ~ trend() + season())) %>%
+  components() %>%
+  autoplot() + labs(title = "Inflation Decomposition (STL)")
+```
+
+
+```{r}
+lapply(segment_models, summary)  # Show coefficients for each regime
+```
+
+
+
+### **Activities** 
+
+#### **Parameter Stability Assessment**
+
+**Q1: Test if the employment-inflation relationship remains stable using recursive residuals**
+
+
+
+```{r}
+library(dynlm)
+rolling_residuals <- efp(inflation ~ GDP_growth  + Unemployment + CPI, data = combined_data, type = "Rec-CUSUM")
+
+# Plot and interpret:
+plot(rolling_residuals)
+abline(h = 1.358, lty = 2)  # 95% significance boundary
+```
+
+**Task**: Explain what crossing the dashed line implies about parameter stability. How does this complement the Chow test results?
+
+---
+
+#### **Time-Varying Volatility Analysis**
+
+**Q2: Model volatility changes using GARCH(1,1)**
+
+
+```{r}
+library(rugarch)
+garch_spec <- ugarchspec(variance.model = list(model = "sGARCH", garchOrder = c(1,1)),
+                         mean.model = list(armaOrder = c(1,1)))
+
+garch_fit <- ugarchfit(garch_spec, data = combined_data$inflation)
+
+# Plot conditional volatility
+plot(garch_fit, which = 3)
+```
+
+**Task**: Identify periods of high volatility clustering. Could these coincide with structural breaks in mean relationships?
+
+
+
+#### **Rolling Window Analysis**
+
+**# Q3: Calculate 5-year rolling correlations**
+
+```{r}
+library(slider)
+combined_data <- combined_data %>%
+  mutate(
+    rolling_cor = slide_dbl(
+      .x = cur_data(),
+      .f = ~ cor(.x$inflation, .x$Unemployment),
+      .before = 60  # 5-year window
+    )
+  )
+
+# Visualize
+ggplot(combined_data, aes(Quarter, rolling_cor)) +
+  geom_line() +
+  geom_hline(yintercept = 0, linetype = "dashed")
+```
+
+**Task**: When does employment become negatively correlated with inflation? How does this relate to Phillips curve theory? The **Phillips Curve** is an economic theory describing an inverse relationship between unemployment and inflation, first observed by A.W. Phillips (1958) using UK wage data.
