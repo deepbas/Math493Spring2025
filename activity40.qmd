@@ -25,7 +25,209 @@ library(readr)        # Efficient data import
 library(vars)
 library(tseries)
 library(tsDyn)
-
+library(quantmod)
 select <- dplyr::select
 ```
+
+
+## Modeling U.S. Inflation Dynamics: A Time Series Application
+
+This analysis investigates U.S. inflation dynamics using **quarterly CPI**, **unemployment**, and **GDP** data from FRED. Inflation is defined as the quarterly percentage change in CPI:  
+$$\text{inflation}_t = 100 \times \left(\frac{CPI_t}{CPI_{t-1}} - 1\right)$$
+
+The modeling strategy integrates traditional time series approaches (AR and ARIMA) with structural diagnostics and modern multivariate frameworks to evaluate the influence of macroeconomic variables on inflation. Let's get the data first:
+
+
+```{r}
+getSymbols("CPIAUCSL", src = "FRED", auto.assign = TRUE)
+cpi_data <- tibble(date = index(CPIAUCSL), CPI = as.numeric(CPIAUCSL[,1])) %>%
+  arrange(date) %>%
+  mutate(inflation = 100 * (CPI / lag(CPI) - 1)) %>%
+  mutate(Quarter = yearquarter(date)) %>% 
+  as_tsibble(index = date) %>% 
+  index_by(Quarter) %>%
+  summarize(CPI = mean(CPI), inflation = mean(inflation))
+
+getSymbols("UNRATE", src = "FRED", auto.assign = TRUE)
+us_unemp <- data.frame(date = index(UNRATE), Unemployment = as.numeric(UNRATE$UNRATE)) %>%
+  as_tsibble(index = date) %>%
+  mutate(Quarter = yearquarter(date)) %>%
+  index_by(Quarter) %>%
+  summarize(Unemployment = mean(Unemployment))
+
+getSymbols("GDP", src = "FRED", auto.assign = TRUE)
+us_gdp <- data.frame(date = index(GDP), GDP = as.numeric(GDP$GDP)) %>%
+  as_tsibble(index = date) %>%
+  mutate(Quarter = yearquarter(date))
+
+economic_data <- us_gdp %>%
+  inner_join(us_unemp, by = "Quarter") %>%
+  inner_join(cpi_data, by = "Quarter") %>%
+  mutate(GDP_growth = 100 * (GDP / lag(GDP) - 1)) %>%
+  dplyr::select(Quarter, date, GDP, GDP_growth, Unemployment, CPI, inflation) %>%
+  tidyr::drop_na()
+```
+
+STL decomposition of the inflation series reveals clear seasonal and cyclical behavior. This reinforces the use of seasonal components in ARIMA models and motivates further refinement using explicitly seasonal structures.
+
+```{r}
+economic_data %>%
+  as_tsibble(index = Quarter) %>%
+  model(STL(inflation ~ trend() + season())) %>%
+  components() %>%
+  autoplot()
+```
+
+
+### **Step 1: AR(1) Regression**
+
+We begin with an autoregressive model including lagged inflation, unemployment, and GDP growth. Residual diagnostics reveal no significant autocorrelation, implying the AR(1) structure is sufficient to capture temporal dependencies. 
+
+The model is of the form:
+
+$$
+\text{Inflation}_t = \beta_0 + \beta_1 \cdot \text{GDP\_growth}_t + \beta_2 \cdot \text{Unemployment}_t + \eta_t
+$$
+
+where $( \eta_t \sim \text{ARIMA}(3,0,1)).$
+
+```{r}
+arima_model <- economic_data %>%
+  as_tsibble(index = Quarter) %>%
+  model(ARIMA(inflation ~ GDP_growth + Unemployment))
+
+report(arima_model)
+
+arima_model %>% 
+  residuals() %>% 
+  features(.resid, ~ljung_box(.x, lag = 10)) %>% 
+  knitr::kable()
+```
+
+The Ljung-Box diagnostics show no strong autocorrelation, indicating the AR(1) structure with regressors reasonably captures short-term dynamics.
+
+### **Step 2: ARIMA-X Model**
+
+We improve upon this by fitting an ARIMA model with exogenous regressors using `forecast::auto.arima()`, which also allows for seasonal ARMA components. The best-fit specification is an ARIMA(3,0,3)(2,0,2)[4], indicating both short- and medium-term seasonal effects. 
+
+This yields a model of the form:
+
+$$
+\text{Inflation}_t = \beta_0 + \beta_1 \cdot \text{GDP\_growth}_t + \beta_2 \cdot \text{Unemployment}_t + \eta_t
+$$
+
+where $(\eta_t \sim \text{ARIMA}(3,0,3)(2,0,2)_4)$.
+
+
+```{r}
+library(forecast)
+xreg_matrix <- economic_data %>% as_tibble() %>% 
+  dplyr::select(GDP_growth, Unemployment) %>%
+  data.matrix()
+
+start_year <- year(min(economic_data$Quarter))
+start_month <- month(min(economic_data$Quarter))
+inflation_ts <- ts(economic_data$inflation, frequency = 4, start = c(start_year, start_month))
+
+arimax_model <- auto.arima(inflation_ts, xreg = xreg_matrix)
+
+summary(arimax_model)
+
+arimax_model %>% 
+  residuals() %>% 
+  ljung_box(lag = 10) %>% 
+  knitr::kable()
+```
+
+The Ljung-Box gives us larger p-value this time, and the residuals should be more like white noise.
+
+
+### **Activity 1: Write model equations for the ARIMA model in Step 1**
+
+The fitted model is a **linear regression with ARIMA(3,0,1) errors**, often called an **ARIMA with exogenous regressors (ARIMAX)**. The equation form is:
+
+```{=latex}
+\begin{aligned}
+\text{inflation}_t &= \beta_0 + \beta_1 \cdot \text{GDP\_growth}_t + \beta_2 \cdot \text{Unemployment}_t + \eta_t \\
+\eta_t &= \phi_1 \eta_{t-1} + \phi_2 \eta_{t-2} + \phi_3 \eta_{t-3} + \theta_1 \varepsilon_{t-1} + \varepsilon_t \\
+\varepsilon_t &\sim \text{WN}(0, \sigma^2)
+\end{aligned}
+```
+
+Where:
+
+- $\beta_1 = 0.0398$ (GDP growth has a positive effect)
+- $\beta_2 = -0.0335$ (unemployment has a negative effect)
+- $\phi_1, \phi_2, \phi_3$ are AR terms
+- $\theta_1$ is the MA(1) term
+- $\sigma^2 = 0.04254$ is the estimated variance of white noise
+
+
+### **Activity 2: Residual Diagnostics**
+
+Examine ACF/PACF plots and Ljung-Box test results for the ARIMA model. Interpret residual autocorrelation and explain why traditional AR(1) structures may fail in macroeconomic contexts.
+
+```{r}
+library(gridExtra)
+gg_tsresiduals(arima_model) + ggtitle("LM w/ ARIMA(3,0,1)")
+checkresiduals(arimax_model) 
+
+par(mfrow = c(1,2))
+pacf(residuals(arima_model), lag.max = 24) 
+pacf(residuals(arimax_model), lag.max = 24) 
+```
+
+
+### **Activity 3: Variable Transformation**
+
+To address potential nonstationarity and heteroskedasticity, GDP is log-transformed and unemployment is differenced. An ARIMA(4,0,0) model with these transformed covariates yields a competitive AIC and improved interpretability. What do the results suggests? Why are the transformations needed?
+
+- Log(GDP) is positively associated with inflation.
+- Changes in unemployment are negatively associated with inflation.
+
+These transformations help stabilize variance and center the series around a constant mean.
+
+```{r}
+economic_data <- economic_data %>%
+  mutate(log_GDP = log(GDP),
+         delta_Unemployment = difference(Unemployment)) %>%
+  drop_na()
+
+arima_transformed <- Arima(
+  ts(economic_data$inflation, frequency = 4, start = c(1948, 2)),
+  order = c(4, 0, 0),
+  xreg = cbind(log_GDP = economic_data$log_GDP,
+               delta_Unemployment = economic_data$delta_Unemployment)
+)
+
+summary(arima_transformed)
+checkresiduals(arima_transformed)
+```
+
+
+### **Activity 4: VAR model**
+
+```{r}
+library(vars)
+var_data <- economic_data %>% as_tibble() %>% 
+  tidyr::drop_na() %>% 
+  dplyr::select(inflation, GDP_growth, delta_Unemployment)
+
+lag_order <- VARselect(var_data, type = "const")$selection["AIC(n)"]
+var_model <- VAR(var_data, p = lag_order)
+summary(var_model$varresult$inflation)
+AIC(var_model$varresult$inflation)
+```
+
+This yields a model of the form:
+
+```{=latex}
+\begin{aligned}
+\text{inflation}_t &= \alpha_0 + \alpha_1 \cdot \text{inflation}_{t-1} + \alpha_2 \cdot \text{GDP\_growth}_{t-1} + \alpha_3 \cdot \Delta \text{Unemployment}_{t-1} \\
+&\quad + \alpha_4 \cdot \text{inflation}_{t-2} + \alpha_5 \cdot \text{GDP\_growth}_{t-2} + \alpha_6 \cdot \Delta \text{Unemployment}_{t-2} \\
+&\quad + \alpha_7 \cdot \text{inflation}_{t-3} + \alpha_8 \cdot \text{GDP\_growth}_{t-3} + \alpha_9 \cdot \Delta \text{Unemployment}_{t-3} + \varepsilon_t
+\end{aligned}
+```
+
+where $\varepsilon_t \sim \text{WN}(0, \sigma^2)$, and lag order $p=3$ was selected by AIC.
 

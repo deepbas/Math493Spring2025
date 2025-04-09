@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -73,6 +107,35 @@ ul.task-list li input[type="checkbox"] {
 <script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -504,8 +567,22 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#modeling-u.s.-inflation-dynamics-a-time-series-application" id="toc-modeling-u.s.-inflation-dynamics-a-time-series-application" class="nav-link active" data-scroll-target="#modeling-u.s.-inflation-dynamics-a-time-series-application">Modeling U.S. Inflation Dynamics: A Time Series Application</a>
+  <ul class="collapse">
+  <li><a href="#step-1-ar1-regression" id="toc-step-1-ar1-regression" class="nav-link" data-scroll-target="#step-1-ar1-regression"><strong>Step 1: AR(1) Regression</strong></a></li>
+  <li><a href="#step-2-arima-x-model" id="toc-step-2-arima-x-model" class="nav-link" data-scroll-target="#step-2-arima-x-model"><strong>Step 2: ARIMA-X Model</strong></a></li>
+  <li><a href="#activity-1-write-model-equations-for-the-arima-model-in-step-1" id="toc-activity-1-write-model-equations-for-the-arima-model-in-step-1" class="nav-link" data-scroll-target="#activity-1-write-model-equations-for-the-arima-model-in-step-1"><strong>Activity 1: Write model equations for the ARIMA model in Step 1</strong></a></li>
+  <li><a href="#activity-2-residual-diagnostics" id="toc-activity-2-residual-diagnostics" class="nav-link" data-scroll-target="#activity-2-residual-diagnostics"><strong>Activity 2: Residual Diagnostics</strong></a></li>
+  <li><a href="#activity-3-variable-transformation" id="toc-activity-3-variable-transformation" class="nav-link" data-scroll-target="#activity-3-variable-transformation"><strong>Activity 3: Variable Transformation</strong></a></li>
+  <li><a href="#activity-4-var-model" id="toc-activity-4-var-model" class="nav-link" data-scroll-target="#activity-4-var-model"><strong>Activity 4: VAR model</strong></a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -529,6 +606,353 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="modeling-u.s.-inflation-dynamics-a-time-series-application" class="level2">
+<h2 class="anchored" data-anchor-id="modeling-u.s.-inflation-dynamics-a-time-series-application">Modeling U.S. Inflation Dynamics: A Time Series Application</h2>
+<p>This analysis investigates U.S. inflation dynamics using <strong>quarterly CPI</strong>, <strong>unemployment</strong>, and <strong>GDP</strong> data from FRED. Inflation is defined as the quarterly percentage change in CPI:<br>
+<span class="math display">\[\text{inflation}_t = 100 \times \left(\frac{CPI_t}{CPI_{t-1}} - 1\right)\]</span></p>
+<p>The modeling strategy integrates traditional time series approaches (AR and ARIMA) with structural diagnostics and modern multivariate frameworks to evaluate the influence of macroeconomic variables on inflation. Let’s get the data first:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getSymbols</span>(<span class="st">"CPIAUCSL"</span>, <span class="at">src =</span> <span class="st">"FRED"</span>, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "CPIAUCSL"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cpi_data <span class="ot">&lt;-</span> <span class="fu">tibble</span>(<span class="at">date =</span> <span class="fu">index</span>(CPIAUCSL), <span class="at">CPI =</span> <span class="fu">as.numeric</span>(CPIAUCSL[,<span class="dv">1</span>])) <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">inflation =</span> <span class="dv">100</span> <span class="sc">*</span> (CPI <span class="sc">/</span> <span class="fu">lag</span>(CPI) <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Quarter =</span> <span class="fu">yearquarter</span>(date)) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> date) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">index_by</span>(Quarter) <span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">CPI =</span> <span class="fu">mean</span>(CPI), <span class="at">inflation =</span> <span class="fu">mean</span>(inflation))</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">getSymbols</span>(<span class="st">"UNRATE"</span>, <span class="at">src =</span> <span class="st">"FRED"</span>, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "UNRATE"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>us_unemp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="fu">index</span>(UNRATE), <span class="at">Unemployment =</span> <span class="fu">as.numeric</span>(UNRATE<span class="sc">$</span>UNRATE)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> date) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Quarter =</span> <span class="fu">yearquarter</span>(date)) <span class="sc">%&gt;%</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">index_by</span>(Quarter) <span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">Unemployment =</span> <span class="fu">mean</span>(Unemployment))</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="fu">getSymbols</span>(<span class="st">"GDP"</span>, <span class="at">src =</span> <span class="st">"FRED"</span>, <span class="at">auto.assign =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "GDP"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>us_gdp <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">date =</span> <span class="fu">index</span>(GDP), <span class="at">GDP =</span> <span class="fu">as.numeric</span>(GDP<span class="sc">$</span>GDP)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> date) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Quarter =</span> <span class="fu">yearquarter</span>(date))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>economic_data <span class="ot">&lt;-</span> us_gdp <span class="sc">%&gt;%</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(us_unemp, <span class="at">by =</span> <span class="st">"Quarter"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(cpi_data, <span class="at">by =</span> <span class="st">"Quarter"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">GDP_growth =</span> <span class="dv">100</span> <span class="sc">*</span> (GDP <span class="sc">/</span> <span class="fu">lag</span>(GDP) <span class="sc">-</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(Quarter, date, GDP, GDP_growth, Unemployment, CPI, inflation) <span class="sc">%&gt;%</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">drop_na</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>STL decomposition of the inflation series reveals clear seasonal and cyclical behavior. This reinforces the use of seasonal components in ARIMA models and motivates further refinement using explicitly seasonal structures.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>economic_data <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Quarter) <span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">STL</span>(inflation <span class="sc">~</span> <span class="fu">trend</span>() <span class="sc">+</span> <span class="fu">season</span>())) <span class="sc">%&gt;%</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">components</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">autoplot</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="activity40_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="step-1-ar1-regression" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-ar1-regression"><strong>Step 1: AR(1) Regression</strong></h3>
+<p>We begin with an autoregressive model including lagged inflation, unemployment, and GDP growth. Residual diagnostics reveal no significant autocorrelation, implying the AR(1) structure is sufficient to capture temporal dependencies.</p>
+<p>The model is of the form:</p>
+<p><span class="math display">\[
+\text{Inflation}_t = \beta_0 + \beta_1 \cdot \text{GDP\_growth}_t + \beta_2 \cdot \text{Unemployment}_t + \eta_t
+\]</span></p>
+<p>where <span class="math inline">\(( \eta_t \sim \text{ARIMA}(3,0,1)).\)</span></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>arima_model <span class="ot">&lt;-</span> economic_data <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as_tsibble</span>(<span class="at">index =</span> Quarter) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model</span>(<span class="fu">ARIMA</span>(inflation <span class="sc">~</span> GDP_growth <span class="sc">+</span> Unemployment))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="fu">report</span>(arima_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: inflation 
+Model: LM w/ ARIMA(3,0,1) errors 
+
+Coefficients:
+         ar1     ar2     ar3      ma1  GDP_growth  Unemployment  intercept
+      0.6260  0.0543  0.1793  -0.3189      0.0398       -0.0335     0.4109
+s.e.  0.2307  0.1048  0.0996   0.2395      0.0099        0.0150     0.1033
+
+sigma^2 estimated as 0.04254:  log likelihood=52.18
+AIC=-88.36   AICc=-87.88   BIC=-58.55</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>arima_model <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">features</span>(.resid, <span class="sc">~</span><span class="fu">ljung_box</span>(.x, <span class="at">lag =</span> <span class="dv">10</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">.model</th>
+<th style="text-align: right;">lb_stat</th>
+<th style="text-align: right;">lb_pvalue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">ARIMA(inflation ~ GDP_growth + Unemployment)</td>
+<td style="text-align: right;">8.922994</td>
+<td style="text-align: right;">0.5394271</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The Ljung-Box diagnostics show no strong autocorrelation, indicating the AR(1) structure with regressors reasonably captures short-term dynamics.</p>
+</section>
+<section id="step-2-arima-x-model" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-arima-x-model"><strong>Step 2: ARIMA-X Model</strong></h3>
+<p>We improve upon this by fitting an ARIMA model with exogenous regressors using <code>forecast::auto.arima()</code>, which also allows for seasonal ARMA components. The best-fit specification is an ARIMA(3,0,3)(2,0,2)[4], indicating both short- and medium-term seasonal effects.</p>
+<p>This yields a model of the form:</p>
+<p><span class="math display">\[
+\text{Inflation}_t = \beta_0 + \beta_1 \cdot \text{GDP\_growth}_t + \beta_2 \cdot \text{Unemployment}_t + \eta_t
+\]</span></p>
+<p>where <span class="math inline">\((\eta_t \sim \text{ARIMA}(3,0,3)(2,0,2)_4)\)</span>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(forecast)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>xreg_matrix <span class="ot">&lt;-</span> economic_data <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(GDP_growth, Unemployment) <span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">data.matrix</span>()</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>start_year <span class="ot">&lt;-</span> <span class="fu">year</span>(<span class="fu">min</span>(economic_data<span class="sc">$</span>Quarter))</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>start_month <span class="ot">&lt;-</span> <span class="fu">month</span>(<span class="fu">min</span>(economic_data<span class="sc">$</span>Quarter))</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>inflation_ts <span class="ot">&lt;-</span> <span class="fu">ts</span>(economic_data<span class="sc">$</span>inflation, <span class="at">frequency =</span> <span class="dv">4</span>, <span class="at">start =</span> <span class="fu">c</span>(start_year, start_month))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>arimax_model <span class="ot">&lt;-</span> <span class="fu">auto.arima</span>(inflation_ts, <span class="at">xreg =</span> xreg_matrix)</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(arimax_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: inflation_ts 
+Regression with ARIMA(3,0,3)(2,0,2)[4] errors 
+
+Coefficients:
+          ar1     ar2     ar3     ma1     ma2      ma3     sar1     sar2
+      -0.3160  0.2542  0.8826  0.6122  0.1032  -0.5369  -0.3004  -0.0796
+s.e.   0.0779  0.0569  0.0726  0.1158  0.0978   0.1127   0.3286   0.2993
+        sma1     sma2  intercept  GDP_growth  Unemployment
+      0.3459  -0.1138     0.4139      0.0355       -0.0328
+s.e.  0.3350   0.3070     0.1031      0.0097        0.0139
+
+sigma^2 = 0.04171:  log likelihood = 58
+AIC=-88   AICc=-86.56   BIC=-35.82
+
+Training set error measures:
+                       ME      RMSE       MAE       MPE     MAPE      MASE
+Training set -0.001319576 0.1998711 0.1407113 -5006.591 5083.211 0.6846118
+                  ACF1
+Training set 0.0108953</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>arimax_model <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ljung_box</span>(<span class="at">lag =</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: right;">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">lb_stat</td>
+<td style="text-align: right;">5.9605728</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">lb_pvalue</td>
+<td style="text-align: right;">0.8185648</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The Ljung-Box gives us larger p-value this time, and the residuals should be more like white noise.</p>
+</section>
+<section id="activity-1-write-model-equations-for-the-arima-model-in-step-1" class="level3">
+<h3 class="anchored" data-anchor-id="activity-1-write-model-equations-for-the-arima-model-in-step-1"><strong>Activity 1: Write model equations for the ARIMA model in Step 1</strong></h3>
+<p>The fitted model is a <strong>linear regression with ARIMA(3,0,1) errors</strong>, often called an <strong>ARIMA with exogenous regressors (ARIMAX)</strong>. The equation form is:</p>
+<span class="math display">\[\begin{aligned}
+\text{inflation}_t &amp;= \beta_0 + \beta_1 \cdot \text{GDP\_growth}_t + \beta_2 \cdot \text{Unemployment}_t + \eta_t \\
+\eta_t &amp;= \phi_1 \eta_{t-1} + \phi_2 \eta_{t-2} + \phi_3 \eta_{t-3} + \theta_1 \varepsilon_{t-1} + \varepsilon_t \\
+\varepsilon_t &amp;\sim \text{WN}(0, \sigma^2)
+\end{aligned}\]</span>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(\beta_1 = 0.0398\)</span> (GDP growth has a positive effect)</li>
+<li><span class="math inline">\(\beta_2 = -0.0335\)</span> (unemployment has a negative effect)</li>
+<li><span class="math inline">\(\phi_1, \phi_2, \phi_3\)</span> are AR terms</li>
+<li><span class="math inline">\(\theta_1\)</span> is the MA(1) term</li>
+<li><span class="math inline">\(\sigma^2 = 0.04254\)</span> is the estimated variance of white noise</li>
+</ul>
+</section>
+<section id="activity-2-residual-diagnostics" class="level3">
+<h3 class="anchored" data-anchor-id="activity-2-residual-diagnostics"><strong>Activity 2: Residual Diagnostics</strong></h3>
+<p>Examine ACF/PACF plots and Ljung-Box test results for the ARIMA model. Interpret residual autocorrelation and explain why traditional AR(1) structures may fail in macroeconomic contexts.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gg_tsresiduals</span>(arima_model) <span class="sc">+</span> <span class="fu">ggtitle</span>(<span class="st">"LM w/ ARIMA(3,0,1)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="activity40_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">checkresiduals</span>(arimax_model) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="activity40_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Ljung-Box test
+
+data:  Residuals from Regression with ARIMA(3,0,3)(2,0,2)[4] errors
+Q* = 6.1871, df = 3, p-value = 0.1029
+
+Model df: 10.   Total lags used: 13</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">par</span>(<span class="at">mfrow =</span> <span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(<span class="fu">residuals</span>(arima_model), <span class="at">lag.max =</span> <span class="dv">24</span>) </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="fu">pacf</span>(<span class="fu">residuals</span>(arimax_model), <span class="at">lag.max =</span> <span class="dv">24</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="activity40_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="activity-3-variable-transformation" class="level3">
+<h3 class="anchored" data-anchor-id="activity-3-variable-transformation"><strong>Activity 3: Variable Transformation</strong></h3>
+<p>To address potential nonstationarity and heteroskedasticity, GDP is log-transformed and unemployment is differenced. An ARIMA(4,0,0) model with these transformed covariates yields a competitive AIC and improved interpretability. What do the results suggests? Why are the transformations needed?</p>
+<ul>
+<li>Log(GDP) is positively associated with inflation.</li>
+<li>Changes in unemployment are negatively associated with inflation.</li>
+</ul>
+<p>These transformations help stabilize variance and center the series around a constant mean.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>economic_data <span class="ot">&lt;-</span> economic_data <span class="sc">%&gt;%</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">log_GDP =</span> <span class="fu">log</span>(GDP),</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">delta_Unemployment =</span> <span class="fu">difference</span>(Unemployment)) <span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>arima_transformed <span class="ot">&lt;-</span> <span class="fu">Arima</span>(</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ts</span>(economic_data<span class="sc">$</span>inflation, <span class="at">frequency =</span> <span class="dv">4</span>, <span class="at">start =</span> <span class="fu">c</span>(<span class="dv">1948</span>, <span class="dv">2</span>)),</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">order =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">0</span>),</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">xreg =</span> <span class="fu">cbind</span>(<span class="at">log_GDP =</span> economic_data<span class="sc">$</span>log_GDP,</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>               <span class="at">delta_Unemployment =</span> economic_data<span class="sc">$</span>delta_Unemployment)</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(arima_transformed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Series: ts(economic_data$inflation, frequency = 4, start = c(1948, 2)) 
+Regression with ARIMA(4,0,0) errors 
+
+Coefficients:
+         ar1     ar2     ar3      ar4  intercept  log_GDP  delta_Unemployment
+      0.3512  0.1753  0.2749  -0.0209     0.1994   0.0092             -0.0340
+s.e.  0.0579  0.0596  0.0594   0.0584     0.2932   0.0354              0.0154
+
+sigma^2 = 0.04305:  log likelihood = 50.18
+AIC=-84.36   AICc=-83.87   BIC=-54.57
+
+Training set error measures:
+                      ME      RMSE       MAE      MPE    MAPE      MASE
+Training set 0.001433048 0.2050985 0.1427111 -4527.97 4608.29 0.7022001
+                    ACF1
+Training set 0.008634326</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">checkresiduals</span>(arima_transformed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="activity40_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Ljung-Box test
+
+data:  Residuals from Regression with ARIMA(4,0,0) errors
+Q* = 6.4755, df = 4, p-value = 0.1663
+
+Model df: 4.   Total lags used: 8</code></pre>
+</div>
+</div>
+</section>
+<section id="activity-4-var-model" class="level3">
+<h3 class="anchored" data-anchor-id="activity-4-var-model"><strong>Activity 4: VAR model</strong></h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vars)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>var_data <span class="ot">&lt;-</span> economic_data <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  tidyr<span class="sc">::</span><span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(inflation, GDP_growth, delta_Unemployment)</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>lag_order <span class="ot">&lt;-</span> <span class="fu">VARselect</span>(var_data, <span class="at">type =</span> <span class="st">"const"</span>)<span class="sc">$</span>selection[<span class="st">"AIC(n)"</span>]</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>var_model <span class="ot">&lt;-</span> <span class="fu">VAR</span>(var_data, <span class="at">p =</span> lag_order)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(var_model<span class="sc">$</span>varresult<span class="sc">$</span>inflation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = y ~ -1 + ., data = datamat)
+
+Residuals:
+     Min       1Q   Median       3Q      Max 
+-1.38107 -0.09893 -0.00104  0.09479  0.63060 
+
+Coefficients:
+                      Estimate Std. Error t value Pr(&gt;|t|)    
+inflation.l1           0.28733    0.05904   4.867 1.85e-06 ***
+GDP_growth.l1          0.02681    0.01558   1.720  0.08641 .  
+delta_Unemployment.l1  0.02672    0.02548   1.049  0.29525    
+inflation.l2           0.11125    0.06018   1.849  0.06553 .  
+GDP_growth.l2          0.01770    0.01628   1.087  0.27804    
+delta_Unemployment.l2  0.01155    0.02710   0.426  0.67026    
+inflation.l3           0.19814    0.05969   3.320  0.00102 ** 
+GDP_growth.l3          0.04183    0.01614   2.591  0.01004 *  
+delta_Unemployment.l3  0.04544    0.02608   1.742  0.08248 .  
+const                 -0.01775    0.02940  -0.604  0.54648    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 0.2016 on 293 degrees of freedom
+Multiple R-squared:  0.474, Adjusted R-squared:  0.4578 
+F-statistic: 29.34 on 9 and 293 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">AIC</span>(var_model<span class="sc">$</span>varresult<span class="sc">$</span>inflation)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] -98.79102</code></pre>
+</div>
+</div>
+<p>This yields a model of the form:</p>
+<span class="math display">\[\begin{aligned}
+\text{inflation}_t &amp;= \alpha_0 + \alpha_1 \cdot \text{inflation}_{t-1} + \alpha_2 \cdot \text{GDP\_growth}_{t-1} + \alpha_3 \cdot \Delta \text{Unemployment}_{t-1} \\
+&amp;\quad + \alpha_4 \cdot \text{inflation}_{t-2} + \alpha_5 \cdot \text{GDP\_growth}_{t-2} + \alpha_6 \cdot \Delta \text{Unemployment}_{t-2} \\
+&amp;\quad + \alpha_7 \cdot \text{inflation}_{t-3} + \alpha_8 \cdot \text{GDP\_growth}_{t-3} + \alpha_9 \cdot \Delta \text{Unemployment}_{t-3} + \varepsilon_t
+\end{aligned}\]</span>
+<p>where <span class="math inline">\(\varepsilon_t \sim \text{WN}(0, \sigma^2)\)</span>, and lag order <span class="math inline">\(p=3\)</span> was selected by AIC.</p>
 
 
 <script type="ojs-module-contents">
@@ -545,6 +969,8 @@ eyJjb250ZW50cyI6W119
 <script type="vfs-file">
 W10=
 </script>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script type="ojs-module-contents">
