@@ -123,7 +123,7 @@ all_residuals <- unlist(lapply(segment_models, residuals))
 ggplot(combined_data, aes(y =inflation, x=Quarter)) +
   geom_point() +
   geom_smooth(data = segments[[1]], method = "lm", se = FALSE, color = "red") +
-  geom_smooth(data = segments[[2]], method = "lm", se = FALSE, color = "blue") 
+  geom_smooth(data = segments[[2]], method = "lm", se = FALSE, color = "blue") +
   labs(title = "Segmented Regression by Breakpoints")
 ```
 
