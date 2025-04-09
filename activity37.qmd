@@ -207,3 +207,5 @@ ggplot(combined_data, aes(Quarter, rolling_cor)) +
 ```
 
 **Task**: When does employment become negatively correlated with inflation? How does this relate to Phillips curve theory? The **Phillips Curve** is an economic theory describing an inverse relationship between unemployment and inflation, first observed by A.W. Phillips (1958) using UK wage data.
+
+
