@@ -1,5 +1,5 @@
 ---
-title: "Activity34"
+title: "Activity38"
 format: 
   live-html:
     theme:
@@ -25,7 +25,207 @@ library(readr)        # Efficient data import
 library(vars)
 library(tseries)
 library(tsDyn)
-
+library(quantmod)
+library(strucchange)
 select <- dplyr::select
 ```
+
+## Inflation Dynamics
+
+```{r}
+getSymbols("CPIAUCSL", src = "FRED", auto.assign = TRUE)
+
+cpi_data <- tibble(date = index(CPIAUCSL), CPI = as.numeric(CPIAUCSL[,1])) %>%
+  arrange(date) %>%
+  mutate(inflation = 100 * (CPI / lag(CPI) - 1)) %>%
+  mutate(Quarter = yearquarter(date)) %>% 
+  as_tsibble(index = date) %>% 
+  index_by(Quarter) %>% 
+    summarize(CPI = mean(CPI),
+              inflation = mean(inflation))
+
+# Get US unemployment (monthly)
+getSymbols("UNRATE", src = "FRED", auto.assign = TRUE)
+us_unemp <- data.frame(date = index(UNRATE), 
+                      Unemployment = as.numeric(UNRATE$UNRATE)) %>%
+  as_tsibble(index = date) %>% 
+  mutate(Quarter = yearquarter(date)) %>% 
+  index_by(Quarter) %>% 
+    summarize(Unemployment = mean(Unemployment))
+
+
+# Get US GDP (quarterly) and merge
+getSymbols("GDP", src = "FRED", auto.assign = TRUE)
+us_gdp <- data.frame(date = index(GDP), GDP = as.numeric(GDP$GDP)) %>%
+  as_tsibble(index = date) %>% 
+  mutate(Quarter = yearquarter(date))
+
+combined_data <- us_gdp %>% 
+  inner_join(us_unemp, by = "Quarter") %>% 
+  inner_join(cpi_data, by = "Quarter") %>% 
+  mutate(GDP_growth = 100 * (GDP / lag(GDP) - 1)) %>% 
+  dplyr::select(Quarter, date, GDP, GDP_growth, Unemployment, CPI, inflation) %>% 
+  drop_na()
+
+# View the combined data
+head(combined_data) %>% knitr::kable()
+```
+
+
+```{r}
+# Chow test for structural breaks
+break_test <- Fstats(inflation ~ GDP_growth + Unemployment + CPI, data = combined_data)
+plot(break_test)  # Identify potential breakpoints
+
+# Estimate breakpoint date(s)
+bp <- breakpoints(inflation ~  GDP_growth + Unemployment + CPI, data = combined_data)
+
+combined_data$Quarter[bp$breakpoints] 
+
+# Fit segmented regression
+segmented_model <- lm(inflation ~ GDP_growth + Unemployment + CPI, 
+                      data = combined_data, 
+                      subset = breakpoints(bp)$breakpoints)
+```
+
+
+```{r}
+# Get breakpoint indices 
+bp_indices <- bp$breakpoints 
+
+# Split data into segments
+segments <- split(combined_data, 
+                 findInterval(1:nrow(combined_data), 
+                              vec = c(0, bp_indices)))
+
+# Fit models to each segment
+segment_models <- lapply(segments, function(df) {
+  lm(inflation ~ GDP_growth + Unemployment + CPI, data = df)
+})
+
+```
+
+
+
+#### **1. Fit ETS to Segments (Tidyverts)**
+
+```{r}
+ets_models <- segments %>% 
+  map(~ {
+      .x %>% 
+        as_tsibble(index = Quarter) %>% 
+        model(ETS(inflation))
+    }
+  )
+
+ets_models %>% .[[1]] %>% report()
+ets_models %>% .[[2]] %>% report()
+```
+
+#### **1. Fit ARIMA to Segments**
+
+```{r}
+arima_models <- segments %>% 
+  map(~ {
+      .x %>% 
+        as_tsibble(index = Quarter) %>% 
+        model(ARIMA(inflation))
+    }
+  )
+
+arima_models %>% .[[1]] %>% report()
+arima_models %>% .[[2]] %>% report()
+```
+
+#### **2. Fit VAR to Segments (vars)**
+
+```{r}
+var_models <- segments %>%
+  map(~ {
+      var_data <- .x %>%  as_tibble() %>% 
+        dplyr::select(inflation, GDP_growth, Unemployment) %>% 
+        as.data.frame()
+      
+      lag_order <- VARselect(var_data, type = "const")$selection["AIC(n)"]
+      
+      # Fit VAR model
+      VAR(var_data, p = lag_order)
+  })
+
+var_models %>% .[[1]]
+var_models %>% .[[2]]
+```
+
+
+#### **3. Model Analysis**
+
+```{r}
+# Compare ETS components across regimes
+ets_models %>% 
+  compact() %>%  # Remove NULL entries
+  map(~ components(.x) %>% autoplot() + labs(title = "ETS Decomposition"))
+```
+
+
+```{r}
+arima_models %>%
+  compact() %>%
+  imap(~ {
+    gg_tsresiduals(.x) +  # Special fable residuals plot
+      labs(title = paste("Residual Diagnostics - Regime", .y))
+  })
+```
+
+
+
+```{r}
+# Compare VAR relationships
+var_models %>% 
+  compact() %>% 
+  map(~ {
+    tibble(
+      Causality_GDP = causality(.x, cause = "GDP_growth")$Granger$p.value,
+      Causality_Unemp = causality(.x, cause = "Unemployment")$Granger$p.value
+    )
+  })
+```
+
+
+**Q: What do these models tell us about different economic regimes before/after the breakpoint?**  
+
+<!--
+
+A: The analysis reveals three key regime shifts:
+
+1. **Volatility Changes (ETS):**  
+
+- Pre-break: Higher $\alpha=0.605$ (rapid adjustment to new data)  
+- Post-break: Lower $\alpha=0.102$ (smoother evolution)  
+
+*Implication:* Inflation became more stable post-breakpoint  
+
+2. **Structural Shifts (ARIMA):**  
+
+- Pre-break: Requires differencing ($d=1$) with seasonal MA components  
+- Post-break: Stationary ($d=0$) with seasonal AR component  
+
+*Implication:* Fundamental change in inflation dynamics requiring different stabilization approaches  
+
+3. **Causal Relationships (VAR):**  
+
+- Pre-break: Moderate Granger-causality (GDP→inflation p=0.017; Unemp→inflation p=0.005)  
+- Post-break: Stronger causal links (GDP→inflation p=5.2e-6; Unemp→inflation p=6.3e-14)  
+*Implication:* Post-break economic indicators became more interconnected/predictive of inflation
+
+**Q: How should instructors explain these results to students?**  
+
+Focus on regime-dependent policymaking:  
+
+1. Pre-break required reactive policies (high volatility)  
+2. Post-break allows proactive strategies (stable but interconnected system)  
+3. Highlight changed seasonal patterns (ARIMA orders) and strengthened indicator relationships (VAR p-values) as evidence of structural break impacts
+
+-->
+
+
 
