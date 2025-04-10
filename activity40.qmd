@@ -144,6 +144,8 @@ The Ljung-Box gives us larger p-value this time, and the residuals should be mor
 
 ### **Activity 1: Write model equations for the ARIMA model in Step 1**
 
+<!--
+
 The fitted model is a **linear regression with ARIMA(3,0,1) errors**, often called an **ARIMA with exogenous regressors (ARIMAX)**. The equation form is:
 
 ```{=latex}
@@ -164,6 +166,7 @@ Where:
 
 The intercept ($0.411$) represents baseline inflation when GDP growth and unemployment are zero—an extrapolation. The AR(3) coefficients collectively dampen long-term deviations from this baseline, while the MA(1) term absorbs shocks.  
 
+-->
 
 ### **Activity 2: Residual Diagnostics**
 
@@ -179,7 +182,10 @@ pacf(residuals(arima_model), lag.max = 24)
 pacf(residuals(arimax_model), lag.max = 24) 
 ```
 
+<!--
+
 Both models exhibit residual independence (p > 0.05), but the higher p-value for the seasonal ARIMA model (0.819) indicates superior white noise.
+-->
 
 ### **Activity 3: Variable Transformation**
 
@@ -207,12 +213,16 @@ summary(arima_transformed)
 checkresiduals(arima_transformed)
 ```
 
+<!--
+
 Differencing unemployment stabilizes its variance by removing a unit root, transforming a non-stationary series into a stationary one. This allows the coefficient on $\Delta\text{Unemployment}$ (-0.034) to represent the *change* in labor market conditions. Similarly, log-transforming GDP linearizes its exponential growth trend, reducing changing variance. 
+
+-->
 
 
 ### **Activity 4: VAR model**
 
-Write the model equation for inflation in terms of the following VAR model and interpret it.
+Write the model equation for inflation in terms of the following VAR model output and interpret it.
 
 
 ```{r}
@@ -224,8 +234,10 @@ var_data <- economic_data %>% as_tibble() %>%
 lag_order <- VARselect(var_data, type = "const")$selection["AIC(n)"]
 var_model <- VAR(var_data, p = lag_order)
 summary(var_model$varresult$inflation)
-AIC(var_model$varresult$inflation)
+stringr::str_glue("AIC:", {AIC(var_model$varresult$inflation)})
 ```
+
+<!--
 
 This yields a model of the form:
 
@@ -240,3 +252,5 @@ This yields a model of the form:
 where $\varepsilon_t \sim \text{WN}(0, \sigma^2)$, and lag order $p=3$ was selected by AIC.
 
 Inflation’s strongest predictor is its first lag ($\hat{\alpha}_1 = 0.287$), indicating momentum from recent price changes. The delayed GDP growth effects (significant at lags 1 and 3) suggest that economic expansions influence inflation through staggered channels—e.g., initial demand surges (lag 1) followed by capacity constraints (lag 3). Unemployment changes exhibit mixed significance, with lag 3’s positive coefficient ($0.045$) implying that sustained labor market improvements may eventually fuel inflationary expectations.  
+
+-->
