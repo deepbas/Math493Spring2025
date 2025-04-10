@@ -108,8 +108,8 @@ website:
             href: activity37.html
           - text: "Activity 38"
             href: activity38.html
-      #     - text: "Activity 39"
-      #       href: activity39.html
+          - text: "Activity 39"
+            href: activity39.html
       #     - text: "Activity 40"
       #       href: activity40.html
       # - section: "Week 11"
@@ -193,6 +193,7 @@ webr:
     - vars
     - FinTS
     - tidyr
+    - readr
 
 filters:
   - shinylive

@@ -11,8 +11,8 @@ toc: true
 
 {{< include _extensions/r-wasm/live/_knitr.qmd >}}
 
+
 ```{r}
-#| echo: false
 # Time Series Essentials, install if needed!
 library(feasts)       # Feature extraction & decomposition
 library(fable)        # Forecasting models (ARIMA, ETS, etc.)
@@ -20,12 +20,283 @@ library(fpp3)         # Tidy time series dataseta
 library(astsa)        # Applied statistical TS methods from textbook
 library(tseries)      # Unit root tests & TS diagnostics
 library(tsibbledata)  # Curated TS datasets
+library(quantmod)     # Financial data retrieval
+library(tidyquant)    # Financial analysis in tidyverse
 library(purrr)        # Functional programming for TS pipelines
 library(readr)        # Efficient data import
-library(vars)
-library(tseries)
-library(tsDyn)
-
-select <- dplyr::select
+library(lubridate)
+library(zoo)
+library(hms)
+library(stringr)
+library(janitor)
 ```
+
+
+###  Part 1: Parsing Inconsistent Character Dates
+
+```{webr}
+log_data <- tibble::tibble(
+  user_id = sample(1:100, 10),
+  login_time = c("2024-03-05 14:32:11", 
+                 "2024/03/06 09:10:50", 
+                 "03-07-2024 12:00:01", 
+                 NA, 
+                 "2024-03-08T15:05:01", 
+                 "2024.03.09 16:00", 
+                 "March 10, 2024 17:20",
+                 "2024-03-11 18:00:00", 
+                 "2024-03-12", 
+                 "20240313")
+)
+
+glimpse(log_data)
+```
+
+Your task is to use `parse_date_time()` to convert them into a proper `POSIXct` column. Consider the formats: `ymd HMS`, `mdy HMS`, `B d, Y HM`, etc.
+
+**Key Question:** Which patterns did `lubridate` handle automatically? Which formats needed manual specification?
+
+```{webr}
+# First attempt
+log_data %>% mutate(login_dt = ymd_hms(login_time))
+```
+
+```{webr}
+log_data <- log_data %>% 
+  mutate(login_dt = parse_date_time(login_time, orders = c("ymd HMS", "mdy HMS", "dmy HMS", "ymd", "ymd HM"))) %>% 
+  tidyr::fill(login_dt, .direction="downup")
+
+log_data
+```
+
+
+### Part 2: Constructing a Date from Components
+
+Suppose you are given columns: `year = 2022`, `month = 11`, `day = 20`.
+
+**Task:** Combine them into a single date column using `make_date()` or `ymd()`. Here's a more comprehensive data/tibble:
+
+```{webr}
+# Example data with separate components
+component_data <- tibble(
+  year = c(2022, 2023, 2023),
+  month = c(11, 2, 12),
+  day = c(20, 15, 31),
+  event = c("A", "B", "C")
+)
+
+component_data
+
+component_data_combined <- component_data %>%
+  mutate(
+    full_date = make_date(year, month, day),
+    full_date_alt = ymd(paste(year, month, day, sep = "-"))
+  )
+
+component_data_combined
+```
+
+
+Why is this useful? Many real-world datasets (especially Kaggle CSVs) separate date parts due to scraping.
+
+
+### Part 3: Real data
+
+You can download the Air Quality dataset from the UCI repository here: [Air Quality Data Set](https://archive.ics.uci.edu/dataset/360/air+quality) to your working directory for this section. First, we clean the data by parsing dates/times and combining them into a proper datetime column, then convert text-based numbers to numeric values. Next, we aggregate the data into daily averages.
+
+```{webr}
+dat <- read_delim("data/AirQualityUCI.csv", delim = ";")
+
+# make columns cleaner
+clean_dat <- dat %>% 
+  janitor::clean_names() %>% 
+  dplyr::select(-x16, -x17) %>% 
+  mutate(date = lubridate::dmy(date),
+         time = lubridate::hms(time))
+
+clean_dat <- clean_dat %>%
+  mutate(
+    datetime = date + time, .before = 1
+  )
+
+clean_dat <- clean_dat %>%
+  mutate(across(where(is.character), parse_number))
+
+```
+
+
+```{webr}
+# aggregate 
+# c("30 min", "1 hour", "1 day", "1 week", "1 quarter")
+clean_dat %>%
+    mutate(daily = floor_date(datetime, "1 day")) %>%
+    group_by(daily) %>%
+    summarise(across(where(is.numeric), \(x) mean(x, na.rm = TRUE))) -> half
+```
+
+
+```{webr}
+ggplot(half, aes(daily, pt08_s4_no2)) +
+  geom_line(color = "firebrick") +
+  labs(title = "Daily S4_NO2 Concentration",
+       subtitle = "Air Quality Data",
+       x = "Time", y = "S4_NO2") +
+  scale_x_datetime(date_labels = "%Y %b %d") +
+  theme_minimal()
+```
+
+
+#### Problem Set 1: *Parsing Heterogeneous Timestamps*  
+
+**Data Task:**  
+
+```{webr}
+messy_logins <- tibble(
+  event_time = c("2023-04-05 22:00", "2023/04/06 08:30", 
+                "April 5th 2023, 10pm", "2023-04-07", "15-04-2023 12:00")
+)
+```
+
+1. **Code:** Use `parse_date_time()` with `orders` to handle all formats. Which required explicit format codes? 
+
+2. **Real Data (AirQuality):** Column `time` uses `hms()` - what happens if you find entries like "24:00:00"? Fix with `str_replace("24:","00:")`.  
+
+3. **Different Period:** Parse `Date` column from 2005 data containing entries like "15/3/2005" (day-first).  
+
+<!--
+
+```r
+# data solution
+messy_logins %>% 
+  mutate(event_dt = parse_date_time(
+    event_time, 
+    orders = c("ymd HM", "ymd HMS", "Bdy T", "dmy HM")
+  ))
+
+# Real data fix (AirQuality 24:00 edge case)
+clean_dat %>% 
+  mutate(time = str_replace(time, "^24:", "00:")) %>% 
+  mutate(time = hms(time))
+
+# Different period (day-first format)
+df_2005 %>% 
+  mutate(date = dmy(date))
+```
+
+-->
+
+
+
+#### Problem Set 2: *Component → Temporal Index*  
+
+**Data Task:**  
+
+```{webr}
+sensor_parts <- tibble(
+  sensor_id = 1:3,
+  yr = c(2023,2023,2023), 
+  mth = c("Feb","March","April"), 
+  dy = c(28, 15, 1)
+)
+```
+
+1. **Code:** Use `my()` + `make_date()` to create full dates. Handle text months with `match(mth, month.name)`.  
+
+2. **Real Data (AirQuality):** Create `month_start` using `yearmonth()` + `make_date(year, month, 1)`.  
+
+3. **Different Granularity:** Create quarterly dates from `year` and `quarter` columns using `yearquarter()`.  
+
+<!--
+
+```r
+# data (text months)
+sensor_parts %>% 
+  mutate(
+    month_num = match(mth, month.name),
+    full_date = make_date(yr, month_num, dy)
+  )
+
+# Real data (month starts)
+clean_dat %>% 
+  mutate(month_start = yearmonth(datetime) %>% make_date())
+
+# Quarterly granularity
+sales_data %>% 
+  mutate(qtr = yearquarter(make_date(year, (quarter-1)*3+1, 1))
+```
+
+-->
+
+
+
+#### Problem Set 3: *Gap Imputation*  
+
+**Data Task:**  
+
+```{webr}
+gap_ts <- tsibble(
+  date = ymd(c("2023-01-01", "2023-01-03", "2023-01-04")),
+  value = c(10, NA, 15), index = date
+)
+```
+
+1. **Code:** Use `fill_gaps(.full = TRUE)` + `fill(value, .direction = "down")`. Why use `.full`? 
+
+2. **Real Data (AirQuality):** Convert to `tsibble` with `index = datetime`. Find gaps in CO measurements using `scan_gaps()`.  
+
+3. **Different Frequency:** Resample to daily means using `index_by(date = as_date(datetime))` before imputing.  
+
+<!--
+
+``r
+# data imputation
+gap_ts %>% 
+  fill_gaps(.full = TRUE) %>% 
+  fill(value, .direction = "down")
+
+# Real data gaps (tsibble approach)
+clean_dat %>%
+  as_tsibble(index = datetime) %>% 
+  scan_gaps() 
+
+# Daily resampling
+clean_dat %>% 
+  index_by(date = as_date(datetime)) %>% 
+  summarise(co_mean = mean(pt08_s4_no2, na.rm = TRUE)) %>% 
+  fill_gaps()
+```
+
+-->
+
+
+### Tsibble Transition 
+
+```{webr}
+# Instead of:
+clean_dat %>% group_by(half_hourly = floor_date(datetime, "1 hour"))
+
+# Use:
+clean_dat %>% tidyr::drop_na() %>% 
+  as_tsibble(index = datetime) %>% 
+  index_by(hourly = ~lubridate::floor_date(., "1 hour"))
+```
+
+**Why?** `index_by()` preserves temporal context and enables `fill_gaps()`/`slide()` operations.
+
+<!--
+
+```r
+# Before (naive grouping)
+clean_dat %>% 
+  group_by(hour = floor_date(datetime, "1 hour"))
+
+# After (temporal-aware)
+clean_dat %>%
+  as_tsibble(index = datetime) %>% 
+  index_by(hourly = ~ floor_date(., "1 hour")) %>% 
+  summarise(co_level = mean(pt08_s4_no2, na.rm = TRUE))
+```
+
+-->
+
 
