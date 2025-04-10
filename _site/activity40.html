@@ -527,6 +527,12 @@ window.Quarto = {
  <span class="menu-text">Activity 38</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./activity39.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Activity 39</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -755,8 +761,8 @@ AIC=-88   AICc=-86.56   BIC=-35.82
 Training set error measures:
                        ME      RMSE       MAE       MPE     MAPE      MASE
 Training set -0.001319576 0.1998711 0.1407113 -5006.591 5083.211 0.6846118
-                  ACF1
-Training set 0.0108953</code></pre>
+                   ACF1
+Training set 0.01089529</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>arimax_model <span class="sc">%&gt;%</span> </span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">residuals</span>() <span class="sc">%&gt;%</span> </span>
@@ -773,7 +779,7 @@ Training set 0.0108953</code></pre>
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">lb_stat</td>
-<td style="text-align: right;">5.9605728</td>
+<td style="text-align: right;">5.9605729</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">lb_pvalue</td>
@@ -801,6 +807,7 @@ Training set 0.0108953</code></pre>
 <li><span class="math inline">\(\theta_1\)</span> is the MA(1) term</li>
 <li><span class="math inline">\(\sigma^2 = 0.04254\)</span> is the estimated variance of white noise</li>
 </ul>
+<p>The intercept (<span class="math inline">\(0.411\)</span>) represents baseline inflation when GDP growth and unemployment are zero—an extrapolation. The AR(3) coefficients collectively dampen long-term deviations from this baseline, while the MA(1) term absorbs shocks.</p>
 </section>
 <section id="activity-2-residual-diagnostics" class="level3">
 <h3 class="anchored" data-anchor-id="activity-2-residual-diagnostics"><strong>Activity 2: Residual Diagnostics</strong></h3>
@@ -843,6 +850,7 @@ Model df: 10.   Total lags used: 13</code></pre>
 </div>
 </div>
 </div>
+<p>Both models exhibit residual independence (p &gt; 0.05), but the higher p-value for the seasonal ARIMA model (0.819) indicates superior white noise.</p>
 </section>
 <section id="activity-3-variable-transformation" class="level3">
 <h3 class="anchored" data-anchor-id="activity-3-variable-transformation"><strong>Activity 3: Variable Transformation</strong></h3>
@@ -902,9 +910,11 @@ Q* = 6.4755, df = 4, p-value = 0.1663
 Model df: 4.   Total lags used: 8</code></pre>
 </div>
 </div>
+<p>Differencing unemployment stabilizes its variance by removing a unit root, transforming a non-stationary series into a stationary one. This allows the coefficient on <span class="math inline">\(\Delta\text{Unemployment}\)</span> (-0.034) to represent the <em>change</em> in labor market conditions. Similarly, log-transforming GDP linearizes its exponential growth trend, reducing changing variance.</p>
 </section>
 <section id="activity-4-var-model" class="level3">
 <h3 class="anchored" data-anchor-id="activity-4-var-model"><strong>Activity 4: VAR model</strong></h3>
+<p>Write the model equation for inflation in terms of the following VAR model and interpret it.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vars)</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>var_data <span class="ot">&lt;-</span> economic_data <span class="sc">%&gt;%</span> <span class="fu">as_tibble</span>() <span class="sc">%&gt;%</span> </span>
@@ -954,6 +964,7 @@ F-statistic: 29.34 on 9 and 293 DF,  p-value: &lt; 2.2e-16</code></pre>
 &amp;\quad + \alpha_7 \cdot \text{inflation}_{t-3} + \alpha_8 \cdot \text{GDP\_growth}_{t-3} + \alpha_9 \cdot \Delta \text{Unemployment}_{t-3} + \varepsilon_t
 \end{aligned}\]</span>
 <p>where <span class="math inline">\(\varepsilon_t \sim \text{WN}(0, \sigma^2)\)</span>, and lag order <span class="math inline">\(p=3\)</span> was selected by AIC.</p>
+<p>Inflation’s strongest predictor is its first lag (<span class="math inline">\(\hat{\alpha}_1 = 0.287\)</span>), indicating momentum from recent price changes. The delayed GDP growth effects (significant at lags 1 and 3) suggest that economic expansions influence inflation through staggered channels—e.g., initial demand surges (lag 1) followed by capacity constraints (lag 3). Unemployment changes exhibit mixed significance, with lag 3’s positive coefficient (<span class="math inline">\(0.045\)</span>) implying that sustained labor market improvements may eventually fuel inflationary expectations.</p>
 
 
 <script type="ojs-module-contents">
